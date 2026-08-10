@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Removing the blank page from client documents · Laura Benavente</title>
+<style>
+@font-face{font-family:'Libertinus Serif';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/libertinus-serif-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Libertinus Serif';font-weight:400;font-style:italic;font-display:swap;src:url(fonts/libertinus-serif-latin-400-italic.woff2) format('woff2')}
+@font-face{font-family:'Roboto';font-weight:300;font-style:normal;font-display:swap;src:url(fonts/roboto-latin-300-normal.woff2) format('woff2')}
+@font-face{font-family:'Roboto';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/roboto-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Roboto';font-weight:500;font-style:normal;font-display:swap;src:url(fonts/roboto-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Roboto';font-weight:700;font-style:normal;font-display:swap;src:url(fonts/roboto-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'Roboto Mono';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/roboto-mono-latin-400-normal.woff2) format('woff2')}
+
+:root{
+  --paper:#F6F4EF; --paper-2:#EEEBE3;
+  --ink:#0E0E11; --ink-2:#33333A; --mid:#686872;
+  --line:rgba(14,14,17,.14); --line-2:rgba(14,14,17,.07);
+  --dark:#0E0E11;
+  --blue:#1F4396; --blue-l:#7FA3E8; --rust:#B23A20; --rust-l:#E0714F;
+  --serif:'Libertinus Serif',Georgia,serif; --sans:'Roboto',Arial,sans-serif; --mono:'Roboto Mono',monospace;
+  --m:clamp(20px,5.2vw,96px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.45;mix-blend-mode:multiply;
+  background-image:radial-gradient(circle at 1px 1px,rgba(0,0,0,.06) 0,rgba(0,0,0,.06) .5px,transparent .6px);background-size:3px 3px}
+
+.w{max-width:1280px;margin:0 auto;padding:0 var(--m)}
+.sec{padding:clamp(80px,11vw,180px) 0;position:relative}
+.dark{background:var(--dark);color:#FFFFFF}
+.dark p,.pivot p{color:#FFFFFF}
+.dark .k,.dark .n,.pivot .k,.pivot .n{color:#FFFFFF}
+.dark .rule,.pivot .rule{background:rgba(255,255,255,.16)}
+.tint{background:var(--paper-2)}
+
+.skip-link{position:absolute;left:16px;top:-60px;z-index:200;background:var(--ink);color:#fff;
+  padding:10px 18px;font-family:var(--mono);font-size:11px;letter-spacing:1px;text-decoration:none;transition:top .2s}
+.skip-link:focus{top:12px}
+.navbar{position:fixed;top:0;left:0;right:0;z-index:100;mix-blend-mode:difference;color:#fff}
+.nav-bar{max-width:1280px;margin:0 auto;padding:20px var(--m);display:flex;justify-content:space-between;
+  align-items:flex-start;gap:20px;cursor:pointer;list-style:none}
+.nav-bar::-webkit-details-marker{display:none}
+.nav-bar::marker{content:''}
+.nav-logo{font-family:var(--sans);font-weight:700;font-size:11px;line-height:1;letter-spacing:.03em;
+  text-transform:uppercase;text-decoration:none;color:#fff}
+.nav-toggle{font-family:var(--sans);font-weight:700;font-size:11px;line-height:1;letter-spacing:.03em;
+  text-transform:uppercase;color:#fff}
+.nav-toggle .lbl-close{display:none}
+.nav-d[open] .nav-toggle .lbl-open{display:none}
+.nav-d[open] .nav-toggle .lbl-close{display:inline}
+.nav-panel{display:block;max-width:1280px;margin:0 auto;padding:0 var(--m);
+  overflow:hidden;max-height:0;visibility:hidden;
+  transition:max-height .55s cubic-bezier(.16,1,.3,1),visibility 0s linear .55s}
+.nav-d[open] .nav-panel{max-height:70vh;visibility:visible;
+  transition:max-height .55s cubic-bezier(.16,1,.3,1),visibility 0s}
+.nav-links,.nav-foot{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;
+  align-items:flex-end;text-align:right}
+.nav-links{padding-top:12px;gap:12px}
+.nav-foot{flex-direction:row;justify-content:flex-end;flex-wrap:wrap;padding-top:20px;gap:16px}
+.nav-links a,.nav-foot a{display:block;position:relative;overflow:hidden;
+  font-family:var(--sans);font-weight:700;font-size:11px;line-height:1;letter-spacing:.03em;
+  text-transform:uppercase;text-decoration:none;color:#fff}
+.nav-foot a{opacity:.55}
+.nav-links a:hover{opacity:.6}
+.nav-foot a:hover{opacity:1}
+.nav-links a::after,.nav-foot a::after{content:'';position:absolute;left:0;right:0;top:-7px;bottom:-7px}
+.nav-links a span,.nav-foot a span{display:block;transform:translateY(110%);
+  transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.nav-d[open] .nav-links a span,.nav-d[open] .nav-foot a span{transform:translateY(0)}
+.nav-links li:nth-child(1) a span{transition-delay:.05s}
+.nav-links li:nth-child(2) a span{transition-delay:.11s}
+.nav-links li:nth-child(3) a span{transition-delay:.17s}
+.nav-links li:nth-child(4) a span{transition-delay:.23s}
+.nav-links li:nth-child(5) a span{transition-delay:.29s}
+.nav-links li:nth-child(6) a span{transition-delay:.35s}
+.nav-foot li:nth-child(1) a span{transition-delay:.41s}
+.nav-foot li:nth-child(2) a span{transition-delay:.45s}
+.nav-foot li:nth-child(3) a span{transition-delay:.49s}
+.nav-d:not([open]) .nav-links a span,.nav-d:not([open]) .nav-foot a span{transition-delay:0s}
+html:not(.js) .nav-panel{max-height:none;visibility:visible;overflow:visible}
+html:not(.js) .nav-links a span,html:not(.js) .nav-foot a span{transform:none}
+.navbar :focus-visible{outline-color:#fff}
+@media(max-width:760px){
+  .nav-links a,.nav-foot a{font-size:14px}
+  .nav-links,.nav-foot{gap:22px}
+  .nav-links a::after,.nav-foot a::after{top:-11px;bottom:-11px}
+}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.dark :focus-visible,.pivot :focus-visible{outline-color:#FFFFFF}
+
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(46px,9.6vw,152px);line-height:.92;letter-spacing:-.022em;margin:0}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,6vw,84px);line-height:.98;letter-spacing:-.016em;margin:0}
+h3{font-family:var(--serif);font-weight:400;font-size:clamp(21px,2.4vw,30px);line-height:1.18;margin:0 0 12px}
+p{margin:0 0 22px;max-width:60ch;color:var(--ink-2)}
+em{font-style:italic}
+strong{font-weight:500;color:var(--ink)}
+.dark strong,.pivot strong{color:#FFFFFF}
+
+.k{font-family:var(--mono);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--mid);margin:0 0 20px}
+.n{font-family:var(--serif);font-size:clamp(40px,5vw,72px);line-height:.8;color:var(--mid);opacity:.55}
+.rule{height:1px;background:var(--line);margin:26px 0 40px}
+
+.head{display:grid;grid-template-columns:clamp(80px,9vw,150px) 1fr;gap:clamp(20px,3vw,50px);align-items:start}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,90px)}
+.two-a{display:grid;grid-template-columns:5fr 7fr;gap:clamp(30px,5vw,80px)}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(26px,3.6vw,58px)}
+@media(max-width:900px){.two,.two-a,.three,.head{grid-template-columns:1fr;gap:26px}}
+
+.hero{padding:clamp(120px,16vw,160px) 0 0}
+.hero-top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:clamp(50px,9vw,120px);gap:20px;flex-wrap:wrap}
+.hero-top span{font-family:var(--mono);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--mid)}
+.hero h1 em{color:var(--mid)}
+.hero-meta{display:flex;flex-wrap:wrap;margin:clamp(44px,6vw,80px) 0 0;border-top:1px solid var(--line)}
+.hero-meta span{font-family:var(--mono);font-size:10px;letter-spacing:1.1px;text-transform:uppercase;color:var(--mid);
+  padding:14px 22px 14px 0;border-right:1px solid var(--line-2);margin-right:22px}
+.hero-meta span:last-child{border-right:0;margin-right:0}
+
+.conf{margin-top:clamp(46px,6vw,84px);display:grid;grid-template-columns:clamp(80px,9vw,150px) 1fr;gap:clamp(20px,3vw,50px)}
+@media(max-width:900px){.conf{grid-template-columns:1fr}}
+.conf .body{max-width:56ch;font-size:15.5px;color:var(--mid);border-left:2px solid var(--ink);padding-left:24px}
+.rd{display:inline-block;background:var(--ink);color:transparent;padding:0 .55em;user-select:none}
+
+.pivot{background:var(--dark);color:#FFFFFF;padding:clamp(90px,14vw,220px) 0}
+.pivot .stmt{font-family:var(--serif);font-size:clamp(34px,7.4vw,116px);line-height:.98;letter-spacing:-.022em;max-width:17ch;margin:0 0 clamp(40px,6vw,80px)}
+.pivot .stmt i{font-style:italic;color:var(--rust-l)}
+
+figure{margin:0}
+figcaption{font-family:var(--mono);font-size:10px;letter-spacing:1.1px;text-transform:uppercase;color:var(--mid);margin-top:16px;padding-top:10px;border-top:1px solid var(--line-2)}
+.dark figcaption,.pivot figcaption{color:#FFFFFF;border-color:rgba(255,255,255,.1)}
+svg{display:block;width:100%;height:auto}
+.tl{font-family:'Roboto Mono',monospace;font-size:8.5px;letter-spacing:1px;fill:#7A7A80}
+.tt{font-family:'Roboto',Arial,sans-serif;font-size:11px;font-weight:500;fill:#0E0E11}
+.ts{font-family:'Roboto',Arial,sans-serif;font-size:9.5px;fill:#7A7A80}
+.hr{stroke:rgba(14,14,17,.16);stroke-width:.75;fill:none}
+
+.step{display:grid;grid-template-columns:clamp(60px,7vw,110px) 1fr;gap:clamp(18px,3vw,44px);
+  padding:clamp(28px,3.4vw,46px) 0;border-top:1px solid var(--line)}
+.step:last-of-type{border-bottom:1px solid var(--line)}
+.step .sn{font-family:var(--serif);font-size:clamp(28px,3.4vw,46px);line-height:.9;color:var(--mid);opacity:.5}
+.step p{margin:0;font-size:16px;max-width:56ch}
+@media(max-width:900px){.step{grid-template-columns:1fr;gap:10px}}
+
+.facts{border-top:1px solid rgba(255,255,255,.16)}
+.fact{padding:20px 0;border-bottom:1px solid rgba(255,255,255,.1);display:grid;grid-template-columns:1fr 1.4fr;gap:20px;align-items:baseline}
+.fact .fk{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:#FFFFFF}
+.fact .fv{font-family:var(--serif);font-size:clamp(18px,1.9vw,24px);line-height:1.3;color:#FFFFFF}
+
+.pull{font-family:var(--serif);font-size:clamp(24px,3.4vw,44px);line-height:1.16;letter-spacing:-.012em;
+  max-width:22ch;margin:0;padding-left:28px;border-left:2px solid var(--rust)}
+
+ul.p{list-style:none;margin:0;padding:0}
+ul.p li{padding:14px 0;border-top:1px solid var(--line-2);font-size:16px;color:var(--ink-2);display:flex;gap:16px}
+ul.p li .i{font-family:var(--mono);font-size:10px;color:var(--mid);letter-spacing:1px;padding-top:4px;flex:none}
+.dark ul.p li,.pivot ul.p li{border-color:rgba(255,255,255,.1);color:#FFFFFF}
+
+footer{padding:60px 0 90px;border-top:1px solid var(--line)}
+footer p{font-family:var(--mono);font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--mid);max-width:none}
+
+.rv{opacity:0;transform:translateY(18px)}
+html.js .rv{transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1)}
+html:not(.js) .rv{opacity:1;transform:none}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important}
+  .nav-links a span,.nav-foot a span{transform:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="navbar">
+  <details class="nav-d" id="nav-d">
+    <summary class="nav-bar">
+      <a class="nav-logo" href="index.html">Laura Benavente</a>
+      <span class="nav-toggle" aria-label="Toggle navigation">
+        <span class="lbl-open">Menu</span>
+        <span class="lbl-close">Close</span>
+      </span>
+    </summary>
+    <div class="nav-panel">
+      <ul class="nav-links">
+        <li><a href="index.html#hero"><span>Home</span></a></li>
+        <li><a href="story1-case-study.html"><span>Story 1</span></a></li>
+        <li><a href="story2-case-study.html"><span>Story 2</span></a></li>
+        <li><a href="story3-case-study.html"><span>Story 3</span></a></li>
+        <li><a href="index.html#lab"><span>Having fun with AI</span></a></li>
+        <li><a href="Laura_Benavente_CV_En.pdf" target="_blank" rel="noopener"><span>CV</span></a></li>
+      </ul>
+      <ul class="nav-foot">
+        <li><a href="mailto:laurabenavente@me.com"><span>Contact me</span></a></li>
+        <li><a href="https://www.linkedin.com/in/laura-benavente-serrano/"><span>LinkedIn</span></a></li>
+        <li><a href="#"><span>Instagram</span></a></li>
+      </ul>
+    </div>
+  </details>
+</nav>
+
+<main id="main">
+
+<header class="hero">
+  <div class="w">
+    <div class="hero-top">
+      <span>Laura Benavente · Story 02</span>
+      <span>B2B SaaS · AI-native</span>
+    </div>
+    <h1>Removing the<br>blank page from<br><em>client documents</em></h1>
+    <div class="hero-meta">
+      <span>AI product design</span><span>Design strategy</span><span>Human review</span>
+      <span>Concept validation</span><span>MVP definition</span><span>Stakeholder alignment</span>
+    </div>
+    <div class="conf">
+      <div></div>
+      <div class="body">Built inside <span class="rd">a practice management product</span> at a global professional software company, and released in the Canadian market. Under confidentiality, original screens and product names cannot be shown. Everything here is reconstructed at concept level. For this case study, let's call it <strong>Practice&nbsp;Suite</strong>.</div>
+    </div>
+  </div>
+</header>
+
+<section class="sec">
+  <div class="w">
+    <div class="head">
+      <div><span class="n">01</span></div>
+      <div>
+        <p class="k">The context</p>
+        <h2>A requirement<br>about editing</h2>
+        <div class="rule"></div>
+        <div class="two-a">
+          <div>
+            <p>Accounting and tax professionals regularly send documents to their end clients for signature. The product requirement I was given was narrow and reasonable: <strong>improve the document editing experience</strong> for those documents.</p>
+            <p>At the time, a professional had three options. Start from a predefined template that rarely fit. Write the whole thing by hand. Or leave the product entirely, draft it somewhere else, and paste it back.</p>
+            <p>All three were slow. The handwritten route also introduced exactly the kind of typing errors you do not want in a document a client is about to sign.</p>
+          </div>
+          <div class="rv">
+            <figure>
+              <svg viewBox="0 0 640 330" role="img" aria-label="Three existing routes to produce a client document, all of them slow, one of them leaving the product entirely">
+                <text class="tl" x="0" y="10">HOW A DOCUMENT GOT WRITTEN</text>
+                <rect x="0" y="24" width="640" height="1" fill="rgba(14,14,17,.14)"/>
+                <g>
+                  <rect x="0" y="46" width="200" height="76" fill="#EEEBE3"/>
+                  <text class="tt" x="16" y="70">Predefined template</text>
+                  <text class="ts" x="16" y="88">Rigid. Rarely a real fit.</text>
+                  <text class="ts" x="16" y="104">Heavy editing anyway.</text>
+
+                  <rect x="220" y="46" width="200" height="76" fill="#EEEBE3"/>
+                  <text class="tt" x="236" y="70">Write it by hand</text>
+                  <text class="ts" x="236" y="88">Slow. From an empty page.</text>
+                  <text class="ts" x="236" y="104">Typing errors carry risk.</text>
+
+                  <rect x="440" y="46" width="200" height="76" fill="#FFFFFF" stroke="#B23A20" stroke-width="1"/>
+                  <text class="tt" x="456" y="70" style="fill:#B23A20">Leave and come back</text>
+                  <text class="ts" x="456" y="88">Draft it in another tool,</text>
+                  <text class="ts" x="456" y="104">paste the result back in.</text>
+                </g>
+                <g stroke="rgba(14,14,17,.3)" stroke-width=".75" stroke-dasharray="2 3" fill="none">
+                  <path d="M100 122 V168"/><path d="M320 122 V168"/>
+                </g>
+                <path d="M540 122 V168" stroke="#B23A20" stroke-width="1" stroke-dasharray="2 3" fill="none"/>
+                <rect x="0" y="168" width="640" height="42" fill="#0E0E11"/>
+                <text class="tt" x="16" y="194" style="fill:#F6F4EF">Document sent to the end client for signature</text>
+                <text class="ts" x="0" y="248">The third route was the one nobody had designed,</text>
+                <text class="ts" x="0" y="266">and the one that took client information outside the product.</text>
+              </svg>
+              <figcaption>Reconstructed · routes, not interfaces</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pivot">
+  <div class="w">
+    <p class="k">02 · The insight</p>
+    <p class="stmt">Our users were already writing with AI. They were just <i>doing it outside our product.</i></p>
+    <div class="two">
+      <div class="rv">
+        <p>AI was not in the requirement. But earlier research among our own users had already established something nobody had connected to this brief: <strong>they were using ChatGPT to draft emails and written content as part of their working day.</strong></p>
+        <p>So the real problem was not that editing was clumsy. It was that the product handed people an empty page, and people had already found their own way around it, one that sat outside the system entirely.</p>
+        <p>Improving the editor would have made a bad starting point slightly more comfortable. It would not have addressed why people were leaving.</p>
+      </div>
+      <div class="rv">
+        <figure>
+          <svg viewBox="0 0 640 300" role="img" aria-label="Two pieces of evidence that already existed inside the company, connected for the first time by this proposal">
+            <text class="tl" x="0" y="10" style="fill:#6E6E76">WHAT THE COMPANY ALREADY KNEW</text>
+            <rect x="0" y="26" width="286" height="88" fill="none" stroke="rgba(255,255,255,.2)" stroke-width=".75"/>
+            <text class="tt" x="18" y="52" style="fill:#F2F0EA">The product requirement</text>
+            <text class="ts" x="18" y="72" style="fill:#9E9EA6">Improve document editing for</text>
+            <text class="ts" x="18" y="88" style="fill:#9E9EA6">documents sent to end clients.</text>
+
+            <rect x="354" y="26" width="286" height="88" fill="none" stroke="rgba(255,255,255,.2)" stroke-width=".75"/>
+            <text class="tt" x="372" y="52" style="fill:#F2F0EA">Prior user research</text>
+            <text class="ts" x="372" y="72" style="fill:#9E9EA6">Our users already used AI to</text>
+            <text class="ts" x="372" y="88" style="fill:#9E9EA6">draft emails and written content.</text>
+
+            <g stroke="#7FA3E8" stroke-width="1.2" fill="none">
+              <path d="M143 114 C143 158 320 150 320 176"/>
+              <path d="M497 114 C497 158 320 150 320 176"/>
+            </g>
+            <circle cx="143" cy="114" r="3.2" fill="#7FA3E8"/><circle cx="497" cy="114" r="3.2" fill="#7FA3E8"/>
+            <rect x="150" y="176" width="340" height="52" fill="#F2F0EA"/>
+            <text class="tt" x="170" y="200" style="fill:#0E0E11">Nobody had put these two together</text>
+            <text class="ts" x="170" y="218" style="fill:#3A3A42">That connection was the proposal.</text>
+            <text class="ts" x="0" y="270" style="fill:#6E6E76">The evidence was not new. Using it to redefine the scope was.</text>
+          </svg>
+          <figcaption>Reconstructed · reasoning, not findings</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec tint">
+  <div class="w">
+    <div class="head">
+      <div><span class="n">03</span></div>
+      <div>
+        <p class="k">My role</p>
+        <h2>The AI was not<br>in the brief.<br>It was my proposal.</h2>
+        <div class="rule"></div>
+        <div class="two-a">
+          <div>
+            <p>I designed the full navigation and interaction flow for the improved signature experience, from the first wireframes through to the concepts used for user validation.</p>
+            <p>But the decision that mattered came earlier. As a design strategy, I proposed incorporating AI-assisted drafting into a requirement that had asked for none, and <strong>I defended it in stakeholder reviews using the research the company already had.</strong></p>
+            <p>The outcome of those reviews was not a yes or a no. Stakeholders expanded the scope of the initiative and phased its construction into the roadmap.</p>
+          </div>
+          <div class="rv">
+            <ul class="p">
+              <li><span class="i">01</span><span>Reframed a document-editing requirement as a blank-page problem</span></li>
+              <li><span class="i">02</span><span>Proposed AI-assisted drafting, justified with existing user research</span></li>
+              <li><span class="i">03</span><span>Defended the direction in stakeholder reviews, which expanded the scope</span></li>
+              <li><span class="i">04</span><span>Designed the end-to-end flow, from wireframes to validation concepts</span></li>
+              <li><span class="i">05</span><span>Defined what the first release would and would not include</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="w">
+    <div class="head">
+      <div><span class="n">04</span></div>
+      <div>
+        <p class="k">The design</p>
+        <h2>Review is not<br>a step. It is<br>the product.</h2>
+        <div class="rule"></div>
+        <p style="margin-bottom:clamp(44px,5vw,72px);max-width:58ch">These documents go to an end client for signature. A generated draft that reaches a client unread is not a time saving. It is a liability. So the flow was built around a single non-negotiable principle: <strong>the professional reads and approves before anything is stored or sent.</strong></p>
+        <figure class="rv">
+          <svg viewBox="0 0 1100 260" role="img" aria-label="The drafting flow: the user writes an instruction, the system generates a draft, the professional reviews and edits it, and only then saves and sends">
+            <text class="tl" x="0" y="10">THE FLOW</text>
+            <g>
+              <rect x="0" y="30" width="196" height="92" fill="#EEEBE3"/>
+              <text class="tl" x="16" y="52">01 · THE USER</text>
+              <text class="tt" x="16" y="76">Writes an instruction</text>
+              <text class="ts" x="16" y="94">What the document needs to say,</text>
+              <text class="ts" x="16" y="109">in their own words.</text>
+
+              <rect x="226" y="30" width="196" height="92" fill="#EEEBE3"/>
+              <text class="tl" x="242" y="52">02 · THE SYSTEM</text>
+              <text class="tt" x="242" y="76">Generates a draft</text>
+              <text class="ts" x="242" y="94">A starting point, inside the</text>
+              <text class="ts" x="242" y="109">product. Never an empty page.</text>
+
+              <rect x="452" y="30" width="230" height="92" fill="#FFFFFF" stroke="#B23A20" stroke-width="1.4"/>
+              <text class="tl" x="470" y="52" style="fill:#B23A20">03 · THE PROFESSIONAL</text>
+              <text class="tt" x="470" y="76" style="fill:#B23A20">Reviews and edits</text>
+              <text class="ts" x="470" y="94">Full editing. Nothing is stored</text>
+              <text class="ts" x="470" y="109">until the human is satisfied.</text>
+
+              <rect x="712" y="30" width="176" height="92" fill="#EEEBE3"/>
+              <text class="tl" x="728" y="52">04</text>
+              <text class="tt" x="728" y="76">Saves</text>
+              <text class="ts" x="728" y="94">A deliberate act,</text>
+              <text class="ts" x="728" y="109">not an automatic one.</text>
+
+              <rect x="918" y="30" width="182" height="92" fill="#0E0E11"/>
+              <text class="tl" x="934" y="52" style="fill:#6E6E76">05</text>
+              <text class="tt" x="934" y="76" style="fill:#F6F4EF">Sends for signature</text>
+              <text class="ts" x="934" y="94" style="fill:#9E9EA6">Reaches the end client</text>
+              <text class="ts" x="934" y="109" style="fill:#9E9EA6">only after approval.</text>
+            </g>
+            <g stroke="rgba(14,14,17,.34)" stroke-width="1" fill="none">
+              <path d="M196 76 H226"/><path d="M422 76 H452"/><path d="M682 76 H712"/><path d="M888 76 H918"/>
+            </g>
+            <path d="M567 122 V154" stroke="#B23A20" stroke-width="1" stroke-dasharray="2 3" fill="none"/>
+            <rect x="360" y="154" width="414" height="30" fill="none" stroke="#B23A20" stroke-width="1"/>
+            <text class="tt" x="378" y="174" style="fill:#B23A20">The AI never finishes the document. A person does.</text>
+            <text class="ts" x="0" y="230">Generation is assistance. Approval stays with the professional who signs their name to the work.</text>
+          </svg>
+          <figcaption>Reconstructed flow · no original UI</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec dark">
+  <div class="w">
+    <div class="head">
+      <div><span class="n">05</span></div>
+      <div>
+        <p class="k">Scope</p>
+        <h2>What I chose<br>not to build</h2>
+        <div class="rule"></div>
+        <div class="two">
+          <div>
+            <p>The concept included saving a generated document as a reusable template, a genuinely useful idea, and the obvious next step for anyone producing similar documents repeatedly.</p>
+            <p><strong>It did not ship in the MVP.</strong> Templates introduce a second lifecycle: ownership, versioning, who can edit them, what happens when the underlying rules change. None of that could be answered responsibly before we knew whether the core drafting behaviour worked at all.</p>
+            <p>It went into a later phase of the roadmap. Deferred, with a reason, not dropped.</p>
+          </div>
+          <div class="rv">
+            <div class="facts">
+              <div class="fact"><span class="fk">Shipped</span><span class="fv">Instruction-based drafting inside the product</span></div>
+              <div class="fact"><span class="fk">Shipped</span><span class="fv">Full human review before saving or sending</span></div>
+              <div class="fact"><span class="fk">Deferred</span><span class="fv">Saving generated documents as reusable templates</span></div>
+              <div class="fact"><span class="fk">Reason</span><span class="fv">Template ownership and versioning were unanswered</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="w">
+    <div class="head">
+      <div><span class="n">06</span></div>
+      <div>
+        <p class="k">Validation and release</p>
+        <h2>Tested small,<br>released for real</h2>
+        <div class="rule"></div>
+        <div class="two">
+          <div>
+            <p>We ran a fast concept validation with three trusted customers before committing to build. The results were strongly positive: they found the feature intuitive and useful, and the concept design validated well enough to proceed.</p>
+            <p>I want to be precise about what that was and was not. Three customers is a directional signal, not statistical evidence. It was enough to justify building the MVP. It was not enough to tell us how the feature would behave once it met a whole market.</p>
+            <p>The feature was released within the practice management product in the Canadian market.</p>
+          </div>
+          <div class="rv" style="align-self:end">
+            <p class="pull">Three customers told us it was worth building. The market told us what we had actually built.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pivot">
+  <div class="w">
+    <p class="k">07 · What I got wrong</p>
+    <p class="stmt">I thought this was a tool for contracts. People used it for <i>anything that needed a signature.</i></p>
+    <div class="two">
+      <div class="rv">
+        <p>My working assumption throughout design was that the feature served formal, structured documents: engagement letters, contracts, the heavyweight paperwork of a practice.</p>
+        <p>In use, the pattern was broader. People reached for it for anything that required a client signature, including short, routine correspondence. In effect it became <strong>a better way to write anything that had to go out formally</strong>, closer to an improved email than to a contract generator.</p>
+        <p>The blank page was a bigger problem than the document type. I had scoped the feature around the artefact when I should have scoped it around the moment.</p>
+      </div>
+      <div class="rv">
+        <figure>
+          <svg viewBox="0 0 640 300" role="img" aria-label="Expected usage limited to formal contracts, against actual usage spanning anything requiring a client signature">
+            <text class="tl" x="0" y="10" style="fill:#6E6E76">WHAT I DESIGNED FOR</text>
+            <rect x="0" y="24" width="180" height="104" fill="none" stroke="rgba(255,255,255,.2)" stroke-width=".75"/>
+            <rect x="18" y="46" width="144" height="14" fill="#F2F0EA"/>
+            <rect x="18" y="70" width="120" height="14" fill="#F2F0EA"/>
+            <rect x="18" y="94" width="136" height="14" fill="#F2F0EA"/>
+            <text class="ts" x="0" y="150" style="fill:#6E6E76">Formal, structured documents.</text>
+
+            <text class="tl" x="300" y="10" style="fill:#6E6E76">WHAT PEOPLE USED IT FOR</text>
+            <rect x="300" y="24" width="340" height="104" fill="none" stroke="#E0714F" stroke-width=".75"/>
+            <g fill="#F2F0EA">
+              <rect x="318" y="42" width="120" height="12"/><rect x="452" y="42" width="86" height="12"/><rect x="552" y="42" width="68" height="12"/>
+              <rect x="318" y="62" width="94" height="12"/><rect x="426" y="62" width="112" height="12"/><rect x="552" y="62" width="68" height="12"/>
+              <rect x="318" y="82" width="140" height="12"/><rect x="472" y="82" width="74" height="12"/><rect x="560" y="82" width="60" height="12"/>
+              <rect x="318" y="102" width="78" height="12"/><rect x="410" y="102" width="128" height="12"/><rect x="552" y="102" width="68" height="12"/>
+            </g>
+            <text class="ts" x="300" y="150" style="fill:#E0714F">Anything that needed a client signature.</text>
+            <path d="M180 76 H300" stroke="#E0714F" stroke-width="1" fill="none"/>
+            <text class="tt" x="0" y="212" style="fill:#F2F0EA">The scope was set by the artefact.</text>
+            <text class="tt" x="0" y="234" style="fill:#F2F0EA">The need was set by the moment: facing an empty page.</text>
+          </svg>
+          <figcaption>Reconstructed · qualitative observation, not measured data</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="w">
+    <div class="head">
+      <div><span class="n">08</span></div>
+      <div>
+        <p class="k">What I took from it</p>
+        <h2>Three things<br>I kept</h2>
+        <div class="rule"></div>
+        <div class="three">
+          <div class="rv"><h3>The best AI feature is often already happening</h3><p style="font-size:16px">Our users had solved their own problem with an outside tool. The research existed; the work was connecting it to a requirement nobody had linked it to. Behaviour that routes around your product is a specification.</p></div>
+          <div class="rv"><h3>In regulated work, review is the feature</h3><p style="font-size:16px">When a document carries a client's signature, the value is not what the model writes. It is that a qualified person read it, changed it, and chose to stand behind it. Design the approval, not just the generation.</p></div>
+          <div class="rv"><h3>Scope the moment, not the artefact</h3><p style="font-size:16px">I framed this around contracts. Users framed it around the blank page. Getting that boundary wrong is cheap to discover after launch and expensive to assume before it.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="w"><p>Reconstructed at concept level · No original screens, data or product names · Laura Benavente</p></div>
+</footer>
+
+<script>
+document.documentElement.classList.add('js');
+var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{rootMargin:'0px 0px -10% 0px'});
+document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+setTimeout(function(){document.querySelectorAll('.rv:not(.in)').forEach(function(el){el.classList.add('in')})},3500);
+var navD=document.getElementById('nav-d');
+if(navD){
+  navD.querySelectorAll('.nav-panel a').forEach(function(a){
+    a.addEventListener('click',function(){navD.removeAttribute('open')});
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&navD.hasAttribute('open')){navD.removeAttribute('open');navD.querySelector('.nav-bar').focus()}
+  });
+}
+</script>
+</body>
+</html>

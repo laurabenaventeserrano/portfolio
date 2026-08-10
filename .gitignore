@@ -1,0 +1,16 @@
+# Archivos que macOS crea solo y no sirven a nadie más
+.DS_Store
+**/.DS_Store
+.Spotlight-V100
+.Trashes
+._*
+
+# Basura de Windows, por si alguien abre esto desde allí
+Thumbs.db
+ehthumbs.db
+
+# Carpetas de configuración de editores
+.vscode/
+.idea/
+*.swp
+*~

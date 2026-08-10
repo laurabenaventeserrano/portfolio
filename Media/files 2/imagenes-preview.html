@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Imágenes del portfolio — hoja de contacto</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Roboto+Mono:wght@400&display=swap">
+<style>
+:root{--paper:#F6F4EF;--dark:#111113;--ink:#0E0E11;--mid:#7A7A80;--line:rgba(14,14,17,.14)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Roboto,Arial,sans-serif;line-height:1.6}
+.w{max-width:1300px;margin:0 auto;padding:44px 40px 90px}
+h1{font-family:Georgia,serif;font-weight:400;font-size:40px;margin:0 0 8px}
+.sub{color:var(--mid);max-width:70ch;margin:0 0 40px}
+h2{font-family:Georgia,serif;font-weight:400;font-size:26px;margin:56px 0 4px}
+.k{font-family:'Roboto Mono',monospace;font-size:10.5px;letter-spacing:1.3px;text-transform:uppercase;color:var(--mid);margin:0 0 22px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.card{border:1px solid var(--line);background:#fff}
+.card .imgwrap{background:var(--dark);padding:20px;display:flex;align-items:center;justify-content:center;min-height:240px}
+.card img{max-width:100%;height:auto;display:block}
+.card .meta{padding:14px 16px 18px;border-top:1px solid var(--line)}
+.card .fn{font-family:'Roboto Mono',monospace;font-size:11px;color:var(--ink);word-break:break-all}
+.card .slot{font-size:13px;color:var(--mid);margin-top:6px}
+.note{background:#fff;border-left:3px solid #B23A20;padding:18px 22px;margin:40px 0 0;font-size:15px;max-width:80ch}
+code{font-family:'Roboto Mono',monospace;font-size:13px;background:#EEEBE3;padding:1px 5px}
+</style>
+</head>
+<body>
+<div class="w">
+<h1>Imágenes del portfolio</h1>
+<p class="sub">Todo lo que va en <code>images/</code>. Las de Movistar son tuyas, tal cual las enviaste. Las de Story 1 y Story 2 son diagramas conceptuales en SVG — vectoriales, escalan sin pixelar y pesan unos 3 KB cada una.</p>
+
+<h2>Story 1 — Tax Cloud</h2>
+<p class="k">Reconstruido · sin producto real</p>
+<div class="grid">
+  <div class="card"><div class="imgwrap"><img src="images/story1-01-client-context.svg" alt=""></div>
+    <div class="meta"><div class="fn">story1-01-client-context.svg</div><div class="slot">1000×1200 · ratio 5/6 · hueco alto de la home</div></div></div>
+  <div class="card"><div class="imgwrap"><img src="images/story1-02-one-workspace.svg" alt=""></div>
+    <div class="meta"><div class="fn">story1-02-one-workspace.svg</div><div class="slot">900×1200 · ratio 3/4 · hueco vertical de la home</div></div></div>
+  <div class="card"><div class="imgwrap"><img src="images/story1-03-scope.svg" alt=""></div>
+    <div class="meta"><div class="fn">story1-03-scope.svg</div><div class="slot">1600×800 · ratio 16/8 · dentro del caso</div></div></div>
+</div>
+
+<h2>Story 2 — AI document management</h2>
+<p class="k">Reconstruido · sin producto real</p>
+<div class="grid">
+  <div class="card"><div class="imgwrap"><img src="images/story2-01-review-flow.svg" alt=""></div>
+    <div class="meta"><div class="fn">story2-01-review-flow.svg</div><div class="slot">1000×1200 · ratio 5/6 · hueco alto de la home</div></div></div>
+  <div class="card"><div class="imgwrap"><img src="images/story2-02-three-routes.svg" alt=""></div>
+    <div class="meta"><div class="fn">story2-02-three-routes.svg</div><div class="slot">1200×900 · ratio 4/3 · hueco cuadrado superior</div></div></div>
+  <div class="card"><div class="imgwrap"><img src="images/story2-03-expected-vs-actual.svg" alt=""></div>
+    <div class="meta"><div class="fn">story2-03-expected-vs-actual.svg</div><div class="slot">1200×900 · ratio 4/3 · hueco cuadrado inferior</div></div></div>
+</div>
+
+<h2>Story 3 — Movistar</h2>
+<p class="k">Material real · trabajo público</p>
+<div class="grid">
+  <div class="card"><div class="imgwrap"><img src="images/story3-01-wireflow.png" alt=""></div>
+    <div class="meta"><div class="fn">story3-01-wireflow.png</div><div class="slot">1244×890 · el wireflow · hueco ancho de la home</div></div></div>
+  <div class="card"><div class="imgwrap"><img src="images/story3-02-screens.png" alt=""></div>
+    <div class="meta"><div class="fn">story3-02-screens.png</div><div class="slot">2894×1074 · el tablero de pantallas · dentro del caso</div></div></div>
+  <div class="card"><div class="imgwrap"><img src="images/story3-03-results.png" alt=""></div>
+    <div class="meta"><div class="fn">story3-03-results.png</div><div class="slot">1615×2210 · resultados en móvil · dentro del caso</div></div></div>
+  <div class="card"><div class="imgwrap"><img src="images/story3-04-test.gif" alt=""></div>
+    <div class="meta"><div class="fn">story3-04-test.gif</div><div class="slot">375×667 · 109 fotogramas · la espera en movimiento</div></div></div>
+</div>
+
+<div class="note">
+<strong>Dos cosas antes de publicar.</strong><br><br>
+El GIF pesa 608 KB y son 109 fotogramas. Es justo la pieza que demuestra tu argumento —la espera hecha comprensible— así que merece la pena, pero conviértelo a MP4 o WebM antes de subirlo: bajará a menos de 100 KB y se verá mejor.<br><br>
+Y el tablero de pantallas (<code>story3-02-screens.png</code>) mide 2894 px de ancho y pesa 920 KB. Redúcelo a 1600 px o recórtalo a la parte que más te interese; a tamaño completo no se lee nada igualmente.
+</div>
+
+</div>
+</body>
+</html>
