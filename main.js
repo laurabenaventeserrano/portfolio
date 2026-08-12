@@ -72,6 +72,24 @@ function start(){
     chapterEls.forEach(function(el){cio.observe(el)});
   }
 
+  /* resplandor del pie: crece desde el suelo durante el último tramo de scroll
+     y llega a su altura completa exactamente al final de la página. */
+  var glow=document.getElementById('glow');
+  if(glow){
+    var minReveal=.045, gpend=false;
+    function medirGlow(){
+      var h=glow.offsetHeight||1;
+      var queda=document.documentElement.scrollHeight-window.innerHeight-window.scrollY;
+      var t=Math.max(0,Math.min(1,(h-queda)/h));
+      glow.style.transform='scaleY('+(minReveal+(1-minReveal)*t)+')';
+      gpend=false;
+    }
+    function pedirGlow(){ if(!gpend){ requestAnimationFrame(medirGlow); gpend=true } }
+    window.addEventListener('scroll',pedirGlow,{passive:true});
+    window.addEventListener('resize',pedirGlow,{passive:true});
+    medirGlow();
+  }
+
   /* about: cada frase entra al alcanzar su tramo de scroll dentro de la pista.
      Narrativo: el lector va conociendo una idea más a cada paso. */
   var track=document.getElementById('about-track');
