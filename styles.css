@@ -199,6 +199,11 @@ html.js .shot-fill{transform:translateY(var(--py,0px))}
 .shot.has-img .shot-fill{position:static;border:0;background:transparent;transform:none}
 .shot-fill img{display:block;width:100%;height:100%;object-fit:cover}
 .shot.has-img .shot-fill img{height:auto;object-fit:fill}
+/* variante alineada a la derecha: la imagen ocupa parte del ancho y se ancla
+   al margen derecho, dejando aire oscuro a la izquierda */
+.shot-right{display:flex;justify-content:flex-end}
+.shot-right .shot-fill{position:static;width:62%;margin-left:auto}
+@media(max-width:860px){.shot-right .shot-fill{width:100%}}
 /* enters small, grows to full size: scale lives on the image, so the
    parallax transform on .shot-fill stays free of a transition */
 html.js .shot-fill img{transform:scale(.86);transition:transform 1.4s cubic-bezier(.16,1,.3,1)}
