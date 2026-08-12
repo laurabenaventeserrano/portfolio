@@ -1,6 +1,7 @@
 (function(){
 var docEl=document.documentElement;
-var sel='.rv, .shot, .about li .ln';
+var sel='.rv, .shot';
+var aboutSel='.about li .ln';
 var hero=document.getElementById('hero');
 
 /* nav: works with or without motion */
@@ -15,7 +16,7 @@ if(navD){
 }
 
 function revealAll(){
-  document.querySelectorAll(sel).forEach(function(el){el.classList.add('in')});
+  document.querySelectorAll(sel+', '+aboutSel).forEach(function(el){el.classList.add('in')});
 }
 
 /* No-motion path: reduced-motion, or no observer support.
@@ -69,6 +70,52 @@ function start(){
       });
     },{rootMargin:'-45% 0px -45% 0px'});
     chapterEls.forEach(function(el){cio.observe(el)});
+  }
+
+  /* about: cada frase entra al alcanzar su tramo de scroll dentro de la pista.
+     Narrativo: el lector va conociendo una idea más a cada paso. */
+  var track=document.getElementById('about-track');
+  var aboutLines=Array.prototype.slice.call(document.querySelectorAll(aboutSel));
+  if(track&&aboutLines.length&&window.matchMedia('(min-width:761px)').matches){
+    var umbrales=[.06,.22,.38,.54,.70];
+    var pend=false;
+    function paso(){
+      var r=track.getBoundingClientRect();
+      var recorrido=r.height-window.innerHeight;
+      var p=recorrido>0?Math.min(1,Math.max(0,-r.top/recorrido)):1;
+      aboutLines.forEach(function(l,i){
+        if(p>=(umbrales[i]!==undefined?umbrales[i]:1)) l.classList.add('in');
+      });
+      pend=false;
+    }
+    window.addEventListener('scroll',function(){
+      if(!pend){ requestAnimationFrame(paso); pend=true }
+    },{passive:true});
+    paso();
+  } else {
+    aboutLines.forEach(function(l){l.classList.add('in')});
+  }
+
+  /* foco del hero: círculo que sigue al cursor con suavizado, revelando
+     el mismo titular en negativo. Solo con ratón, nunca en táctil. */
+  var heroW=hero, spot=document.getElementById('spot');
+  if(heroW&&spot&&window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+    var R=95, tx=0, ty=0, cx=0, cy=0, on=false, raf=null;
+    function draw(){
+      cx+=(tx-cx)*0.15; cy+=(ty-cy)*0.15;
+      spot.style.clipPath='circle('+(on?R:0)+'px at '+cx.toFixed(1)+'px '+cy.toFixed(1)+'px)';
+      if(on||Math.abs(tx-cx)>0.5||Math.abs(ty-cy)>0.5){ raf=requestAnimationFrame(draw) }
+      else{ raf=null }
+    }
+    function kick(){ if(!raf) raf=requestAnimationFrame(draw) }
+    heroW.addEventListener('pointermove',function(e){
+      if(e.pointerType!=='mouse')return;
+      var r=heroW.getBoundingClientRect();
+      tx=e.clientX-r.left; ty=e.clientY-r.top;
+      if(!on){ cx=tx; cy=ty; on=true }
+      kick();
+    });
+    heroW.addEventListener('pointerleave',function(){ on=false; kick() });
   }
 
   /* scroll-linked parallax: under 8% displacement, desktop only */

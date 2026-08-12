@@ -112,6 +112,20 @@ html:not(.js) .hero h1 .ln i{transform:none}
 .hero.lit h1 .ln i{transform:none}
 .hero.lit h1 .ln:nth-child(2) i{transition-delay:.09s}
 .hero.lit h1 .ln:nth-child(3) i{transition-delay:.18s}
+/* foco que sigue al cursor: revela el mismo titular en negativo.
+   clip-path sobre una capa calcada, así la alineación es exacta sin cálculos. */
+.spot{position:absolute;inset:0;background:var(--ink);
+  display:flex;align-items:center;padding:140px 0 120px;
+  clip-path:circle(0px at 50% 50%);pointer-events:none;
+  transition:clip-path .45s cubic-bezier(.33,1,.68,1)}
+.spot .w{width:100%}
+.spot h1{color:var(--dark)}
+.spot .cue{color:var(--dark);opacity:0}
+.hero.lit .spot .cue{opacity:1}
+.spot .cue span{background:var(--dark)}
+html:not(.js) .spot{display:none}
+@media (hover:none),(pointer:coarse){.spot{display:none}}
+
 .cue{position:absolute;left:var(--m);bottom:36px;display:flex;align-items:center;gap:12px;
   font-family:var(--mono);font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--mid);
   opacity:0;transition:opacity .8s ease .9s}
@@ -139,8 +153,19 @@ html:not(.js) .hero h1 .ln i{transform:none}
 .bg-row p{font-size:12px;line-height:1.5;color:var(--mid);margin:0;max-width:46ch}
 @media(max-width:760px){.bg-row{grid-template-columns:1fr;gap:10px}}
 
-/* about: the thesis, given room */
-.about{padding:clamp(70px,10vw,150px) 0 clamp(90px,13vw,180px)}
+/* about: el bloque queda fijo y cada frase entra al alcanzar su tramo de scroll.
+   La pista da la distancia; lo pegajoso mantiene el texto quieto mientras tanto. */
+.about{padding:0}
+.about-track{position:relative;height:calc(100svh + 80vh)}
+.about-sticky{position:sticky;top:0;height:100svh;display:flex;align-items:center}
+.about-sticky .w{width:100%}
+/* sin JS, con movimiento reducido o en móvil: ni pista larga ni pegado */
+html:not(.js) .about-track{height:auto}
+html:not(.js) .about-sticky{position:static;height:auto;padding:clamp(70px,10vw,150px) 0 clamp(90px,13vw,180px)}
+@media(max-width:760px){
+  .about-track{height:auto}
+  .about-sticky{position:static;height:auto;padding:clamp(70px,10vw,150px) 0 clamp(90px,13vw,180px)}
+}
 .about h2{font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;
   color:var(--mid);margin:0 0 clamp(40px,6vw,80px);text-align:left}
 .about ul{list-style:none;margin:0;padding:0}
@@ -223,7 +248,8 @@ html:not(.js) .rv{opacity:1;transform:none}
 html:not(.js) .ln i{transform:none}
 .in > .ln i,.ln.in i{transform:none}
 .about li .ln{padding-bottom:.08em;margin-bottom:-.08em}
-.about li .ln i{transition-delay:calc(var(--i,0) * .085s)}
+/* sin desfase por tiempo: aquí quien manda es el scroll */
+.about li .ln{padding-bottom:.08em;margin-bottom:-.08em}
 /* images grow in */
 html.js .shot{clip-path:inset(0 0 100% 0);transition:clip-path 1.2s cubic-bezier(.16,1,.3,1)}
 html.js .shot.in{clip-path:inset(0 0 0 0)}

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hover — tres técnicas</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Roboto+Mono:wght@400&display=swap">
+<style>
+@font-face{font-family:'Libertinus Serif';font-weight:400;font-display:swap;src:url(https://cdn.jsdelivr.net/fontsource/fonts/libertinus-serif@5.3.0/latin-400-normal.woff2) format('woff2')}
+:root{--dark:#111113;--ink:#0E0E11;--mid:#8A8A90;--sans:'Roboto',Arial,sans-serif;--serif:'Libertinus Serif',Georgia,serif;--mono:'Roboto Mono',monospace}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6}
+.w{max-width:1240px;margin:0 auto;padding:0 40px}
+header{padding:56px 0 30px}
+h1{font-family:var(--serif);font-weight:400;font-size:52px;line-height:1;margin:0 0 12px;letter-spacing:-.02em}
+.sub{color:#44444B;max-width:70ch;margin:0}
+.k{font-family:var(--mono);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--mid);margin:0 0 10px}
+h2{font-family:var(--serif);font-weight:400;font-size:30px;margin:0 0 6px}
+p.note{color:#44444B;max-width:74ch;margin:0 0 26px;font-size:15px}
+section{padding:52px 0;border-top:1px solid rgba(14,14,17,.12)}
+.band{background:var(--dark);padding:56px 40px;margin:0 -40px}
+.grid{display:grid;grid-template-columns:1.85fr 1fr;gap:34px;max-width:1160px;margin:0 auto}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+figure{margin:0}
+figcaption{font-family:var(--mono);font-size:10px;letter-spacing:1.1px;text-transform:uppercase;color:#7A7A80;margin-top:12px}
+
+/* ---------- shared slot ---------- */
+.slot{position:relative;overflow:hidden;background:#0A0A0C;display:block}
+.slot img{width:100%;height:100%;object-fit:cover;display:block}
+.r56{aspect-ratio:5/6}.r34{aspect-ratio:3/4}.r43{aspect-ratio:4/3}
+
+/* ---------- A · resolve on hover ---------- */
+.a .layer{position:absolute;inset:0}
+.a .soft{opacity:1;transition:opacity 900ms cubic-bezier(.16,1,.3,1)}
+.a .sharp{opacity:0;transition:opacity 900ms cubic-bezier(.16,1,.3,1)}
+.a:hover .soft,.a:focus-visible .soft{opacity:0}
+.a:hover .sharp,.a:focus-visible .sharp{opacity:1}
+
+/* ---------- B · slow drift + lift ---------- */
+.b img{transform:scale(1.02);transition:transform 1200ms cubic-bezier(.16,1,.3,1),filter 900ms ease}
+.b:hover img,.b:focus-visible img{transform:scale(1.08);filter:contrast(1.10) brightness(1.06)}
+
+/* ---------- C · wipe reveal ---------- */
+.c .sharp{position:absolute;inset:0;clip-path:inset(100% 0 0 0);
+  transition:clip-path 1100ms cubic-bezier(.16,1,.3,1)}
+.c:hover .sharp,.c:focus-visible .sharp{clip-path:inset(0 0 0 0)}
+
+/* labels over the dark band */
+.lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:1.3px;text-transform:uppercase;color:#7A7A80;margin:0 0 18px}
+.lbl b{font-weight:400;color:#F2F2F2}
+.hint{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:#5E5E66;margin-top:26px}
+a.slot{text-decoration:none}
+a.slot:focus-visible{outline:2px solid #A9C4E8;outline-offset:4px}
+code{font-family:var(--mono);font-size:13px;background:#F2F2EE;padding:2px 6px}
+pre{background:#F6F6F2;padding:20px 22px;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.7;margin:20px 0 0}
+</style>
+</head>
+<body>
+<div class="w">
+<header>
+  <p class="k">Portadas · interacción</p>
+  <h1>Tres formas de animarlas</h1>
+  <p class="sub">Pasa el cursor por encima de cada una. Las tres usan las mismas imágenes; lo que cambia es qué le pasa a la materia cuando prestas atención.</p>
+</header>
+</div>
+
+<!-- A -->
+<section>
+  <div class="w">
+    <p class="k">Técnica A · recomendada</p>
+    <h2>Se resuelve al mirarla</h2>
+    <p class="note">Dos versiones de la misma imagen: una sin resolver y otra nítida. Al pasar el cursor, la trama se ordena y las líneas emergen. Es la única de las tres que <strong>significa algo</strong> — es tu idea de Observer aplicada a una portada: el sistema responde a la atención. Coste: una imagen extra por portada.</p>
+  </div>
+  <div class="band">
+    <p class="lbl"><b>Story 2</b> — AI document management</p>
+    <div class="grid">
+      <a class="slot r56 a" href="#">
+        <img class="layer soft"  src="covers/s2-a-page-in-light--soft.png" alt="">
+        <img class="layer sharp" src="covers/s2-a-page-in-light.png" alt="Abstract cover: light falling across an angled plane, rendered as a halftone dither.">
+      </a>
+      <a class="slot r43 a" href="#">
+        <img class="layer soft"  src="covers/s2-b-lines-resolving--soft.png" alt="">
+        <img class="layer sharp" src="covers/s2-b-lines-resolving.png" alt="Abstract cover: horizontal lines of light resolving out of an empty field.">
+      </a>
+    </div>
+    <p class="hint">↑ pasa el cursor</p>
+  </div>
+</section>
+
+<!-- B -->
+<section>
+  <div class="w">
+    <p class="k">Técnica B</p>
+    <h2>Deriva lenta</h2>
+    <p class="note">La imagen crece muy despacio y gana algo de contraste. No necesita imágenes extra y se aplica a cualquier foto, así que sirve también para las de Movistar. Es lo más común en este tipo de webs — funciona, pero no dice nada.</p>
+  </div>
+  <div class="band">
+    <p class="lbl"><b>Story 1</b> — Designing a cloud ecosystem</p>
+    <div class="grid">
+      <a class="slot r56 b" href="#"><img src="covers/s1-a-parallel-clients.png" alt="Abstract cover: one resolved vertical band among blurred parallel presences."></a>
+      <a class="slot r34 b" href="#"><img src="covers/s1-b-grid-releasing.png" alt="Abstract cover: horizontal bands that begin rigid and cold and loosen into warm diagonal flow."></a>
+    </div>
+    <p class="hint">↑ pasa el cursor</p>
+  </div>
+</section>
+
+<!-- C -->
+<section>
+  <div class="w">
+    <p class="k">Técnica C</p>
+    <h2>Barrido</h2>
+    <p class="note">La versión nítida se descubre de abajo arriba con <code>clip-path</code>. Es exactamente el mismo gesto que ya usan tus imágenes al aparecer con el scroll, así que refuerza el sistema en vez de añadir un lenguaje nuevo. Más marcado que la A: se nota que es un efecto.</p>
+  </div>
+  <div class="band">
+    <p class="lbl"><b>Story 2</b> — intent meeting order</p>
+    <div class="grid">
+      <a class="slot r43 c" href="#">
+        <img src="covers/s2-c-intent-to-order--soft.png" alt="">
+        <img class="sharp" src="covers/s2-c-intent-to-order.png" alt="Abstract cover: a warm point of intent on the left meeting a cool ordered field on the right.">
+      </a>
+      <a class="slot r43 c" href="#">
+        <img src="covers/s2-b-lines-resolving--soft.png" alt="">
+        <img class="sharp" src="covers/s2-b-lines-resolving.png" alt="Abstract cover: horizontal lines of light resolving out of an empty field.">
+      </a>
+    </div>
+    <p class="hint">↑ pasa el cursor</p>
+  </div>
+</section>
+
+<section>
+  <div class="w">
+    <p class="k">El código de la A</p>
+    <h2>Lo que hay que añadir</h2>
+    <p class="note">Dentro de cada hueco van dos <code>&lt;img&gt;</code> superpuestas. La difusa lleva <code>alt=""</code> porque es decorativa; la nítida lleva la descripción real. En móvil no hay hover, así que se queda la nítida.</p>
+<pre>.slot{position:relative;overflow:hidden}
+.slot .layer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+.slot .soft {opacity:1; transition:opacity 900ms cubic-bezier(.16,1,.3,1)}
+.slot .sharp{opacity:0; transition:opacity 900ms cubic-bezier(.16,1,.3,1)}
+
+.slot:hover .soft,  .slot:focus-visible .soft {opacity:0}
+.slot:hover .sharp, .slot:focus-visible .sharp{opacity:1}
+
+/* sin puntero: mostrar siempre la nítida */
+@media (hover:none){
+  .slot .soft {opacity:0}
+  .slot .sharp{opacity:1}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .slot .soft {opacity:0; transition:none}
+  .slot .sharp{opacity:1; transition:none}
+}</pre>
+  </div>
+</section>
+
+<section style="border-bottom:1px solid rgba(14,14,17,.12)">
+  <div class="w">
+    <h2>Cuál elegiría</h2>
+    <p class="note"><strong>La A para las portadas abstractas</strong> de Story 1 y 2, porque es la única que aporta un significado y encaja con el resto de tu sistema. <strong>La B para las capturas de Movistar</strong>, que son fotografías reales y no tienen versión "sin resolver".<br><br>Mezclar A y C en la misma página sería un error: son dos gramáticas distintas para el mismo gesto.</p>
+  </div>
+</section>
+</body>
+</html>
