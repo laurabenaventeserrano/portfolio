@@ -216,10 +216,17 @@ html:not(.js) .about-sticky{position:static;height:auto;padding:clamp(70px,10vw,
   .story-hero__copy{max-width:60%}
 }
 @media(max-width:767px){
-  .story-hero{aspect-ratio:auto;min-height:0;background:var(--ground)}
-  .story-hero__media{position:relative;inset:auto;aspect-ratio:16/9}
+  /* apilado: el texto va PRIMERO y su imagen debajo. Con la imagen arriba,
+     quedaba pegada al texto de la historia anterior y se leía como suya. */
+  .story-hero{aspect-ratio:auto;min-height:0;background:var(--ground);
+    display:flex;flex-direction:column;padding-bottom:56px}
+  .story-hero + .story-hero{border-top:1px solid rgba(242,239,234,.12)}
+  /* 72px arriba: la barra fija mide 51px y es transparente; sin este aire
+     los chips pasan por debajo del logo y se pisan */
+  .story-hero__copy{order:1;position:static;width:auto;max-width:none;
+    padding:72px 24px 28px;gap:20px}
+  .story-hero__media{order:2;position:relative;inset:auto;aspect-ratio:16/9}
   .story-hero__scrim,.story-hero__glow{display:none}
-  .story-hero__copy{position:static;width:auto;max-width:none;padding:32px 24px 48px;gap:20px}
   .story-hero__title{font-size:40px}
 }
 
