@@ -90,6 +90,35 @@ function start(){
     medirGlow();
   }
 
+  /* parallax horizontal de las historias: al bajar, cada bloque viaja de
+     izquierda a derecha. El texto va más rápido que la imagen, lo que da la
+     profundidad. Recorridos del 6% y el 2,5%, ambos bajo el listón del 8%. */
+  var bloques=Array.prototype.slice.call(document.querySelectorAll('.story-hero'));
+  if(bloques.length&&window.matchMedia('(min-width:768px)').matches){
+    var ppend=false;
+    function paraX(){
+      var vh=window.innerHeight;
+      bloques.forEach(function(b){
+        var r=b.getBoundingClientRect();
+        if(r.bottom<0||r.top>vh)return;
+        // p va de +1 (abajo, sin entrar) a -1 (arriba, saliendo)
+        var p=Math.max(-1,Math.min(1,(r.top+r.height/2-vh/2)/vh));
+        var med=b.querySelector('.story-hero__media');
+        var cop=b.querySelector('.story-hero__copy');
+        if(med)med.style.setProperty('--px',(-p*r.width*0.025).toFixed(1)+'px');
+        if(cop)cop.style.setProperty('--px',(-p*r.width*0.06).toFixed(1)+'px');
+      });
+      ppend=false;
+    }
+    window.addEventListener('scroll',function(){
+      if(!ppend){requestAnimationFrame(paraX);ppend=true}
+    },{passive:true});
+    window.addEventListener('resize',function(){
+      if(!ppend){requestAnimationFrame(paraX);ppend=true}
+    },{passive:true});
+    paraX();
+  }
+
   /* about: cada frase entra al alcanzar su tramo de scroll dentro de la pista.
      Narrativo: el lector va conociendo una idea más a cada paso. */
   var track=document.getElementById('about-track');
