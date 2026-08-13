@@ -202,6 +202,21 @@ html:not(.js) .about-sticky{position:static;height:auto;padding:clamp(70px,10vw,
   .story-hero--float .story-hero__media img{max-height:none}
 }
 
+/* montaje ancho con transparencia: ocupa casi todo el marco sobre la tierra
+   oscura, sin recortarse. El texto va encima con degradado reforzado. */
+.story-hero--wide .story-hero__media{left:auto;right:0;width:88%;
+  display:flex;align-items:center;justify-content:flex-end}
+.story-hero--wide .story-hero__media img{width:100%;height:auto;
+  max-height:94%;object-fit:contain;object-position:right center}
+.story-hero--wide .story-hero__scrim{width:56%;
+  background:linear-gradient(90deg,rgba(12,10,11,.96) 0%,rgba(12,10,11,.88) 46%,rgba(12,10,11,.5) 76%,rgba(12,10,11,0) 100%)}
+@media(max-width:767px){
+  .story-hero--wide .story-hero__media{position:relative;right:auto;width:auto;
+    padding:0 24px 8px;aspect-ratio:auto}
+  .story-hero--wide .story-hero__media img{max-height:none}
+  .story-hero--wide .story-hero__scrim{display:none}
+}
+
 /* imágenes de fondo claro: el degradado por defecto no basta y el texto blanco
    se pierde. Más ancho y más opaco, midiendo para que el texto siga a >7:1 */
 .story-hero--light .story-hero__scrim{width:62%;
