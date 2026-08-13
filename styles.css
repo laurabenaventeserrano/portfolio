@@ -19,6 +19,15 @@
   --img:#17171B;
   --serif:'Libertinus Serif',Georgia,serif; --sans:'Roboto',Arial,sans-serif; --mono:'Roboto Mono',ui-monospace,monospace;
   --m:40px; --maxw:1400px;
+
+  /* identidad Prism: tierra, papel y el espectro como UN degradado, no ocho colores */
+  --ground:#0C0A0B;
+  --paper-p:#F2EFEA;
+  --sp-1:#313CAA; --sp-2:#587FDD; --sp-3:#92C5E0; --sp-4:#D9E3AB;
+  --sp-5:#F7CF77; --sp-6:#E98C5E; --sp-7:#DC4969; --sp-8:#A63488;
+  --spectrum:linear-gradient(90deg,rgba(12,10,11,0) 0%,var(--sp-1) 12%,var(--sp-2) 26%,
+    var(--sp-3) 38%,var(--sp-4) 50%,var(--sp-5) 62%,var(--sp-6) 72%,var(--sp-7) 85%,
+    var(--sp-8) 95%,rgba(12,10,11,0) 100%);
 }
 @media(max-width:479px){:root{--m:24px}}
 [id]{scroll-margin-top:92px}
@@ -170,6 +179,49 @@ html:not(.js) .about-sticky{position:static;height:auto;padding:clamp(70px,10vw,
   color:var(--mid);margin:0 0 clamp(40px,6vw,80px);text-align:left}
 .about ul{list-style:none;margin:0;padding:0}
 .about li{text-align:left;font-family:var(--serif);font-size:clamp(28px,4.2vw,62px);line-height:1.26;color:var(--ink)}
+
+/* ── story hero: cuatro capas, la imagen aislada para poder animarla sola ── */
+/* width:100% es obligatorio: con aspect-ratio + min-height, el navegador deduce
+   el ancho desde la altura mínima y el bloque se sale del contenedor. */
+.story-hero{position:relative;overflow:hidden;background:var(--ground);
+  width:100%;aspect-ratio:16/9;min-height:640px;display:block;
+  text-decoration:none;color:inherit}
+.story-hero__media{position:absolute;inset:0;pointer-events:none}
+.story-hero__media img{width:100%;height:100%;object-fit:cover;object-position:right center;display:block}
+.story-hero__scrim{position:absolute;left:0;top:0;width:43%;height:100%;pointer-events:none;
+  background:linear-gradient(90deg,rgba(12,10,11,.92) 0%,rgba(12,10,11,.72) 60%,rgba(12,10,11,0) 100%)}
+.story-hero__glow{position:absolute;left:-10%;top:18%;width:57%;height:62%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(88,127,221,.20),transparent 72%);filter:blur(10px)}
+.story-hero__copy{position:absolute;left:6.1%;top:21%;width:660px;max-width:46%;
+  display:flex;flex-direction:column;gap:26px}
+
+.prism{position:relative;width:200px;height:20px}
+.prism__band{position:absolute;inset:0;border-radius:999px;background:var(--spectrum);
+  transform-origin:center}
+
+.story-hero__eyebrow{font-family:var(--mono);font-size:12px;text-transform:uppercase;
+  letter-spacing:.2em;color:rgba(242,239,234,.55);margin:0}
+.story-hero__title{font-family:var(--serif);font-weight:400;font-size:clamp(44px,5.3vw,76px);
+  line-height:.94;letter-spacing:-.015em;color:var(--paper-p);margin:0}
+.story-hero__standfirst{font-family:var(--sans);font-weight:400;font-size:17px;line-height:1.6;
+  color:rgba(242,239,234,.7);max-width:420px;text-wrap:pretty;margin:0}
+.story-hero__tags{list-style:none;margin:0;padding:0;display:flex;gap:8px;flex-wrap:wrap}
+.story-hero__tags li{border:1px solid rgba(242,239,234,.22);padding:7px 12px;
+  font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;
+  color:rgba(242,239,234,.6)}
+
+@media(max-width:1199px){
+  .story-hero__media img{object-position:70% center}
+  .story-hero__scrim{width:70%}
+  .story-hero__copy{max-width:60%}
+}
+@media(max-width:767px){
+  .story-hero{aspect-ratio:auto;min-height:0;background:var(--ground)}
+  .story-hero__media{position:relative;inset:auto;aspect-ratio:16/9}
+  .story-hero__scrim,.story-hero__glow{display:none}
+  .story-hero__copy{position:static;width:auto;max-width:none;padding:32px 24px 48px;gap:20px}
+  .story-hero__title{font-size:40px}
+}
 
 /* stories: dark on dark, separated by hairlines and scale */
 .dark{background:var(--dark);color:var(--ink)}
