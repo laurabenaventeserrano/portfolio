@@ -190,6 +190,18 @@ html:not(.js) .about-sticky{position:static;height:auto;padding:clamp(70px,10vw,
 .story-hero__media img{width:100%;height:100%;object-fit:cover;object-position:right center;display:block}
 .story-hero__scrim{position:absolute;left:0;top:0;width:43%;height:100%;pointer-events:none;
   background:linear-gradient(90deg,rgba(12,10,11,.92) 0%,rgba(12,10,11,.72) 60%,rgba(12,10,11,0) 100%)}
+/* maqueta suelta con transparencia: no rellena el marco, flota a la derecha
+   sobre la tierra oscura. Nada de cover, que la deformaría y la estiraría. */
+.story-hero--float .story-hero__media{left:auto;right:0;width:62%;
+  display:flex;align-items:center;justify-content:flex-end;padding:0 3% 0 0}
+.story-hero--float .story-hero__media img{width:100%;height:auto;
+  max-height:82%;object-fit:contain;object-position:right center}
+@media(max-width:767px){
+  .story-hero--float .story-hero__media{position:relative;right:auto;width:auto;
+    padding:0 24px 8px;aspect-ratio:auto}
+  .story-hero--float .story-hero__media img{max-height:none}
+}
+
 /* imágenes de fondo claro: el degradado por defecto no basta y el texto blanco
    se pierde. Más ancho y más opaco, midiendo para que el texto siga a >7:1 */
 .story-hero--light .story-hero__scrim{width:62%;
