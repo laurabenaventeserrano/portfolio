@@ -56,7 +56,9 @@ function start(){
     });
   },4000);
 
-  /* section counter: 01..06, quiet wayfinding */
+  /* section counter, quiet wayfinding. 'lab' está desactivado en el HTML:
+     filter(Boolean) lo descarta y el contador queda en 05. Al reactivar la
+     sección vuelve solo a 06, pero hay que subir el total del contador a mano. */
   var counterN=document.getElementById('counter-n');
   if(counterN){
     var chapters=['hero','story-1','story-2','story-3','lab','connect'];
