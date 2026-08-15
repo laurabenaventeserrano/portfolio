@@ -95,6 +95,7 @@ a{color:inherit}
 .nav-foot li:nth-child(1) a span{transition-delay:.41s}
 .nav-foot li:nth-child(2) a span{transition-delay:.45s}
 .nav-foot li:nth-child(3) a span{transition-delay:.49s}
+.nav-foot li:nth-child(4) a span{transition-delay:.53s}
 .nav-d:not([open]) .nav-links a span,.nav-d:not([open]) .nav-foot a span{transition-delay:0s}
 html:not(.js) .nav-panel{max-height:none;visibility:visible;overflow:visible}
 html:not(.js) .nav-links a span,html:not(.js) .nav-foot a span{transform:none}
