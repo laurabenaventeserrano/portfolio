@@ -214,7 +214,10 @@ html:not(.js) .about-sticky{position:static;height:auto;padding:clamp(70px,10vw,
 @media(max-width:767px){
   .story-hero--wide .story-hero__media{position:relative;right:auto;width:auto;
     padding:0 24px 8px;aspect-ratio:auto}
-  .story-hero--wide .story-hero__media img{max-height:none}
+  /* el montaje es muy panorámico (2.7:1): a lo ancho del móvil quedaría en una
+     tira de ~120px donde no se lee nada. Se recorta a 16/9 como las otras dos. */
+  .story-hero--wide .story-hero__media img{max-height:none;aspect-ratio:16/9;
+    object-fit:cover;object-position:left center}
   .story-hero--wide .story-hero__scrim{display:none}
 }
 
