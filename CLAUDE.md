@@ -14,7 +14,7 @@ Dark editorial. Revised from the original warm-paper direction at Laura's explic
 
 - All copy, exactly as written. Never rewritten, never invented.
 - Type families: **Libertinus Serif** (display), **Roboto** (body), **Roboto Mono** (technical/structure). Never swapped.
-- Semantics before aesthetics, no fake numbers, no real client names or original screens, redaction bars (structural, never blurred), rust at most twice per case study, content survives without JS, first person voice.
+- Semantics before aesthetics, no fake numbers, rust at most twice per case study, content survives without JS, first person voice.
 
 **What changed:**
 
@@ -49,8 +49,7 @@ Reference implementation: `index.html` for the dark system. `story1-case-study.h
 
 - **Semantics before aesthetics.** Every element represents a real idea, relationship, force or transformation. If it can only be justified aesthetically, delete it.
 - **Never render a number that is not a real value.** No invented metrics, no fake dashboard figures. This is the only irreversible mistake available here.
-- **No real client names.** All client work anonymised and reconstructed at concept level. No original screens, no real data.
-- **Redaction is structural** — solid bars, precise edges. Never a Gaussian blur.
+- **Real work, shown openly.** Employers, products and original screens may be named and shown. Laura decides per case what is publishable; the default is no longer to anonymise. (Revised 19 Aug 2026, replacing the earlier NDA rule.)
 - **Rust appears twice per case study, maximum.** It marks where the experience breaks. Used more, it means nothing.
 - **Content survives without JS.** Reveals only apply under `html.js`. Always ship a fail-safe timer.
 - **First person.** Laura's cases say "I decided", not only "we did". Credit the team, but name her decisions.
@@ -84,7 +83,7 @@ Homepage chapters 00–09, plus three case studies and a lab:
 
 | | Status |
 |---|---|
-| **Story 01** — Designing a cloud ecosystem for tax professionals | **Done.** `story1-case-study.html`. Wolters Kluwer, anonymised as "Tax Cloud" |
+| **Story 01** — The Wolters Kluwer Story | **Rebuilt 19 Aug 2026** on the dark system. `story1-case-study.html`. Covers the whole Wolters Kluwer ecosystem, named openly, with numbered image placeholders |
 | **Story 02** — AI as the product functionality | To write. Laura has real work here. Interview her before drafting |
 | **Story 03** — Movistar / frog | To write. Material exists |
 
@@ -99,6 +98,6 @@ Generic cyberpunk · neon and glow · gaming HUDs · rounded SaaS cards and drop
 ## Open
 
 1. Whether the rust accent stays warm or goes colder
-2. How product-like the reconstructed wireframes can be under confidentiality
+2. Whether Story 02 and Story 03 also convert to the dark system, now that Story 01 has
 3. Story bands in-page vs separate pages
 4. Stack — static HTML, Webflow, or Next.js

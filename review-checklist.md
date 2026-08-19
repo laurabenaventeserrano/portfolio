@@ -56,8 +56,6 @@ These are the failures that arrive gradually, usually late at night when somethi
 
 **Fake specificity.** Invented percentages, plausible-looking dashboard figures, made-up participant counts. The most damaging thing in the project and the least visible while you write it.
 
-**Blur instead of redaction.** A gaussian blur over a client name reads as a leak. Solid bar, clean edges, always.
-
 **Mid-grey on reading text.** `--mid` at 3.5:1 looks elegant on a large paragraph and fails contrast. Body copy is `--ink-2`.
 
 **Motion accumulation.** Each addition seems small. Halve everything periodically; if it reads as an effect, it is too much.

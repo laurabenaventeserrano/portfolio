@@ -45,15 +45,15 @@ A case without a single memorable challenge sentence is a list of activities. A 
 - **No adjectives doing argumentative work.** Not "a powerful, intuitive experience" — say what it did and let the reader conclude.
 - **No metric that cannot be sourced.** If Laura did not give a number, there is no number.
 
-## Confidentiality wording
+## Naming the work
 
-The employer may be named. The product may not.
+Employers and products are named plainly. Wolters Kluwer, CCH iFirm, Movistar, Telefonica and frog all appear by name. Original screens may be shown.
 
-> Developed for **Wolters Kluwer** · B2B SaaS for accounting and tax firms. Under confidentiality, original screens and identifying product details cannot be shown. Everything here is reconstructed at concept level. For this case study, let's call the product **Tax Cloud**.
+The aliases "Tax Cloud" and "Practice Suite" are retired. Do not reintroduce them.
 
-Anonymised product names in use: **Tax Cloud** (cloud ecosystem case), **Practice Suite** (AI document drafting case). Movistar, Telefónica and frog may be named — that work is already public on her CV and LinkedIn — but the screens are still reconstructed.
+Image captions say what the image is and where it comes from: *CCH iFirm, client record*, *Cross-product navigation, concept*. A caption never has to defend itself.
 
-Every image caption states its status: *Reconstructed — client identities withheld*, *Reconstructed wireframe — no original UI, no real data*, or *Reconstructed — the tension, not the interface*.
+**Never render a number that is not a real value.** Impact is described through real outcomes, not invented percentages.
 
 ## The three cases
 

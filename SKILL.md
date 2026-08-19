@@ -1,6 +1,6 @@
 ---
 name: laura-portfolio-style
-description: The visual design system for Laura Benavente's product design portfolio — white ground, Libertinus Serif / Roboto / Roboto Mono, monochrome interface with colour only inside images, and a redaction-bar signature for confidential client work. Use this skill whenever building, editing, reviewing or extending any page of Laura's portfolio, any case study page, any diagram or image for it, or anything that has to sit alongside it — including when the request is only about copy, layout, animation, or a single component, and even when the portfolio is not named explicitly. Also use it when asked to check whether something is on-system or off-system.
+description: The visual design system for Laura Benavente's product design portfolio — white ground, Libertinus Serif / Roboto / Roboto Mono, monochrome interface with colour only inside images. Use this skill whenever building, editing, reviewing or extending any page of Laura's portfolio, any case study page, any diagram or image for it, or anything that has to sit alongside it — including when the request is only about copy, layout, animation, or a single component, and even when the portfolio is not named explicitly. Also use it when asked to check whether something is on-system or off-system.
 ---
 
 # Laura Benavente — portfolio design system
@@ -90,7 +90,6 @@ Square corners throughout. No shadows. No fills on controls. The one exception i
 - **Story block** — no card, no border, no shadow. Serif number, then bold title line, then mono tag row, then small description, then the image slots. The section itself is the container.
 - **Technical label** — mono, uppercase, `--mid`. Section numbers are two digits.
 - **Figure caption** — mono, `--mid`, above a hairline rule. Every image has one.
-- **Confidentiality signature** — a solid black bar over withheld names, clean edges, `user-select: none`. **Never a blur.** A bar says the information is withheld deliberately; a blur says something leaked.
 
 **Forbidden:** rounded cards, drop shadows, glow buttons, gradient CTAs, icon triads, green checkmark lists, testimonial carousels, centred hero-with-button layouts.
 
@@ -107,17 +106,14 @@ Nothing bounces, nothing overshoots, nothing loops. Scroll-linked drift stays un
 
 **Non-negotiable:** content is fully readable with JavaScript disabled. Reveals apply only under `html.js`, and a fail-safe timer reveals everything after ~3.5s regardless. `prefers-reduced-motion` resolves every section to its final state instantly and drops the full-viewport hero. It must look finished, not broken.
 
-## 6. Confidentiality
+## 6. Showing the work
 
-Client work is under NDA. The employer may be named; the product may not.
+Real employers, real products and original screens may be shown. Laura decides case by case what is publishable; there is no blanket anonymisation. (Revised 19 Aug 2026 — this section previously required NDA-style redaction.)
 
-> Wolters Kluwer · B2B SaaS for accounting and tax firms. The specific product and its screens cannot be shown.
-
-- Anonymise products with an invented name, introduced explicitly: *"let's call it Tax Cloud"*.
-- No original screens, no real data, no real client names.
-- Reconstructed wireframes are allowed — abstract, greyscale placeholder bars, never plausible-looking fake data.
-- Every image carries a caption stating it is reconstructed.
-- **Never render a number that is not a real value.** This is the only irreversible mistake available in this project.
+- Name the employer and the product plainly. No invented aliases.
+- Original screens are allowed. Reconstructed diagrams are still fine where they explain a system better than a screenshot would.
+- Captions say what the image is and where it comes from, not whether it is disguised.
+- **Never render a number that is not a real value.** No invented metrics, no plausible-looking dashboard figures, no made-up participant counts. This rule is unchanged and is the only irreversible mistake available in this project.
 
 ## 7. Writing
 
@@ -143,7 +139,7 @@ Run these before calling anything finished. Details in `references/review-checkl
 
 - `references/tokens.css` — the complete token block, ready to paste
 - `references/review-checklist.md` — the full audit, including what to reject and why
-- `references/content-and-voice.md` — copy decisions, case study structure, confidentiality wording
+- `references/content-and-voice.md` — copy decisions, case study structure
 
 ## Open decision
 
