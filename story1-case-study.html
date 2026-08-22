@@ -12,28 +12,28 @@
 
 <!--
   IMAGE PLACEHOLDERS. IMAGE_01 to IMAGE_16, numbered in order of appearance.
-  IMAGE_01 is now a real asset; 15 placeholders remain.
   Each placeholder is a <figure class="ph"> whose --ar custom property holds the
   intended aspect ratio. To swap in a final asset, replace the <div class="ph__box">
   with <img class="figimg" src="..." width="..." height="..." loading="lazy"
   decoding="async" alt="..."> and keep the surrounding <figure> and <figcaption>.
   The --ar value is the ratio the layout was composed for.
 
-  01 DONE. images/hero1.png, CCH iFirm services panel, aligned right
-  02 the product ecosystem                      16/9
-  03 same product, two markets                   4/3
-  04 regional variation, detail                  4/3
-  05 on-premise to cloud, information architecture 16/9
-  06 client context, existing workflow          16/9
-  07 client context, persistent across apps     16/9
-  08 navigation models compared                  4/3
-  09 global navigation concept                   4/3
-  10 product dashboard                          16/10
-  11 tax interface, dense workflow               16/10
-  12 client record, tables and forms             4/3
-  13 heuristic finding and the change made       3/2
+  01 DONE. images/IMAGE_01.png, 1846x800, montaje del ecosistema
+  03 DONE. images/IMAGE_03.png, 610x295, accounts production + contactos
+  04 DONE. images/IMAGE_04.png, 607x295, identificacion corporativa T2
+  05 DONE. images/IMAGE_05.png, 3195x1051, el recorrido tal y como era.
+     Ojo: el archivo se llama 05 pero ocupa el hueco 06 del guion. El hueco 05
+     (arquitectura de informacion, 16/9) sigue vacio.
+  06 libre, ver la nota de arriba
+  07 DONE. images/IMAGE_07.png, 1140x536, capa contextual propuesta
+  08 DONE. images/IMAGE_08.png, 1280x810, Firm Settings y el panel de productos
+  09 DONE. images/IMAGE_09.png, 1280x810, navegacion lateral anotada
+  10 DONE. images/IMAGE_10.png, 1280x810, el dashboard
+  11 DONE. images/IMAGE_11.png, 1435x696, Accounts Production
+  12 DONE. images/IMAGE_12.png, 888x612, detalle de la interfaz de declaracion
+  13 DONE. images/IMAGE_13.png, 1327x743, client context en UK iFirm
   14 research synthesis to decision              3/2
-  15 design system, patterns contributed        16/9
+  15 DONE. images/IMAGE_15.png, 1169x431, biblioteca de componentes
   16 accessibility review                        3/2
 -->
 
@@ -214,7 +214,7 @@ figcaption{font-family:var(--mono);font-size:10px;letter-spacing:1.1px;text-tran
 /* Hero shot. Sits hard against the right edge and stops short of the left, so
    the weight stays on the title. The screenshot is RGBA: its rounded corners
    let the ground through, and it is never cropped or distorted. */
-.hero-shot{margin:clamp(60px,8vw,120px) 0 0 auto;width:86%;max-width:1360px}
+.hero-shot{margin:clamp(56px,7vw,100px) 0 0 auto;width:56%;max-width:820px;padding-right:var(--m)}
 .hero-shot .figimg{width:100%;height:auto}
 .hero-shot figcaption{padding-left:0;margin-right:var(--m);text-align:right}
 @media(max-width:767px){
@@ -320,9 +320,11 @@ figure.rv.in .ph__box,figure.rv.in .figimg,
    on a full-width element is 4.5% wider than the window, so its edges would be
    shaved off for the length of the reveal. */
 figure.hero-shot.rv .figimg,
+figure.ph-bleed.rv .figimg,
 figure.ph--bleed.rv .ph__box,figure.ph--bleed.rv .figimg,
 figure.ph--wide.rv .ph__box,figure.ph--wide.rv .figimg{transform:translateY(38px)}
 figure.hero-shot.rv.in .figimg,
+figure.ph-bleed.rv.in .figimg,
 figure.ph--bleed.rv.in .ph__box,figure.ph--bleed.rv.in .figimg,
 figure.ph--wide.rv.in .ph__box,figure.ph--wide.rv.in .figimg{transform:none}
 html:not(.js) figure.rv .ph__box,html:not(.js) figure.rv .figimg,
@@ -351,10 +353,16 @@ html:not(.js) .rv ul.p li,html:not(.js) .rv .tags li{opacity:1;transform:none}
 .pin-track{position:relative;height:260vh}
 .pin-stage{position:sticky;top:0;height:100vh;display:flex;align-items:center}
 .pin-stage .w{width:100%}
-.pin-frame{position:relative}
-.pin-step{position:absolute;inset:0;opacity:0;transform:scale(.985)}
+/* Caja compartida. Los dos estados del anclaje tienen proporciones distintas
+   (3.04:1 y 2.13:1) y se apilan uno sobre otro: sin una altura comun el marco
+   daria un salto al conmutar. Cada imagen se ajusta dentro sin recortarse. */
+.pin-frame{position:relative;height:min(58vh,560px)}
+.pin-step{position:absolute;inset:0;opacity:0;transform:scale(.985);
+  display:flex;flex-direction:column;justify-content:center}
 html.js .pin-step{transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
-.pin-step:first-child{position:relative}
+.pin-step figure{display:flex;flex-direction:column;justify-content:center;min-height:0}
+.pin-step .figimg{width:100%;height:auto;max-height:calc(100% - 44px);object-fit:contain}
+.pin-step .ph__box{max-height:calc(100% - 44px)}
 .pin-step.on{opacity:1;transform:none}
 .pin-count{display:flex;gap:8px;margin:0 0 22px;padding:0;list-style:none}
 .pin-count li{width:34px;height:2px;background:var(--line)}
@@ -364,18 +372,24 @@ html.js .pin-count li{transition:background .5s}
    and both states simply sit one after the other. */
 html:not(.js) .pin-track{height:auto}
 html:not(.js) .pin-stage{position:static;height:auto;display:block}
-html:not(.js) .pin-step{position:relative;opacity:1;transform:none;margin-bottom:40px}
+html:not(.js) .pin-frame{height:auto}
+html:not(.js) .pin-step{position:relative;opacity:1;transform:none;margin-bottom:40px;display:block}
+html:not(.js) .pin-step .figimg{max-height:none}
 html:not(.js) .pin-count{display:none}
 @media(max-width:767px){
   .pin-track{height:auto}
+  .pin-frame{height:auto}
   .pin-stage{position:static;height:auto;display:block}
-  .pin-step{position:relative;opacity:1;transform:none;margin-bottom:32px}
+  .pin-step{position:relative;opacity:1;transform:none;margin-bottom:32px;display:block}
+  .pin-step .figimg{max-height:none}
   .pin-count{display:none}
 }
 @media (prefers-reduced-motion:reduce){
   .pin-track{height:auto}
+  .pin-frame{height:auto}
   .pin-stage{position:static;height:auto;display:block}
-  .pin-step{position:relative;opacity:1;transform:none;margin-bottom:32px}
+  .pin-step{position:relative;opacity:1;transform:none;margin-bottom:32px;display:block}
+  .pin-step .figimg{max-height:none}
   .pin-count{display:none}
 }
 
@@ -457,10 +471,10 @@ html:not(.js) .rv--mask{clip-path:none}
     </div>
   </div>
 
-  <figure class="hero-shot rv rv--mask">
-    <img class="figimg" src="images/hero1.png" width="1489" height="756" decoding="async"
-         alt="The CCH iFirm services panel: each product a firm subscribes to shown as a card with a short description and a launch action.">
-    <figcaption>CCH iFirm · My services</figcaption>
+  <figure class="ph-bleed rv rv--mask" style="margin-top:clamp(60px,8vw,120px)">
+    <img class="figimg" src="images/IMAGE_01.png" width="1846" height="800" decoding="async"
+         alt="Screens from across the Wolters Kluwer ecosystem overlapping: the services panel, a tax return in preparation, a contact record, a job list and the corporate identification form.">
+    <figcaption>The ecosystem · Wolters Kluwer</figcaption>
   </figure>
 </header>
 
@@ -505,13 +519,6 @@ html:not(.js) .rv--mask{clip-path:none}
       </ul>
     </div>
 
-    <figure class="ph rv" style="--ar:16/9;margin-top:clamp(50px,6vw,90px)">
-      <div class="ph__box">
-        <span class="ph__id">IMAGE_02</span>
-        <p class="ph__note">The product ecosystem · how the applications relate to each other</p>
-      </div>
-      <figcaption>The ecosystem as it stood · Wolters Kluwer</figcaption>
-    </figure>
   </div>
 </section>
 
@@ -582,18 +589,14 @@ html:not(.js) .rv--mask{clip-path:none}
     </div>
 
     <div class="two" style="margin-top:clamp(50px,6vw,90px)">
-      <figure class="ph rv" style="--ar:4/3">
-        <div class="ph__box">
-          <span class="ph__id">IMAGE_03</span>
-          <p class="ph__note">The same product in two markets · what stays fixed</p>
-        </div>
+      <figure class="rv" style="--ar:610/295">
+        <img class="figimg" src="images/IMAGE_03.png" width="610" height="295" loading="lazy" decoding="async"
+             alt="An accounts production overview for a client: entity details, the accounting period, a validations list with outstanding warnings, and a contacts panel open alongside.">
         <figcaption>Shared foundation across regions</figcaption>
       </figure>
-      <figure class="ph rv" data-d="1" style="--ar:4/3">
-        <div class="ph__box">
-          <span class="ph__id">IMAGE_04</span>
-          <p class="ph__note">Regional variation in detail · what is allowed to differ</p>
-        </div>
+      <figure class="rv" data-d="1" style="--ar:607/295">
+        <img class="figimg" src="images/IMAGE_04.png" width="607" height="295" loading="lazy" decoding="async"
+             alt="A corporate tax return open on its identification form: jurisdiction, business number and legal name, with the list of opened forms on one side and a cell details panel on the other.">
         <figcaption>Where local requirements take over</figcaption>
       </figure>
     </div>
@@ -673,20 +676,16 @@ html:not(.js) .rv--mask{clip-path:none}
         <ul class="pin-count" aria-hidden="true"><li class="on"></li><li></li></ul>
         <div class="pin-frame">
           <div class="pin-step on">
-            <figure class="ph">
-              <div class="ph__box" style="--ar:16/9">
-                <span class="ph__id">IMAGE_06</span>
-                <p class="ph__note">The existing workflow mapped · where client context is lost</p>
-              </div>
+            <figure>
+              <img class="figimg" src="images/IMAGE_05.png" width="3195" height="1051" loading="lazy" decoding="async"
+                   alt="The journey mapped end to end: login, select a client, pick a product, work in accounts, exit to another product, work in tax, then remove the client and start again. A band across the middle marks how far the client context survives before it has to be established again.">
               <figcaption>The workflow as it was</figcaption>
             </figure>
           </div>
           <div class="pin-step">
-            <figure class="ph">
-              <div class="ph__box" style="--ar:16/9">
-                <span class="ph__id">IMAGE_07</span>
-                <p class="ph__note">Persistent client context · the concept across applications</p>
-              </div>
+            <figure>
+              <img class="figimg" src="images/IMAGE_07.png" width="1140" height="536" loading="lazy" decoding="async"
+                   alt="The proposed contextual layer: a client switcher pinned beside the tax return, with deeplinks that open documents, relationships and the client record in a new tab, annotated with what it reduces and what it still needs.">
               <figcaption>Client context carried across the ecosystem</figcaption>
             </figure>
           </div>
@@ -721,18 +720,14 @@ html:not(.js) .rv--mask{clip-path:none}
     </div>
 
     <div class="two" style="margin-top:clamp(50px,6vw,90px)">
-      <figure class="ph rv" style="--ar:4/3">
-        <div class="ph__box">
-          <span class="ph__id">IMAGE_08</span>
-          <p class="ph__note">Navigation models compared · how each product organised itself</p>
-        </div>
+      <figure class="rv">
+        <img class="figimg" src="images/IMAGE_08.png" width="1280" height="810" loading="lazy" decoding="async"
+             alt="Firm Settings with the product panel open on the right, listing the practice tools and the products a firm has access to, with two markers set against the two separate ways into the same ecosystem.">
         <figcaption>The models as they existed</figcaption>
       </figure>
-      <figure class="ph rv" data-d="1" style="--ar:4/3">
-        <div class="ph__box">
-          <span class="ph__id">IMAGE_09</span>
-          <p class="ph__note">Global navigation concept · one way through the ecosystem</p>
-        </div>
+      <figure class="rv rv--mask" data-d="1">
+        <img class="figimg" src="images/IMAGE_09.png" width="1280" height="810" loading="lazy" decoding="async"
+             alt="A single left navigation running from Dashboard through contacts, jobs and billing to the compliance products and settings, with two markers set against the levels of the hierarchy.">
         <figcaption>The proposed structure</figcaption>
       </figure>
     </div>
@@ -768,11 +763,12 @@ html:not(.js) .rv--mask{clip-path:none}
       </div>
     </div>
 
-    <figure class="ph ph--bleed rv rv--mask drift" style="--ar:16/10;margin-top:clamp(50px,6vw,90px)">
-      <div class="ph__box">
-        <span class="ph__id">IMAGE_10</span>
-        <p class="ph__note">The dashboard · unified entry point into the ecosystem</p>
-      </div>
+    <!-- sin ph--bleed: el archivo mide 1280px y a sangre completa se pintaria a
+         1440, agrandado un 12% sobre su tamano real. En un dashboard lleno de
+         texto de 12px eso se ve. Limitado al ancho de la columna: 1.10x. -->
+    <figure class="rv rv--mask drift" style="margin-top:clamp(50px,6vw,90px)">
+      <img class="figimg" src="images/IMAGE_10.png" width="1280" height="810" loading="lazy" decoding="async"
+           alt="The CCH iFirm dashboard: the product navigation down the left, and a grid of panels showing last returns, resource allocation, work in progress by partner, documents and annual revenue.">
       <figcaption>Dashboard · Wolters Kluwer</figcaption>
     </figure>
   </div>
@@ -830,19 +826,15 @@ html:not(.js) .rv--mask{clip-path:none}
       </div>
     </div>
 
-    <figure class="ph rv" style="--ar:16/10;margin-top:clamp(50px,6vw,90px)">
-      <div class="ph__box">
-        <span class="ph__id">IMAGE_11</span>
-        <p class="ph__note">Tax interface · a dense professional workflow in use</p>
-      </div>
-      <figcaption>Tax · Wolters Kluwer</figcaption>
+    <figure class="rv rv--mask" style="margin-top:clamp(50px,6vw,90px)">
+      <img class="figimg" src="images/IMAGE_11.png" width="1435" height="696" loading="lazy" decoding="async"
+           alt="The Accounts Production overview for a client: business details along the top, a validations panel filtering fifteen items into errors, warnings and information, each one naming what is missing and linking straight to where it is fixed, and the financial overview below.">
+      <figcaption>Accounts Production · Wolters Kluwer</figcaption>
     </figure>
 
-    <figure class="ph rv" style="--ar:4/3;margin-top:clamp(10px,1.1vw,18px);max-width:820px">
-      <div class="ph__box">
-        <span class="ph__id">IMAGE_12</span>
-        <p class="ph__note">Client record · tables, forms and relationships</p>
-      </div>
+    <figure class="rv" style="margin-top:clamp(10px,1.1vw,18px);max-width:820px">
+      <img class="figimg" src="images/IMAGE_12.png" width="888" height="612" loading="lazy" decoding="async"
+           alt="A detail of the return interface: the client label and its optional secondary line in the header, the view, notes and warnings controls beneath it, then a completion checkbox, delete and save, and a table row for a foreign income entry with its amounts.">
       <figcaption>Client details · Wolters Kluwer</figcaption>
     </figure>
   </div>
@@ -866,11 +858,9 @@ html:not(.js) .rv--mask{clip-path:none}
         <p><strong>Some of the most useful things I did changed very little.</strong> A small interaction change, correctly placed, can remove a problem that looked like it needed a redesign. And it ships, which a redesign often does not.</p>
       </div>
       <div class="rv" data-d="1">
-        <figure class="ph" style="--ar:3/2">
-          <div class="ph__box">
-            <span class="ph__id">IMAGE_13</span>
-            <p class="ph__note">A heuristic finding and the change it produced</p>
-          </div>
+        <figure>
+          <img class="figimg" src="images/IMAGE_13.png" width="1327" height="743" loading="lazy" decoding="async"
+               alt="The analysis of client context in UK iFirm: the compliance applications are client centric, some of them only work once a client is selected, and the switcher opens the entire client list. Below, Personal Tax waiting on an empty state while the contacts panel lists every client in the firm unfiltered.">
           <figcaption>Finding to change</figcaption>
         </figure>
       </div>
@@ -958,11 +948,11 @@ html:not(.js) .rv--mask{clip-path:none}
       </div>
     </div>
 
-    <figure class="ph ph--wide rv drift" style="--ar:16/9;margin-top:clamp(50px,6vw,90px)">
-      <div class="ph__box">
-        <span class="ph__id">IMAGE_15</span>
-        <p class="ph__note">Design system · patterns applied and contributed</p>
-      </div>
+    <!-- sin ph--wide: el archivo mide 1169px y a lo ancho del marco se pintaria
+         a 1310, agrandado por encima de su tamano real. Limitado a su ancho nativo. -->
+    <figure class="rv drift" style="margin-top:clamp(50px,6vw,90px)">
+      <img class="figimg" src="images/IMAGE_15.png" width="1169" height="431" loading="lazy" decoding="async" style="max-width:1169px"
+           alt="The component library open beside a card component: the layers and assets panel listing the shared components, the card selected with its dimensions, and two of its states, one plain and one selected with an overflow menu open.">
       <figcaption>Design system work</figcaption>
     </figure>
   </div>

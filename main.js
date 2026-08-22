@@ -39,7 +39,7 @@ function start(){
     entries.forEach(function(x){
       if(x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target) }
     });
-  },{rootMargin:'0px 0px -12% 0px'});
+  },{rootMargin:'0px 0px -22% 0px'});
 
   var watched=Array.prototype.slice.call(document.querySelectorAll(sel));
   watched.forEach(function(el){io.observe(el)});
@@ -140,16 +140,26 @@ function start(){
 
   /* scroll-linked parallax: under 8% displacement, desktop only */
   if(window.matchMedia('(min-width:761px)').matches){
-    var fills=Array.prototype.slice.call(document.querySelectorAll('.shot-fill'));
+    var fills=Array.prototype.slice.call(document.querySelectorAll('.story-hero__media img'));
     var ticking=false;
+    /* Cada pieza se mueve a SU ritmo, no todas al mismo: es lo que separa una
+       composicion de tres imagenes con parallax. La relacion entre ellas cambia
+       mientras el lector baja. El ritmo va en data-rate y se queda por debajo
+       del 8%. Se leen todas las geometrias antes de escribir ningun estilo,
+       para no forzar un reflow por pieza en cada fotograma. */
     function updateParallax(){
-      var vh=window.innerHeight;
+      var vh=window.innerHeight, lecturas=[];
       fills.forEach(function(f){
-        var r=f.parentElement.getBoundingClientRect();
-        if(r.bottom<0||r.top>vh)return;
+        var bloque=f.closest('.story-hero');
+        var r=bloque.getBoundingClientRect();
+        if(r.bottom<0||r.top>vh){ lecturas.push(null); return }
+        var rate=parseFloat(bloque.getAttribute('data-rate'))||0.04;
         var offset=(r.top+r.height/2-vh/2)/vh;
-        var py=Math.max(-1,Math.min(1,offset))*(r.height*0.06);
-        f.style.setProperty('--py',py.toFixed(1)+'px');
+        lecturas.push(Math.max(-1,Math.min(1,offset))*(r.height*rate));
+      });
+      fills.forEach(function(f,i){
+        if(lecturas[i]===null)return;
+        f.style.setProperty('--py',lecturas[i].toFixed(1)+'px');
       });
       ticking=false;
     }

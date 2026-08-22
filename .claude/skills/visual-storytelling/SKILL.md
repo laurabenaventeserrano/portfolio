@@ -155,7 +155,151 @@ Decide from the narrative, not from habit.
 
 ---
 
-## 7. Pinned sections
+## 7. Homepage story images behaviour
+
+The three story images on the homepage are **one composition**, not three cards in a row. This section is the specification for that composition. It is derived from measuring the reference homepage directly, and it records behaviour, never its imagery, type or layout copied literally.
+
+### What the reference actually does
+
+Measured, not assumed:
+
+| | Finding |
+|---|---|
+| Sticky / pinned pieces | **Zero.** Nothing pins. The composition is built in normal document flow |
+| Vertical overlap | **13 of 20 consecutive pairs overlap** |
+| Horizontal positions | 13 distinct x offsets. Not a two-column grid |
+| Widths | 9% to 180% of the viewport. Four pieces bleed off the left edge, four off the right |
+| Stacking | One flat layer: nearly everything on the same z index, above a background layer |
+| Technique | Normal flow plus **negative margins** (one measured at -900px) to pull pieces up into each other, with per-piece transforms written during scroll |
+
+The two conclusions that matter: **overlap is the norm, not the exception**, and **the effect needs no pinning**. Anyone reaching for sticky here has misread it.
+
+### 1. Layout system
+
+The three images do not share a width, an x position, or a vertical rhythm. Each is placed as an individual object.
+
+- Give each story its own **width rung** from the ladder in section 4, and never repeat one twice in a row.
+- Give each its own **horizontal anchor**: right, left-bleeding, right-inset. Alternating side is what makes the eye travel.
+- At least one piece should **bleed past a viewport edge**. A composition entirely inside the margins reads as a grid.
+- Vertical placement is set by **negative margin on the media**, not by absolute positioning. Absolute positioning removes the piece from flow and the page stops being able to size itself.
+
+### 2. Scroll behaviour
+
+Each piece moves at **its own rate**, derived from its position in the viewport. This is what separates a composition from three parallax images: the pieces move differently *from each other*, so their relationships change as the reader descends.
+
+- Displacement stays **under 8%** of the piece height. Above that it reads as a gimmick.
+- The rate is **assigned per piece**, not shared. A large bleeding piece moves least; a small inset piece moves most.
+- Progress is derived from the block's position against the viewport centre, clamped to -1..1, so movement is symmetrical entering and leaving.
+- Nothing pins. Nothing steals the scroll.
+
+### 3. Layering and overlap
+
+- One flat layer for the pieces, above the page ground. Do not build a z index staircase; it becomes unmaintainable and produces no visible benefit.
+- Overlap is achieved by letting the media **overhang its own block**, which requires the block to not clip its overflow.
+- **The overhang must never overlap another story's clickable area.** The media carries `pointer-events: none` so the anchor boxes stay adjacent in flow and each story keeps its full click target while the images visually intrude on each other. This is not optional.
+- Where a light image overhangs into a dark neighbour, check the copy underneath still reads. Fix it with the scrim, not by moving the copy.
+
+### 4. Motion system
+
+Animate only **transform** and **opacity**, plus `clip-path` for reveals. Never top, left, width, height or margin during scroll: those trigger layout on every frame.
+
+- Reveal: `clip-path` unmask for the pieces, so they are uncovered rather than faded.
+- Continuous motion: `translate3d` on the Y axis only.
+- Easing for discrete reveals: `cubic-bezier(.16,1,.3,1)`, around 1.1s.
+- Scroll-linked motion is **not eased**. It is a direct function of scroll position. Smoothing it introduces lag and the movement stops feeling attached to the reader's hand.
+- No scale on pieces that touch a viewport edge: scaling a full-width element shaves its edges for the duration of the reveal.
+
+### 5. Responsive behaviour
+
+The composition is a desktop behaviour. Below 768px it becomes a sequence.
+
+- Drop the overhang, the bleed and the per-piece offsets. Each story returns to a single column.
+- Keep the order, the scale relationships and the reveals.
+- Drop the scroll-linked movement entirely: on a touch device it competes with the reader's own scrolling.
+- Copy before its image, always.
+
+### 6. Interaction
+
+- Each story is **one link wrapping the whole block**. Not a button, not a card with a separate call to action.
+- The whole block is the target, including the area under the overhanging image of its neighbour.
+- Hover is restrained: a small shift in the copy or a slight lift of the piece. Never a zoom, a border or a shadow.
+- On touch there is no hover state, and nothing may depend on one.
+- Focus must be visible and follow document order. The composition reorders things visually; it must not reorder them for a keyboard.
+
+### 7. Performance
+
+- One scroll listener, passive, throttled through `requestAnimationFrame`. Not one per piece.
+- Read all geometry first, then write all styles. Interleaving reads and writes forces synchronous layout on every frame.
+- Skip pieces outside the viewport before doing any work.
+- Set `will-change: transform` only on the pieces that actually move, and never on more than a handful.
+- Declare `width` and `height` on every image so nothing shifts as it loads.
+- Under `prefers-reduced-motion`, the composition holds its layout and all movement stops.
+
+---
+
+## 8. Homepage image entrance behaviour
+
+How the three homepage story images arrive. This section governs **entrance only**. It has no authority over where they end up.
+
+### Immutable final layout
+
+The final position, size, aspect, margins, spacing and grid of the three images are **locked**. They were arrived at deliberately and are not open to reinterpretation while implementing an entrance.
+
+Locked values, as measured at 1440px:
+
+| | Media box | Image on screen | Right margin |
+|---|---|---|---|
+| Story 1 | absolute, left 518.4px, padding-right 60px | 862 x 418 | 60px |
+| Story 2 | absolute, full bleed | 1440 x 900, cover | 0 |
+| Story 3 | absolute, left 518.4px, padding-right 60px | 862 x 574 | 60px |
+
+Never change `width`, `height`, `inset`, `padding`, `margin`, `object-fit` or `object-position` in order to build an entrance. If an effect appears to require it, the effect is wrong.
+
+### Animated entrance only
+
+Only two properties may carry the entrance:
+
+- `clip-path` on the media wrapper
+- `transform` on the image inside it
+
+Both are compositor properties and neither participates in layout, which is exactly why they are the only ones permitted here. `opacity` is available but, per the reference, largely unused.
+
+### What the reference actually does
+
+Measured on pieces that had not yet been reached by the scroll:
+
+- The wrapper is **clipped to nothing from one edge or corner** and opens to full. Values observed included bottom-and-right, bottom-and-left, and bottom alone.
+- **The direction differs per piece.** They do not all wipe the same way.
+- **Opacity stays at 1 throughout.** Nothing fades. Pieces are uncovered, not faded in.
+- The image inside carries a **small counter-translation**, measured between 27 and 43px, moving as the mask opens. This is what gives the arrival depth: the frame opens one way while the content drifts the other.
+- Nothing travels in from off-screen. There is no slide.
+
+### Scroll-driven placement
+
+- The uncover is triggered once, when the piece is properly inside the viewport, not as it peeks over the edge.
+- The counter-translation is continuous and tied to scroll position, so the piece keeps settling after it has appeared.
+- Order follows document order. No piece jumps its turn.
+
+### Final state
+
+When the entrance has finished, every image must resolve to:
+
+```
+clip-path: inset(0 0 0 0)
+transform: none
+opacity: 1
+```
+
+with no structural property touched. A screenshot taken after the animations have completed must be **identical** to one taken before the entrance existed. Verify this by comparing captures, not by inspection.
+
+### Responsive and reduced motion
+
+- Below 768px the entrance simplifies to the reveal already used elsewhere. No directional wipes competing with a thumb.
+- Under `prefers-reduced-motion`, images are present at their final state from the start.
+
+---
+
+## 9. Pinned sections
 
 A pinned section must earn its place. Valid reasons:
 
@@ -175,7 +319,7 @@ Pinning steals control of the scroll. If the reader cannot tell why, it reads as
 
 ---
 
-## 8. Captions
+## 10. Captions
 
 Every image carries one. Small, precise, understated.
 
@@ -191,7 +335,7 @@ No cards, no pills, no boxes, no oversized captions. A caption states what the t
 
 ---
 
-## 9. Text
+## 11. Text
 
 Copy is a visual unit, not a wall.
 
@@ -208,7 +352,7 @@ Never write sentences that describe the page to its reader. No "as shown here", 
 
 ---
 
-## 10. Transitions
+## 12. Transitions
 
 Between moments: whitespace, scale change, typography, image movement, shifts in visual density. **Not** hard boundaries, borders, containers or repeated backgrounds.
 
@@ -220,7 +364,7 @@ Chapter snapping, where used: `scroll-snap-type: y proximity` on the scroll cont
 
 ---
 
-## 11. Navigation
+## 13. Navigation
 
 Identical across every page: the disclosure menu, `mix-blend-mode: difference`, masked link reveals with staggered delays, closing on selection and on Escape.
 
@@ -230,7 +374,7 @@ When adding a nav item, add its stagger delay. A link with no delay appears inst
 
 ---
 
-## 12. Responsive
+## 14. Responsive
 
 Mobile keeps the story and loses the choreography.
 
@@ -247,7 +391,7 @@ Never simply stack the desktop layout. Specific rules learned the hard way on th
 
 ---
 
-## 13. Reduced motion
+## 15. Reduced motion
 
 Under `prefers-reduced-motion: reduce`: no parallax, no scrubbing, no transforms, no snapping, no smooth scroll. All content visible, in the same order, immediately.
 
@@ -255,7 +399,7 @@ The story must be fully understandable with every animation removed. If removing
 
 ---
 
-## 14. The reveal contract
+## 16. The reveal contract
 
 Learned from real failures on this site. Any reveal system must satisfy all four:
 
@@ -266,13 +410,13 @@ Learned from real failures on this site. Any reveal system must satisfy all four
 
 ---
 
-## 15. Anti-patterns
+## 17. Anti-patterns
 
 Rounded SaaS cards · drop shadows · icon triads · checkmark lists · pill labels · repeated rectangles · borders as separators · glossy or inflatable objects unrelated to the work · particle fields · node meshes · decorative glitch · cursor tricks · horizontal page scroll · video backgrounds · 3D · pastel illustration · neon and glow · gaming HUDs · generic UX process diagrams · fake metrics · carousels used by default · animating everything · copying the reference sites' imagery, copy, type or compositions.
 
 ---
 
-## 16. The bar
+## 18. The bar
 
 Before shipping a page, ask:
 
