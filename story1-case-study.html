@@ -15,22 +15,18 @@
   reales. Los numeros son los del guion original, con los huecos que se
   retiraron por el camino.
 
-  01 images/IMAGE_01.png   1846x800   montaje del ecosistema
-  03 images/IMAGE_03.png    610x295   accounts production y contactos
-  04 images/IMAGE_04.png    607x295   identificacion corporativa T2
   05 images/IMAGE_05.png   3195x1051  el diagrama del recorrido
   07 images/IMAGE_07.png   1140x536   capa contextual propuesta
   08 images/IMAGE_08.png   1280x810   Firm Settings y el panel de productos
   09 images/IMAGE_09.png   1280x810   navegacion lateral anotada
   10 images/IMAGE_10.png   1280x810   el dashboard
-  11 images/IMAGE_11.png   1435x696   Accounts Production
-  13 images/IMAGE_13.png   1327x743   client context en UK iFirm
+  13 images/13.Design-handoff.png 1746x660  el tablero de handoff
   14 images/IMAGE_14.png   2126x1086  el tablero de research
   15 images/IMAGE_15.png   1169x431   biblioteca de componentes
 
   video/code-games.mp4     1442x836   9s, arranca solo y en silencio
 
-  Retirados: 02, 06, 12 y 16. Para anadir una imagen nueva, un <figure> con
+  Retirados: 01, 02, 03, 04, 06, 11, 12 y 16. Para anadir una imagen nueva, un <figure> con
   <img class="figimg" src="..." width="..." height="..." loading="lazy"
   decoding="async" alt="..."> y su <figcaption>.
 -->
@@ -455,6 +451,33 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
   .level:last-child{border-bottom:0}
 }
 
+/* Los cuatro aprendizajes que cierran el caso. Van como lineas, no como
+   cajas: el numero en mono a la izquierda y la frase en serif, con la misma
+   regla de separacion que .levels. */
+.lrn{list-style:none;margin:clamp(46px,5vw,80px) 0 0;padding:0;
+  border-top:1px solid var(--line)}
+.lrn li{display:flex;gap:clamp(20px,3vw,52px);align-items:baseline;
+  padding:clamp(22px,2.6vw,34px) 0;border-bottom:1px solid var(--line-2)}
+.lrn li:last-child{border-bottom:0}
+.lrn .i{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;
+  color:var(--mid);flex:none;padding-top:8px}
+.lrn p{font-family:var(--serif);font-weight:400;
+  font-size:clamp(21px,2.2vw,30px);line-height:1.3;letter-spacing:-.01em;
+  color:var(--ink);margin:0;max-width:40ch}
+@media(max-width:700px){
+  .lrn li{display:block}
+  .lrn .i{display:block;margin-bottom:10px;padding-top:0}
+  .lrn p{max-width:none}
+}
+.lrn.rv li{opacity:0;transform:translateY(22px)}
+html.js .lrn.rv li{transition:opacity .7s cubic-bezier(.16,1,.3,1),
+  transform .7s cubic-bezier(.16,1,.3,1)}
+.lrn.rv.in li{opacity:1;transform:none}
+.lrn.rv.in li:nth-child(2){transition-delay:.08s}
+.lrn.rv.in li:nth-child(3){transition-delay:.16s}
+.lrn.rv.in li:nth-child(4){transition-delay:.24s}
+html:not(.js) .lrn.rv li{opacity:1;transform:none}
+
 /* Las cuatro preguntas que estructuran la segunda mitad de la pagina.
    Van numeradas porque son una secuencia real: cada una supone la anterior. */
 .qs{display:grid;grid-template-columns:1fr 1fr;
@@ -483,6 +506,19 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
   line-height:1.16;margin:0 0 10px}
 .hstep p{margin:0;font-size:15.5px;max-width:56ch}
 @media(max-width:600px){.hstep{grid-template-columns:1fr;gap:10px}}
+
+/* Las capturas se agrupan por region, no por producto: tres columnas, dos
+   pantallas cada una. Asi el lector ve de un vistazo que el mismo portfolio
+   se comporta distinto en cada mercado, que es justo lo que dice el capitulo.
+   Contain y no cover: una captura de producto no se recorta para cuadrar. */
+.regions{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,2.6vw,44px);
+  margin-top:24px;padding-top:24px;border-top:1px solid var(--line)}
+.region > .k{margin-bottom:18px}
+.region figure{margin:0 0 clamp(16px,1.8vw,26px)}
+.region figure:last-child{margin-bottom:0}
+.region img{display:block;width:100%;height:auto;aspect-ratio:2;object-fit:contain;
+  background:var(--dark-3)}
+@media(max-width:900px){.regions{grid-template-columns:1fr;gap:clamp(28px,4vw,44px)}}
 
 /* Etiqueta de pareja disenado / construido. Dice cual es cual y nada mas. */
 .tag-d{font-family:var(--mono);font-size:9.5px;letter-spacing:1.4px;
@@ -555,12 +591,6 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
       <div class="body">Several years of work across accounting, tax and practice management products, while a fragmented portfolio was moving towards a more connected cloud environment.</div>
     </div>
   </div>
-
-  <figure class="ph-bleed rv rv--mask" style="margin-top:clamp(60px,8vw,120px)">
-    <img class="figimg" src="images/IMAGE_01.png" width="1846" height="800" decoding="async"
-         alt="Screens from across the Wolters Kluwer ecosystem overlapping: the services panel, a tax return in preparation, a contact record, a job list and the corporate identification form.">
-    <figcaption>The ecosystem · Wolters Kluwer</figcaption>
-  </figure>
 </header>
 
 <!-- 02 · THIS WAS NOT ONE PROJECT ............................................ -->
@@ -622,44 +652,58 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
       </div>
     </div>
 
-    <!-- Seis productos, cada uno coherente por dentro, sin nada que los una por
-         fuera. El diagrama dice lo mismo que el capitulo: el problema no estaba
-         dentro de las cajas, estaba en el espacio entre ellas. -->
-    <figure class="rv" style="margin-top:clamp(54px,6vw,96px)">
-      <svg class="dg" viewBox="0 0 1120 300" role="img"
-           aria-label="Six products drawn as separate blocks, each with its own internal structure and its own navigation model, with no shared connections between them.">
-        <text class="tl" x="0" y="10">SIX PRODUCTS, SIX INTERNAL LOGICS</text>
-        <rect x="0" y="24" width="1120" height="1" fill="rgba(255,255,255,.14)"/>
-        <g>
-          <rect x="0"   y="52" width="168" height="118" fill="#1E1E24"/>
-          <rect x="196" y="52" width="168" height="118" fill="#1E1E24"/>
-          <rect x="392" y="52" width="168" height="118" fill="#1E1E24"/>
-          <rect x="588" y="52" width="168" height="118" fill="#1E1E24"/>
-          <rect x="784" y="52" width="168" height="118" fill="#1E1E24"/>
-          <rect x="980" y="52" width="140" height="118" fill="#1E1E24"/>
-        </g>
-        <g fill="rgba(255,255,255,.16)">
-          <rect x="16"  y="70" width="60" height="5"/><rect x="16"  y="84" width="112" height="3"/><rect x="16"  y="94" width="96" height="3"/><rect x="16"  y="118" width="136" height="3"/><rect x="16"  y="128" width="104" height="3"/>
-          <rect x="212" y="70" width="96" height="5"/><rect x="212" y="84" width="80" height="3"/><rect x="212" y="94" width="120" height="3"/><rect x="212" y="118" width="88" height="3"/><rect x="212" y="128" width="132" height="3"/>
-          <rect x="408" y="70" width="72" height="5"/><rect x="408" y="84" width="128" height="3"/><rect x="408" y="94" width="88" height="3"/><rect x="408" y="118" width="112" height="3"/><rect x="408" y="128" width="76" height="3"/>
-          <rect x="604" y="70" width="112" height="5"/><rect x="604" y="84" width="92" height="3"/><rect x="604" y="94" width="128" height="3"/><rect x="604" y="118" width="80" height="3"/><rect x="604" y="128" width="120" height="3"/>
-          <rect x="800" y="70" width="64" height="5"/><rect x="800" y="84" width="120" height="3"/><rect x="800" y="94" width="96" height="3"/><rect x="800" y="118" width="128" height="3"/><rect x="800" y="128" width="72" height="3"/>
-          <rect x="996" y="70" width="88" height="5"/><rect x="996" y="84" width="104" height="3"/><rect x="996" y="94" width="76" height="3"/><rect x="996" y="118" width="96" height="3"/><rect x="996" y="128" width="112" height="3"/>
-        </g>
-        <g class="tl">
-          <text x="0"   y="192">ACCOUNTING</text><text x="196" y="192">TAX</text>
-          <text x="392" y="192">CONTACTS</text><text x="588" y="192">JOBS AND BILLING</text>
-          <text x="784" y="192">DOCUMENTS</text><text x="980" y="192">REPORTING</text>
-        </g>
-        <g stroke="rgba(255,255,255,.2)" stroke-width=".75" stroke-dasharray="2 4" fill="none">
-          <path d="M168 111 H196"/><path d="M364 111 H392"/><path d="M560 111 H588"/>
-          <path d="M756 111 H784"/><path d="M952 111 H980"/>
-        </g>
-        <text class="ts" x="0" y="240">Each one internally reasonable. Each one with its own navigation model, its own vocabulary,</text>
-        <text class="ts" x="0" y="258">its own idea of where a client lives. Nothing shared across the gaps.</text>
-      </svg>
-      <figcaption>The portfolio as it had grown</figcaption>
-    </figure>
+    <!-- Seis entornos reales del mismo portfolio, ordenados por region. Uno
+         on-premise y cinco en la nube. Sustituye al diagrama abstracto porque
+         las interfaces de verdad dicen lo mismo y lo dicen con evidencia. -->
+    <div class="rv" style="margin-top:clamp(54px,6vw,96px)">
+      <p class="k">The same portfolio, market by market</p>
+      <div class="regions">
+
+        <div class="region">
+          <p class="k">United Kingdom</p>
+          <figure>
+            <img src="images/CCH%20ifirm%20UK_On%20premise%20_01.png" width="655" height="369" loading="lazy" decoding="async"
+                 alt="The on-premise product on Windows: a dense ribbon of icons across the top, a client record open on the Document Centre tab, and a list of bills, correspondence and portal messages beside a preview of the invoice.">
+            <figcaption>On premise · Document centre</figcaption>
+          </figure>
+          <figure>
+            <img src="images/CCH%20ifirm%20UK_02.png" width="761" height="369" loading="lazy" decoding="async"
+                 alt="Accounts Production in the cloud: the client overview with business details along the top, a validations panel sorting fifteen items into errors, warnings and information, and the financial overview below.">
+            <figcaption>Cloud · Accounts Production</figcaption>
+          </figure>
+        </div>
+
+        <div class="region">
+          <p class="k">Canada</p>
+          <figure>
+            <img src="images/CCH%20ifirm%20Canada%20Tax%20Prep_03.png" width="816" height="380" loading="lazy" decoding="async"
+                 alt="Taxprep Pro: a table of corporate returns with client code, business number, return status, filing eligibility and tax year dates, above a paging control.">
+            <figcaption>Tax Prep · Corporate returns</figcaption>
+          </figure>
+          <figure>
+            <img src="images/CCH%20ifirm%20Canada_05.png" width="824" height="399" loading="lazy" decoding="async"
+                 alt="The firm dashboard: a left navigation listing firm applications and the Taxprep products, beside panels for team efficiency, work in progress by partner, resource allocation and annual revenue.">
+            <figcaption>Cloud · Dashboard</figcaption>
+          </figure>
+        </div>
+
+        <div class="region">
+          <p class="k">Asia Pacific</p>
+          <figure>
+            <img src="images/CCH%20ifirm%20APAC%20Tax%20Return_04.png" width="655" height="372" loading="lazy" decoding="async"
+                 alt="An individual tax return in preparation: a section list down the left from front cover to tax summary, and a form of personal details, residency dates and addresses on the right.">
+            <figcaption>Tax · Individual return</figcaption>
+          </figure>
+          <figure>
+            <img src="images/CCH%20ifirm%20APAC_04.png" width="778" height="375" loading="lazy" decoding="async"
+                 alt="Contact details in the cloud product: a dark left navigation, a row of actions across the top, and the client summary split into client details, communication details and address.">
+            <figcaption>Cloud · Contacts</figcaption>
+          </figure>
+        </div>
+
+      </div>
+      <p style="margin-top:clamp(26px,2.8vw,40px);font-size:15.5px">Each one internally reasonable. Each one with its own navigation model, its own vocabulary, its own idea of where a client lives. Nothing shared across the gaps.</p>
+    </div>
 
     <div class="rv" style="margin-top:clamp(44px,5vw,72px)">
       <p class="k">Markets</p>
@@ -701,11 +745,25 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
       </div>
     </div>
 
-    <figure class="rv rv--mask drift" style="margin-top:clamp(50px,6vw,90px)">
-      <img class="figimg" src="images/IMAGE_05.png" width="3195" height="1051" loading="lazy" decoding="async"
-           alt="The journey mapped end to end: login, select a client, pick a product, work in accounts, exit to another product, work in tax, then remove the client and start again. A band across the middle marks how far the client context survives before it has to be established again.">
-      <figcaption>The journey as it worked at the time</figcaption>
-    </figure>
+    <!-- El antes y el despues de la migracion, uno al lado del otro. A la
+         izquierda una aplicacion que se instalaba y se abria sola; a la derecha
+         un panel que da por hecho que los demas productos existen. La distancia
+         entre las dos es el capitulo entero. -->
+    <div class="two rv" style="margin-top:clamp(50px,6vw,90px)">
+      <figure>
+        <p class="tag-d">From</p>
+        <img class="figimg" src="images/from%20on%20premise.png" width="655" height="369" loading="lazy" decoding="async"
+             alt="The on-premise product on Windows: a dense ribbon of icons across the top, a client record open on the Document Centre tab, and a list of bills, correspondence and portal messages beside a preview of the invoice.">
+        <figcaption>Installed software, opened on its own</figcaption>
+      </figure>
+      <figure>
+        <p class="tag-d">To</p>
+        <img class="figimg" src="images/To%20the%20could.png" width="742" height="360" loading="lazy" decoding="async"
+             alt="The services panel in the cloud product: each product a firm subscribes to shown as a card with a short description and a launch action, marked as subscribed.">
+        <figcaption>One environment, several products</figcaption>
+      </figure>
+    </div>
+
   </div>
 </section>
 
@@ -722,67 +780,16 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
       </div>
     </div>
 
-    <!-- El mapa dice cuatro cosas a la vez: que existe una espina (firma, usuario,
-         cliente), que hay cuatro areas de trabajo colgando de ella, que la
-         relacion real es azul y la rota es discontinua, y que la variacion
-         regional cruza el sistema entero en vez de vivir en un producto. -->
-    <figure class="rv" style="margin-top:clamp(50px,6vw,90px)">
-      <svg class="dg" viewBox="0 0 1120 430" role="img"
-           aria-label="A map of the system: the firm holds users and clients, and four working areas, accounting, tax, documents and billing, hang off the client. Solid lines mark the relationships the system carried, dashed lines the ones that broke when moving between products. A band across the bottom marks regional variation running through everything.">
-        <text class="tl" x="0" y="10">WHAT THE SYSTEM ACTUALLY HELD</text>
-        <rect x="0" y="24" width="1120" height="1" fill="rgba(255,255,255,.14)"/>
 
-        <rect x="452" y="46" width="216" height="46" fill="none" stroke="rgba(255,255,255,.28)" stroke-width=".75"/>
-        <text class="tt" x="470" y="74">Firm</text>
-        <text class="ts" x="600" y="74">the account</text>
-
-        <g stroke="#7FA3E8" stroke-width="1" fill="none">
-          <path d="M560 92 V122"/>
-          <path d="M300 146 H452"/><path d="M668 146 H820"/>
-        </g>
-        <rect x="452" y="122" width="216" height="46" fill="none" stroke="rgba(255,255,255,.28)" stroke-width=".75"/>
-        <text class="tt" x="470" y="150">Client</text>
-        <text class="ts" x="424" y="190">the spine of the work</text>
-
-        <rect x="150" y="122" width="150" height="46" fill="none" stroke="rgba(255,255,255,.18)" stroke-width=".75"/>
-        <text class="tt" x="166" y="150">Users</text>
-        <rect x="820" y="122" width="150" height="46" fill="none" stroke="rgba(255,255,255,.18)" stroke-width=".75"/>
-        <text class="tt" x="836" y="150">Roles</text>
-
-        <g stroke="#7FA3E8" stroke-width="1" fill="none">
-          <path d="M560 168 V208"/>
-          <path d="M140 208 H980"/>
-          <path d="M140 208 V236"/><path d="M420 208 V236"/><path d="M700 208 V236"/><path d="M980 208 V236"/>
-        </g>
-
-        <g>
-          <rect x="60"  y="236" width="160" height="72" fill="#1E1E24"/>
-          <rect x="340" y="236" width="160" height="72" fill="#1E1E24"/>
-          <rect x="620" y="236" width="160" height="72" fill="#1E1E24"/>
-          <rect x="900" y="236" width="160" height="72" fill="#1E1E24"/>
-        </g>
-        <g class="tt">
-          <text x="78"  y="266">Accounting</text><text x="358" y="266">Tax</text>
-          <text x="638" y="266">Documents</text><text x="918" y="266">Billing</text>
-        </g>
-        <g class="ts">
-          <text x="78"  y="288">and workflows</text><text x="358" y="288">and returns</text>
-          <text x="638" y="288">and deadlines</text><text x="918" y="288">and time</text>
-        </g>
-
-        <g stroke="rgba(255,255,255,.22)" stroke-width=".75" stroke-dasharray="2 4" fill="none">
-          <path d="M220 272 H340"/><path d="M500 272 H620"/><path d="M780 272 H900"/>
-        </g>
-        <text class="ts" x="228" y="330">context lost here</text>
-        <text class="ts" x="508" y="330">and here</text>
-        <text class="ts" x="788" y="330">and here</text>
-
-        <rect x="0" y="366" width="1120" height="30" fill="#1E1E24"/>
-        <text class="tl" x="16" y="385">REGIONAL VARIATION RUNS THROUGH ALL OF IT</text>
-        <text class="ts" x="0" y="422">Solid lines are relationships the system genuinely carried. Dashed lines are the ones a person had to rebuild by hand every time they crossed a product.</text>
-      </svg>
-      <figcaption>System map · reconstructed, not an original artefact</figcaption>
+    <!-- El artefacto real del capitulo: el recorrido tal y como se hacia, con
+         la banda que marca hasta donde sobrevive el contexto de cliente antes
+         de tener que volver a establecerlo. -->
+    <figure class="rv rv--mask drift" style="margin-top:clamp(44px,5vw,76px)">
+      <img class="figimg" src="images/IMAGE_05.png" width="3195" height="1051" loading="lazy" decoding="async"
+           alt="The journey mapped end to end: login, select a client, pick a product, work in accounts, exit to another product, work in tax, then remove the client and start again. A band across the middle marks how far the client context survives before it has to be established again.">
+      <figcaption>The client context logic</figcaption>
     </figure>
+
   </div>
 </section>
 
@@ -831,14 +838,6 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
   </div>
 </section>
 
-<!-- 07 · PIVOT .............................................................. -->
-<section class="pivot">
-  <div class="w">
-    <p class="stmt rv">The difficulty was never making the interface <i>look good.</i></p>
-    <p class="after rv" data-d="1">It was making complicated professional work understandable, navigable and reliable, for people who already knew their domain far better than I did.</p>
-  </div>
-</section>
-
 <!-- 08 · FINDING THE REAL PROBLEMS ........................................... -->
 <section class="sec sec--open" id="judgement">
   <div class="w">
@@ -856,56 +855,21 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
       <p class="lead rv" data-d="1">Not every country needs an identical interface. They need a coherent system that can adapt without fragmenting.</p>
     </div>
 
-    <div class="two" style="margin-top:clamp(46px,5vw,80px)">
-      <div class="rv">
-        <p>The portfolio had grown by region and by acquisition, so the same idea had been solved several times in several ways. A user moving between two parts of the ecosystem met two different mental models of the same thing.</p>
-        <p>The hard part was not standardisation. It was judgement.</p>
-      </div>
-      <div class="rv" data-d="1">
-        <p>Some differences were accidental and worth removing. Others were real: a legal requirement, a professional convention, a workflow that genuinely works differently in that country. Flattening those would have made the product worse.</p>
-        <p>So every difference had to be asked the same question before anything was unified.</p>
-      </div>
-    </div>
-
-    <!-- El modelo de decision. Una sola bifurcacion, porque la decision real
-         tambien era una sola: por que existe esta diferencia. -->
-    <figure class="rv" style="margin-top:clamp(50px,6vw,90px)">
-      <svg class="dg" viewBox="0 0 1120 250" role="img"
-           aria-label="A decision model. One question, why does this difference exist, branches two ways: an accidental difference, from a different team, a different era or an acquisition, is unified. A meaningful difference, from regulation, local practice or professional convention, is adapted.">
-        <rect x="0" y="0" width="380" height="60" fill="none" stroke="rgba(255,255,255,.28)" stroke-width=".75"/>
-        <text class="tt" x="18" y="28">Why does this difference exist?</text>
-        <text class="ts" x="18" y="46">Asked before anything was unified.</text>
-
-        <g stroke="#7FA3E8" stroke-width="1" fill="none">
-          <path d="M380 30 H460 V96 H560"/>
-          <path d="M380 30 H460 V196 H560"/>
-        </g>
-
-        <rect x="560" y="70" width="260" height="52" fill="#1E1E24"/>
-        <text class="tl" x="576" y="92">ACCIDENTAL</text>
-        <text class="ts" x="576" y="110">Different team, era or acquisition</text>
-        <g stroke="#7FA3E8" stroke-width="1" fill="none"><path d="M820 96 H900"/></g>
-        <text class="tt" x="912" y="101">Unify</text>
-
-        <rect x="560" y="170" width="260" height="52" fill="#1E1E24"/>
-        <text class="tl" x="576" y="192">MEANINGFUL</text>
-        <text class="ts" x="576" y="210">Regulation, local practice, convention</text>
-        <g stroke="#7FA3E8" stroke-width="1" fill="none"><path d="M820 196 H900"/></g>
-        <text class="tt" x="912" y="201">Adapt</text>
-      </svg>
-      <figcaption>The question asked of every difference</figcaption>
-    </figure>
-
-    <div class="two" style="margin-top:clamp(50px,6vw,90px)">
-      <figure class="rv">
-        <img class="figimg" src="images/IMAGE_03.png" width="610" height="295" loading="lazy" decoding="async"
-             alt="Accounts Production open beside the contacts list, showing the parts of the workflow that were the same in every market.">
-        <figcaption>Shared foundation across regions</figcaption>
+    <!-- La misma pantalla en los dos extremos de la decision: el dashboard tal
+         y como existia en un mercado, y el dashboard unificado. Es el ejemplo
+         mas claro de lo que significa unificar sin aplanar. -->
+    <div class="two rv" style="margin-top:clamp(50px,6vw,90px)">
+      <figure>
+        <p class="tag-d">Region</p>
+        <img class="figimg" src="images/06-01.png" width="1677" height="812" loading="lazy" decoding="async"
+             alt="The dashboard as it existed in one market: a left navigation listing firm applications and the Taxprep products, beside panels for team efficiency, work in progress by partner, resource allocation and annual revenue.">
+        <figcaption>The dashboard in one market</figcaption>
       </figure>
-      <figure class="rv rv--mask" data-d="1">
-        <img class="figimg" src="images/IMAGE_04.png" width="607" height="295" loading="lazy" decoding="async"
-             alt="A corporate identification form carrying fields that only exist because of local requirements.">
-        <figcaption>Where local requirements take over</figcaption>
+      <figure>
+        <p class="tag-d">Global</p>
+        <img class="figimg" src="images/06-02.png" width="1280" height="810" loading="lazy" decoding="async"
+             alt="The unified dashboard: one navigation down the left, and a grid of panels showing last returns, resource allocation, work in progress by partner, documents and annual revenue.">
+        <figcaption>The dashboard as one system</figcaption>
       </figure>
     </div>
   </div>
@@ -952,25 +916,10 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
         <p>I worked on the level above the screens: information architecture, global navigation, contextual navigation, entry points into each product, and the relationships between applications that the interface had to express.</p>
       </div>
       <div class="rv" data-d="1">
-        <p>This is the part of the work that does not photograph well. There is no single screen that shows it. What it produced was a coherent way to move through an ecosystem that had grown without one.</p>
         <p class="pull" style="margin-top:clamp(28px,3vw,44px)">System-level problems, not styling problems.</p>
       </div>
     </div>
 
-    <div class="two" style="margin-top:clamp(50px,6vw,90px)">
-      <figure class="rv">
-        <p class="tag-d">Before</p>
-        <img class="figimg" src="images/IMAGE_08.png?v=2" width="1280" height="810" loading="lazy" decoding="async"
-             alt="Firm Settings with the product panel open on the right, listing the practice tools and the products a firm has access to, with two markers set against the two separate ways into the same ecosystem.">
-        <figcaption>Two separate ways in</figcaption>
-      </figure>
-      <figure class="rv rv--mask" data-d="1">
-        <p class="tag-d">Proposed</p>
-        <img class="figimg" src="images/IMAGE_09.png?v=2" width="1280" height="810" loading="lazy" decoding="async"
-             alt="A single left navigation running from Dashboard through contacts, jobs and billing to the compliance products and settings, with two markers set against the levels of the hierarchy.">
-        <figcaption>One structure, one hierarchy</figcaption>
-      </figure>
-    </div>
 
     <div class="two-a" style="margin-top:clamp(54px,6vw,96px)">
       <div class="rv">
@@ -1022,69 +971,27 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
 
     <div class="two" style="margin-top:clamp(40px,5vw,70px)">
       <div class="rv">
-        <p>Almost everything an accountant does is done <strong>on behalf of a specific client</strong>. That client is the spine of the work: the tax return, the billing, the documents, the deadlines all hang off it.</p>
-        <p>In separate applications, that spine kept breaking. Users selected a client, did some work, moved to another application, and had to establish who they were working on all over again. Or worse, did not, and had to check.</p>
+        <p>I mapped the existing workflow to see exactly where context was lost and what it cost each time, then explored how a persistent client context could travel with the user across applications.</p>
       </div>
       <div class="rv" data-d="1">
-        <p>I mapped the existing workflow to see exactly where context was lost and what it cost each time, then explored how a persistent client context could travel with the user across applications.</p>
         <p>Treating context as an object the system carries, rather than a selection each screen makes, changes the interaction design of every product that touches it. That is why it was worth the mapping before the designing.</p>
       </div>
     </div>
 
-    <!-- Antes y despues del mismo recorrido. Arriba una cadena que se rompe en
-         cada salto de producto; abajo el cliente sostenido y los productos
-         colgando de el. La diferencia entre las dos filas es la propuesta. -->
-    <figure class="rv" style="margin-top:clamp(50px,6vw,90px)">
-      <svg class="dg" viewBox="0 0 1120 440" role="img"
-           aria-label="Two versions of the same journey. Before: select a client, work, change product, select the client again, work again, with the context breaking at every product change. After: the client is held once and tax, accounting and documents all hang from it, with the context persisting across all three.">
-        <text class="tl" x="0" y="10">BEFORE</text>
-        <rect x="0" y="24" width="1120" height="1" fill="rgba(255,255,255,.14)"/>
-        <g>
-          <rect x="0"   y="50" width="190" height="52" fill="#1E1E24"/>
-          <rect x="238" y="50" width="190" height="52" fill="#1E1E24"/>
-          <rect x="476" y="50" width="190" height="52" fill="#1E1E24"/>
-          <rect x="714" y="50" width="190" height="52" fill="#1E1E24"/>
-          <rect x="952" y="50" width="168" height="52" fill="#1E1E24"/>
-        </g>
-        <g class="tt">
-          <text x="18" y="81">Select client</text><text x="256" y="81">Work</text>
-          <text x="494" y="81">Change product</text><text x="732" y="81">Select client again</text>
-          <text x="970" y="81">Work again</text>
-        </g>
-        <g stroke="rgba(255,255,255,.28)" stroke-width="1" fill="none">
-          <path d="M190 76 H238"/><path d="M428 76 H476"/><path d="M666 76 H714"/><path d="M904 76 H952"/>
-        </g>
-        <g stroke="rgba(255,255,255,.22)" stroke-width=".75" stroke-dasharray="2 3" fill="none">
-          <path d="M452 102 V128"/><path d="M690 102 V128"/>
-        </g>
-        <text class="ts" x="404" y="146">context lost</text>
-        <text class="ts" x="642" y="146">context lost</text>
-
-        <text class="tl" x="0" y="212">AFTER</text>
-        <rect x="0" y="226" width="1120" height="1" fill="rgba(255,255,255,.14)"/>
-        <rect x="0" y="270" width="240" height="76" fill="none" stroke="#7FA3E8" stroke-width="1"/>
-        <text class="tt" x="18" y="302">Client</text>
-        <text class="ts" x="18" y="324">selected once, carried</text>
-        <g stroke="#7FA3E8" stroke-width="1" fill="none">
-          <path d="M240 308 H330"/>
-          <path d="M330 254 V362"/>
-          <path d="M330 254 H400"/><path d="M330 308 H400"/><path d="M330 362 H400"/>
-        </g>
-        <g>
-          <rect x="400" y="232" width="260" height="44" fill="#1E1E24"/>
-          <rect x="400" y="286" width="260" height="44" fill="#1E1E24"/>
-          <rect x="400" y="340" width="260" height="44" fill="#1E1E24"/>
-        </g>
-        <g class="tt">
-          <text x="418" y="259">Tax</text><text x="418" y="313">Accounting</text><text x="418" y="367">Documents</text>
-        </g>
-        <g class="ts">
-          <text x="560" y="259">same client</text><text x="560" y="313">same client</text><text x="560" y="367">same client</text>
-        </g>
-        <text class="ts" x="0" y="422">The client stops being a selection each screen makes and becomes something the system holds on the person's behalf.</text>
-      </svg>
-      <figcaption>Where context broke, and what carrying it would mean</figcaption>
-    </figure>
+    <div class="two" style="margin-top:clamp(50px,6vw,90px)">
+      <figure class="rv">
+        <p class="tag-d">Before</p>
+        <img class="figimg" src="images/IMAGE_08.png?v=2" width="1280" height="810" loading="lazy" decoding="async"
+             alt="Firm Settings with the product panel open on the right, listing the practice tools and the products a firm has access to, with two markers set against the two separate ways into the same ecosystem.">
+        <figcaption>3 levels of navigation</figcaption>
+      </figure>
+      <figure class="rv rv--mask" data-d="1">
+        <p class="tag-d">Proposed</p>
+        <img class="figimg" src="images/IMAGE_09.png?v=2" width="1280" height="810" loading="lazy" decoding="async"
+             alt="A single left navigation running from Dashboard through contacts, jobs and billing to the compliance products and settings, with two markers set against the levels of the hierarchy.">
+        <figcaption>Unified navigation experience</figcaption>
+      </figure>
+    </div>
 
     <figure class="rv rv--mask drift" style="margin-top:clamp(44px,5vw,76px)">
       <img class="figimg" src="images/IMAGE_07.png" width="1140" height="536" loading="lazy" decoding="async"
@@ -1094,67 +1001,11 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
   </div>
 </section>
 
-<!-- 12 · DESIGN PROBLEM 03 ................................................... -->
-<section class="sec sec--open" id="density">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">10</div>
-      <div>
-        <p class="k">Design problem 03</p>
-        <h2><span class="ln"><i>Complexity was</i></span><span class="ln"><i>not the problem</i></span></h2>
-        <div class="rule"></div>
-        <p class="lead">Financial data, tax information, client records, forms, tables, documents, billing, tasks, compliance requirements, several roles and several workflows crossing the same screen.</p>
-      </div>
-    </div>
-
-    <div class="two-a" style="margin-top:clamp(44px,5vw,76px)">
-      <div class="rv">
-        <p>These interfaces are dense because the work is dense. Stripping them back to look calmer would remove information professionals need, and they would go and find it somewhere less convenient.</p>
-        <p>My job was not to remove information to make screens look simpler. It was to make relationships, hierarchy and workflows understandable.</p>
-      </div>
-      <div class="rv" data-d="1">
-        <p class="k">What I worked with</p>
-        <ul class="p">
-          <li><span class="i">01</span><span>Hierarchy, so the eye lands where the work starts</span></li>
-          <li><span class="i">02</span><span>Grouping, so related things are read as related</span></li>
-          <li><span class="i">03</span><span>Sequence, so the order on screen matches the order of the work</span></li>
-          <li><span class="i">04</span><span>Naming, in the vocabulary of the profession, not the system</span></li>
-          <li><span class="i">05</span><span>Interaction, so a dense screen still feels controllable</span></li>
-          <li><span class="i">06</span><span>Feedback, so the person knows what just happened</span></li>
-        </ul>
-      </div>
-    </div>
-
-    <figure class="rv rv--mask drift" style="margin-top:clamp(50px,6vw,90px)">
-      <img class="figimg" src="images/IMAGE_11.png" width="1435" height="696" loading="lazy" decoding="async"
-           alt="The Accounts Production overview for a client: business details along the top, a validations panel filtering fifteen items into errors, warnings and information, each one naming what is missing and linking straight to where it is fixed, and the financial overview below.">
-      <figcaption>Accounts Production · Wolters Kluwer</figcaption>
-    </figure>
-
-    <div class="two-a" style="margin-top:clamp(54px,6vw,96px)">
-      <div class="rv">
-        <p class="k">Sometimes the best solution was smaller</p>
-        <p>A significant part of my role was improving software that already existed rather than designing from scratch. I analysed products through heuristic evaluation, real product data, user and customer feedback, usability findings, business requirements and technical constraints, then proposed what to change.</p>
-        <p><strong>Some of the most useful things I did changed very little.</strong> A small interaction change, correctly placed, can remove a problem that looked like it needed a redesign. And it ships, which a redesign often does not.</p>
-      </div>
-      <div class="rv" data-d="1">
-        <figure>
-          <img class="figimg" src="images/IMAGE_13.png" width="1327" height="743" loading="lazy" decoding="async"
-               alt="The analysis of client context in UK iFirm: the compliance applications are client centric, some of them only work once a client is selected, and the switcher opens the entire client list. Below, Personal Tax waiting on an empty state while the contacts panel lists every client in the firm unfiltered.">
-          <figcaption>Finding to change</figcaption>
-        </figure>
-      </div>
-    </div>
-
-    <p class="pull rv" style="margin-top:clamp(44px,5vw,72px)">Solve the real problem instead of redesigning everything.</p>
-  </div>
-</section>
-
 <!-- 13 · DESIGN PROBLEM 04 ................................................... -->
 <section class="sec tint" id="patterns">
   <div class="w">
     <div class="head rv">
-      <div class="n">11</div>
+      <div class="n">10</div>
       <div>
         <p class="k">Design problem 04</p>
         <h2><span class="ln"><i>When the same problem</i></span><span class="ln"><i>appeared twice, it probably</i></span><span class="ln"><i>did not belong to one screen</i></span></h2>
@@ -1178,34 +1029,6 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
       </div>
     </div>
 
-    <!-- El mismo problema apareciendo en tres sitios es el unico dato que hace
-         falta para saber que la solucion no vive en ninguno de los tres. -->
-    <figure class="rv" style="margin-top:clamp(50px,6vw,90px)">
-      <svg class="dg" viewBox="0 0 1120 262" role="img"
-           aria-label="Three products each meeting the same problem. The three converge on one shared pattern, and the pattern goes into the design system, from where it returns to all three.">
-        <g>
-          <rect x="0" y="20" width="200" height="44" fill="#1E1E24"/>
-          <rect x="0" y="86" width="200" height="44" fill="#1E1E24"/>
-          <rect x="0" y="152" width="200" height="44" fill="#1E1E24"/>
-        </g>
-        <g class="tt"><text x="18" y="48">Product A</text><text x="18" y="114">Product B</text><text x="18" y="180">Product C</text></g>
-        <g class="ts"><text x="110" y="48">same problem</text><text x="110" y="114">same problem</text><text x="110" y="180">same problem</text></g>
-
-        <g stroke="#7FA3E8" stroke-width="1" fill="none">
-          <path d="M200 42 H280 V108 H360"/><path d="M200 108 H360"/><path d="M200 174 H280 V108 H360"/>
-        </g>
-
-        <rect x="360" y="86" width="230" height="44" fill="none" stroke="#7FA3E8" stroke-width="1"/>
-        <text class="tt" x="378" y="114">Shared pattern</text>
-
-        <g stroke="#7FA3E8" stroke-width="1" fill="none"><path d="M590 108 H670"/></g>
-        <rect x="670" y="86" width="230" height="44" fill="#1E1E24"/>
-        <text class="tt" x="688" y="114">Design system</text>
-
-        <text class="ts" x="0" y="252">Solved once, agreed once, implemented once, and returned to every product that had the problem.</text>
-      </svg>
-      <figcaption>From a repeated problem to a system decision</figcaption>
-    </figure>
 
     <figure class="rv drift" style="margin-top:clamp(44px,5vw,76px)">
       <img class="figimg" src="images/IMAGE_15.png" width="1169" height="431" loading="lazy" decoding="async" style="max-width:1169px"
@@ -1229,7 +1052,7 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
 <section class="sec sec--open" id="research">
   <div class="w">
     <div class="head rv">
-      <div class="n">12</div>
+      <div class="n">11</div>
       <div>
         <p class="k">Research and validation</p>
         <h2><span class="ln"><i>Research changed</i></span><span class="ln"><i>the direction</i></span></h2>
@@ -1275,71 +1098,11 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
   </div>
 </section>
 
-<!-- 15 · FROM DESIGN TO HANDOFF .............................................. -->
-<section class="sec tint" id="handoff-flow">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">13</div>
-      <div>
-        <p class="k">From design to build</p>
-        <h2><span class="ln"><i>Design does not stop</i></span><span class="ln"><i>when the screen</i></span><span class="ln"><i>is approved</i></span></h2>
-        <div class="rule"></div>
-      </div>
-    </div>
-
-    <div class="two" style="margin-top:clamp(40px,5vw,70px)">
-      <div class="rv">
-        <p>Once the direction was clear, the work changed. The question was no longer only whether the experience made sense.</p>
-      </div>
-      <div class="rv" data-d="1">
-        <p>It was whether someone else could build it without having to guess what I meant.</p>
-      </div>
-    </div>
-
-    <!-- La flecha doble entre ingenieria y colaboracion es el unico punto del
-         diagrama donde el flujo va en las dos direcciones, y es deliberado:
-         es donde el diseno todavia puede cambiar. -->
-    <figure class="rv" style="margin-top:clamp(50px,6vw,90px)">
-      <svg class="dg" viewBox="0 0 1120 200" role="img"
-           aria-label="The path from design to production: design, flow, states, components, handoff, engineering, collaboration in both directions, quality assurance, and production.">
-        <text class="tl" x="0" y="10">DESIGN TO PRODUCTION</text>
-        <rect x="0" y="24" width="1120" height="1" fill="rgba(255,255,255,.14)"/>
-        <g>
-          <rect x="0"   y="52" width="118" height="46" fill="#1E1E24"/>
-          <rect x="142" y="52" width="118" height="46" fill="#1E1E24"/>
-          <rect x="284" y="52" width="118" height="46" fill="#1E1E24"/>
-          <rect x="426" y="52" width="140" height="46" fill="#1E1E24"/>
-          <rect x="590" y="52" width="118" height="46" fill="#1E1E24"/>
-          <rect x="732" y="52" width="140" height="46" fill="none" stroke="#7FA3E8" stroke-width="1"/>
-          <rect x="896" y="52" width="90"  height="46" fill="#1E1E24"/>
-          <rect x="1010" y="52" width="110" height="46" fill="#F6F4EF"/>
-        </g>
-        <g class="tt">
-          <text x="16" y="80">Design</text><text x="158" y="80">Flow</text><text x="300" y="80">States</text>
-          <text x="442" y="80">Components</text><text x="606" y="80">Handoff</text>
-          <text x="748" y="80">Engineering</text><text x="912" y="80">QA</text>
-        </g>
-        <text class="tt" x="1026" y="80" style="fill:#0E0E11">Production</text>
-        <g stroke="rgba(255,255,255,.28)" stroke-width="1" fill="none">
-          <path d="M118 75 H142"/><path d="M260 75 H284"/><path d="M402 75 H426"/>
-          <path d="M566 75 H590"/><path d="M708 75 H732"/><path d="M872 75 H896"/><path d="M986 75 H1010"/>
-        </g>
-        <g stroke="#7FA3E8" stroke-width="1" fill="none">
-          <path d="M802 98 V128"/><path d="M802 128 H660"/><path d="M660 128 V98"/>
-        </g>
-        <text class="ts" x="660" y="150">collaboration runs both ways</text>
-        <text class="ts" x="0" y="190">This is the only part of the path where the arrow points backwards, and it is the part where the design still changes.</text>
-      </svg>
-      <figcaption>The path a decision takes after it is approved</figcaption>
-    </figure>
-  </div>
-</section>
-
 <!-- 16 · HANDOFF AND ENGINEERING ............................................. -->
 <section class="sec sec--open" id="handoff">
   <div class="w">
     <div class="head rv">
-      <div class="n">14</div>
+      <div class="n">12</div>
       <div>
         <p class="k">Handoff</p>
         <h2><span class="ln"><i>My handoff was not a file.</i></span><span class="ln"><i>It was a shared</i></span><span class="ln"><i>understanding.</i></span></h2>
@@ -1384,6 +1147,15 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
         </div>
       </div>
     </div>
+
+    <!-- El artefacto real del handoff: el recorrido entero montado pantalla a
+         pantalla, con los conectores que dicen desde donde se llega a cada una.
+         Es lo que sostiene los cinco pasos de arriba. -->
+    <figure class="rv rv--mask drift" style="margin-top:clamp(50px,6vw,90px)">
+      <img class="figimg" src="images/13.Design-handoff.png" width="1746" height="660" loading="lazy" decoding="async"
+           alt="Handoff board titled select a contact: the dashboard, the contacts list and the job details screen laid out in sequence, with connectors running from the login entry point through each screen, so the whole journey can be read at once rather than screen by screen.">
+      <figcaption>Handoff · the flow, not the screens</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -1391,7 +1163,7 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
 <section class="sec tint" id="build">
   <div class="w">
     <div class="head rv">
-      <div class="n">15</div>
+      <div class="n">13</div>
       <div>
         <p class="k">Engineering collaboration</p>
         <h2><span class="ln"><i>The handoff often</i></span><span class="ln"><i>changed the design too</i></span></h2>
@@ -1414,21 +1186,6 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
       <div class="level"><h3>During build</h3><p>Answer questions and resolve ambiguity while it is still cheap to resolve.</p></div>
       <div class="level"><h3>After build</h3><p>Review the implementation against the intent, and agree what actually changed.</p></div>
     </div>
-
-    <div class="two" style="margin-top:clamp(50px,6vw,90px)">
-      <figure class="rv">
-        <p class="tag-d">Designed</p>
-        <img class="figimg" src="images/IMAGE_09.png?v=2" width="1280" height="810" loading="lazy" decoding="async"
-             alt="The proposed navigation structure: a single left navigation from Dashboard through contacts, jobs and billing to the compliance products and settings.">
-        <figcaption>The structure as proposed</figcaption>
-      </figure>
-      <figure class="rv rv--mask" data-d="1">
-        <p class="tag-d">In production</p>
-        <img class="figimg" src="images/IMAGE_11.png" width="1435" height="696" loading="lazy" decoding="async"
-             alt="Accounts Production running in the product, with the navigation in place down the left and the validations panel open on a client.">
-        <figcaption>The product in use · representative, not a matched pair</figcaption>
-      </figure>
-    </div>
   </div>
 </section>
 
@@ -1436,7 +1193,7 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
 <section class="sec" id="ai">
   <div class="w">
     <div class="head rv">
-      <div class="n">16</div>
+      <div class="n">14</div>
       <div>
         <p class="k">Emerging technology</p>
         <h2><span class="ln"><i>AI as a tool,</i></span><span class="ln"><i>not a theme</i></span></h2>
@@ -1485,7 +1242,7 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
 <section class="sec light sec--open" id="impact">
   <div class="w">
     <div class="head rv">
-      <div class="n">17</div>
+      <div class="n">15</div>
       <div>
         <p class="k">Impact</p>
         <h2><span class="ln"><i>What changed</i></span></h2>
@@ -1518,49 +1275,20 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
 <section class="sec" id="reflection">
   <div class="w">
     <div class="head rv">
-      <div class="n">18</div>
+      <div class="n">16</div>
       <div>
-        <p class="k">What I learnt</p>
-        <h2><span class="ln"><i>The biggest lesson was</i></span><span class="ln"><i>knowing where to zoom</i></span></h2>
+        <p class="k">Reflection</p>
+        <h2><span class="ln"><i>My learnings</i></span></h2>
         <div class="rule"></div>
       </div>
     </div>
 
-    <!-- Cuatro alturas de mirada, del sistema a la interaccion. La barra que las
-         cruza a la izquierda dice que es un rango continuo, no cuatro trabajos. -->
-    <figure class="rv" style="margin-top:clamp(46px,5vw,80px)">
-      <svg class="dg" viewBox="0 0 1120 300" role="img"
-           aria-label="Four levels of attention, from ecosystem down to interaction, drawn as a continuous range rather than four separate jobs.">
-        <rect x="0" y="16" width="2" height="252" fill="rgba(255,255,255,.28)"/>
-        <g>
-          <rect x="40" y="16"  width="1080" height="52" fill="#1E1E24"/>
-          <rect x="40" y="82"  width="900"  height="52" fill="#1E1E24"/>
-          <rect x="40" y="148" width="720"  height="52" fill="#1E1E24"/>
-          <rect x="40" y="214" width="540"  height="52" fill="#1E1E24"/>
-        </g>
-        <g class="tt">
-          <text x="60" y="47">Ecosystem</text><text x="60" y="113">Product</text>
-          <text x="60" y="179">Workflow</text><text x="60" y="245">Interaction</text>
-        </g>
-        <g class="ts">
-          <text x="200" y="47">How products connect</text>
-          <text x="200" y="113">How a product holds a job together</text>
-          <text x="200" y="179">How the work actually runs</text>
-          <text x="200" y="245">How it feels under the hand</text>
-        </g>
-        <text class="tl" x="40" y="292">ZOOM OUT FAR ENOUGH TO SEE IT · ZOOM IN FAR ENOUGH TO SOLVE IT</text>
-      </svg>
-      <figcaption>Where the work happened</figcaption>
-    </figure>
-
-    <div class="two" style="margin-top:clamp(46px,5vw,80px)">
-      <div class="rv">
-        <p>I learnt to zoom out far enough to understand the system, and in far enough to solve the interaction.</p>
-      </div>
-      <div class="rv" data-d="1">
-        <p>Neither one works alone. An ecosystem decision that ignores the interaction produces something coherent and unusable. An interaction fix that ignores the ecosystem gets undone by the next product that joins.</p>
-      </div>
-    </div>
+    <ul class="lrn rv">
+      <li><span class="i">01</span><p>I learnt to zoom out far enough to understand the system, and in far enough to solve the interaction.</p></li>
+      <li><span class="i">02</span><p>Context is something the system carries, not something each screen asks for again.</p></li>
+      <li><span class="i">03</span><p>Not every difference is a problem. The job was deciding which ones to keep.</p></li>
+      <li><span class="i">04</span><p>Design does not end at handoff. The questions engineering asks are part of the design.</p></li>
+    </ul>
   </div>
 </section>
 
