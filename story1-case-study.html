@@ -426,6 +426,67 @@ html:not(.js) .rv--mask{clip-path:none}
   html{scroll-behavior:auto}
   .rv{opacity:1!important;transform:none!important}
   .nav-links a span,.nav-foot a span{transform:none!important;transition:none!important}}
+
+/* ============ NARRATIVA: DIAGRAMAS Y BLOQUES NUEVOS ====================== */
+
+/* Etiquetas dentro de los SVG. Mismo mono que los pies de figura, para que un
+   diagrama dibujado y una captura de producto se lean como el mismo material. */
+.tl{font-family:var(--mono);font-size:8.5px;letter-spacing:1px;fill:var(--mid)}
+.tt{font-family:var(--sans);font-size:11.5px;font-weight:500;fill:var(--ink)}
+.ts{font-family:var(--sans);font-size:9.5px;fill:var(--mid)}
+svg.dg{display:block;width:100%;height:auto;overflow:visible}
+
+/* El titular del hero es mas largo que el anterior, asi que baja un escalon:
+   a 150px ocupaba seis lineas y empujaba los chips fuera de la primera pantalla. */
+.hero h1.long{font-size:clamp(40px,7.2vw,104px);line-height:.96}
+
+/* Los tres niveles de trabajo. Rejilla con filete superior, misma familia de
+   separadores que .hero-meta y .stats. */
+.levels{display:grid;grid-template-columns:repeat(3,1fr);
+  margin-top:clamp(40px,5vw,72px);border-top:1px solid var(--line)}
+.level{padding:26px clamp(22px,2.4vw,36px) 0 0;border-right:1px solid var(--line-2)}
+.level:last-child{border-right:0}
+.level h3{font-family:var(--mono);font-size:10.5px;letter-spacing:1.4px;
+  text-transform:uppercase;color:var(--ink);margin:0 0 14px;font-weight:400}
+.level p{font-size:15.5px;margin:0;max-width:34ch}
+@media(max-width:760px){
+  .levels{grid-template-columns:1fr}
+  .level{border-right:0;border-bottom:1px solid var(--line-2);padding:22px 0}
+  .level:last-child{border-bottom:0}
+}
+
+/* Las cuatro preguntas que estructuran la segunda mitad de la pagina.
+   Van numeradas porque son una secuencia real: cada una supone la anterior. */
+.qs{display:grid;grid-template-columns:1fr 1fr;
+  margin-top:clamp(44px,5vw,80px);border-top:1px solid var(--line)}
+.q{padding:30px clamp(26px,3vw,48px) 34px 0;border-right:1px solid var(--line-2);
+  border-bottom:1px solid var(--line-2)}
+.q:nth-child(2n){border-right:0;padding-left:clamp(26px,3vw,48px)}
+.q:nth-last-child(-n+2){border-bottom:0}
+.q .qn{font-family:var(--mono);font-size:10px;letter-spacing:1.4px;color:var(--mid);
+  display:block;margin-bottom:16px}
+.q p{font-family:var(--serif);font-size:clamp(20px,2.2vw,29px);line-height:1.18;
+  letter-spacing:-.01em;color:var(--ink);margin:0;max-width:22ch}
+@media(max-width:760px){
+  .qs{grid-template-columns:1fr}
+  .q,.q:nth-child(2n){border-right:0;padding:24px 0;border-bottom:1px solid var(--line-2)}
+  .q:last-child{border-bottom:0}
+}
+
+/* Los cinco pasos del handoff. Numerados: es un orden de trabajo real. */
+.hand{margin-top:clamp(40px,5vw,72px);border-top:1px solid var(--line)}
+.hstep{display:grid;grid-template-columns:clamp(46px,5vw,74px) 1fr;
+  gap:clamp(16px,2vw,34px);padding:28px 0;border-bottom:1px solid var(--line-2)}
+.hstep:last-child{border-bottom:0}
+.hstep .hn{font-family:var(--mono);font-size:10px;letter-spacing:1.4px;color:var(--mid)}
+.hstep h3{font-family:var(--serif);font-weight:400;font-size:clamp(19px,2vw,26px);
+  line-height:1.16;margin:0 0 10px}
+.hstep p{margin:0;font-size:15.5px;max-width:56ch}
+@media(max-width:600px){.hstep{grid-template-columns:1fr;gap:10px}}
+
+/* Etiqueta de pareja disenado / construido. Dice cual es cual y nada mas. */
+.tag-d{font-family:var(--mono);font-size:9.5px;letter-spacing:1.4px;
+  text-transform:uppercase;color:var(--mid);margin:0 0 14px}
 </style>
 </head>
 <body>
@@ -473,8 +534,8 @@ html:not(.js) .rv--mask{clip-path:none}
       <span>Story 1</span>
       <span>Wolters Kluwer</span>
     </div>
-    <h1 class="rv">The Wolters<br>Kluwer <em>Story</em></h1>
-    <p class="hero-sub rv" data-d="1">Designing complex financial software for a global ecosystem</p>
+    <h1 class="rv long">From fragmented<br>products to a<br><em>connected ecosystem</em></h1>
+    <p class="hero-sub rv" data-d="1">The Wolters Kluwer Story</p>
 
     <div class="stats rv" data-d="2">
       <div class="stat"><b>6</b><i>Products unified</i></div>
@@ -489,9 +550,9 @@ html:not(.js) .rv--mask{clip-path:none}
       <span>UK · Netherlands · Belgium · Italy · Scandinavia</span>
     </div>
 
-    <div class="hero-note rv" data-d="3">
+    <div class="hero-note rv" data-d="4">
       <div></div>
-      <div class="body">This was not one project. It was work across an ecosystem of accounting, tax and financial products, in several markets, at different stages of maturity, while the whole portfolio was moving to the cloud.</div>
+      <div class="body">Several years of work across accounting, tax and practice management products, while a fragmented portfolio was moving towards a more connected cloud environment.</div>
     </div>
   </div>
 
@@ -502,14 +563,39 @@ html:not(.js) .rv--mask{clip-path:none}
   </figure>
 </header>
 
-<!-- 02 · THE ENVIRONMENT ..................................................... -->
-<section class="sec sec--open" id="environment">
+<!-- 02 · THIS WAS NOT ONE PROJECT ............................................ -->
+<section class="sec sec--open" id="not-one-project">
   <div class="w">
     <div class="head rv">
       <div class="n">01</div>
       <div>
-        <p class="k">The environment</p>
-        <h2><span class="ln"><i>Where the complexity</i></span><span class="ln"><i>actually came from</i></span></h2>
+        <p class="k">Scope</p>
+        <h2><span class="ln"><i>This was not</i></span><span class="ln"><i>one project</i></span></h2>
+        <div class="rule"></div>
+        <p class="lead">It was work across several products, several markets and several teams, over a number of years.</p>
+      </div>
+    </div>
+
+    <div class="two" style="margin-top:clamp(46px,5vw,80px)">
+      <div class="rv">
+        <p>There is no single launch date here, and no single screen that contains the work. Different products were at different stages of maturity, owned by different teams, sold into different countries.</p>
+        <p>What connected all of it was one question that kept coming back in different disguises.</p>
+      </div>
+      <div class="rv" data-d="1">
+        <p class="pull">How do separate products start behaving like one ecosystem?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 · THE STARTING POINT ................................................. -->
+<section class="sec tint" id="starting-point">
+  <div class="w">
+    <div class="head rv">
+      <div class="n">02</div>
+      <div>
+        <p class="k">The starting point</p>
+        <h2><span class="ln"><i>The products worked.</i></span><span class="ln"><i>The ecosystem did not.</i></span></h2>
         <div class="rule"></div>
         <p class="lead">Wolters Kluwer builds the software that accounting, tax and financial professionals use to do their work. On screen it looks like forms and tables. The complexity sits underneath.</p>
       </div>
@@ -528,12 +614,52 @@ html:not(.js) .rv--mask{clip-path:none}
         </ul>
       </div>
       <div class="rv" data-d="1">
-        <p class="k">Why it was complex</p>
-        <p>Several products, built at different times by different teams, some of them acquired and carrying their own conventions. Legacy foundations underneath a migration to the cloud. Regional differences in how the work is actually done, and regulation that changes by country.</p>
+        <p class="k">How it got this way</p>
+        <p>The portfolio had grown over time. Different teams. Different products. Different markets. Acquisitions that arrived carrying their own conventions. Legacy foundations underneath. Regulation that changes by country.</p>
+        <p>Each product made sense on its own terms. Together, they did not always behave like parts of the same environment.</p>
         <p class="k" style="margin-top:34px">Who uses it</p>
         <p>Accountants, tax advisers and finance professionals.</p>
       </div>
     </div>
+
+    <!-- Seis productos, cada uno coherente por dentro, sin nada que los una por
+         fuera. El diagrama dice lo mismo que el capitulo: el problema no estaba
+         dentro de las cajas, estaba en el espacio entre ellas. -->
+    <figure class="rv" style="margin-top:clamp(54px,6vw,96px)">
+      <svg class="dg" viewBox="0 0 1120 300" role="img"
+           aria-label="Six products drawn as separate blocks, each with its own internal structure and its own navigation model, with no shared connections between them.">
+        <text class="tl" x="0" y="10">SIX PRODUCTS, SIX INTERNAL LOGICS</text>
+        <rect x="0" y="24" width="1120" height="1" fill="rgba(255,255,255,.14)"/>
+        <g>
+          <rect x="0"   y="52" width="168" height="118" fill="#1E1E24"/>
+          <rect x="196" y="52" width="168" height="118" fill="#1E1E24"/>
+          <rect x="392" y="52" width="168" height="118" fill="#1E1E24"/>
+          <rect x="588" y="52" width="168" height="118" fill="#1E1E24"/>
+          <rect x="784" y="52" width="168" height="118" fill="#1E1E24"/>
+          <rect x="980" y="52" width="140" height="118" fill="#1E1E24"/>
+        </g>
+        <g fill="rgba(255,255,255,.16)">
+          <rect x="16"  y="70" width="60" height="5"/><rect x="16"  y="84" width="112" height="3"/><rect x="16"  y="94" width="96" height="3"/><rect x="16"  y="118" width="136" height="3"/><rect x="16"  y="128" width="104" height="3"/>
+          <rect x="212" y="70" width="96" height="5"/><rect x="212" y="84" width="80" height="3"/><rect x="212" y="94" width="120" height="3"/><rect x="212" y="118" width="88" height="3"/><rect x="212" y="128" width="132" height="3"/>
+          <rect x="408" y="70" width="72" height="5"/><rect x="408" y="84" width="128" height="3"/><rect x="408" y="94" width="88" height="3"/><rect x="408" y="118" width="112" height="3"/><rect x="408" y="128" width="76" height="3"/>
+          <rect x="604" y="70" width="112" height="5"/><rect x="604" y="84" width="92" height="3"/><rect x="604" y="94" width="128" height="3"/><rect x="604" y="118" width="80" height="3"/><rect x="604" y="128" width="120" height="3"/>
+          <rect x="800" y="70" width="64" height="5"/><rect x="800" y="84" width="120" height="3"/><rect x="800" y="94" width="96" height="3"/><rect x="800" y="118" width="128" height="3"/><rect x="800" y="128" width="72" height="3"/>
+          <rect x="996" y="70" width="88" height="5"/><rect x="996" y="84" width="104" height="3"/><rect x="996" y="94" width="76" height="3"/><rect x="996" y="118" width="96" height="3"/><rect x="996" y="128" width="112" height="3"/>
+        </g>
+        <g class="tl">
+          <text x="0"   y="192">ACCOUNTING</text><text x="196" y="192">TAX</text>
+          <text x="392" y="192">CONTACTS</text><text x="588" y="192">JOBS AND BILLING</text>
+          <text x="784" y="192">DOCUMENTS</text><text x="980" y="192">REPORTING</text>
+        </g>
+        <g stroke="rgba(255,255,255,.2)" stroke-width=".75" stroke-dasharray="2 4" fill="none">
+          <path d="M168 111 H196"/><path d="M364 111 H392"/><path d="M560 111 H588"/>
+          <path d="M756 111 H784"/><path d="M952 111 H980"/>
+        </g>
+        <text class="ts" x="0" y="240">Each one internally reasonable. Each one with its own navigation model, its own vocabulary,</text>
+        <text class="ts" x="0" y="258">its own idea of where a client lives. Nothing shared across the gaps.</text>
+      </svg>
+      <figcaption>The portfolio as it had grown</figcaption>
+    </figure>
 
     <div class="rv" style="margin-top:clamp(44px,5vw,72px)">
       <p class="k">Markets</p>
@@ -542,31 +668,152 @@ html:not(.js) .rv--mask{clip-path:none}
         <li>Scandinavia</li><li>Europe</li><li>Global</li>
       </ul>
     </div>
-
   </div>
 </section>
 
-<!-- 03 · PIVOT .............................................................. -->
-<section class="pivot">
-  <div class="w">
-    <p class="stmt rv">The difficulty was never making the interface <i>look good.</i></p>
-    <p class="after rv" data-d="1">It was making complicated professional work understandable, navigable and reliable, for people who already knew their domain far better than I did.</p>
-  </div>
-</section>
-
-<!-- 04 · SCOPE AND ROLE ..................................................... -->
-<section class="sec tint" id="role">
+<!-- 04 · THE CLOUD CHANGED THE PROBLEM ....................................... -->
+<section class="sec sec--open" id="cloud">
   <div class="w">
     <div class="head rv">
-      <div class="n">02</div>
+      <div class="n">03</div>
+      <div>
+        <p class="k">Cloud migration</p>
+        <h2><span class="ln"><i>Then the cloud</i></span><span class="ln"><i>changed the problem</i></span></h2>
+        <div class="rule"></div>
+        <p class="lead">Moving a product to the cloud is not a re-skin. It changes what the product is allowed to know about the person using it.</p>
+      </div>
+    </div>
+
+    <div class="two-a" style="margin-top:clamp(46px,5vw,80px)">
+      <div class="rv">
+        <p>On-premise software had been a set of applications a firm installed and opened one at a time. Nobody expected them to know about each other, because they could not.</p>
+        <p>In the cloud they became parts of one environment, and people started expecting them to behave that way. That expectation is the whole design problem.</p>
+      </div>
+      <div class="rv" data-d="1">
+        <p class="k">What that reframing touched</p>
+        <ul class="p">
+          <li><span class="i">01</span><span>Navigation and information architecture</span></li>
+          <li><span class="i">02</span><span>Identity and authentication</span></li>
+          <li><span class="i">03</span><span>Client context across applications</span></li>
+          <li><span class="i">04</span><span>Product discovery and entry points</span></li>
+          <li><span class="i">05</span><span>Cross-product relationships and journeys</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <figure class="rv rv--mask drift" style="margin-top:clamp(50px,6vw,90px)">
+      <img class="figimg" src="images/IMAGE_05.png" width="3195" height="1051" loading="lazy" decoding="async"
+           alt="The journey mapped end to end: login, select a client, pick a product, work in accounts, exit to another product, work in tax, then remove the client and start again. A band across the middle marks how far the client context survives before it has to be established again.">
+      <figcaption>The journey as it worked at the time</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 05 · UNDERSTANDING THE SYSTEM ............................................ -->
+<section class="sec tint" id="system-map">
+  <div class="w">
+    <div class="head rv">
+      <div class="n">04</div>
+      <div>
+        <p class="k">Understanding the system</p>
+        <h2><span class="ln"><i>Before designing, I had to</i></span><span class="ln"><i>understand what was</i></span><span class="ln"><i>actually connected</i></span></h2>
+        <div class="rule"></div>
+        <p class="lead">In an ecosystem the interface is the last thing you should decide. Everything above it changes what it needs to be.</p>
+      </div>
+    </div>
+
+    <!-- El mapa dice cuatro cosas a la vez: que existe una espina (firma, usuario,
+         cliente), que hay cuatro areas de trabajo colgando de ella, que la
+         relacion real es azul y la rota es discontinua, y que la variacion
+         regional cruza el sistema entero en vez de vivir en un producto. -->
+    <figure class="rv" style="margin-top:clamp(50px,6vw,90px)">
+      <svg class="dg" viewBox="0 0 1120 430" role="img"
+           aria-label="A map of the system: the firm holds users and clients, and four working areas, accounting, tax, documents and billing, hang off the client. Solid lines mark the relationships the system carried, dashed lines the ones that broke when moving between products. A band across the bottom marks regional variation running through everything.">
+        <text class="tl" x="0" y="10">WHAT THE SYSTEM ACTUALLY HELD</text>
+        <rect x="0" y="24" width="1120" height="1" fill="rgba(255,255,255,.14)"/>
+
+        <rect x="452" y="46" width="216" height="46" fill="none" stroke="rgba(255,255,255,.28)" stroke-width=".75"/>
+        <text class="tt" x="470" y="74">Firm</text>
+        <text class="ts" x="600" y="74">the account</text>
+
+        <g stroke="#7FA3E8" stroke-width="1" fill="none">
+          <path d="M560 92 V122"/>
+          <path d="M300 146 H452"/><path d="M668 146 H820"/>
+        </g>
+        <rect x="452" y="122" width="216" height="46" fill="none" stroke="rgba(255,255,255,.28)" stroke-width=".75"/>
+        <text class="tt" x="470" y="150">Client</text>
+        <text class="ts" x="424" y="190">the spine of the work</text>
+
+        <rect x="150" y="122" width="150" height="46" fill="none" stroke="rgba(255,255,255,.18)" stroke-width=".75"/>
+        <text class="tt" x="166" y="150">Users</text>
+        <rect x="820" y="122" width="150" height="46" fill="none" stroke="rgba(255,255,255,.18)" stroke-width=".75"/>
+        <text class="tt" x="836" y="150">Roles</text>
+
+        <g stroke="#7FA3E8" stroke-width="1" fill="none">
+          <path d="M560 168 V208"/>
+          <path d="M140 208 H980"/>
+          <path d="M140 208 V236"/><path d="M420 208 V236"/><path d="M700 208 V236"/><path d="M980 208 V236"/>
+        </g>
+
+        <g>
+          <rect x="60"  y="236" width="160" height="72" fill="#1E1E24"/>
+          <rect x="340" y="236" width="160" height="72" fill="#1E1E24"/>
+          <rect x="620" y="236" width="160" height="72" fill="#1E1E24"/>
+          <rect x="900" y="236" width="160" height="72" fill="#1E1E24"/>
+        </g>
+        <g class="tt">
+          <text x="78"  y="266">Accounting</text><text x="358" y="266">Tax</text>
+          <text x="638" y="266">Documents</text><text x="918" y="266">Billing</text>
+        </g>
+        <g class="ts">
+          <text x="78"  y="288">and workflows</text><text x="358" y="288">and returns</text>
+          <text x="638" y="288">and deadlines</text><text x="918" y="288">and time</text>
+        </g>
+
+        <g stroke="rgba(255,255,255,.22)" stroke-width=".75" stroke-dasharray="2 4" fill="none">
+          <path d="M220 272 H340"/><path d="M500 272 H620"/><path d="M780 272 H900"/>
+        </g>
+        <text class="ts" x="228" y="330">context lost here</text>
+        <text class="ts" x="508" y="330">and here</text>
+        <text class="ts" x="788" y="330">and here</text>
+
+        <rect x="0" y="366" width="1120" height="30" fill="#1E1E24"/>
+        <text class="tl" x="16" y="385">REGIONAL VARIATION RUNS THROUGH ALL OF IT</text>
+        <text class="ts" x="0" y="422">Solid lines are relationships the system genuinely carried. Dashed lines are the ones a person had to rebuild by hand every time they crossed a product.</text>
+      </svg>
+      <figcaption>System map · reconstructed, not an original artefact</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 06 · MY ROLE ............................................................. -->
+<section class="sec" id="role">
+  <div class="w">
+    <div class="head rv">
+      <div class="n">05</div>
       <div>
         <p class="k">Scope and role</p>
-        <h2><span class="ln"><i>What I owned</i></span></h2>
+        <h2><span class="ln"><i>My work moved</i></span><span class="ln"><i>between three levels</i></span></h2>
         <div class="rule"></div>
       </div>
     </div>
 
-    <div class="two-b" style="margin-top:clamp(40px,5vw,70px)">
+    <div class="levels rv">
+      <div class="level">
+        <h3>System</h3>
+        <p>How products connect. Architecture, navigation, identity, context, the relationships the interface has to express.</p>
+      </div>
+      <div class="level">
+        <h3>Product</h3>
+        <p>How workflows work. Sequence, grouping, what belongs on a screen and what belongs somewhere else.</p>
+      </div>
+      <div class="level">
+        <h3>Detail</h3>
+        <p>How people interact with the interface. States, naming, feedback, the small decisions that make dense software usable.</p>
+      </div>
+    </div>
+
+    <div class="two-b" style="margin-top:clamp(46px,5vw,80px)">
       <div class="rv">
         <div class="facts">
           <div class="fact"><span class="fk">Role</span><span class="fv">Senior Product Designer</span></div>
@@ -584,14 +831,22 @@ html:not(.js) .rv--mask{clip-path:none}
   </div>
 </section>
 
-<!-- 05 · GLOBAL UNIFICATION ................................................. -->
-<section class="sec sec--open" id="unification">
+<!-- 07 · PIVOT .............................................................. -->
+<section class="pivot">
+  <div class="w">
+    <p class="stmt rv">The difficulty was never making the interface <i>look good.</i></p>
+    <p class="after rv" data-d="1">It was making complicated professional work understandable, navigable and reliable, for people who already knew their domain far better than I did.</p>
+  </div>
+</section>
+
+<!-- 08 · FINDING THE REAL PROBLEMS ........................................... -->
+<section class="sec sec--open" id="judgement">
   <div class="w">
     <div class="head rv">
-      <div class="n">03</div>
+      <div class="n">06</div>
       <div>
-        <p class="k">Global product unification</p>
-        <h2><span class="ln"><i>One system,</i></span><span class="ln"><i>many markets</i></span></h2>
+        <p class="k">Finding the real problems</p>
+        <h2><span class="ln"><i>Not every difference</i></span><span class="ln"><i>was a problem</i></span></h2>
         <div class="rule"></div>
       </div>
     </div>
@@ -604,110 +859,88 @@ html:not(.js) .rv--mask{clip-path:none}
     <div class="two" style="margin-top:clamp(46px,5vw,80px)">
       <div class="rv">
         <p>The portfolio had grown by region and by acquisition, so the same idea had been solved several times in several ways. A user moving between two parts of the ecosystem met two different mental models of the same thing.</p>
-        <p>I worked on initiatives to reduce that fragmentation: shared foundations, consistent interaction patterns, and product experiences that could carry regional variation without becoming separate products.</p>
+        <p>The hard part was not standardisation. It was judgement.</p>
       </div>
       <div class="rv" data-d="1">
-        <p>The hard part was judgement, not standardisation. Some differences between markets were accidental and worth removing. Others were real: a legal requirement, a professional convention, a workflow that genuinely works differently in that country. Flattening those would have made the product worse.</p>
-        <p><strong>Knowing which was which required research</strong> and close work with the regional teams.</p>
+        <p>Some differences were accidental and worth removing. Others were real: a legal requirement, a professional convention, a workflow that genuinely works differently in that country. Flattening those would have made the product worse.</p>
+        <p>So every difference had to be asked the same question before anything was unified.</p>
       </div>
     </div>
 
+    <!-- El modelo de decision. Una sola bifurcacion, porque la decision real
+         tambien era una sola: por que existe esta diferencia. -->
+    <figure class="rv" style="margin-top:clamp(50px,6vw,90px)">
+      <svg class="dg" viewBox="0 0 1120 250" role="img"
+           aria-label="A decision model. One question, why does this difference exist, branches two ways: an accidental difference, from a different team, a different era or an acquisition, is unified. A meaningful difference, from regulation, local practice or professional convention, is adapted.">
+        <rect x="0" y="0" width="380" height="60" fill="none" stroke="rgba(255,255,255,.28)" stroke-width=".75"/>
+        <text class="tt" x="18" y="28">Why does this difference exist?</text>
+        <text class="ts" x="18" y="46">Asked before anything was unified.</text>
+
+        <g stroke="#7FA3E8" stroke-width="1" fill="none">
+          <path d="M380 30 H460 V96 H560"/>
+          <path d="M380 30 H460 V196 H560"/>
+        </g>
+
+        <rect x="560" y="70" width="260" height="52" fill="#1E1E24"/>
+        <text class="tl" x="576" y="92">ACCIDENTAL</text>
+        <text class="ts" x="576" y="110">Different team, era or acquisition</text>
+        <g stroke="#7FA3E8" stroke-width="1" fill="none"><path d="M820 96 H900"/></g>
+        <text class="tt" x="912" y="101">Unify</text>
+
+        <rect x="560" y="170" width="260" height="52" fill="#1E1E24"/>
+        <text class="tl" x="576" y="192">MEANINGFUL</text>
+        <text class="ts" x="576" y="210">Regulation, local practice, convention</text>
+        <g stroke="#7FA3E8" stroke-width="1" fill="none"><path d="M820 196 H900"/></g>
+        <text class="tt" x="912" y="201">Adapt</text>
+      </svg>
+      <figcaption>The question asked of every difference</figcaption>
+    </figure>
+
     <div class="two" style="margin-top:clamp(50px,6vw,90px)">
-      <figure class="rv" style="--ar:610/295">
+      <figure class="rv">
         <img class="figimg" src="images/IMAGE_03.png" width="610" height="295" loading="lazy" decoding="async"
-             alt="An accounts production overview for a client: entity details, the accounting period, a validations list with outstanding warnings, and a contacts panel open alongside.">
+             alt="Accounts Production open beside the contacts list, showing the parts of the workflow that were the same in every market.">
         <figcaption>Shared foundation across regions</figcaption>
       </figure>
-      <figure class="rv" data-d="1" style="--ar:607/295">
+      <figure class="rv rv--mask" data-d="1">
         <img class="figimg" src="images/IMAGE_04.png" width="607" height="295" loading="lazy" decoding="async"
-             alt="A corporate tax return open on its identification form: jurisdiction, business number and legal name, with the list of opened forms on one side and a cell details panel on the other.">
+             alt="A corporate identification form carrying fields that only exist because of local requirements.">
         <figcaption>Where local requirements take over</figcaption>
       </figure>
     </div>
   </div>
 </section>
 
-<!-- 06 · CLOUD MIGRATION .................................................... -->
-<section class="sec tint" id="cloud">
+<!-- 09 · THE FOUR DESIGN PROBLEMS ............................................ -->
+<section class="sec tint sec--tight" id="problems">
   <div class="w">
     <div class="head rv">
-      <div class="n">04</div>
+      <div class="n">07</div>
       <div>
-        <p class="k">Cloud migration</p>
-        <h2><span class="ln"><i>From installed</i></span><span class="ln"><i>software to the cloud</i></span></h2>
+        <p class="k">The four design problems</p>
+        <h2><span class="ln"><i>Four questions,</i></span><span class="ln"><i>asked in order</i></span></h2>
         <div class="rule"></div>
-        <p class="lead">Moving a product to the cloud is not a re-skin. It changes what the product is allowed to know about the person using it.</p>
+        <p class="lead">Everything that follows is an answer to one of these. They are not four projects. They are four faces of the same problem.</p>
       </div>
     </div>
 
-    <div class="two-a" style="margin-top:clamp(46px,5vw,80px)">
-      <div class="rv">
-        <p>On-premise software had been a set of applications a firm installed and opened one at a time. In the cloud they became parts of one environment that users expected to behave as a whole.</p>
-        <p>That reframing touched almost everything I worked on: navigation, information architecture, how a person signs in, how they discover the products they have access to, how applications refer to each other, and what context survives when they move between them.</p>
-      </div>
-      <div class="rv" data-d="1">
-        <ul class="p">
-          <li><span class="i">01</span><span>Navigation and information architecture</span></li>
-          <li><span class="i">02</span><span>Client context across applications</span></li>
-          <li><span class="i">03</span><span>Authentication and single sign-on</span></li>
-          <li><span class="i">04</span><span>Cross-product relationships and journeys</span></li>
-          <li><span class="i">05</span><span>Product discovery and entry points</span></li>
-        </ul>
-      </div>
+    <div class="qs rv">
+      <div class="q"><span class="qn">01</span><p>How do separate products become one environment?</p></div>
+      <div class="q"><span class="qn">02</span><p>How does context survive across products?</p></div>
+      <div class="q"><span class="qn">03</span><p>How do you make dense professional software easier to work with without oversimplifying it?</p></div>
+      <div class="q"><span class="qn">04</span><p>How do individual solutions become reusable patterns?</p></div>
     </div>
-
-    <figure class="rv rv--mask drift" style="margin-top:clamp(50px,6vw,90px)">
-      <img class="figimg" src="images/IMAGE_05.png" width="3195" height="1051" loading="lazy" decoding="async"
-           alt="The journey mapped end to end: login, select a client, pick a product, work in accounts, exit to another product, work in tax, then remove the client and start again. A band across the middle marks how far the client context survives before it has to be established again.">
-      <figcaption>Information architecture for the cloud environment</figcaption>
-    </figure>
-
   </div>
 </section>
 
-<!-- 07 · CLIENT CONTEXT ..................................................... -->
-<section class="sec sec--tight" id="context">
+<!-- 10 · DESIGN PROBLEM 01 ................................................... -->
+<section class="sec sec--open" id="one-environment">
   <div class="w">
     <div class="head rv">
-      <div class="n">05</div>
+      <div class="n">08</div>
       <div>
-        <p class="k">Client context</p>
-        <h2><span class="ln"><i>Context is</i></span><span class="ln"><i>a design object</i></span></h2>
-        <div class="rule"></div>
-      </div>
-    </div>
-
-    <div class="two" style="margin-top:clamp(40px,5vw,70px)">
-      <div class="rv">
-        <p>Almost everything an accountant does is done <strong>on behalf of a specific client</strong>. That client is the spine of the work: the tax return, the billing, the documents, the deadlines all hang off it.</p>
-        <p>In separate applications, that spine kept breaking. Users selected a client, did some work, moved to another application, and had to establish who they were working on all over again. Or worse, did not, and had to check.</p>
-      </div>
-      <div class="rv" data-d="1">
-        <p>I mapped the existing workflow to see exactly where context was lost and what it cost each time, then explored how a persistent client context could travel with the user across applications.</p>
-        <p>Treating context as an object the system carries, rather than a selection each screen makes, changes the interaction design of every product that touches it. That is why it was worth the mapping before the designing.</p>
-      </div>
-    </div>
-
-    <!-- Aqui habia un momento fijado que cruzaba el recorrido antiguo con la
-         propuesta. Retirado el diagrama, un pin de un solo estado no tiene
-         sentido: la propuesta se muestra como una figura normal. -->
-    <figure class="rv rv--mask drift" style="margin-top:clamp(50px,6vw,90px)">
-      <img class="figimg" src="images/IMAGE_07.png" width="1140" height="536" loading="lazy" decoding="async"
-           alt="The proposed contextual layer: a client switcher pinned beside the tax return, with deeplinks that open documents, relationships and the client record in a new tab, annotated with what it reduces and what it still needs.">
-      <figcaption>Client context carried across the ecosystem</figcaption>
-    </figure>
-
-  </div>
-</section>
-
-<!-- 08 · CROSS-PRODUCT NAVIGATION ........................................... -->
-<section class="sec tint" id="navigation">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">06</div>
-      <div>
-        <p class="k">Cross-product navigation</p>
-        <h2><span class="ln"><i>Products never designed</i></span><span class="ln"><i>to sit together</i></span></h2>
+        <p class="k">Design problem 01</p>
+        <h2><span class="ln"><i>How do separate products</i></span><span class="ln"><i>become one environment?</i></span></h2>
         <div class="rule"></div>
         <p class="lead">Contacts, Jobs &amp; Billing, Tax, Documents, Time &amp; Billing, Client Accounting, Reporting. Each had its own navigation model, and each model was internally reasonable.</p>
       </div>
@@ -726,36 +959,24 @@ html:not(.js) .rv--mask{clip-path:none}
 
     <div class="two" style="margin-top:clamp(50px,6vw,90px)">
       <figure class="rv">
+        <p class="tag-d">Before</p>
         <img class="figimg" src="images/IMAGE_08.png?v=2" width="1280" height="810" loading="lazy" decoding="async"
              alt="Firm Settings with the product panel open on the right, listing the practice tools and the products a firm has access to, with two markers set against the two separate ways into the same ecosystem.">
-        <figcaption>The models as they existed</figcaption>
+        <figcaption>Two separate ways in</figcaption>
       </figure>
       <figure class="rv rv--mask" data-d="1">
+        <p class="tag-d">Proposed</p>
         <img class="figimg" src="images/IMAGE_09.png?v=2" width="1280" height="810" loading="lazy" decoding="async"
              alt="A single left navigation running from Dashboard through contacts, jobs and billing to the compliance products and settings, with two markers set against the levels of the hierarchy.">
-        <figcaption>The proposed structure</figcaption>
+        <figcaption>One structure, one hierarchy</figcaption>
       </figure>
     </div>
-  </div>
-</section>
 
-<!-- 09 · DASHBOARD .......................................................... -->
-<section class="sec sec--open" id="dashboard">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">07</div>
-      <div>
-        <p class="k">Product dashboard</p>
-        <h2><span class="ln"><i>An entry point,</i></span><span class="ln"><i>not a destination</i></span></h2>
-        <div class="rule"></div>
-        <p class="lead">A dashboard in a growing ecosystem has one honest job: get the person to the right place, with the right context, quickly.</p>
-      </div>
-    </div>
-
-    <div class="two-a" style="margin-top:clamp(44px,5vw,76px)">
+    <div class="two-a" style="margin-top:clamp(54px,6vw,96px)">
       <div class="rv">
-        <p>The temptation with a dashboard is to make it the product: to fill it with everything, because everything is available. That produces a screen people scan once and then bypass.</p>
-        <p>I designed it as a way in. It had to make the shape of the ecosystem legible, show what the firm actually had access to, and give the work a starting point without pretending to be the work.</p>
+        <p class="k">Entry point</p>
+        <p>A dashboard in a growing ecosystem has one honest job: get the person to the right place, with the right context, quickly.</p>
+        <p>The temptation is to make it the product, to fill it with everything because everything is available. That produces a screen people scan once and then bypass. I designed it as a way in, not as the work itself.</p>
       </div>
       <div class="rv" data-d="1">
         <p class="k">What it had to do</p>
@@ -768,30 +989,15 @@ html:not(.js) .rv--mask{clip-path:none}
       </div>
     </div>
 
-    <!-- sin ph--bleed: el archivo mide 1280px y a sangre completa se pintaria a
-         1440, agrandado un 12% sobre su tamano real. En un dashboard lleno de
-         texto de 12px eso se ve. Limitado al ancho de la columna: 1.10x. -->
     <figure class="rv rv--mask drift" style="margin-top:clamp(50px,6vw,90px)">
       <img class="figimg" src="images/IMAGE_10.png" width="1280" height="810" loading="lazy" decoding="async"
            alt="The CCH iFirm dashboard: the product navigation down the left, and a grid of panels showing last returns, resource allocation, work in progress by partner, documents and annual revenue.">
       <figcaption>Dashboard · Wolters Kluwer</figcaption>
     </figure>
-  </div>
-</section>
 
-<!-- 10 · SINGLE SIGN-ON ..................................................... -->
-<section class="sec tint sec--tight" id="sso">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">08</div>
-      <div>
-        <p class="k">Authentication</p>
-        <h2><span class="ln"><i>Infrastructure</i></span><span class="ln"><i>is an experience</i></span></h2>
-        <div class="rule"></div>
-      </div>
-    </div>
-    <div class="two" style="margin-top:clamp(40px,5vw,70px)">
+    <div class="two" style="margin-top:clamp(54px,6vw,96px)">
       <div class="rv">
+        <p class="k">Identity and authentication</p>
         <p>I worked on moving towards a unified authentication and single sign-on experience across Europe. On a slide this is a technical project. In use, it is the first thing every person meets, every day, before any of the design work further in gets a chance.</p>
       </div>
       <div class="rv" data-d="1">
@@ -802,58 +1008,132 @@ html:not(.js) .rv--mask{clip-path:none}
   </div>
 </section>
 
-<!-- 11 · COMPLEX WORKFLOWS .................................................. -->
-<section class="sec" id="workflows">
+<!-- 11 · DESIGN PROBLEM 02 ................................................... -->
+<section class="sec tint" id="context">
   <div class="w">
     <div class="head rv">
       <div class="n">09</div>
       <div>
-        <p class="k">Complex financial workflows</p>
-        <h2><span class="ln"><i>Dense</i></span><span class="ln"><i>by necessity</i></span></h2>
+        <p class="k">Design problem 02</p>
+        <h2><span class="ln"><i>Context is</i></span><span class="ln"><i>a design object</i></span></h2>
+        <div class="rule"></div>
+      </div>
+    </div>
+
+    <div class="two" style="margin-top:clamp(40px,5vw,70px)">
+      <div class="rv">
+        <p>Almost everything an accountant does is done <strong>on behalf of a specific client</strong>. That client is the spine of the work: the tax return, the billing, the documents, the deadlines all hang off it.</p>
+        <p>In separate applications, that spine kept breaking. Users selected a client, did some work, moved to another application, and had to establish who they were working on all over again. Or worse, did not, and had to check.</p>
+      </div>
+      <div class="rv" data-d="1">
+        <p>I mapped the existing workflow to see exactly where context was lost and what it cost each time, then explored how a persistent client context could travel with the user across applications.</p>
+        <p>Treating context as an object the system carries, rather than a selection each screen makes, changes the interaction design of every product that touches it. That is why it was worth the mapping before the designing.</p>
+      </div>
+    </div>
+
+    <!-- Antes y despues del mismo recorrido. Arriba una cadena que se rompe en
+         cada salto de producto; abajo el cliente sostenido y los productos
+         colgando de el. La diferencia entre las dos filas es la propuesta. -->
+    <figure class="rv" style="margin-top:clamp(50px,6vw,90px)">
+      <svg class="dg" viewBox="0 0 1120 440" role="img"
+           aria-label="Two versions of the same journey. Before: select a client, work, change product, select the client again, work again, with the context breaking at every product change. After: the client is held once and tax, accounting and documents all hang from it, with the context persisting across all three.">
+        <text class="tl" x="0" y="10">BEFORE</text>
+        <rect x="0" y="24" width="1120" height="1" fill="rgba(255,255,255,.14)"/>
+        <g>
+          <rect x="0"   y="50" width="190" height="52" fill="#1E1E24"/>
+          <rect x="238" y="50" width="190" height="52" fill="#1E1E24"/>
+          <rect x="476" y="50" width="190" height="52" fill="#1E1E24"/>
+          <rect x="714" y="50" width="190" height="52" fill="#1E1E24"/>
+          <rect x="952" y="50" width="168" height="52" fill="#1E1E24"/>
+        </g>
+        <g class="tt">
+          <text x="18" y="81">Select client</text><text x="256" y="81">Work</text>
+          <text x="494" y="81">Change product</text><text x="732" y="81">Select client again</text>
+          <text x="970" y="81">Work again</text>
+        </g>
+        <g stroke="rgba(255,255,255,.28)" stroke-width="1" fill="none">
+          <path d="M190 76 H238"/><path d="M428 76 H476"/><path d="M666 76 H714"/><path d="M904 76 H952"/>
+        </g>
+        <g stroke="rgba(255,255,255,.22)" stroke-width=".75" stroke-dasharray="2 3" fill="none">
+          <path d="M452 102 V128"/><path d="M690 102 V128"/>
+        </g>
+        <text class="ts" x="404" y="146">context lost</text>
+        <text class="ts" x="642" y="146">context lost</text>
+
+        <text class="tl" x="0" y="212">AFTER</text>
+        <rect x="0" y="226" width="1120" height="1" fill="rgba(255,255,255,.14)"/>
+        <rect x="0" y="270" width="240" height="76" fill="none" stroke="#7FA3E8" stroke-width="1"/>
+        <text class="tt" x="18" y="302">Client</text>
+        <text class="ts" x="18" y="324">selected once, carried</text>
+        <g stroke="#7FA3E8" stroke-width="1" fill="none">
+          <path d="M240 308 H330"/>
+          <path d="M330 254 V362"/>
+          <path d="M330 254 H400"/><path d="M330 308 H400"/><path d="M330 362 H400"/>
+        </g>
+        <g>
+          <rect x="400" y="232" width="260" height="44" fill="#1E1E24"/>
+          <rect x="400" y="286" width="260" height="44" fill="#1E1E24"/>
+          <rect x="400" y="340" width="260" height="44" fill="#1E1E24"/>
+        </g>
+        <g class="tt">
+          <text x="418" y="259">Tax</text><text x="418" y="313">Accounting</text><text x="418" y="367">Documents</text>
+        </g>
+        <g class="ts">
+          <text x="560" y="259">same client</text><text x="560" y="313">same client</text><text x="560" y="367">same client</text>
+        </g>
+        <text class="ts" x="0" y="422">The client stops being a selection each screen makes and becomes something the system holds on the person's behalf.</text>
+      </svg>
+      <figcaption>Where context broke, and what carrying it would mean</figcaption>
+    </figure>
+
+    <figure class="rv rv--mask drift" style="margin-top:clamp(44px,5vw,76px)">
+      <img class="figimg" src="images/IMAGE_07.png" width="1140" height="536" loading="lazy" decoding="async"
+           alt="The proposed contextual layer: a client switcher pinned beside the tax return, with deeplinks that open documents, relationships and the client record in a new tab, annotated with what it reduces and what it still needs.">
+      <figcaption>Client context carried across the ecosystem</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 12 · DESIGN PROBLEM 03 ................................................... -->
+<section class="sec sec--open" id="density">
+  <div class="w">
+    <div class="head rv">
+      <div class="n">10</div>
+      <div>
+        <p class="k">Design problem 03</p>
+        <h2><span class="ln"><i>Complexity was</i></span><span class="ln"><i>not the problem</i></span></h2>
         <div class="rule"></div>
         <p class="lead">Financial data, tax information, client records, forms, tables, documents, billing, tasks, compliance requirements, several roles and several workflows crossing the same screen.</p>
       </div>
     </div>
 
-    <div class="two" style="margin-top:clamp(44px,5vw,76px)">
+    <div class="two-a" style="margin-top:clamp(44px,5vw,76px)">
       <div class="rv">
         <p>These interfaces are dense because the work is dense. Stripping them back to look calmer would remove information professionals need, and they would go and find it somewhere less convenient.</p>
-        <p>So the work was not simplification. It was hierarchy, grouping, sequence, naming and interaction: making a lot of information navigable and reliable rather than making it look like less.</p>
+        <p>My job was not to remove information to make screens look simpler. It was to make relationships, hierarchy and workflows understandable.</p>
       </div>
       <div class="rv" data-d="1">
-        <p class="k">What made it hard</p>
+        <p class="k">What I worked with</p>
         <ul class="p">
-          <li><span class="i">01</span><span>Multiple roles reading the same screen for different reasons</span></li>
-          <li><span class="i">02</span><span>Relationships between records that had to stay visible</span></li>
-          <li><span class="i">03</span><span>Compliance requirements that could not be designed away</span></li>
-          <li><span class="i">04</span><span>Tables and forms as the primary interface, not the exception</span></li>
+          <li><span class="i">01</span><span>Hierarchy, so the eye lands where the work starts</span></li>
+          <li><span class="i">02</span><span>Grouping, so related things are read as related</span></li>
+          <li><span class="i">03</span><span>Sequence, so the order on screen matches the order of the work</span></li>
+          <li><span class="i">04</span><span>Naming, in the vocabulary of the profession, not the system</span></li>
+          <li><span class="i">05</span><span>Interaction, so a dense screen still feels controllable</span></li>
+          <li><span class="i">06</span><span>Feedback, so the person knows what just happened</span></li>
         </ul>
       </div>
     </div>
 
-    <figure class="rv rv--mask" style="margin-top:clamp(50px,6vw,90px)">
+    <figure class="rv rv--mask drift" style="margin-top:clamp(50px,6vw,90px)">
       <img class="figimg" src="images/IMAGE_11.png" width="1435" height="696" loading="lazy" decoding="async"
            alt="The Accounts Production overview for a client: business details along the top, a validations panel filtering fifteen items into errors, warnings and information, each one naming what is missing and linking straight to where it is fixed, and the financial overview below.">
       <figcaption>Accounts Production · Wolters Kluwer</figcaption>
     </figure>
 
-  </div>
-</section>
-
-<!-- 12 · IMPROVEMENT AND HEURISTICS ......................................... -->
-<section class="sec tint sec--tight" id="improvement">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">10</div>
-      <div>
-        <p class="k">Improving what exists</p>
-        <h2><span class="ln"><i>Finding</i></span><span class="ln"><i>the real problem</i></span></h2>
-        <div class="rule"></div>
-      </div>
-    </div>
-
-    <div class="two-a" style="margin-top:clamp(40px,5vw,70px)">
+    <div class="two-a" style="margin-top:clamp(54px,6vw,96px)">
       <div class="rv">
+        <p class="k">Sometimes the best solution was smaller</p>
         <p>A significant part of my role was improving software that already existed rather than designing from scratch. I analysed products through heuristic evaluation, real product data, user and customer feedback, usability findings, business requirements and technical constraints, then proposed what to change.</p>
         <p><strong>Some of the most useful things I did changed very little.</strong> A small interaction change, correctly placed, can remove a problem that looked like it needed a redesign. And it ships, which a redesign often does not.</p>
       </div>
@@ -870,14 +1150,89 @@ html:not(.js) .rv--mask{clip-path:none}
   </div>
 </section>
 
-<!-- 13 · RESEARCH AND VALIDATION ............................................ -->
-<section class="sec sec--open" id="research">
+<!-- 13 · DESIGN PROBLEM 04 ................................................... -->
+<section class="sec tint" id="patterns">
   <div class="w">
     <div class="head rv">
       <div class="n">11</div>
       <div>
+        <p class="k">Design problem 04</p>
+        <h2><span class="ln"><i>When the same problem</i></span><span class="ln"><i>appeared twice, it probably</i></span><span class="ln"><i>did not belong to one screen</i></span></h2>
+        <div class="rule"></div>
+      </div>
+    </div>
+
+    <div class="two" style="margin-top:clamp(46px,5vw,80px)">
+      <div class="rv">
+        <p>I applied the company design system across products and used it to pull inconsistent experiences back towards a shared language, including acquired products that had arrived with conventions of their own.</p>
+        <p>And I contributed to it regularly. Working across products meant I kept meeting the same problem in different places, which is exactly the signal that something belongs in the system rather than in a screen.</p>
+      </div>
+      <div class="rv" data-d="1">
+        <ul class="p">
+          <li><span class="i">01</span><span>Identified patterns that repeated across products</span></li>
+          <li><span class="i">02</span><span>Reduced duplication of solved problems</span></li>
+          <li><span class="i">03</span><span>Brought acquired products closer to the system</span></li>
+          <li><span class="i">04</span><span>Contributed components and patterns back</span></li>
+        </ul>
+        <p style="margin-top:26px">System work also reduces build effort. A pattern designed once, agreed once and implemented once stops three teams solving it three ways.</p>
+      </div>
+    </div>
+
+    <!-- El mismo problema apareciendo en tres sitios es el unico dato que hace
+         falta para saber que la solucion no vive en ninguno de los tres. -->
+    <figure class="rv" style="margin-top:clamp(50px,6vw,90px)">
+      <svg class="dg" viewBox="0 0 1120 262" role="img"
+           aria-label="Three products each meeting the same problem. The three converge on one shared pattern, and the pattern goes into the design system, from where it returns to all three.">
+        <g>
+          <rect x="0" y="20" width="200" height="44" fill="#1E1E24"/>
+          <rect x="0" y="86" width="200" height="44" fill="#1E1E24"/>
+          <rect x="0" y="152" width="200" height="44" fill="#1E1E24"/>
+        </g>
+        <g class="tt"><text x="18" y="48">Product A</text><text x="18" y="114">Product B</text><text x="18" y="180">Product C</text></g>
+        <g class="ts"><text x="110" y="48">same problem</text><text x="110" y="114">same problem</text><text x="110" y="180">same problem</text></g>
+
+        <g stroke="#7FA3E8" stroke-width="1" fill="none">
+          <path d="M200 42 H280 V108 H360"/><path d="M200 108 H360"/><path d="M200 174 H280 V108 H360"/>
+        </g>
+
+        <rect x="360" y="86" width="230" height="44" fill="none" stroke="#7FA3E8" stroke-width="1"/>
+        <text class="tt" x="378" y="114">Shared pattern</text>
+
+        <g stroke="#7FA3E8" stroke-width="1" fill="none"><path d="M590 108 H670"/></g>
+        <rect x="670" y="86" width="230" height="44" fill="#1E1E24"/>
+        <text class="tt" x="688" y="114">Design system</text>
+
+        <text class="ts" x="0" y="252">Solved once, agreed once, implemented once, and returned to every product that had the problem.</text>
+      </svg>
+      <figcaption>From a repeated problem to a system decision</figcaption>
+    </figure>
+
+    <figure class="rv drift" style="margin-top:clamp(44px,5vw,76px)">
+      <img class="figimg" src="images/IMAGE_15.png" width="1169" height="431" loading="lazy" decoding="async" style="max-width:1169px"
+           alt="The component library open beside a card component: the layers and assets panel listing the shared components, the card selected with its dimensions, and two of its states, one plain and one selected with an overflow menu open.">
+      <figcaption>Design system work</figcaption>
+    </figure>
+
+    <div class="two" style="margin-top:clamp(54px,6vw,96px)">
+      <div class="rv">
+        <p class="k">Accessibility was part of the same quality problem</p>
+        <p>I reviewed products for accessibility and usability together, because in dense professional software they find the same faults. Weak hierarchy, low contrast, meaning carried by colour alone and unclear interactive states fail an accessibility audit and also slow down everyone else.</p>
+      </div>
+      <div class="rv" data-d="1">
+        <p>Treating it as a quality lens rather than a compliance checkbox meant the fixes improved the product for all users, not only the ones the standard was written for.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 · RESEARCH AND VALIDATION ............................................. -->
+<section class="sec sec--open" id="research">
+  <div class="w">
+    <div class="head rv">
+      <div class="n">12</div>
+      <div>
         <p class="k">Research and validation</p>
-        <h2><span class="ln"><i>Research that</i></span><span class="ln"><i>changed the design</i></span></h2>
+        <h2><span class="ln"><i>Research changed</i></span><span class="ln"><i>the direction</i></span></h2>
         <div class="rule"></div>
         <p class="lead">I led and contributed to foundational research to understand what users actually needed, and tested concepts with real users and customers before committing to them.</p>
       </div>
@@ -897,22 +1252,21 @@ html:not(.js) .rv--mask{clip-path:none}
         <p>What to unify, what to leave regional, what to sequence first, and what not to build at all.</p>
       </div>
       <div>
-        <p class="ck">Design</p>
-        <p>Architecture, workflow and interaction that carried the decision, then prototyped and tested again.</p>
+        <p class="ck">Validation</p>
+        <p>Prototypes tested with the people who do the work, then designed again with what came back.</p>
       </div>
     </div>
 
     <div class="two" style="margin-top:clamp(46px,5vw,80px)">
       <div class="rv">
-        <p>Validation mattered most where it contradicted me. Testing a concept with people who do the work daily is the fastest way to find the assumption you did not know you had made, and it is far cheaper to find it in a prototype than in a release.</p>
+        <p class="pull">Research was most useful when it proved me wrong.</p>
       </div>
       <div class="rv" data-d="1">
+        <p>Testing a concept with people who do the work daily is the fastest way to find the assumption you did not know you had made, and it is far cheaper to find it in a prototype than in a release.</p>
         <p>Where testing confirmed a direction, it did something else useful: it gave the team the evidence to commit properly instead of hedging.</p>
       </div>
     </div>
 
-    <!-- A ancho de columna, no en media: el tablero mide 2126px y a 529 los
-         post-it y los journey maps no se leen. Aqui se pinta a 1130. -->
     <figure class="rv rv--mask drift" style="margin-top:clamp(50px,6vw,90px)">
       <img class="figimg" src="images/IMAGE_14.png" width="2126" height="1086" loading="lazy" decoding="async"
            alt="The research board: two participant profiles with their personality scales, needs, motivations and pain points, a user journey map for each one running from planning the week through shopping and cooking to eating, the opportunities drawn out of every stage, and a context tree pulling the whole set into one structure.">
@@ -921,74 +1275,168 @@ html:not(.js) .rv--mask{clip-path:none}
   </div>
 </section>
 
-<!-- 14 · DESIGN SYSTEM ...................................................... -->
-<section class="sec tint" id="system">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">12</div>
-      <div>
-        <p class="k">Design system</p>
-        <h2><span class="ln"><i>I did not just use</i></span><span class="ln"><i>the system</i></span></h2>
-        <div class="rule"></div>
-      </div>
-    </div>
-
-    <div class="two-a" style="margin-top:clamp(40px,5vw,70px)">
-      <div class="rv">
-        <p>I applied the company design system across products and used it to pull inconsistent experiences back towards a shared language, including acquired products that had arrived with conventions of their own.</p>
-        <p>And I contributed to it regularly. Working across products meant I kept meeting the same problem in different places, which is exactly the signal that something belongs in the system rather than in a screen.</p>
-      </div>
-      <div class="rv" data-d="1">
-        <ul class="p">
-          <li><span class="i">01</span><span>Identified patterns that repeated across products</span></li>
-          <li><span class="i">02</span><span>Reduced duplication of solved problems</span></li>
-          <li><span class="i">03</span><span>Brought acquired products closer to the system</span></li>
-          <li><span class="i">04</span><span>Contributed components and patterns back</span></li>
-        </ul>
-        <p style="margin-top:26px">System work also reduces build effort. A pattern designed once, agreed once and implemented once stops three teams solving it three ways.</p>
-      </div>
-    </div>
-
-    <!-- sin ph--wide: el archivo mide 1169px y a lo ancho del marco se pintaria
-         a 1310, agrandado por encima de su tamano real. Limitado a su ancho nativo. -->
-    <figure class="rv drift" style="margin-top:clamp(50px,6vw,90px)">
-      <img class="figimg" src="images/IMAGE_15.png" width="1169" height="431" loading="lazy" decoding="async" style="max-width:1169px"
-           alt="The component library open beside a card component: the layers and assets panel listing the shared components, the card selected with its dimensions, and two of its states, one plain and one selected with an overflow menu open.">
-      <figcaption>Design system work</figcaption>
-    </figure>
-  </div>
-</section>
-
-<!-- 15 · ACCESSIBILITY ...................................................... -->
-<section class="sec sec--tight" id="accessibility">
+<!-- 15 · FROM DESIGN TO HANDOFF .............................................. -->
+<section class="sec tint" id="handoff-flow">
   <div class="w">
     <div class="head rv">
       <div class="n">13</div>
       <div>
-        <p class="k">Accessibility</p>
-        <h2><span class="ln"><i>Another lens</i></span><span class="ln"><i>on quality</i></span></h2>
+        <p class="k">From design to build</p>
+        <h2><span class="ln"><i>Design does not stop</i></span><span class="ln"><i>when the screen</i></span><span class="ln"><i>is approved</i></span></h2>
         <div class="rule"></div>
       </div>
     </div>
-    <!-- Este capitulo se quedo sin imagen. Con la rejilla de dos columnas el
-         texto caia en la estrecha y la mitad derecha quedaba vacia, como si
-         faltase algo. En dos columnas de prosa se lee como un descanso. -->
+
     <div class="two" style="margin-top:clamp(40px,5vw,70px)">
       <div class="rv">
-        <p>I reviewed products for accessibility and usability together, because in dense professional software they find the same faults. Weak hierarchy, low contrast, meaning carried by colour alone and unclear interactive states fail an accessibility audit and also slow down everyone else.</p>
+        <p>Once the direction was clear, the work changed. The question was no longer only whether the experience made sense.</p>
       </div>
       <div class="rv" data-d="1">
-        <p>Treating it as a quality lens rather than a compliance checkbox meant the fixes improved the product for all users, not only the ones the standard was written for.</p>
+        <p>It was whether someone else could build it without having to guess what I meant.</p>
+      </div>
+    </div>
+
+    <!-- La flecha doble entre ingenieria y colaboracion es el unico punto del
+         diagrama donde el flujo va en las dos direcciones, y es deliberado:
+         es donde el diseno todavia puede cambiar. -->
+    <figure class="rv" style="margin-top:clamp(50px,6vw,90px)">
+      <svg class="dg" viewBox="0 0 1120 200" role="img"
+           aria-label="The path from design to production: design, flow, states, components, handoff, engineering, collaboration in both directions, quality assurance, and production.">
+        <text class="tl" x="0" y="10">DESIGN TO PRODUCTION</text>
+        <rect x="0" y="24" width="1120" height="1" fill="rgba(255,255,255,.14)"/>
+        <g>
+          <rect x="0"   y="52" width="118" height="46" fill="#1E1E24"/>
+          <rect x="142" y="52" width="118" height="46" fill="#1E1E24"/>
+          <rect x="284" y="52" width="118" height="46" fill="#1E1E24"/>
+          <rect x="426" y="52" width="140" height="46" fill="#1E1E24"/>
+          <rect x="590" y="52" width="118" height="46" fill="#1E1E24"/>
+          <rect x="732" y="52" width="140" height="46" fill="none" stroke="#7FA3E8" stroke-width="1"/>
+          <rect x="896" y="52" width="90"  height="46" fill="#1E1E24"/>
+          <rect x="1010" y="52" width="110" height="46" fill="#F6F4EF"/>
+        </g>
+        <g class="tt">
+          <text x="16" y="80">Design</text><text x="158" y="80">Flow</text><text x="300" y="80">States</text>
+          <text x="442" y="80">Components</text><text x="606" y="80">Handoff</text>
+          <text x="748" y="80">Engineering</text><text x="912" y="80">QA</text>
+        </g>
+        <text class="tt" x="1026" y="80" style="fill:#0E0E11">Production</text>
+        <g stroke="rgba(255,255,255,.28)" stroke-width="1" fill="none">
+          <path d="M118 75 H142"/><path d="M260 75 H284"/><path d="M402 75 H426"/>
+          <path d="M566 75 H590"/><path d="M708 75 H732"/><path d="M872 75 H896"/><path d="M986 75 H1010"/>
+        </g>
+        <g stroke="#7FA3E8" stroke-width="1" fill="none">
+          <path d="M802 98 V128"/><path d="M802 128 H660"/><path d="M660 128 V98"/>
+        </g>
+        <text class="ts" x="660" y="150">collaboration runs both ways</text>
+        <text class="ts" x="0" y="190">This is the only part of the path where the arrow points backwards, and it is the part where the design still changes.</text>
+      </svg>
+      <figcaption>The path a decision takes after it is approved</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 16 · HANDOFF AND ENGINEERING ............................................. -->
+<section class="sec sec--open" id="handoff">
+  <div class="w">
+    <div class="head rv">
+      <div class="n">14</div>
+      <div>
+        <p class="k">Handoff</p>
+        <h2><span class="ln"><i>My handoff was not a file.</i></span><span class="ln"><i>It was a shared</i></span><span class="ln"><i>understanding.</i></span></h2>
+        <div class="rule"></div>
+      </div>
+    </div>
+
+    <div class="hand rv">
+      <div class="hstep">
+        <div class="hn">01</div>
+        <div>
+          <h3>Prepare the flow</h3>
+          <p>I made sure the full journey was clear, not only individual screens. A screen that makes sense alone can still be impossible to arrive at.</p>
+        </div>
+      </div>
+      <div class="hstep">
+        <div class="hn">02</div>
+        <div>
+          <h3>Define behaviour</h3>
+          <p>States, interactions, empty states, errors and edge cases. In professional software the edge cases are not rare, they are Tuesday.</p>
+        </div>
+      </div>
+      <div class="hstep">
+        <div class="hn">03</div>
+        <div>
+          <h3>Connect the system</h3>
+          <p>Components, patterns and references to the design system, so what gets built is the shared thing and not a local copy of it.</p>
+        </div>
+      </div>
+      <div class="hstep">
+        <div class="hn">04</div>
+        <div>
+          <h3>Work with engineering</h3>
+          <p>Questions, technical constraints and alternatives. The constraint is usually real, and the alternative is usually findable.</p>
+        </div>
+      </div>
+      <div class="hstep">
+        <div class="hn">05</div>
+        <div>
+          <h3>Review the build</h3>
+          <p>Checking the implementation and resolving what changed on the way, before it reached the people who use it.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 16 · AI AND SIDE PROJECTS ............................................... -->
-<section class="sec tint" id="ai">
+<!-- 17 · STAYING CLOSE TO THE BUILD .......................................... -->
+<section class="sec tint" id="build">
   <div class="w">
     <div class="head rv">
-      <div class="n">14</div>
+      <div class="n">15</div>
+      <div>
+        <p class="k">Engineering collaboration</p>
+        <h2><span class="ln"><i>The handoff often</i></span><span class="ln"><i>changed the design too</i></span></h2>
+        <div class="rule"></div>
+      </div>
+    </div>
+
+    <div class="two" style="margin-top:clamp(40px,5vw,70px)">
+      <div class="rv">
+        <p>Handoff was not the moment when I disappeared. Engineering questions often exposed assumptions, constraints or missing states that had not appeared during the design phase.</p>
+      </div>
+      <div class="rv" data-d="1">
+        <p>Sometimes that meant changing the implementation. Sometimes it meant changing the design.</p>
+        <p class="pull" style="margin-top:clamp(28px,3vw,44px)">I stayed close to the build.</p>
+      </div>
+    </div>
+
+    <div class="levels rv" style="margin-top:clamp(44px,5vw,76px)">
+      <div class="level"><h3>Before build</h3><p>Clarify the flow, so the first question is not what happens here.</p></div>
+      <div class="level"><h3>During build</h3><p>Answer questions and resolve ambiguity while it is still cheap to resolve.</p></div>
+      <div class="level"><h3>After build</h3><p>Review the implementation against the intent, and agree what actually changed.</p></div>
+    </div>
+
+    <div class="two" style="margin-top:clamp(50px,6vw,90px)">
+      <figure class="rv">
+        <p class="tag-d">Designed</p>
+        <img class="figimg" src="images/IMAGE_09.png?v=2" width="1280" height="810" loading="lazy" decoding="async"
+             alt="The proposed navigation structure: a single left navigation from Dashboard through contacts, jobs and billing to the compliance products and settings.">
+        <figcaption>The structure as proposed</figcaption>
+      </figure>
+      <figure class="rv rv--mask" data-d="1">
+        <p class="tag-d">In production</p>
+        <img class="figimg" src="images/IMAGE_11.png" width="1435" height="696" loading="lazy" decoding="async"
+             alt="Accounts Production running in the product, with the navigation in place down the left and the validations panel open on a client.">
+        <figcaption>The product in use · representative, not a matched pair</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 18 · AI AND CODE GAMES ................................................... -->
+<section class="sec" id="ai">
+  <div class="w">
+    <div class="head rv">
+      <div class="n">16</div>
       <div>
         <p class="k">Emerging technology</p>
         <h2><span class="ln"><i>AI as a tool,</i></span><span class="ln"><i>not a theme</i></span></h2>
@@ -1033,35 +1481,11 @@ html:not(.js) .rv--mask{clip-path:none}
   </div>
 </section>
 
-<!-- 17 · HOW I WORK ......................................................... -->
-<section class="sec light sec--open" id="how">
+<!-- 19 · IMPACT ............................................................. -->
+<section class="sec light sec--open" id="impact">
   <div class="w">
     <div class="head rv">
-      <div class="n">15</div>
-      <div>
-        <p class="k">How I work</p>
-        <h2><span class="ln"><i>The working model</i></span></h2>
-        <div class="rule"></div>
-      </div>
-    </div>
-
-    <div style="margin-top:clamp(36px,4vw,60px)">
-      <div class="step rv"><div class="sn">01</div><div><h3>Understand the system</h3><p>Users, business requirements, workflows, constraints and how everything connects come first. In an ecosystem, the interface is the last thing you should decide, because everything else changes what it needs to be.</p></div></div>
-      <div class="step rv"><div class="sn">02</div><div><h3>Find the real problem</h3><p>Research, data, feedback and heuristics, so the thing I fix is the thing that is broken rather than the thing that is visible.</p></div></div>
-      <div class="step rv"><div class="sn">03</div><div><h3>Make complexity understandable</h3><p>Translate complicated requirements into information architecture, workflows and interactions people can navigate under pressure.</p></div></div>
-      <div class="step rv"><div class="sn">04</div><div><h3>Design for the system</h3><p>Look for the reusable pattern rather than solving the same problem again one screen at a time.</p></div></div>
-      <div class="step rv"><div class="sn">05</div><div><h3>Validate early</h3><p>Prototypes and real user feedback, specifically to challenge my own assumptions while changing course is still cheap.</p></div></div>
-      <div class="step rv"><div class="sn">06</div><div><h3>Work with constraints</h3><p>User needs, business requirements, technical feasibility and regional differences are all real at once. Design is what balances them.</p></div></div>
-      <div class="step rv"><div class="sn">07</div><div><h3>Keep solutions simple</h3><p>Prefer the small change that works to the big one that might. A modest improvement people are already using is worth more than an ambitious one still waiting to be built.</p></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- 18 · IMPACT ............................................................. -->
-<section class="sec" id="impact">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">16</div>
+      <div class="n">17</div>
       <div>
         <p class="k">Impact</p>
         <h2><span class="ln"><i>What changed</i></span></h2>
@@ -1073,28 +1497,78 @@ html:not(.js) .rv--mask{clip-path:none}
       <div class="rv">
         <ul class="p">
           <li><span class="i">01</span><span>More coherent experiences across products that had grown apart</span></li>
-          <li><span class="i">02</span><span>Greater consistency across regions, without flattening real local needs</span></li>
-          <li><span class="i">03</span><span>Modernised experiences as products moved to the cloud</span></li>
-          <li><span class="i">04</span><span>Better cross-product navigation and clearer entry points</span></li>
+          <li><span class="i">02</span><span>Greater consistency across markets, without flattening real local needs</span></li>
+          <li><span class="i">03</span><span>Better cross-product navigation and clearer entry points</span></li>
+          <li><span class="i">04</span><span>Shared foundations and reusable patterns contributed back to the design system</span></li>
         </ul>
       </div>
       <div class="rv" data-d="1">
         <ul class="p">
-          <li><span class="i">05</span><span>Reusable patterns contributed back to the design system</span></li>
-          <li><span class="i">06</span><span>Reduced duplication, and less build effort spent re-solving the same problem</span></li>
-          <li><span class="i">07</span><span>Product decisions validated with users before they were built</span></li>
-          <li><span class="i">08</span><span>Improved usability and accessibility in existing software</span></li>
+          <li><span class="i">05</span><span>Product decisions validated with users before they were built</span></li>
+          <li><span class="i">06</span><span>Less duplicated design and development work</span></li>
+          <li><span class="i">07</span><span>Improvements shipped into existing professional software</span></li>
+          <li><span class="i">08</span><span>Modernised experiences as products moved to the cloud</span></li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 19 · CLOSING ............................................................ -->
+<!-- 20 · REFLECTION ......................................................... -->
+<section class="sec" id="reflection">
+  <div class="w">
+    <div class="head rv">
+      <div class="n">18</div>
+      <div>
+        <p class="k">What I learnt</p>
+        <h2><span class="ln"><i>The biggest lesson was</i></span><span class="ln"><i>knowing where to zoom</i></span></h2>
+        <div class="rule"></div>
+      </div>
+    </div>
+
+    <!-- Cuatro alturas de mirada, del sistema a la interaccion. La barra que las
+         cruza a la izquierda dice que es un rango continuo, no cuatro trabajos. -->
+    <figure class="rv" style="margin-top:clamp(46px,5vw,80px)">
+      <svg class="dg" viewBox="0 0 1120 300" role="img"
+           aria-label="Four levels of attention, from ecosystem down to interaction, drawn as a continuous range rather than four separate jobs.">
+        <rect x="0" y="16" width="2" height="252" fill="rgba(255,255,255,.28)"/>
+        <g>
+          <rect x="40" y="16"  width="1080" height="52" fill="#1E1E24"/>
+          <rect x="40" y="82"  width="900"  height="52" fill="#1E1E24"/>
+          <rect x="40" y="148" width="720"  height="52" fill="#1E1E24"/>
+          <rect x="40" y="214" width="540"  height="52" fill="#1E1E24"/>
+        </g>
+        <g class="tt">
+          <text x="60" y="47">Ecosystem</text><text x="60" y="113">Product</text>
+          <text x="60" y="179">Workflow</text><text x="60" y="245">Interaction</text>
+        </g>
+        <g class="ts">
+          <text x="200" y="47">How products connect</text>
+          <text x="200" y="113">How a product holds a job together</text>
+          <text x="200" y="179">How the work actually runs</text>
+          <text x="200" y="245">How it feels under the hand</text>
+        </g>
+        <text class="tl" x="40" y="292">ZOOM OUT FAR ENOUGH TO SEE IT · ZOOM IN FAR ENOUGH TO SOLVE IT</text>
+      </svg>
+      <figcaption>Where the work happened</figcaption>
+    </figure>
+
+    <div class="two" style="margin-top:clamp(46px,5vw,80px)">
+      <div class="rv">
+        <p>I learnt to zoom out far enough to understand the system, and in far enough to solve the interaction.</p>
+      </div>
+      <div class="rv" data-d="1">
+        <p>Neither one works alone. An ecosystem decision that ignores the interaction produces something coherent and unusable. An interaction fix that ignores the ecosystem gets undone by the next product that joins.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 21 · CLOSING ............................................................ -->
 <section class="pivot" id="closing">
   <div class="w">
-    <p class="stmt rv">I design products that make complex systems feel <i>understandable.</i></p>
-    <p class="after rv" data-d="1">I can zoom out far enough to see the ecosystem, and in far enough to solve the interaction. I am grateful for everything I learnt at Wolters Kluwer.</p>
+    <p class="stmt rv">My job was often to design the connection between things that had previously been designed <i>separately.</i></p>
+    <p class="after rv" data-d="1">I am grateful for everything I learnt at Wolters Kluwer.</p>
   </div>
 </section>
 
