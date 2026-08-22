@@ -11,30 +11,28 @@
 <meta name="description" content="Designing complex financial software for a global ecosystem: cloud migration, cross-product navigation, design systems and research across accounting and tax products at Wolters Kluwer.">
 
 <!--
-  IMAGE PLACEHOLDERS. IMAGE_01 to IMAGE_16, numbered in order of appearance.
-  Each placeholder is a <figure class="ph"> whose --ar custom property holds the
-  intended aspect ratio. To swap in a final asset, replace the <div class="ph__box">
-  with <img class="figimg" src="..." width="..." height="..." loading="lazy"
-  decoding="async" alt="..."> and keep the surrounding <figure> and <figcaption>.
-  The --ar value is the ratio the layout was composed for.
+  IMAGENES. Ya no queda ningun marcador vacio: la pagina solo monta archivos
+  reales. Los numeros son los del guion original, con los huecos que se
+  retiraron por el camino.
 
-  01 DONE. images/IMAGE_01.png, 1846x800, montaje del ecosistema
-  03 DONE. images/IMAGE_03.png, 610x295, accounts production + contactos
-  04 DONE. images/IMAGE_04.png, 607x295, identificacion corporativa T2
-  05 DONE. images/IMAGE_05.png, 3195x1051, el recorrido tal y como era.
-     Ojo: el archivo se llama 05 pero ocupa el hueco 06 del guion. El hueco 05
-     (arquitectura de informacion, 16/9) sigue vacio.
-  06 libre, ver la nota de arriba
-  07 DONE. images/IMAGE_07.png, 1140x536, capa contextual propuesta
-  08 DONE. images/IMAGE_08.png, 1280x810, Firm Settings y el panel de productos
-  09 DONE. images/IMAGE_09.png, 1280x810, navegacion lateral anotada
-  10 DONE. images/IMAGE_10.png, 1280x810, el dashboard
-  11 DONE. images/IMAGE_11.png, 1435x696, Accounts Production
-  12 DONE. images/IMAGE_12.png, 888x612, detalle de la interfaz de declaracion
-  13 DONE. images/IMAGE_13.png, 1327x743, client context en UK iFirm
-  14 research synthesis to decision              3/2
-  15 DONE. images/IMAGE_15.png, 1169x431, biblioteca de componentes
-  16 accessibility review                        3/2
+  01 images/IMAGE_01.png   1846x800   montaje del ecosistema
+  03 images/IMAGE_03.png    610x295   accounts production y contactos
+  04 images/IMAGE_04.png    607x295   identificacion corporativa T2
+  05 images/IMAGE_05.png   3195x1051  el diagrama del recorrido
+  07 images/IMAGE_07.png   1140x536   capa contextual propuesta
+  08 images/IMAGE_08.png   1280x810   Firm Settings y el panel de productos
+  09 images/IMAGE_09.png   1280x810   navegacion lateral anotada
+  10 images/IMAGE_10.png   1280x810   el dashboard
+  11 images/IMAGE_11.png   1435x696   Accounts Production
+  13 images/IMAGE_13.png   1327x743   client context en UK iFirm
+  14 images/IMAGE_14.png   2126x1086  el tablero de research
+  15 images/IMAGE_15.png   1169x431   biblioteca de componentes
+
+  video/code-games.mp4     1442x836   9s, arranca solo y en silencio
+
+  Retirados: 02, 06, 12 y 16. Para anadir una imagen nueva, un <figure> con
+  <img class="figimg" src="..." width="..." height="..." loading="lazy"
+  decoding="async" alt="..."> y su <figcaption>.
 -->
 
 <style>
@@ -632,13 +630,12 @@ html:not(.js) .rv--mask{clip-path:none}
       </div>
     </div>
 
-    <figure class="ph ph--wide rv rv--mask drift" style="--ar:16/9;margin-top:clamp(50px,6vw,90px)">
-      <div class="ph__box">
-        <span class="ph__id">IMAGE_05</span>
-        <p class="ph__note">On-premise to cloud · the information architecture rethought</p>
-      </div>
+    <figure class="rv rv--mask drift" style="margin-top:clamp(50px,6vw,90px)">
+      <img class="figimg" src="images/IMAGE_05.png" width="3195" height="1051" loading="lazy" decoding="async"
+           alt="The journey mapped end to end: login, select a client, pick a product, work in accounts, exit to another product, work in tax, then remove the client and start again. A band across the middle marks how far the client context survives before it has to be established again.">
       <figcaption>Information architecture for the cloud environment</figcaption>
     </figure>
+
   </div>
 </section>
 
@@ -665,33 +662,15 @@ html:not(.js) .rv--mask{clip-path:none}
       </div>
     </div>
 
-  </div>
+    <!-- Aqui habia un momento fijado que cruzaba el recorrido antiguo con la
+         propuesta. Retirado el diagrama, un pin de un solo estado no tiene
+         sentido: la propuesta se muestra como una figura normal. -->
+    <figure class="rv rv--mask drift" style="margin-top:clamp(50px,6vw,90px)">
+      <img class="figimg" src="images/IMAGE_07.png" width="1140" height="536" loading="lazy" decoding="async"
+           alt="The proposed contextual layer: a client switcher pinned beside the tax return, with deeplinks that open documents, relationships and the client record in a new tab, annotated with what it reduces and what it still needs.">
+      <figcaption>Client context carried across the ecosystem</figcaption>
+    </figure>
 
-  <!-- The page's one pinned moment. The stage holds while the reader scrolls the
-       track behind it and the two states cross over. It earns the pin because
-       the point is the change itself: context lost, then context carried. -->
-  <div class="pin-track" id="context-pin">
-    <div class="pin-stage">
-      <div class="w">
-        <ul class="pin-count" aria-hidden="true"><li class="on"></li><li></li></ul>
-        <div class="pin-frame">
-          <div class="pin-step on">
-            <figure>
-              <img class="figimg" src="images/IMAGE_05.png" width="3195" height="1051" loading="lazy" decoding="async"
-                   alt="The journey mapped end to end: login, select a client, pick a product, work in accounts, exit to another product, work in tax, then remove the client and start again. A band across the middle marks how far the client context survives before it has to be established again.">
-              <figcaption>The workflow as it was</figcaption>
-            </figure>
-          </div>
-          <div class="pin-step">
-            <figure>
-              <img class="figimg" src="images/IMAGE_07.png" width="1140" height="536" loading="lazy" decoding="async"
-                   alt="The proposed contextual layer: a client switcher pinned beside the tax return, with deeplinks that open documents, relationships and the client record in a new tab, annotated with what it reduces and what it still needs.">
-              <figcaption>Client context carried across the ecosystem</figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -721,12 +700,12 @@ html:not(.js) .rv--mask{clip-path:none}
 
     <div class="two" style="margin-top:clamp(50px,6vw,90px)">
       <figure class="rv">
-        <img class="figimg" src="images/IMAGE_08.png" width="1280" height="810" loading="lazy" decoding="async"
+        <img class="figimg" src="images/IMAGE_08.png?v=2" width="1280" height="810" loading="lazy" decoding="async"
              alt="Firm Settings with the product panel open on the right, listing the practice tools and the products a firm has access to, with two markers set against the two separate ways into the same ecosystem.">
         <figcaption>The models as they existed</figcaption>
       </figure>
       <figure class="rv rv--mask" data-d="1">
-        <img class="figimg" src="images/IMAGE_09.png" width="1280" height="810" loading="lazy" decoding="async"
+        <img class="figimg" src="images/IMAGE_09.png?v=2" width="1280" height="810" loading="lazy" decoding="async"
              alt="A single left navigation running from Dashboard through contacts, jobs and billing to the compliance products and settings, with two markers set against the levels of the hierarchy.">
         <figcaption>The proposed structure</figcaption>
       </figure>
@@ -832,11 +811,6 @@ html:not(.js) .rv--mask{clip-path:none}
       <figcaption>Accounts Production · Wolters Kluwer</figcaption>
     </figure>
 
-    <figure class="rv" style="margin-top:clamp(10px,1.1vw,18px);max-width:820px">
-      <img class="figimg" src="images/IMAGE_12.png" width="888" height="612" loading="lazy" decoding="async"
-           alt="A detail of the return interface: the client label and its optional secondary line in the header, the view, notes and warnings controls beneath it, then a completion checkbox, delete and save, and a table row for a foreign income entry with its amounts.">
-      <figcaption>Client details · Wolters Kluwer</figcaption>
-    </figure>
   </div>
 </section>
 
@@ -905,18 +879,19 @@ html:not(.js) .rv--mask{clip-path:none}
     <div class="two" style="margin-top:clamp(46px,5vw,80px)">
       <div class="rv">
         <p>Validation mattered most where it contradicted me. Testing a concept with people who do the work daily is the fastest way to find the assumption you did not know you had made, and it is far cheaper to find it in a prototype than in a release.</p>
-        <p>Where testing confirmed a direction, it did something else useful: it gave the team the evidence to commit properly instead of hedging.</p>
       </div>
       <div class="rv" data-d="1">
-        <figure class="ph" style="--ar:3/2">
-          <div class="ph__box">
-            <span class="ph__id">IMAGE_14</span>
-            <p class="ph__note">Research synthesis and the decision it drove</p>
-          </div>
-          <figcaption>Synthesis to decision</figcaption>
-        </figure>
+        <p>Where testing confirmed a direction, it did something else useful: it gave the team the evidence to commit properly instead of hedging.</p>
       </div>
     </div>
+
+    <!-- A ancho de columna, no en media: el tablero mide 2126px y a 529 los
+         post-it y los journey maps no se leen. Aqui se pinta a 1130. -->
+    <figure class="rv rv--mask drift" style="margin-top:clamp(50px,6vw,90px)">
+      <img class="figimg" src="images/IMAGE_14.png" width="2126" height="1086" loading="lazy" decoding="async"
+           alt="The research board: two participant profiles with their personality scales, needs, motivations and pain points, a user journey map for each one running from planning the week through shopping and cooking to eating, the opportunities drawn out of every stage, and a context tree pulling the whole set into one structure.">
+      <figcaption>Synthesis to decision</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -969,19 +944,15 @@ html:not(.js) .rv--mask{clip-path:none}
         <div class="rule"></div>
       </div>
     </div>
-    <div class="two-a" style="margin-top:clamp(40px,5vw,70px)">
+    <!-- Este capitulo se quedo sin imagen. Con la rejilla de dos columnas el
+         texto caia en la estrecha y la mitad derecha quedaba vacia, como si
+         faltase algo. En dos columnas de prosa se lee como un descanso. -->
+    <div class="two" style="margin-top:clamp(40px,5vw,70px)">
       <div class="rv">
         <p>I reviewed products for accessibility and usability together, because in dense professional software they find the same faults. Weak hierarchy, low contrast, meaning carried by colour alone and unclear interactive states fail an accessibility audit and also slow down everyone else.</p>
-        <p>Treating it as a quality lens rather than a compliance checkbox meant the fixes improved the product for all users, not only the ones the standard was written for.</p>
       </div>
       <div class="rv" data-d="1">
-        <figure class="ph" style="--ar:3/2">
-          <div class="ph__box">
-            <span class="ph__id">IMAGE_16</span>
-            <p class="ph__note">Accessibility review · hierarchy, contrast and interaction clarity</p>
-          </div>
-          <figcaption>Accessibility review</figcaption>
-        </figure>
+        <p>Treating it as a quality lens rather than a compliance checkbox meant the fixes improved the product for all users, not only the ones the standard was written for.</p>
       </div>
     </div>
   </div>
@@ -1019,6 +990,20 @@ html:not(.js) .rv--mask{clip-path:none}
         <p style="margin:0">I took part in Code Games, an internal initiative where people from different teams build something together outside their usual work. I joined to contribute beyond my own projects, to learn directly from engineers and data colleagues, and to get to know people across the company I would never have met through the roadmap.</p>
       </div>
     </div>
+
+    <!-- Arranca solo, en silencio y en bucle: el navegador solo permite autoplay
+         si va muteado. preload="auto" para que ya este cargado cuando el lector
+         llegue. Sin controles: la barra nativa del navegador metia una franja
+         gris de interfaz atravesando la composicion. El script del pie lo deja
+         quieto si se ha pedido menos movimiento. -->
+    <figure class="rv" style="margin-top:clamp(34px,4vw,56px)">
+      <video class="figimg" id="code-games" autoplay muted loop playsinline preload="auto"
+             width="1442" height="836">
+        <source src="video/code-games.mp4" type="video/mp4">
+        <a href="video/code-games.mp4">Download the Code Games video</a>
+      </video>
+      <figcaption>Code Games</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -1116,6 +1101,12 @@ addEventListener('resize',medirBarra,{passive:true});
    and skipped entirely for readers who asked for less motion. */
 var quieto=matchMedia('(prefers-reduced-motion: reduce)').matches;
 var drifters=quieto?[]:Array.prototype.slice.call(document.querySelectorAll('.drift'));
+
+/* Un video en bucle que arranca solo es movimiento continuo. A quien ha pedido
+   menos movimiento se le deja parado en el primer fotograma, con sus controles
+   para verlo si quiere. Sin JS el video arranca igual: el atributo manda. */
+var cg=document.getElementById('code-games');
+if(cg&&quieto){cg.autoplay=false;cg.loop=false;cg.pause()}
 function moverDrift(){
   var vh=window.innerHeight;
   for(var i=0;i<drifters.length;i++){
