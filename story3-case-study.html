@@ -18,29 +18,30 @@
 @font-face{font-family:'Roboto Mono';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/roboto-mono-latin-400-normal.woff2) format('woff2')}
 
 :root{
+  --dark:#0E0E11; --dark-2:#17171B; --dark-3:#1E1E24;
   --paper:#F6F4EF; --paper-2:#EEEBE3;
-  --ink:#0E0E11; --ink-2:#33333A; --mid:#686872;
-  --line:rgba(14,14,17,.14); --line-2:rgba(14,14,17,.07);
-  --dark:#0E0E11;
+  --ink:#FFFFFF; --ink-2:#C9C9CE; --mid:#8C8C93;
+  --line:rgba(255,255,255,.14); --line-2:rgba(255,255,255,.07);
   --blue:#1F4396; --blue-l:#7FA3E8; --rust:#B23A20; --rust-l:#E0714F;
   --serif:'Libertinus Serif',Georgia,serif; --sans:'Roboto',Arial,sans-serif; --mono:'Roboto Mono',monospace;
   --m:clamp(20px,5.2vw,96px);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.45;mix-blend-mode:multiply;
-  background-image:radial-gradient(circle at 1px 1px,rgba(0,0,0,.06) 0,rgba(0,0,0,.06) .5px,transparent .6px);background-size:3px 3px}
+body{margin:0;background:var(--dark);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
 .w{max-width:1280px;margin:0 auto;padding:0 var(--m)}
 .sec{padding:clamp(80px,11vw,180px) 0;position:relative}
-.dark{background:var(--dark);color:#FFFFFF}
-.dark p,.pivot p{color:#FFFFFF}
-.dark .k,.dark .n,.pivot .k,.pivot .n{color:#FFFFFF}
-.dark .rule,.pivot .rule{background:rgba(255,255,255,.16)}
-.tint{background:var(--paper-2)}
+.light{background:var(--paper);color:#0E0E11}
+.light p{color:#33333A}
+.pivot p{color:#FFFFFF}
+.light .k,.light .n{color:#686872}
+.pivot .k,.pivot .n{color:#FFFFFF}
+.light .rule{background:rgba(14,14,17,.14)}
+.pivot .rule{background:rgba(255,255,255,.16)}
+.tint{background:var(--dark-2)}
 
-.skip-link{position:absolute;left:16px;top:-60px;z-index:200;background:var(--ink);color:#fff;
+.skip-link{position:absolute;left:16px;top:-60px;z-index:200;background:var(--ink);color:#0E0E11;
   padding:10px 18px;font-family:var(--mono);font-size:11px;letter-spacing:1px;text-decoration:none;transition:top .2s}
 .skip-link:focus{top:12px}
 .navbar{position:fixed;top:0;left:0;right:0;z-index:100;mix-blend-mode:difference;color:#fff}
@@ -94,7 +95,8 @@ html:not(.js) .nav-links a span,html:not(.js) .nav-foot a span{transform:none}
   .nav-links a::after,.nav-foot a::after{top:-11px;bottom:-11px}
 }
 :focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-.dark :focus-visible,.pivot :focus-visible{outline-color:#FFFFFF}
+.light :focus-visible{outline-color:#0E0E11}
+.pivot :focus-visible{outline-color:#FFFFFF}
 
 h1{font-family:var(--serif);font-weight:400;font-size:clamp(46px,9.6vw,152px);line-height:.92;letter-spacing:-.022em;margin:0}
 h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,6vw,84px);line-height:.98;letter-spacing:-.016em;margin:0}
@@ -102,7 +104,8 @@ h3{font-family:var(--serif);font-weight:400;font-size:clamp(21px,2.4vw,30px);lin
 p{margin:0 0 22px;max-width:60ch;color:var(--ink-2)}
 em{font-style:italic}
 strong{font-weight:500;color:var(--ink)}
-.dark strong,.pivot strong{color:#FFFFFF}
+.light strong{color:#0E0E11}
+.pivot strong{color:#FFFFFF}
 
 .k{font-family:var(--mono);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--mid);margin:0 0 20px}
 .n{font-family:var(--serif);font-size:clamp(40px,5vw,72px);line-height:.8;color:var(--mid);opacity:.55}
@@ -123,6 +126,26 @@ strong{font-weight:500;color:var(--ink)}
   padding:14px 22px 14px 0;border-right:1px solid var(--line-2);margin-right:22px}
 .hero-meta span:last-child{border-right:0;margin-right:0}
 
+/* RESULT CHIPS. La cifra en serif a escala de titular es lo que hace que el ojo
+   caiga aqui antes que en la fila de metadatos, que usa el mismo mono de 10px.
+   Sin caja, sin radio y sin color: la escala tipografica hace el trabajo sola,
+   y el oxido sigue reservado para marcar donde se rompe la experiencia. */
+.stats{display:flex;flex-wrap:wrap;margin:clamp(34px,4.4vw,60px) 0 0;
+  border-top:1px solid var(--line)}
+.stat{padding:20px clamp(26px,3vw,44px) 0 0;margin-right:clamp(26px,3vw,44px);
+  border-right:1px solid var(--line-2)}
+.stat:last-child{border-right:0;margin-right:0;padding-right:0}
+.stat b{display:block;font-family:var(--serif);font-weight:400;
+  font-size:clamp(30px,3.6vw,50px);line-height:1;letter-spacing:-.02em;color:var(--ink)}
+.stat i{display:block;font-style:normal;font-family:var(--mono);font-size:10px;
+  letter-spacing:1.1px;text-transform:uppercase;color:var(--mid);margin-top:12px}
+/* En estrecho pasan a columna y los separadores giran de verticales a horizontales */
+@media(max-width:700px){
+  .stats{display:block}
+  .stat{border-right:0;border-bottom:1px solid var(--line-2);margin-right:0;padding:16px 0}
+  .stat:last-child{border-bottom:0;padding-bottom:0}
+}
+
 .conf{margin-top:clamp(46px,6vw,84px);display:grid;grid-template-columns:clamp(80px,9vw,150px) 1fr;gap:clamp(20px,3vw,50px)}
 @media(max-width:900px){.conf{grid-template-columns:1fr}}
 .conf .body{max-width:56ch;font-size:15.5px;color:var(--mid);border-left:2px solid var(--ink);padding-left:24px}
@@ -134,7 +157,8 @@ strong{font-weight:500;color:var(--ink)}
 
 figure{margin:0}
 figcaption{font-family:var(--mono);font-size:10px;letter-spacing:1.1px;text-transform:uppercase;color:var(--mid);margin-top:16px;padding-top:10px;border-top:1px solid var(--line-2)}
-.dark figcaption,.pivot figcaption{color:#FFFFFF;border-color:rgba(255,255,255,.1)}
+.light figcaption{color:#686872;border-color:rgba(14,14,17,.09)}
+.pivot figcaption{color:#FFFFFF;border-color:rgba(255,255,255,.1)}
 svg{display:block;width:100%;height:auto}
 .figimg{display:block;width:100%;height:auto}
 .fig-mid{max-width:460px}
@@ -162,7 +186,8 @@ svg{display:block;width:100%;height:auto}
 ul.p{list-style:none;margin:0;padding:0}
 ul.p li{padding:14px 0;border-top:1px solid var(--line-2);font-size:16px;color:var(--ink-2);display:flex;gap:16px}
 ul.p li .i{font-family:var(--mono);font-size:10px;color:var(--mid);letter-spacing:1px;padding-top:4px;flex:none}
-.dark ul.p li,.pivot ul.p li{border-color:rgba(255,255,255,.1);color:#FFFFFF}
+.light ul.p li{border-color:rgba(14,14,17,.09);color:#33333A}
+.pivot ul.p li{border-color:rgba(255,255,255,.1);color:#FFFFFF}
 
 footer{padding:60px 0 90px;border-top:1px solid var(--line)}
 footer p{font-family:var(--mono);font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--mid);max-width:none}
@@ -220,6 +245,12 @@ html:not(.js) .rv{opacity:1;transform:none}
       <span>Consumer · Telecom</span>
     </div>
     <h1>Designing for<br>a wait that<br><em>could not be shortened</em></h1>
+
+    <div class="stats">
+      <div class="stat"><b>&minus;12%</b><i>Call centre calls</i></div>
+      <div class="stat"><b>Goal</b><i>Reduce call centre volume</i></div>
+    </div>
+
     <div class="hero-meta">
       <span>Interaction design</span><span>Technical constraints</span><span>Self-service</span>
       <span>Motion design</span><span>Illustration</span><span>Design system</span>
@@ -336,7 +367,7 @@ html:not(.js) .rv{opacity:1;transform:none}
   </div>
 </section>
 
-<section class="sec dark">
+<section class="sec light">
   <div class="w">
     <div class="head">
       <div><span class="n">05</span></div>
