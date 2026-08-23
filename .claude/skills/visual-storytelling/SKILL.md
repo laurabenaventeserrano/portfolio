@@ -29,13 +29,55 @@ So everything here is built from:
 | Chapter snapping | `scroll-snap-type: y proximity` |
 | Nav over any ground | `mix-blend-mode: difference` |
 
-**Do not add GSAP, ScrollTrigger, Lenis, Motion or Framer.** Every effect described in this file is achievable without them. If a future request genuinely needs timeline scrubbing across many tweens, say so, explain the cost (a build step or a CDN dependency, and the loss of the no-dependency guarantee), and **ask before adding it.** Never add a library silently.
+| Scroll feel (velocity, inertia) | A hand-written rAF loop easing `window.scrollTo`. See section 2 |
+
+**Do not add GSAP, ScrollTrigger, Lenis, Motion or Framer.** Every effect described in this file is achievable without them, **but note what that sentence does and does not promise**: it means each effect can be hand-written, not that a library would produce the same result. Lenis exists to do one thing this file also specifies, scroll easing, and section 2 says how to write it in about forty lines. If a future request genuinely needs timeline scrubbing across many tweens, say so, explain the cost (a build step or a CDN dependency, and the loss of the no-dependency guarantee), and **ask before adding it.** Never add a library silently.
 
 CSS scroll-driven animation (`animation-timeline: view()`) is allowed as *progressive enhancement only*, wrapped in `@supports`, with the IntersectionObserver path as the baseline. Browser support is not universal and content must never depend on it.
 
 ---
 
-## 2. What the references actually taught us
+## 2. How the scroll itself feels
+
+This is the first thing a reader notices and the last thing anyone documents. It is not composition, not pacing and not reveals: it is how the page moves under the hand.
+
+**No CSS property controls it.** `scroll-behavior: smooth` only affects programmatic jumps, anchors and `scrollIntoView`. Nothing else in CSS touches scroll velocity or inertia. A page that glides and a page that lurches can have identical stylesheets.
+
+The only mechanism is to **interpolate the scroll position yourself**: hold a target, move the real position a fraction of the way toward it on every frame.
+
+There are two ways to build that, and only one is allowed here.
+
+| | Transform scroller | Eased native scroll |
+|---|---|---|
+| How | Lock the body, translate a wrapper | `window.scrollTo` toward a lerped target |
+| `position: sticky` | Breaks | Works |
+| `position: fixed` | Breaks | Works |
+| Real scrollbar | Gone | Kept |
+| Keyboard, Find in page, anchors | Break | Work |
+
+**Use the eased native scroll.** This site has a sticky pinned chapter, a fixed navigation, a fixed counter and a fixed glow. A transform scroller breaks all four at once.
+
+The shape of it:
+
+- One `wheel` listener, `{passive:false}`, `preventDefault`, accumulate into a target clamped to the document.
+- One rAF loop moving the real position a fraction of the remaining distance, around `0.12`. Stop the loop when the distance falls under half a pixel.
+- One passive `scroll` listener to resynchronise the target when the position changes by any other means. **Compare positions, do not use a flag**: the scroll event arrives after your own `scrollTo`, by which time a flag has already been cleared.
+- Bail out on `e.ctrlKey`, which is browser zoom, and on `deltaMode !== 0`, which is line or page scrolling.
+- **Mouse only.** Touch momentum is already good and fighting it makes things worse.
+- Off entirely under `prefers-reduced-motion`.
+
+**Two things must be switched off for this to work**, because both fight a JS-driven position:
+
+- `scroll-snap-type` on the scroll container. The snap engine corrects the resting position while you are still interpolating.
+- `scroll-behavior: smooth`. It animates anchor jumps on its own while your loop is animating the same thing.
+
+**Never use `scroll-snap-stop: always`.** It forbids the scroller from passing a snap point in a single gesture, so the reader is caught at every chapter and cannot flick through the page. It is the single heaviest-feeling thing you can add to a page, and it is invisible in a screenshot.
+
+Note the distinction from section 8.4, which says scroll-linked motion must not be eased. That rule is about the mapping from scroll position to parallax offset, which must stay a direct function so the movement feels attached to the hand. Easing the scroll position itself is a different layer, and the parallax inherits it for free.
+
+---
+
+## 3. What the references actually taught us
 
 Measured directly, not eyeballed. The two reference pages behave **differently from each other**, and that difference is the most important finding.
 
@@ -58,7 +100,7 @@ Read that table again. It contains the whole system:
 
 ---
 
-## 3. Two systems, one voice
+## 4. Two systems, one voice
 
 Home and story pages share navigation, type families, spacing logic, motion language, caption style and transition philosophy. They differ in **density and discipline**.
 
@@ -89,7 +131,7 @@ Hold the first image back. Let the introduction own the first screen.
 
 ---
 
-## 4. The scale ladder
+## 5. The scale ladder
 
 Image size communicates importance. Standardising everything to one container throws away the strongest tool available.
 
@@ -109,7 +151,7 @@ Never place three consecutive images at the same rung. If two are the same, the 
 
 ---
 
-## 5. Rhythm
+## 6. Rhythm
 
 Treat scroll position as a timeline. Not "a section enters the viewport" but "the next part of the story is being revealed".
 
@@ -127,7 +169,7 @@ Alternate density. Statement → space → image → caption → short text → 
 
 ---
 
-## 6. Image behaviour
+## 7. Image behaviour
 
 Images are objects entering the story. They arrive; they are not simply present.
 
@@ -155,9 +197,13 @@ Decide from the narrative, not from habit.
 
 ---
 
-## 7. Homepage story images behaviour
+## 8. Homepage story images behaviour
 
-The three story images on the homepage are **one composition**, not three cards in a row. This section is the specification for that composition. It is derived from measuring the reference homepage directly, and it records behaviour, never its imagery, type or layout copied literally.
+The three story images on the homepage are **one composition**, not three cards in a row. This section is derived from measuring the reference homepage directly, and it records behaviour, never its imagery, type or layout copied literally.
+
+> **Read this before implementing anything below.** Section 9 locks the final layout of the three homepage story images as currently built, and section 9 wins. This section describes the compositional principles the reference uses; the overlap, the negative margins and the per-piece vertical placement are **not currently implemented on this site**, and moving to them is a design decision for Laura, not something to introduce while building something else. What this section governs today is the per-piece scroll rate, the layering rules, the motion system and the responsive and interaction behaviour. Treat the layout subsection as a proposal on the table, not as an instruction.
+>
+> The two sections did contradict each other for a while, and the result was a homepage that read as three identical stacked screens while the skill claimed overlap was the norm. If you find yourself unable to satisfy both, satisfy section 9 and say so.
 
 ### What the reference actually does
 
@@ -178,7 +224,7 @@ The two conclusions that matter: **overlap is the norm, not the exception**, and
 
 The three images do not share a width, an x position, or a vertical rhythm. Each is placed as an individual object.
 
-- Give each story its own **width rung** from the ladder in section 4, and never repeat one twice in a row.
+- Give each story its own **width rung** from the ladder in section 5, and never repeat one twice in a row.
 - Give each its own **horizontal anchor**: right, left-bleeding, right-inset. Alternating side is what makes the eye travel.
 - At least one piece should **bleed past a viewport edge**. A composition entirely inside the margins reads as a grid.
 - Vertical placement is set by **negative margin on the media**, not by absolute positioning. Absolute positioning removes the piece from flow and the page stops being able to size itself.
@@ -237,7 +283,7 @@ The composition is a desktop behaviour. Below 768px it becomes a sequence.
 
 ---
 
-## 8. Homepage image entrance behaviour
+## 9. Homepage image entrance behaviour
 
 How the three homepage story images arrive. This section governs **entrance only**. It has no authority over where they end up.
 
@@ -276,7 +322,7 @@ Measured on pieces that had not yet been reached by the scroll:
 
 ### Scroll-driven placement
 
-- The uncover is triggered once, when the piece is properly inside the viewport, not as it peeks over the edge.
+- The uncover is triggered once, when the piece is properly inside the viewport, not as it peeks over the edge. **Put a number on this.** For a piece that is a full viewport tall, an observer at `rootMargin: '0px 0px -22% 0px'` fires when barely a fifth of it has appeared, so the wipe finishes below the fold and the reader never sees it happen. Around **-45%** is the point where the piece is genuinely on screen. Full-height pieces need their own observer: one shared threshold cannot serve both a paragraph and a 100svh image.
 - The counter-translation is continuous and tied to scroll position, so the piece keeps settling after it has appeared.
 - Order follows document order. No piece jumps its turn.
 
@@ -299,7 +345,7 @@ with no structural property touched. A screenshot taken after the animations hav
 
 ---
 
-## 9. Pinned sections
+## 10. Pinned sections
 
 A pinned section must earn its place. Valid reasons:
 
@@ -319,7 +365,7 @@ Pinning steals control of the scroll. If the reader cannot tell why, it reads as
 
 ---
 
-## 10. Captions
+## 11. Captions
 
 Every image carries one. Small, precise, understated.
 
@@ -335,7 +381,7 @@ No cards, no pills, no boxes, no oversized captions. A caption states what the t
 
 ---
 
-## 11. Text
+## 12. Text
 
 Copy is a visual unit, not a wall.
 
@@ -352,7 +398,7 @@ Never write sentences that describe the page to its reader. No "as shown here", 
 
 ---
 
-## 12. Transitions
+## 13. Transitions
 
 Between moments: whitespace, scale change, typography, image movement, shifts in visual density. **Not** hard boundaries, borders, containers or repeated backgrounds.
 
@@ -364,7 +410,7 @@ Chapter snapping, where used: `scroll-snap-type: y proximity` on the scroll cont
 
 ---
 
-## 13. Navigation
+## 14. Navigation
 
 Identical across every page: the disclosure menu, `mix-blend-mode: difference`, masked link reveals with staggered delays, closing on selection and on Escape.
 
@@ -374,7 +420,7 @@ When adding a nav item, add its stagger delay. A link with no delay appears inst
 
 ---
 
-## 14. Responsive
+## 15. Responsive
 
 Mobile keeps the story and loses the choreography.
 
@@ -391,7 +437,7 @@ Never simply stack the desktop layout. Specific rules learned the hard way on th
 
 ---
 
-## 15. Reduced motion
+## 16. Reduced motion
 
 Under `prefers-reduced-motion: reduce`: no parallax, no scrubbing, no transforms, no snapping, no smooth scroll. All content visible, in the same order, immediately.
 
@@ -399,7 +445,7 @@ The story must be fully understandable with every animation removed. If removing
 
 ---
 
-## 16. The reveal contract
+## 17. The reveal contract
 
 Learned from real failures on this site. Any reveal system must satisfy all four:
 
@@ -410,13 +456,13 @@ Learned from real failures on this site. Any reveal system must satisfy all four
 
 ---
 
-## 17. Anti-patterns
+## 18. Anti-patterns
 
 Rounded SaaS cards · drop shadows · icon triads · checkmark lists · pill labels · repeated rectangles · borders as separators · glossy or inflatable objects unrelated to the work · particle fields · node meshes · decorative glitch · cursor tricks · horizontal page scroll · video backgrounds · 3D · pastel illustration · neon and glow · gaming HUDs · generic UX process diagrams · fake metrics · carousels used by default · animating everything · copying the reference sites' imagery, copy, type or compositions.
 
 ---
 
-## 18. The bar
+## 19. The bar
 
 Before shipping a page, ask:
 
