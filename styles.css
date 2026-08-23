@@ -69,6 +69,37 @@ a{color:inherit}
 .nav-d[open] .nav-toggle .lbl-open{display:none}
 .nav-d[open] .nav-toggle .lbl-close{display:inline}
 
+/* HOVER DEL BOTON DE MENU. Subrayado que entra y un acercamiento corto.
+   Cuatro decisiones que no se ven en el resultado pero lo sostienen:
+   - El subrayado es un pseudoelemento con background:currentColor, no
+     text-decoration. La barra va en mix-blend-mode:difference, asi que
+     currentColor se invierte con el resto y funciona sobre papel y sobre negro.
+     Ademas text-decoration no se puede animar de un lado al otro.
+   - transform-origin a la derecha: el boton vive pegado al borde de la pantalla
+     y crecer desde el centro lo empujaria contra el margen.
+   - El mismo estado en :focus-visible. Quien navega con teclado tiene que ver
+     lo mismo que quien pasa el raton, no solo el contorno.
+   - Todo dentro de (hover:hover): en tactil no hay hover, y sin este guardia el
+     estado se queda pegado despues de tocar. */
+.nav-toggle{display:inline-block;position:relative;transform-origin:right center;
+  transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.nav-toggle::after{content:'';position:absolute;left:0;right:0;bottom:-5px;height:1px;
+  background:currentColor;transform:scaleX(0);transform-origin:right center;
+  transition:transform .45s cubic-bezier(.16,1,.3,1)}
+@media(hover:hover){
+  .nav-toggle:hover,
+  .nav-bar:focus-visible .nav-toggle{transform:scale(1.12)}
+  .nav-toggle:hover::after,
+  .nav-bar:focus-visible .nav-toggle::after{transform:scaleX(1)}
+}
+/* El subrayado se queda: es la senal de que ese elemento hace algo. Lo que se
+   va es el movimiento. */
+@media (prefers-reduced-motion:reduce){
+  .nav-toggle,.nav-toggle::after{transition:none}
+  .nav-toggle:hover{transform:none}
+}
+
+
 /* Kept rendered while closed: a display:none panel has no painted start frame,
    so the masked reveal would be skipped entirely on open. */
 .nav-panel{display:block;max-width:var(--maxw);margin:0 auto;padding:0 var(--m);
