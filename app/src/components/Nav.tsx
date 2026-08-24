@@ -30,7 +30,7 @@ export function Nav({ variant }: NavProps) {
             <li><Link to="/story1"><span>Story 1</span></Link></li>
             <li><Link to="/story2"><span>Story 2</span></Link></li>
             <li><Link to="/story3"><span>Story 3</span></Link></li>
-            <li><a href="/Laura_Benavente_CV_En.pdf?v=2" target="_blank" rel="noopener"><span>CV</span></a></li>
+            <li><a href={`${import.meta.env.BASE_URL}Laura_Benavente_CV_En.pdf?v=2`} target="_blank" rel="noopener"><span>CV</span></a></li>
           </ul>
           <ul className="nav-foot">
             <li><a href="mailto:laurabenavente@me.com"><span>Contact me</span></a></li>

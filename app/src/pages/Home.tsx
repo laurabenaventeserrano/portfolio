@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { Nav } from '../components/Nav'
 import { usePageScope } from '../hooks/usePageScope'
 import { useHomeMotion } from '../hooks/useHomeMotion'
@@ -121,7 +122,7 @@ export function Home() {
         </section>
 
         <div className="dark">
-          <a className="story-hero story-hero--float" id="story-1" href="/story1">
+          <Link className="story-hero story-hero--float" id="story-1" to="/story1">
             <div className="story-hero__media rv rv--mask">
               <img
                 src={story1Img}
@@ -147,9 +148,9 @@ export function Home() {
                 <li>Cloud migration</li>
               </ul>
             </div>
-          </a>
+          </Link>
 
-          <a className="story-hero" id="story-2" href="/story2">
+          <Link className="story-hero" id="story-2" to="/story2">
             <div className="story-hero__media rv rv--mask">
               <img
                 src={story2Img}
@@ -178,9 +179,9 @@ export function Home() {
                 <li>MVP definition</li>
               </ul>
             </div>
-          </a>
+          </Link>
 
-          <a className="story-hero story-hero--float" id="story-3" href="/story3">
+          <Link className="story-hero story-hero--float" id="story-3" to="/story3">
             <div className="story-hero__media rv rv--mask">
               <img
                 src={story3Img}
@@ -209,7 +210,7 @@ export function Home() {
                 <li>Design system</li>
               </ul>
             </div>
-          </a>
+          </Link>
 
           {/* Lab section: disabled until there are 3 Instagram posts (per project memory).
               Kept out of the DOM, matching the current live site, rather than hidden with CSS. */}
