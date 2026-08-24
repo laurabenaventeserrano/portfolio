@@ -1,0 +1,49 @@
+/* Story 2 and Story 3 share this stylesheet verbatim in the static site — the
+   "simple" case-study system, a generation behind Story 1's reveal/component
+   set. Ported here as one shared file rather than duplicated twice. Scoped
+   under html.page-story23 so it can't leak onto Story 1 or Home once all
+   routes' CSS lives in the same document. */
+
+html.page-story23 .sec{padding:clamp(80px,11vw,180px) 0;position:relative}
+
+html.page-story23 h1{font-family:var(--serif);font-weight:400;font-size:clamp(46px,9.6vw,152px);line-height:.92;letter-spacing:-.022em;margin:0}
+html.page-story23 .hero{padding:clamp(120px,16vw,160px) 0 0}
+html.page-story23 .hero-top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);
+  padding-bottom:14px;margin-bottom:clamp(50px,9vw,120px);gap:20px;flex-wrap:wrap}
+html.page-story23 .hero-meta{display:flex;flex-wrap:wrap;margin:clamp(44px,6vw,80px) 0 0;border-top:1px solid var(--line)}
+html.page-story23 .hero-meta span{font-family:var(--mono);font-size:10px;letter-spacing:1.1px;text-transform:uppercase;color:var(--mid);
+  padding:14px 22px 14px 0;border-right:1px solid var(--line-2);margin-right:22px}
+html.page-story23 .hero-meta span:last-child{border-right:0;margin-right:0}
+
+html.page-story23 .conf{margin-top:clamp(46px,6vw,84px);display:grid;grid-template-columns:clamp(80px,9vw,150px) 1fr;gap:clamp(20px,3vw,50px)}
+@media(max-width:900px){html.page-story23 .conf{grid-template-columns:1fr}}
+html.page-story23 .conf .body{max-width:56ch;font-size:15.5px;color:var(--mid);border-left:2px solid var(--ink);padding-left:24px}
+
+html.page-story23 .pivot{background:var(--dark);color:var(--ink);padding:clamp(90px,14vw,220px) 0}
+html.page-story23 .pivot .stmt{font-family:var(--serif);font-size:clamp(34px,7.4vw,116px);line-height:.98;letter-spacing:-.022em;max-width:17ch;margin:0 0 clamp(40px,6vw,80px)}
+html.page-story23 .pivot .stmt i{font-style:italic;color:var(--rust-l)}
+
+html.page-story23 .facts{border-top:1px solid rgba(255,255,255,.16)}
+html.page-story23 .fact{padding:20px 0;border-bottom:1px solid rgba(255,255,255,.1);display:grid;grid-template-columns:1fr 1.4fr;gap:20px;align-items:baseline}
+html.page-story23 .fact .fk{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink)}
+html.page-story23 .fact .fv{font-family:var(--serif);font-size:clamp(18px,1.9vw,24px);line-height:1.3;color:var(--ink)}
+
+html.page-story23 .pull{font-family:var(--serif);font-size:clamp(24px,3.4vw,44px);line-height:1.16;letter-spacing:-.012em;
+  max-width:22ch;margin:0;padding-left:28px;border-left:2px solid var(--rust)}
+
+html.page-story23 svg{display:block;width:100%;height:auto}
+html.page-story23 .tl{font-family:'Roboto Mono',monospace;font-size:8.5px;letter-spacing:1px;fill:#8C8C93}
+html.page-story23 .tt{font-family:'Roboto',Arial,sans-serif;font-size:11px;font-weight:500;fill:var(--ink)}
+html.page-story23 .ts{font-family:'Roboto',Arial,sans-serif;font-size:9.5px;fill:#8C8C93}
+html.page-story23 .hr{stroke:rgba(14,14,17,.16);stroke-width:.75;fill:none}
+html.page-story23 .fig-mid{max-width:460px}
+html.page-story23 .fig-phone{max-width:375px}
+
+/* Reveal, simple variant: fade + short translate, no masked lines, no stagger. */
+html.page-story23 .rv{opacity:0;transform:translateY(18px)}
+html.page-story23.js .rv{transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1)}
+html.page-story23:not(.js) .rv{opacity:1;transform:none}
+html.page-story23 .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  html.page-story23 .rv{opacity:1!important;transform:none!important}
+}

@@ -1,0 +1,74 @@
+/* Disclosure nav, identical across all four pages except the outer class name
+   (.nav on the homepage, .navbar on case studies — both selectors below) and
+   the container width, read from --maxw-nav so each page sets its own. */
+.nav,.navbar{position:fixed;top:0;left:0;right:0;z-index:100;mix-blend-mode:difference;color:#fff}
+.nav-bar{max-width:var(--maxw-nav,1280px);margin:0 auto;padding:20px var(--m,var(--m-home));display:flex;justify-content:space-between;
+  align-items:flex-start;gap:20px;cursor:pointer;list-style:none}
+.nav-bar::-webkit-details-marker{display:none}
+.nav-bar::marker{content:''}
+.nav-logo{font-family:var(--sans);font-weight:700;font-size:11px;line-height:1;letter-spacing:.03em;
+  text-transform:uppercase;text-decoration:none;color:#fff}
+.nav-toggle{font-family:var(--sans);font-weight:700;font-size:11px;line-height:1;letter-spacing:.03em;
+  text-transform:uppercase;color:#fff}
+.nav-toggle .lbl-close{display:none}
+.nav-d[open] .nav-toggle .lbl-open{display:none}
+.nav-d[open] .nav-toggle .lbl-close{display:inline}
+
+.nav-toggle{display:inline-block;position:relative;transform-origin:right center;
+  transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.nav-toggle::after{content:'';position:absolute;left:0;right:0;bottom:-5px;height:1px;
+  background:currentColor;transform:scaleX(0);transform-origin:right center;
+  transition:transform .45s cubic-bezier(.16,1,.3,1)}
+@media(hover:hover){
+  .nav-toggle:hover,
+  .nav-bar:focus-visible .nav-toggle{transform:scale(1.12)}
+  .nav-toggle:hover::after,
+  .nav-bar:focus-visible .nav-toggle::after{transform:scaleX(1)}
+}
+@media (prefers-reduced-motion:reduce){
+  .nav-toggle,.nav-toggle::after{transition:none}
+  .nav-toggle:hover{transform:none}
+}
+
+.nav-panel{display:block;max-width:var(--maxw-nav,1280px);margin:0 auto;padding:0 var(--m,var(--m-home));
+  overflow:hidden;max-height:0;visibility:hidden;
+  transition:max-height .55s cubic-bezier(.16,1,.3,1),visibility 0s linear .55s}
+.nav-d[open] .nav-panel{max-height:70vh;visibility:visible;
+  transition:max-height .55s cubic-bezier(.16,1,.3,1),visibility 0s}
+.nav-links,.nav-foot{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;
+  align-items:flex-end;text-align:right;gap:14px}
+.nav-links{padding-top:12px;gap:12px}
+.nav-foot{flex-direction:row;justify-content:flex-end;flex-wrap:wrap;padding-top:20px;gap:16px}
+.nav-links a,.nav-foot a{display:block;position:relative;overflow:hidden;
+  font-family:var(--sans);font-weight:700;line-height:1;letter-spacing:.03em;
+  text-transform:uppercase;text-decoration:none;color:#fff}
+.nav-links a{font-size:11px}
+.nav-foot a{font-size:11px;opacity:.55}
+.nav-links a:hover{opacity:.6}
+.nav-foot a:hover{opacity:1}
+.nav-links a::after,.nav-foot a::after{content:'';position:absolute;left:0;right:0;top:-7px;bottom:-7px}
+.nav-links a span,.nav-foot a span{display:block;transform:translateY(110%);
+  transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.nav-d[open] .nav-links a span,.nav-d[open] .nav-foot a span{transform:translateY(0)}
+.nav-links li:nth-child(1) a span{transition-delay:.05s}
+.nav-links li:nth-child(2) a span{transition-delay:.11s}
+.nav-links li:nth-child(3) a span{transition-delay:.17s}
+.nav-links li:nth-child(4) a span{transition-delay:.23s}
+.nav-links li:nth-child(5) a span{transition-delay:.29s}
+.nav-links li:nth-child(6) a span{transition-delay:.35s}
+.nav-foot li:nth-child(1) a span{transition-delay:.41s}
+.nav-foot li:nth-child(2) a span{transition-delay:.45s}
+.nav-foot li:nth-child(3) a span{transition-delay:.49s}
+.nav-foot li:nth-child(4) a span{transition-delay:.53s}
+.nav-d:not([open]) .nav-links a span,.nav-d:not([open]) .nav-foot a span{transition-delay:0s}
+html:not(.js) .nav-panel{max-height:none;visibility:visible;overflow:visible}
+html:not(.js) .nav-links a span,html:not(.js) .nav-foot a span{transform:none}
+.nav :focus-visible,.navbar :focus-visible{outline-color:#fff}
+@media(max-width:760px){
+  .nav-links a,.nav-foot a{font-size:14px}
+  .nav-links,.nav-foot{gap:22px}
+  .nav-links a::after,.nav-foot a::after{top:-11px;bottom:-11px}
+}
+@media (prefers-reduced-motion:reduce){
+  .nav-links a span,.nav-foot a span{transform:none!important;transition:none!important}
+}

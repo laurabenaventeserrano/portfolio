@@ -1,0 +1,39 @@
+/* Design tokens. Single source of truth, replacing the per-page :root blocks
+   duplicated across index.html / story1 / story2 / story3 in the static site. */
+@font-face{font-family:'Libertinus Serif';font-weight:400;font-style:normal;font-display:swap;src:url(../assets/fonts/libertinus-serif-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Libertinus Serif';font-weight:400;font-style:italic;font-display:swap;src:url(../assets/fonts/libertinus-serif-latin-400-italic.woff2) format('woff2')}
+@font-face{font-family:'Roboto';font-weight:300;font-style:normal;font-display:swap;src:url(../assets/fonts/roboto-latin-300-normal.woff2) format('woff2')}
+@font-face{font-family:'Roboto';font-weight:400;font-style:normal;font-display:swap;src:url(../assets/fonts/roboto-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Roboto';font-weight:500;font-style:normal;font-display:swap;src:url(../assets/fonts/roboto-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Roboto';font-weight:700;font-style:normal;font-display:swap;src:url(../assets/fonts/roboto-latin-700-normal.woff2) format('woff2')}
+@font-face{font-family:'Roboto Mono';font-weight:400;font-style:normal;font-display:swap;src:url(../assets/fonts/roboto-mono-latin-400-normal.woff2) format('woff2')}
+
+:root{
+  --dark:#0E0E11; --dark-2:#17171B; --dark-3:#1E1E24;
+  --paper:#F6F4EF; --paper-2:#EEEBE3;
+  --ink:#F6F4EF; --ink-2:#C9C9CE; --mid:#8C8C93;
+  --line:rgba(255,255,255,.14); --line-2:rgba(255,255,255,.07);
+  --blue:#1F4396; --blue-l:#7FA3E8; --rust:#B23A20; --rust-l:#E0714F;
+  --serif:'Libertinus Serif',Georgia,serif; --sans:'Roboto',Arial,sans-serif; --mono:'Roboto Mono',ui-monospace,monospace;
+
+  /* case studies */
+  --m:clamp(20px,5.2vw,96px);
+  --maxw-cs:1280px;
+
+  /* homepage: fixed margin + wider container + full-bleed gutter channel */
+  --m-home:40px;
+  --maxw-home:1400px;
+  --gut:max(var(--m-home), calc((100% - var(--maxw-home)) / 2 + var(--m-home)));
+
+  /* Prism identity: homepage story-hero band only */
+  --ground:#0C0A0B;
+  --paper-p:#F2EFEA;
+  --sp-1:#313CAA; --sp-2:#587FDD; --sp-3:#92C5E0; --sp-4:#D9E3AB;
+  --sp-5:#F7CF77; --sp-6:#E98C5E; --sp-7:#DC4969; --sp-8:#A63488;
+  --spectrum:linear-gradient(90deg,rgba(12,10,11,0) 0%,var(--sp-1) 12%,var(--sp-2) 26%,
+    var(--sp-3) 38%,var(--sp-4) 50%,var(--sp-5) 62%,var(--sp-6) 72%,var(--sp-7) 85%,
+    var(--sp-8) 95%,rgba(12,10,11,0) 100%);
+
+  --sbw:0px;
+}
+@media(max-width:479px){:root{--m-home:24px}}

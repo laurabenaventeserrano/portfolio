@@ -1,0 +1,51 @@
+/* Rules verified byte-identical (or near enough not to matter) across all
+   three case studies. Scoped under html.page-case-study — a marker every
+   case-study page adds alongside its own page-story1 / page-story23 class —
+   so it can't leak onto the homepage, which uses a wider .w and doesn't
+   define most of these components at all. */
+
+html.page-case-study .w{max-width:var(--maxw-cs);margin:0 auto;padding:0 var(--m)}
+
+html.page-case-study h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,6vw,84px);line-height:.98;letter-spacing:-.016em;margin:0}
+html.page-case-study h3{font-family:var(--serif);font-weight:400;font-size:clamp(21px,2.4vw,30px);line-height:1.18;margin:0 0 12px}
+
+html.page-case-study .k{font-family:var(--mono);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--mid);margin:0 0 20px}
+html.page-case-study .n{font-family:var(--serif);font-size:clamp(40px,5vw,72px);line-height:.8;color:var(--mid);opacity:.55}
+html.page-case-study .rule{height:1px;background:var(--line);margin:26px 0 40px}
+
+html.page-case-study .head{display:grid;grid-template-columns:clamp(80px,9vw,150px) 1fr;gap:clamp(20px,3vw,50px);align-items:start}
+html.page-case-study .two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,90px)}
+html.page-case-study .two-a{display:grid;grid-template-columns:5fr 7fr;gap:clamp(30px,5vw,80px)}
+html.page-case-study .two-b{display:grid;grid-template-columns:7fr 5fr;gap:clamp(30px,5vw,80px)}
+html.page-case-study .three{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(26px,3.6vw,58px)}
+@media(max-width:900px){html.page-case-study .two,html.page-case-study .two-a,html.page-case-study .two-b,html.page-case-study .three,html.page-case-study .head{grid-template-columns:1fr;gap:26px}}
+
+html.page-case-study .hero-top span{font-family:var(--mono);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--mid)}
+html.page-case-study .hero h1 em{color:var(--mid)}
+
+html.page-case-study .stats{display:flex;flex-wrap:wrap;margin:clamp(34px,4.4vw,60px) 0 0;border-top:1px solid var(--line)}
+html.page-case-study .stat{padding:20px clamp(26px,3vw,44px) 0 0;margin-right:clamp(26px,3vw,44px);border-right:1px solid var(--line-2)}
+html.page-case-study .stat:last-child{border-right:0;margin-right:0;padding-right:0}
+html.page-case-study .stat b{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(30px,3.6vw,50px);line-height:1;letter-spacing:-.02em;color:var(--ink)}
+html.page-case-study .stat i{display:block;font-style:normal;font-family:var(--mono);font-size:10px;letter-spacing:1.1px;text-transform:uppercase;color:var(--mid);margin-top:12px}
+@media(max-width:700px){
+  html.page-case-study .stats{display:block}
+  html.page-case-study .stat{border-right:0;border-bottom:1px solid var(--line-2);margin-right:0;padding:16px 0}
+  html.page-case-study .stat:last-child{border-bottom:0;padding-bottom:0}
+}
+
+html.page-case-study ul.p{list-style:none;margin:0;padding:0}
+html.page-case-study ul.p li{padding:14px 0;border-top:1px solid var(--line-2);font-size:16px;color:var(--ink-2);display:flex;gap:16px}
+html.page-case-study ul.p li .i{font-family:var(--mono);font-size:10px;color:var(--mid);letter-spacing:1px;padding-top:4px;flex:none}
+html.page-case-study .light ul.p li{border-color:rgba(14,14,17,.09);color:#33333A}
+html.page-case-study .pivot ul.p li{border-color:rgba(255,255,255,.1);color:var(--ink)}
+
+html.page-case-study footer{padding:60px 0 90px;border-top:1px solid var(--line)}
+html.page-case-study footer p{font-family:var(--mono);font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--mid);max-width:none}
+
+html.page-case-study .pivot .k,html.page-case-study .pivot .n{color:var(--ink)}
+html.page-case-study .pivot .rule{background:rgba(255,255,255,.16)}
+html.page-case-study .pivot p{color:var(--ink)}
+html.page-case-study .pivot strong{color:var(--ink)}
+html.page-case-study .pivot figcaption{color:var(--ink);border-color:rgba(255,255,255,.1)}
+html.page-case-study .pivot :focus-visible{outline-color:var(--ink)}
