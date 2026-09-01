@@ -14,13 +14,13 @@ Dark editorial. Revised from the original warm-paper direction at Laura's explic
 
 - All copy, exactly as written. Never rewritten, never invented.
 - Type families: **Libertinus Serif** (display), **Roboto** (body), **Roboto Mono** (technical/structure). Never swapped.
-- Semantics before aesthetics, no fake numbers, rust at most twice per case study, content survives without JS, first person voice.
+- Semantics before aesthetics, no fake numbers, the red accent at most twice per case study, content survives without JS, first person voice.
 
 **What changed:**
 
 - Near-black (`--dark`) is now the default ground site-wide, not a punctuation section.
 - Display type pushes toward the 150px ceiling already specified below — more scale contrast, not a new scale.
-- Blue and rust read as brighter, more present accents against the dark ground. Still exactly two accents; rust still reserved for the case-study break point.
+- Blue and red read as brighter, more present accents against the dark ground. Still exactly two accents; red still reserved for the case-study break point.
 - Numbered image placeholders may carry a more dramatic surface treatment once real content is supplied.
 
 **Still avoided:** decorative glossy/inflatable objects unrelated to real work content, literally copying noth.in's own imagery or copy, oversized full-bleed marquee type that breaks the grid, cursor tricks, horizontal page scroll, video backgrounds, 3D objects, particle fields, node meshes, rounded cards, icon chips, checkmark lists, pastel illustration.
@@ -38,7 +38,7 @@ Dark editorial. Revised from the original warm-paper direction at Laura's explic
 --mid      #8C8C93   metadata, captions on dark
 --line     rgba(255,255,255,.14)
 --blue     #1F4396   structure (light contexts)   --blue-l #7FA3E8 (default, on dark)
---rust     #B23A20   the break point (light)      --rust-l #E0714F (default, on dark)
+--red      #C22A50   the break point (light)      --red-l  #DF6C89 (default, on dark)
 ```
 
 Type: **Libertinus Serif** display · **Roboto** body · **Roboto Mono** technical. Sentence case. Display never below 32px. Type never breaks the grid.
@@ -50,7 +50,7 @@ Reference implementation: `index.html` for the dark system. `story1-case-study.h
 - **Semantics before aesthetics.** Every element represents a real idea, relationship, force or transformation. If it can only be justified aesthetically, delete it.
 - **Never render a number that is not a real value.** No invented metrics, no fake dashboard figures. This is the only irreversible mistake available here.
 - **Real work, shown openly.** Employers, products and original screens may be named and shown. Laura decides per case what is publishable; the default is no longer to anonymise. (Revised 19 Aug 2026, replacing the earlier NDA rule.)
-- **Rust appears twice per case study, maximum.** It marks where the experience breaks. Used more, it means nothing.
+- **The red accent appears twice per case study, maximum.** It marks where the experience breaks. Used more, it means nothing.
 - **Content survives without JS.** Reveals only apply under `html.js`. Always ship a fail-safe timer.
 - **First person.** Laura's cases say "I decided", not only "we did". Credit the team, but name her decisions.
 
@@ -97,7 +97,7 @@ Generic cyberpunk · neon and glow · gaming HUDs · rounded SaaS cards and drop
 
 ## Open
 
-1. Whether the rust accent stays warm or goes colder
+1. ~~Whether the rust accent stays warm or goes colder~~ Resolved 24 Aug 2026: it went colder, to #C22A50
 2. Whether Story 02 and Story 03 also convert to the dark system, now that Story 01 has
 3. Story bands in-page vs separate pages
 4. Stack — static HTML, Webflow, or Next.js

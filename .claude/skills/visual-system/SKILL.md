@@ -48,8 +48,8 @@ Identical in all three case studies. `index.html` carries the same colour tokens
 
 --blue    #1F4396   structure, light contexts
 --blue-l  #7FA3E8   structure, on dark (the default)
---rust    #B23A20   the break point, light contexts
---rust-l  #E0714F   the break point, on dark (the default)
+--red     #C22A50   the break point, light contexts
+--red-l   #DF6C89   the break point, on dark (the default)
 
 --serif   Libertinus Serif, Georgia, serif
 --sans    Roboto, Arial, sans-serif
@@ -66,9 +66,11 @@ Identical in all three case studies. `index.html` carries the same colour tokens
 Two accents, and only two. They are not decoration, they carry meaning:
 
 - **Blue** marks structure. `.principle i`, diagram strokes, the proposed path.
-- **Rust** marks where the experience breaks, or the single turn of the argument. **At most twice per case study**, per `CLAUDE.md`.
+- **Red** marks where the experience breaks, or the single turn of the argument. **At most twice per case study**, per `CLAUDE.md`.
 
-Rust is easy to overspend without noticing, because two components carry it silently: `.pull` has a 2px rust left border, and `.pivot .stmt i` sets its italic clause in rust. Every pull quote you add spends part of the budget. Count rendered rust marks, not deliberate decisions. Story 1 currently shows five, which is over.
+Red is easy to overspend without noticing, because two components carry it silently: `.pull` has a 2px red left border, and `.pivot .stmt i` sets its italic clause in red. Every pull quote you add spends part of the budget. Count rendered red marks, not deliberate decisions. Story 1 currently shows five, which is over.
+
+The token was `--rust` (#B23A20 / #E0714F) until 24 Aug 2026, when Laura moved the accent to a crimson. The light variant #DF6C89 was chosen to land at 6.10:1 on the dark ground, the exact contrast the old one had, so nothing became harder to read in the swap.
 
 Everything else is white, two greys and two hairlines. If a page feels flat, the fix is scale and space, never another colour.
 
@@ -145,7 +147,7 @@ Each of these exists and has a job. Prefer composing them over inventing somethi
 | `.rule` | 1px hairline under a chapter title | Belongs to `.head`, not used as a divider elsewhere |
 | `.lead` | Standfirst under a chapter title, 46ch | One per chapter, maximum |
 | `.stats` | Result chips: serif figure over a mono label, hairline separators | **Only real values.** No boxes, no radius, no colour. See §7 |
-| `.pull` | Serif pull quote with a rust left border | Counts against the rust budget |
+| `.pull` | Serif pull quote with a red left border | Counts against the accent budget |
 | `.principle` | Large serif statement, italic clause in blue | For a design principle, not for a fact |
 | `.stmt` / `.after` | The pivot statement and its follow-up | One or two per page. This is the page stopping to say one thing |
 | `.fact` / `.facts` | Mono key, serif value | For scope: role, markets, products |

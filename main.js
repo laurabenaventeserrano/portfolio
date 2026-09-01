@@ -22,6 +22,31 @@ function revealAll(){
 /* No-motion path: reduced-motion, or no observer support.
    html.js is never added, so CSS resolves everything to its final state. */
 var RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* FILM DEL LAB. Solo corre mientras esta en cuadro: son 60 segundos y 11MB, y
+   dejarlo decodificando con la seccion fuera de pantalla gasta bateria y
+   fotogramas que hacen falta en el scroll.
+   Va antes del return por movimiento reducido a proposito, para cubrir los dos
+   caminos: si se ha pedido menos movimiento no arranca solo y aparecen los
+   controles, para que el lector decida. */
+var film=document.getElementById('lab-film');
+if(film){
+  if(RM||!('IntersectionObserver' in window)){
+    film.controls=true;
+  }else{
+    var fio=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          var pr=film.play();
+          if(pr&&pr.catch)pr.catch(function(){ film.controls=true });
+        }else{
+          film.pause();
+        }
+      });
+    },{rootMargin:'0px 0px -15% 0px'});
+    fio.observe(film);
+  }
+}
+
 if(RM||!('IntersectionObserver' in window)){ revealAll(); return }
 
 docEl.classList.add('js');

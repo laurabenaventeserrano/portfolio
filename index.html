@@ -3,15 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Google Tag Manager. Va lo mas arriba posible del head, como pide GTM, pero
+     detras de charset y viewport: si el navegador no sabe todavia la
+     codificacion ni el ancho, cualquier script de aqui arriba retrasa esas dos
+     cosas, que son las que deciden como se pinta la primera pantalla. -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KXPHX3TG');</script>
+<!-- End Google Tag Manager -->
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
 <title>Laura Benavente · Senior Product Designer</title>
 <meta name="description" content="Senior Product Designer focused on complex B2B SaaS systems and AI-native experiences.">
-<link rel="stylesheet" href="styles.css?v=8">
+<link rel="stylesheet" href="tokens.css?v=2">
+<link rel="stylesheet" href="styles.css?v=26">
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KXPHX3TG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 <a class="skip-link" href="#main">Skip to content</a>
 
@@ -30,24 +45,20 @@
         <li><a href="story1-case-study.html"><span>Story 1</span></a></li>
         <li><a href="story2-case-study.html"><span>Story 2</span></a></li>
         <li><a href="story3-case-study.html"><span>Story 3</span></a></li>
-        <!-- DESACTIVADO hasta tener 3 posts. Para reactivar: quitar los dos comentarios.
         <li><a href="#lab"><span>Having fun with AI</span></a></li>
-        -->
         <li><a href="Laura_Benavente_CV_En.pdf?v=2" target="_blank" rel="noopener"><span>CV</span></a></li>
       </ul>
       <ul class="nav-foot">
         <li><a href="mailto:laurabenavente@me.com"><span>Contact me</span></a></li>
         <li><a href="https://www.linkedin.com/in/laura-benavente-serrano/"><span>LinkedIn</span></a></li>
-        <!-- DESACTIVADO hasta tener 3 posts. Para reactivar: quitar los dos comentarios.
         <li><a href="https://www.instagram.com/havingfunwithai_/" target="_blank" rel="noopener"><span>Instagram</span></a></li>
-        -->
         <li><a href="https://dribbble.com/LauraBenavente" target="_blank" rel="noopener"><span>Dribbble</span></a></li>
       </ul>
     </div>
   </details>
 </nav>
 
-<div class="counter" id="counter" aria-hidden="true"><span id="counter-n">01</span> / 05</div>
+<div class="counter" id="counter" aria-hidden="true"><span id="counter-n">01</span> / 06</div>
 
 <main id="main">
 
@@ -71,18 +82,18 @@
 <header class="hero" id="hero">
   <div class="w">
     <h1>
-      <span class="ln"><i>I&rsquo;m focus on complex</i></span>
-      <span class="ln"><i>B2B SaaS systems and</i></span>
-      <span class="ln"><i><span class="nb">AI-native</span> experiences</i></span>
+      <span class="ln"><i>With 8+ years of experience,</i></span>
+      <span class="ln"><i>I specialise in complex B2B SaaS,</i></span>
+      <span class="ln"><i>financial products and mobile experiences.</i></span>
     </h1>
   </div>
   <div class="cue"><span></span>Scroll</div>
   <div class="spot" id="spot" aria-hidden="true">
     <div class="w">
       <h1>
-        <span class="ln"><i>I&rsquo;m focus on complex</i></span>
-        <span class="ln"><i>B2B SaaS systems and</i></span>
-        <span class="ln"><i><span class="nb">AI-native</span> experiences</i></span>
+        <span class="ln"><i>With 8+ years of experience,</i></span>
+        <span class="ln"><i>I specialise in complex B2B SaaS,</i></span>
+        <span class="ln"><i>financial products and mobile experiences.</i></span>
       </h1>
     </div>
     <div class="cue"><span></span>Scroll</div>
@@ -121,13 +132,66 @@
       <div class="w">
         <h2 class="rv">About me</h2>
         <ul class="lines">
-          <li><span class="ln"><i>I design connections.</i></span></li>
-          <li><span class="ln"><i>Between people and systems.</i></span></li>
-          <li><span class="ln"><i>Between business and technology.</i></span></li>
-          <li><span class="ln"><i>Between complexity and clarity.</i></span></li>
-          <li><span class="ln"><i>Between human intention and artificial intelligence.</i></span></li>
+          <li><span class="ln"><i>I&rsquo;m endlessly curious about the world around me.</i></span></li>
+          <li><span class="ln"><i>I like design, technology, nature, strange ideas and</i></span></li>
+          <li><span class="ln"><i>the little connections between them.</i></span></li>
         </ul>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRES MANERAS. El puente entre el posicionamiento y el trabajo: dice por que
+     estas tres historias y no otras tres. Fondo papel, que en la home ya usan
+     la intro y el cierre, asi que la pagina queda papel, oscuro, papel, oscuro,
+     papel. Los tres bloques cuelgan de un mismo filete a alturas distintas:
+     eso dice 01 - 02 - 03 sin dibujar una sola flecha.
+     El bloque 02 va sin imagen a proposito: Story 2 no tiene ni una captura
+     real, solo diagramas marcados como reconstruidos, y aqui las imagenes son
+     pruebas, no adorno. Cuando haya material, se anade con la misma marca. -->
+<section class="approach" id="approach">
+  <div class="w">
+    <div class="approach-head">
+      <h2 class="rv"><span class="ln"><i>Three ways I approach</i></span><span class="ln"><i>product problems</i></span></h2>
+      <p class="approach-intro rv" data-d="1">Different problems require different levels of thinking.</p>
+    </div>
+
+    <div class="approach-row">
+      <a class="ap rv" data-d="1" href="story1-case-study.html">
+        <span class="ap-n">01</span>
+        <h3 class="ap-t">See the system</h3>
+        <span class="ap-p">Wolters Kluwer ecosystem</span>
+        <p class="ap-d">Understanding how products, workflows and people connect across a complex ecosystem.</p>
+        <span class="ap-k">Systems · Complexity · Scale</span>
+        <span class="ap-fig">
+          <img src="images/ap-01-system.png" width="1200" height="480" loading="lazy" decoding="async"
+               alt="A fragment of the client context journey map: linked steps running left to right with a branch rising out of the middle.">
+        </span>
+      </a>
+
+      <a class="ap rv" data-d="2" href="story2-case-study.html">
+        <span class="ap-n">02</span>
+        <h3 class="ap-t">Find the opportunity</h3>
+        <span class="ap-p">Wolters Kluwer strategy</span>
+        <p class="ap-d">Looking beyond the original requirement to identify where technology can genuinely change the product.</p>
+        <span class="ap-k">Product thinking · AI · Ambiguity</span>
+        <span class="ap-fig">
+          <img src="images/ap-02-drafting.png" width="850" height="340" loading="lazy" decoding="async"
+               alt="The drafting prompt inside the product: an empty field reading ask anything, for example build an engagement letter, with attach, search and study beneath it.">
+        </span>
+      </a>
+
+      <a class="ap rv" data-d="3" href="story3-case-study.html">
+        <span class="ap-n">03</span>
+        <h3 class="ap-t">Make the experience work</h3>
+        <span class="ap-p">Movistar</span>
+        <p class="ap-d">Taking product experiences end to end, designing interactions inside real technical constraints alongside the people building them</p>
+        <span class="ap-k">Interaction · Engineering · Execution</span>
+        <span class="ap-fig">
+          <img src="images/ap-03-wireflow.png" width="830" height="330" loading="lazy" decoding="async"
+               alt="A fragment of the self-diagnosis wireflow: three phone screens connected to decision points.">
+        </span>
+      </a>
     </div>
   </div>
 </section>
@@ -201,16 +265,27 @@
     </div>
   </a>
 
-  <!-- DESACTIVADO hasta tener 3 posts. Para reactivar: quitar los dos comentarios.
   <section class="lab" id="lab">
     <div class="w">
       <a class="lab-link" href="https://www.instagram.com/havingfunwithai_/" target="_blank" rel="noopener">
         <h2 class="rv">Having fun<br>with AI</h2>
         <span class="lab-handle rv" data-d="1">@havingfunwithai_</span>
       </a>
+
+      <!-- El video se destapa de abajo arriba con el mismo clip-path que las
+           tres historias, para que pertenezca al mismo idioma. Y solo corre
+           mientras esta en cuadro: son 11MB y 60 segundos, decodificarlos con
+           la seccion fuera de pantalla es gasto puro. Con movimiento reducido
+           no arranca solo y aparecen los controles. -->
+      <figure class="lab-film rv rv--mask" data-d="2">
+        <video id="lab-film" muted loop playsinline preload="metadata"
+               width="1280" height="740" poster="">
+          <source src="video/having-fun-with-ai.mp4" type="video/mp4">
+          <a href="video/having-fun-with-ai.mp4">Download the video</a>
+        </video>
+      </figure>
     </div>
   </section>
-  -->
 
   <section class="connect" id="connect">
     <div class="w">
@@ -252,6 +327,6 @@
   </svg>
 </div>
 
-<script src="main.js?v=8"></script>
+<script src="main.js?v=26"></script>
 </body>
 </html>
