@@ -26,7 +26,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   retiraron por el camino.
 
   05 images/IMAGE_05.png   3195x1051  el diagrama del recorrido
-  07 images/IMAGE_07.png   1140x536   capa contextual propuesta
   08 images/IMAGE_08.png   1280x810   Firm Settings y el panel de productos
   09 images/IMAGE_09.png   1280x810   navegacion lateral anotada
   10 images/IMAGE_10.png   1280x810   el dashboard
@@ -36,7 +35,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   video/code-games.mp4     1442x836   9s, arranca solo y en silencio
 
-  Retirados: 01, 02, 03, 04, 06, 11, 12 y 16. Para anadir una imagen nueva, un <figure> con
+  Retirados: 01, 02, 03, 04, 06, 07, 11, 12 y 16. Para anadir una imagen nueva, un <figure> con
   <img class="figimg" src="..." width="..." height="..." loading="lazy"
   decoding="async" alt="..."> y su <figcaption>.
 -->
@@ -77,6 +76,13 @@ body{margin:0;background:var(--dark);color:var(--ink);font-family:var(--sans);
 .ph--wide{width:calc(92vw - var(--sbw));
   margin-left:calc(50% - (92vw - var(--sbw))/2);margin-right:calc(50% - (92vw - var(--sbw))/2)}
 @media(max-width:767px){.ph--bleed,.ph--wide{width:100%;margin-left:0;margin-right:0}}
+/* Un pie no se va al borde de la pantalla solo porque su figura vaya a sangre.
+   La imagen ocupa el ancho entero; el pie vuelve al margen del texto, que es
+   donde el lector lo busca. Antes esta utilidad no se habia usado nunca con
+   pie, asi que el caso no estaba cubierto. */
+figure.ph--bleed > figcaption,figure.ph--wide > figcaption{
+  max-width:var(--maxw);margin-left:auto;margin-right:auto;
+  padding-left:var(--m);padding-right:var(--m)}
 .tint{background:var(--dark-2)}
 /* the one light moment in the page: the working-model chapter, so the reader
    surfaces once before the closing statement */
@@ -1028,19 +1034,95 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </figure>
     </div>
 
-    <figure class="rv rv--mask drift" style="margin-top:clamp(44px,5vw,76px)">
-      <img class="figimg" src="images/IMAGE_07.png" width="1140" height="536" loading="lazy" decoding="async"
-           alt="The proposed contextual layer: a client switcher pinned beside the tax return, with deeplinks that open documents, relationships and the client record in a new tab, annotated with what it reduces and what it still needs.">
-      <figcaption>Client context carried across the ecosystem</figcaption>
+    <!-- El tablero entero del problema de contexto: el enunciado, el desajuste
+         entre como piensa un fiscalista y como le lleva el producto, y el
+         recorrido anotado pantalla a pantalla. Es la prueba de los dos parrafos
+         de arriba. A lo ancho porque es denso: a media columna no se leeria una
+         sola anotacion. -->
+    <figure class="rv rv--mask" style="margin-top:clamp(50px,6vw,90px)">
+      <img class="figimg" src="images/09-context-concept.png" width="2048" height="1607" loading="lazy" decoding="async"
+           alt="The concept board for client context: the problem statement, the mismatch between how tax professionals think, client then form then year then action, and how the product leads, form then client, and an annotated walk through the real screens.">
+      <figcaption>The client context problem, mapped end to end</figcaption>
     </figure>
+
+    <!-- La solucion del problema 02, en texto. Sin imagen: la unica que habia
+         (IMAGE_07) esta retirada a peticion de Laura, dos veces. Si llega un
+         artefacto nuevo de la solucion, entra debajo de estas dos columnas. -->
+    <div class="two-a" style="margin-top:clamp(54px,6vw,96px)">
+      <div class="rv">
+        <p class="k">The solution</p>
+        <p>A client context that stays with the person instead of being chosen again on every screen. The switcher sits beside the work rather than in front of it, and the links out to documents, relationships and the client record open without dropping the client on the way.</p>
+      </div>
+      <div class="rv" data-d="1">
+        <p class="k">What it changes</p>
+        <ul class="p">
+          <li><span class="i">01</span><span>The client is selected once, not once per product</span></li>
+          <li><span class="i">02</span><span>Moving between applications keeps the work in view</span></li>
+          <li><span class="i">03</span><span>The switcher stops being a full list to search through</span></li>
+        </ul>
+      </div>
+    </div>
+
+
   </div>
 </section>
+
+<!-- 12 · LO QUE NO CONSTRUI ................................................. -->
+<!-- El capitulo que faltaba. CLAUDE.md dice que "what I chose not to build" es
+     una de las dos secciones mas fuertes de un caso y que todos la necesitan;
+     Story 1 no la tenia. El tablero de las tres propuestas es exactamente eso:
+     tres caminos con su limitacion escrita al lado. No digo cual se construyo
+     porque el tablero no lo dice y no me lo voy a inventar. -->
+<section class="sec tint" id="options">
+  <div class="w">
+    <div class="head rv">
+      <div class="n">10</div>
+      <div>
+        <p class="k">What I did not build</p>
+        <h2><span class="ln"><i>Three ways to solve it,</i></span><span class="ln"><i>and what each one cost</i></span></h2>
+        <div class="rule"></div>
+      </div>
+    </div>
+
+    <div class="two" style="margin-top:clamp(40px,5vw,70px)">
+      <div class="rv">
+        <p>I put three options on the table rather than one. Deep links that carry the client with you. The same, plus a client switcher inside the product. And a contextual layer that suggests the next step instead of waiting to be asked.</p>
+      </div>
+      <div class="rv" data-d="1">
+        <p>Each one has its limitation written next to it, and what it still does not solve. That is the part worth showing: choosing between options is the work.</p>
+      </div>
+    </div>
+
+    <!-- El tablero se queda dentro del margen del texto, como el resto de la
+         pagina. Su letra no se lee a este tamano y no se leia tampoco a sangre:
+         es un documento de trabajo, no una lamina. Lo que se lee es la forma,
+         tres caminos con la misma retícula, y el argumento va debajo recortado
+         a tamano legible. -->
+    <figure class="rv rv--mask" style="margin-top:clamp(50px,6vw,90px)">
+      <img class="figimg" src="images/10-three-proposals.png" width="1846" height="2048" loading="lazy" decoding="async"
+           alt="Three proposals side by side: deep linking with context preservation, the same with an in-app client switcher, and both plus an AI contextual assistant. Each carries its concept, how it works, positive impact, limitation, who it suits best, and what it still leaves unsolved.">
+      <figcaption>The working board · three proposals, same structure</figcaption>
+    </figure>
+
+    <div class="two-a" style="margin-top:clamp(50px,6vw,90px)">
+      <figure class="rv">
+        <img class="figimg" src="images/10-proposal-detail.png" width="560" height="200" loading="lazy" decoding="async"
+             alt="A detail of the first proposal: what it helps with, reduce manual steps, prevent context loss, support a more continuous workflow in the same client context. And below, what is missing: it breaks the client switching workflow.">
+        <figcaption>Proposal 01 · what it solves, and what it breaks</figcaption>
+      </figure>
+      <div class="rv" data-d="1">
+        <p class="pull" style="margin-top:clamp(20px,2.4vw,36px)">A proposal without a stated cost is not a proposal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <!-- 13 · DESIGN PROBLEM 04 ................................................... -->
 <section class="sec tint" id="patterns">
   <div class="w">
     <div class="head rv">
-      <div class="n">10</div>
+      <div class="n">11</div>
       <div>
         <p class="k">Design problem 04</p>
         <h2><span class="ln"><i>When the same problem</i></span><span class="ln"><i>appeared twice, it probably</i></span><span class="ln"><i>did not belong to one screen</i></span></h2>
@@ -1087,7 +1169,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="sec sec--open" id="research">
   <div class="w">
     <div class="head rv">
-      <div class="n">11</div>
+      <div class="n">12</div>
       <div>
         <p class="k">Research and validation</p>
         <h2><span class="ln"><i>Research changed</i></span><span class="ln"><i>the direction</i></span></h2>
@@ -1137,7 +1219,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="sec sec--open" id="handoff">
   <div class="w">
     <div class="head rv">
-      <div class="n">12</div>
+      <div class="n">13</div>
       <div>
         <p class="k">Handoff</p>
         <h2><span class="ln"><i>My handoff was not a file.</i></span><span class="ln"><i>It was a shared</i></span><span class="ln"><i>understanding.</i></span></h2>
@@ -1198,7 +1280,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="sec tint" id="build">
   <div class="w">
     <div class="head rv">
-      <div class="n">13</div>
+      <div class="n">14</div>
       <div>
         <p class="k">Engineering collaboration</p>
         <h2><span class="ln"><i>The handoff often</i></span><span class="ln"><i>changed the design too</i></span></h2>
@@ -1228,7 +1310,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="sec" id="ai">
   <div class="w">
     <div class="head rv">
-      <div class="n">14</div>
+      <div class="n">15</div>
       <div>
         <p class="k">Emerging technology</p>
         <h2><span class="ln"><i>AI as a tool,</i></span><span class="ln"><i>not a theme</i></span></h2>
@@ -1277,7 +1359,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="sec light sec--open" id="impact">
   <div class="w">
     <div class="head rv">
-      <div class="n">15</div>
+      <div class="n">16</div>
       <div>
         <p class="k">Impact</p>
         <h2><span class="ln"><i>What changed</i></span></h2>
@@ -1310,7 +1392,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="sec" id="reflection">
   <div class="w">
     <div class="head rv">
-      <div class="n">16</div>
+      <div class="n">17</div>
       <div>
         <p class="k">Reflection</p>
         <h2><span class="ln"><i>My learnings</i></span></h2>
