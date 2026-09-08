@@ -188,6 +188,10 @@ html:not(.js) .hero h1 .ln i{transform:none}
 .hero.lit h1 .ln i{transform:none}
 .hero.lit h1 .ln:nth-child(2) i{transition-delay:.09s}
 .hero.lit h1 .ln:nth-child(3) i{transition-delay:.18s}
+/* Cuarta linea. El titular ha necesitado cuatro dos veces ya, y sin este
+   retardo esa linea entraba a la vez que la primera mientras las otras dos
+   cascadeaban: se leia como un fallo. */
+.hero.lit h1 .ln:nth-child(4) i{transition-delay:.27s}
 /* INTRO. La unica pantalla en papel del arranque: fondo claro, tipografia y
    animacion en negro, y despues la pagina entra en su fondo oscuro y ya no
    vuelve. La barra de navegacion no necesita nada: usa mix-blend-mode

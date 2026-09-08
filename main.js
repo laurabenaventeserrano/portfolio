@@ -75,7 +75,7 @@ if(twL.length&&twLive&&twStat){
     clearTimeout(rt); rt=setTimeout(reserva,180);
   });
 
-  var lineas=['Hello, I\u2019m Laura Benavente','A Senior product Designer','based in Madrid'];
+  var lineas=['Hello, I\u2019m Laura Benavente','A Senior product Designer','building AI-native experiences'];
   var cursor=document.createElement('span');
   cursor.className='tw-cursor';
   var iL=0, iC=0;
