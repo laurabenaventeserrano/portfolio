@@ -1,9 +1,8 @@
-# El sitio vive en app/, no en la raiz del repo. No usamos "base" para no
-# depender de como Netlify resuelve "publish" respecto a el: el comando entra
-# en la subcarpeta y "publish" queda relativo a la raiz, que no es ambiguo.
+# El sitio es HTML estatico en la raiz del repositorio. No hay npm, ni
+# bundler, ni paso de compilacion: el comando solo reune en _site la lista
+# de archivos que se publican, para que el material de trabajo de la raiz
+# (prompts, guia de identidad, referencia, originales de video) no se sirva
+# desde el dominio.
 [build]
-  command = "npm --prefix app ci && npm --prefix app run build"
-  publish = "app/dist"
-
-[build.environment]
-  NODE_VERSION = "20"
+  command = "bash tools/publicar.sh"
+  publish = "_site"

@@ -23,3 +23,6 @@ ehthumbs.db
 # entorno de autoria, el selector de modelo, su propio prompt y sus marcadores.
 # Lo que se publica son los .mp4 de video/, ya recortados.
 images/*.mov
+
+# Salida de tools/publicar.sh
+_site/
