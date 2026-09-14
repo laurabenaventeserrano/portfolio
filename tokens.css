@@ -1,282 +1,145 @@
 /* =========================================================
-   DESIGN TOKENS
-   Source of truth for the visual system.
-   Do not introduce arbitrary values when an existing token
-   can be used.
+   LAURA BENAVENTE · VISUAL IDENTITY V1
+   Fuente de verdad. Ver IDENTITY-V1-CLAUDE-CODE.md.
+
+   Todo el sistema vive bajo el prefijo --lb-. No hay una
+   segunda capa de nombres ni alias de compatibilidad: dos
+   nombres para el mismo valor es exactamente como un sistema
+   se desincroniza.
+
+   Las unicas cosas que la interfaz puede pintar son los
+   colores de este archivo.
    ========================================================= */
 
-:root {
+:root{
 
   /* =======================================================
-     COLOR SYSTEM
+     1 · COLOR
+     Dos suelos, y un encaje por suelo. No hay un tercero.
      ======================================================= */
 
-  /* Core surfaces */
+  --lb-ground:      #0A0A0C;   /* suelo oscuro. nunca #000 */
+  --lb-raised:      #141416;   /* pieza elevada sobre oscuro */
+  --lb-cream:       #FDFBF6;   /* suelo papel, "blanco roto" */
+  --lb-paper-inset: #F2EFEA;   /* encaje sobre papel */
 
-  --color-ground: #0A0A0C;
-  /* Primary page background.
-     Graphite, warm-neutral. */
+  /* Tinta sobre oscuro */
+  --lb-ink:         #F2EFEA;   /* 17.8:1  display y enfasis */
+  --lb-ink-2:       #BDB9B3;   /*  9.1:1  texto corrido */
+  --lb-mid:         #8C8A87;   /*  4.4:1  metadatos, 14px o menos */
+  --lb-line:        rgba(242,239,234,.14);
+  --lb-line-strong: rgba(242,239,234,.28);
 
-  --color-raised: #141416;
-  /* Elevated surfaces, cards, overlays, secondary sections. */
+  /* Tinta sobre papel */
+  --lb-cream-ink:   #111111;
+  --lb-cream-body:  #3A3835;
+  --lb-cream-meta:  #6B6863;
+  --lb-line-on-paper: rgba(20,20,22,.16);
 
-  --color-slot: #2A2A2C;
-  /* Empty image/media placeholders only. */
+  /* Acento: un color, dos contextos. Nunca otro. */
+  --lb-accent:      #F2607F;   /* sobre oscuro  6.3:1 */
+  --lb-accent-deep: #C22A50;   /* sobre papel   5.6:1 */
 
+  /* Prisma: siete paradas de dispersion.
+     Solo filete. Nunca fondo, relleno, lavado ni boton. */
+  --lb-p1:#1E2A78; --lb-p2:#2F5FD0; --lb-p3:#2FA7C4; --lb-p4:#63BE6E;
+  --lb-p5:#E3C64B; --lb-p6:#E8834B; --lb-p7:#E2436B;
+  --lb-prism:linear-gradient(90deg,
+    var(--lb-p1) 0%,  var(--lb-p2) 18%, var(--lb-p3) 36%, var(--lb-p4) 53%,
+    var(--lb-p5) 70%, var(--lb-p6) 85%, var(--lb-p7) 100%);
+  --lb-prism-sm:linear-gradient(90deg,
+    var(--lb-p2), var(--lb-p4), var(--lb-p5), var(--lb-p7));
 
-  /* Text */
-
-  --color-text-primary: #F2EFEA;
-  /* Primary text.
-     Warm off-white. */
-
-  --color-text-secondary: #BDB9B3;
-  /* Secondary text, descriptions, supporting content. */
-
-  --color-text-muted: #8C8A87;
-  /* Metadata only.
-     Use at 14px and below. */
-
-
-  /* Lines & borders */
-
-  --color-line: rgba(242, 239, 234, 0.14);
-
-
-  /* Accent */
-
-  --color-accent: #F2607F;
-  /* Primary accent on dark backgrounds.
-     Contrast ratio: approximately 6.3:1 */
-
-  --color-accent-deep: #C22A50;
-  /* Accent for light backgrounds.
-     Contrast ratio: approximately 5.6:1 */
+  --lb-radius: 2px;            /* el maximo. no hay radio mayor. */
 
 
   /* =======================================================
-     PRISM / DISPERSION SYSTEM
-
-     IMPORTANT:
-     These colors are reserved for the brand mark,
-     dispersion effects and intentional generative visuals.
-
-     Do NOT use these as random UI colors.
+     2 · TIPOGRAFIA
+     Tres papeles, tres familias. No hay una cuarta.
+       Piensa   Libertinus Serif  display, titulares, cifras
+       Explica  Roboto            texto, UI, pies
+       Etiqueta Roboto Mono       kickers, fechas, metadatos
      ======================================================= */
 
-  --color-prism-1: #1E2A78;
-  --color-prism-2: #2F5FD0;
-  --color-prism-3: #2FA7C4;
-  --color-prism-4: #63BE6E;
-  --color-prism-5: #E3C64B;
-  --color-prism-6: #E8834B;
-  --color-prism-7: #E2436B;
+  --lb-font-display:'Libertinus Serif', Georgia, serif;
+  --lb-font-body:   'Roboto', Helvetica, Arial, sans-serif;
+  --lb-font-mono:   'Roboto Mono', ui-monospace, monospace;
 
-  --gradient-prism: linear-gradient(
-    90deg,
-    var(--color-prism-1) 0%,
-    var(--color-prism-2) 18%,
-    var(--color-prism-3) 36%,
-    var(--color-prism-4) 53%,
-    var(--color-prism-5) 70%,
-    var(--color-prism-6) 85%,
-    var(--color-prism-7) 100%
-  );
+  /* El tope de cada peldano es el valor exacto del spec y se alcanza en el
+     lienzo de escritorio. El suelo es el mismo peldano en un lienzo estrecho:
+     el spec dice "ajustar proporcionalmente para otros anchos, manteniendo las
+     razones", y en un movil el titular no cabe al tamano de escritorio. */
+  --lb-display-xl: clamp(34px, 7vw,   96px);   /* 96 / .82   */
+  --lb-display-l:  clamp(26px, 4vw,   56px);   /* 56 / 1.02  */
+  --lb-display-m:  clamp(22px, 2.2vw, 30px);   /* 30 / 1     */
+  --lb-display-s:  19px;                       /* 19 / 1.18  */
+  --lb-numeral:    clamp(26px, 2.5vw, 34px);   /* 34 / 1     */
+
+  --lb-body:       14px;                       /* 14 / 1.7   */
+  --lb-body-s:     13px;                       /* 12-13 / 1.6 */
+  --lb-label:      10px;                       /* mono .16em */
+  --lb-kicker:     10px;                       /* mono .2em  */
+
+  --lb-lh-display-xl: .82;
+  --lb-lh-display-l:  1.02;
+  --lb-lh-display-m:  1;
+  --lb-lh-display-s:  1.18;
+  --lb-lh-body:       1.7;
+  --lb-lh-body-s:     1.6;
+
+  --lb-track-display: -.015em;
+  --lb-track-label:   .16em;
+  --lb-track-kicker:  .2em;
 
 
   /* =======================================================
-     TYPOGRAPHY
+     3 · TRAZADO
+     Margenes generosos, filete de 1px, esquina cuadrada.
      ======================================================= */
 
-  --font-serif:
-    'Libertinus Serif',
-    Georgia,
-    serif;
+  --lb-margin:    56px;
+  --lb-maxw:      1400px;
+  --lb-hairline:  1px;
 
-  --font-sans:
-    'Roboto',
-    Arial,
-    sans-serif;
+  /* El canal unico de la pagina. Reproduce el margen efectivo
+     de .w para que lo que sangra se alinee con el texto en vez
+     de inventarse su propio borde. */
+  --lb-gut: max(var(--lb-margin),
+    calc((100% - var(--lb-maxw)) / 2 + var(--lb-margin)));
 
-  --font-mono:
-    'Roboto Mono',
-    ui-monospace,
-    monospace;
+  /* Ancho real de la barra de scroll, lo escribe main.js. Lo que
+     va a sangre lo resta, porque 100vw la incluye y empuja la
+     pagina de lado. */
+  --lb-sbw: 0px;
+
+  --lb-space-1:  8px;
+  --lb-space-2:  16px;
+  --lb-space-3:  24px;
+  --lb-space-4:  32px;
+  --lb-space-5:  40px;
+  --lb-space-6:  48px;
+  --lb-space-8:  64px;
+  --lb-space-10: 80px;
+  --lb-space-12: 96px;
+  --lb-space-16: 128px;
 
 
   /* =======================================================
-     TYPE SCALE
+     4 · MOVIMIENTO
      ======================================================= */
 
-  /* Display */
-
-  --font-size-display-1:
-    clamp(40px, 7vw, 110px);
-
-  --font-size-display-2:
-    clamp(30px, 4.2vw, 58px);
-
-  --font-size-display-3:
-    clamp(26px, 3.2vw, 42px);
-
-
-  /* Body */
-
-  --font-size-body-lg: 17px;
-  --font-size-body: 14px;
-
-
-  /* Metadata */
-
-  --font-size-meta: 11px;
-
-
-  /* =======================================================
-     LAYOUT
-     ======================================================= */
-
-  --layout-margin: 40px;
-
-  --layout-max-width: 1400px;
-
-  --space-unit: 8px;
-
-
-  /* Spacing scale */
-
-  --space-1: calc(var(--space-unit) * 1);  /* 8px */
-  --space-2: calc(var(--space-unit) * 2);  /* 16px */
-  --space-3: calc(var(--space-unit) * 3);  /* 24px */
-  --space-4: calc(var(--space-unit) * 4);  /* 32px */
-  --space-5: calc(var(--space-unit) * 5);  /* 40px */
-  --space-6: calc(var(--space-unit) * 6);  /* 48px */
-  --space-8: calc(var(--space-unit) * 8);  /* 64px */
-  --space-10: calc(var(--space-unit) * 10); /* 80px */
-  --space-12: calc(var(--space-unit) * 12); /* 96px */
-  --space-16: calc(var(--space-unit) * 16); /* 128px */
-
-
-  /* =======================================================
-     SHAPE
-     ======================================================= */
-
-  --radius-none: 0px;
-
-  --radius-pill: 999px;
-
-
-  /* =======================================================
-     MOTION
-     ======================================================= */
-
-  --ease-primary:
-    cubic-bezier(0.16, 1, 0.3, 1);
+  --lb-ease: cubic-bezier(.16, 1, .3, 1);
+  --lb-dur-ui: 180ms;
 
 }
 
 
-/* =========================================================
-   EXTENSIONS
-   Everything above is the system as authored. Everything
-   below exists because the site calls it and would break
-   without it. Kept separate so the boundary stays visible.
-   ========================================================= */
-
-:root {
-
-  /* Light ground. Four sections stand on it: the intro screen,
-     "Three ways I approach product problems", the closing, and
-     Story 1's light chapter. --color-accent-deep already assumes
-     light backgrounds exist; this is the surface they use. */
-
-  --color-paper: #F6F4EF;
-  --color-paper-2: #EEEBE3;
-
-
-  /* Second line weight, for separation inside one group as
-     opposed to a real division. 26 uses. */
-
-  --color-line-2: rgba(242, 239, 234, 0.07);
-
-
-  /* Measured scrollbar width, written by main.js. Full-bleed
-     elements subtract it, because 100vw includes the scrollbar
-     and pushes the page sideways. */
-
-  --sbw: 0px;
-
-
-  /* The page's single channel. Reproduces the effective margin
-     of .w so full-bleed elements align to the content instead
-     of inventing their own edge. */
-
-  --gut: max(var(--layout-margin),
-    calc((100% - var(--layout-max-width)) / 2 + var(--layout-margin)));
-
-
-  /* The prism as the homepage uses it: the same seven colours,
-     with transparent stops at both ends so the glow fades into
-     the ground instead of stopping at a hard edge. */
-
-  --gradient-prism-fade: linear-gradient(
-    90deg,
-    rgba(10, 10, 12, 0) 0%,
-    var(--color-prism-1) 12%,
-    var(--color-prism-2) 26%,
-    var(--color-prism-3) 38%,
-    var(--color-prism-4) 53%,
-    var(--color-prism-5) 70%,
-    var(--color-prism-6) 85%,
-    var(--color-prism-7) 96%,
-    rgba(10, 10, 12, 0) 100%
-  );
-
-
-  /* =======================================================
-     ALIASES
-
-     The site makes 407 var() calls across five files under the
-     older names. Renaming them all at once is the fastest way
-     to break something without noticing, so the old names
-     resolve to the new values and the rename can happen file
-     by file, with a check after each.
-     ======================================================= */
-
-  --dark: var(--color-ground);
-  --dark-2: var(--color-raised);
-  --dark-3: var(--color-slot);
-  --img: var(--color-raised);
-  --paper: var(--color-paper);
-  --paper-2: var(--color-paper-2);
-  --paper-p: var(--color-text-primary);
-  --ground: var(--color-ground);
-
-  --ink: var(--color-text-primary);
-  --ink-2: var(--color-text-secondary);
-  --mid: var(--color-text-muted);
-
-  --line: var(--color-line);
-  --line-2: var(--color-line-2);
-
-  --red: var(--color-accent-deep);
-  --red-l: var(--color-accent);
-
-  --serif: var(--font-serif);
-  --sans: var(--font-sans);
-  --mono: var(--font-mono);
-
-  --m: var(--layout-margin);
-  --maxw: var(--layout-max-width);
-  --spectrum: var(--gradient-prism-fade);
-
+/* Los casos corren una medida mas estrecha que la portada. */
+html.case-study{
+  --lb-maxw: 1280px;
 }
 
-
-/* The case studies run a narrower measure than the homepage:
-   a fluid margin instead of a fixed 40px, and a 1280px container.
-   Scoped here rather than duplicated in three files. */
-
-html.case-study {
-  --layout-margin: clamp(20px, 5.2vw, 96px);
-  --layout-max-width: 1280px;
-}
+/* En pantallas estrechas el margen baja. Se toca el token, no
+   sus consumidores, para que todo lo que dependa de el cuadre. */
+@media(max-width:900px){ :root{ --lb-margin:40px } }
+@media(max-width:479px){ :root{ --lb-margin:24px } }

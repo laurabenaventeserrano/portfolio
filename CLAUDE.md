@@ -19,8 +19,8 @@ Dark editorial. Revised from the original warm-paper direction at Laura's explic
 **What changed:**
 
 - Near-black (`--dark`) is now the default ground site-wide, not a punctuation section.
-- Display type pushes toward the 150px ceiling already specified below — more scale contrast, not a new scale.
-- Blue and red read as brighter, more present accents against the dark ground. Still exactly two accents; red still reserved for the case-study break point.
+- ~~Display type pushes toward the 150px ceiling.~~ Superseded 11 Sep 2026: Identity V1 sets display-xl at 96px. The scale contrast now comes from the gap between the steps (96 / 56 / 30 / 19), not from the ceiling.
+- ~~Blue and red read as brighter accents.~~ Superseded 11 Sep 2026: Identity V1 has **one** accent in two contexts. Blue is gone.
 - Numbered image placeholders may carry a more dramatic surface treatment once real content is supplied.
 
 **Still avoided:** decorative glossy/inflatable objects unrelated to real work content, literally copying noth.in's own imagery or copy, oversized full-bleed marquee type that breaks the grid, cursor tricks, horizontal page scroll, video backgrounds, 3D objects, particle fields, node meshes, rounded cards, icon chips, checkmark lists, pastel illustration.
@@ -29,21 +29,23 @@ Dark editorial. Revised from the original warm-paper direction at Laura's explic
 
 ## Tokens
 
-```
---dark     #0E0E11   default ground (was: punctuation only)
---dark-2   #17171B   tinted / elevated section
---paper    #F6F4EF   reserved — the rare light punctuation moment (inverted role from before)
---ink      #FFFFFF   primary text on dark
---ink-2    #C9C9CE   secondary body text on dark
---mid      #8C8C93   metadata, captions on dark
---line     rgba(255,255,255,.14)
---blue     #1F4396   structure (light contexts)   --blue-l #7FA3E8 (default, on dark)
---red      #C22A50   the break point (light)      --red-l  #DF6C89 (default, on dark)
-```
+**Superseded 11 Sep 2026.** `IDENTITY-V1-CLAUDE-CODE.md` is now the identity authority and overrides anything about colour, type, scale, radius or ornament written above or below. `tokens.css` is its implementation, loaded by all four pages, and the `visual-system` skill documents how the site uses it.
 
-Type: **Libertinus Serif** display · **Roboto** body · **Roboto Mono** technical. Sentence case. Display never below 32px. Type never breaks the grid.
+The short version: two grounds (`#0A0A0C` dark, `#FDFBF6` paper) with one inset each, one accent in two contexts (`#F2607F` on dark, `#C22A50` on paper), the seven prism stops used only as a hairline of 2px or less, and a 2px maximum radius. Type is unchanged in families and changed in scale: display tops out at 96px, not 150px.
 
-Reference implementation: `index.html` for the dark system. `story1-case-study.html` remains the reference for the (still warm-paper) case studies until they're revisited.
+The copy, structure and content rules below are **not** superseded. They still win.
+
+## Approved exceptions to the identity spec
+
+**The rainbow footer glow stays. It is not up for review.**
+
+`#glow` in `index.html`, `.glow` in `styles.css`, `medirGlow()` in `main.js`. Nine blurred bars in a seven-stop gradient, fixed to the viewport floor, growing with the last stretch of scroll and reaching full height exactly at the end of the page.
+
+It breaks `IDENTITY-V1-CLAUDE-CODE.md` §6 (glows, blurs, soft gradients) and §1 (its colours are outside the palette). That is known and deliberate. Laura reviewed it, approved it, and it is the part of the site she likes most.
+
+Do not delete it, redesign it, replace it, reinterpret it, or repeat the effect anywhere else. It lives only in the closing section. **It has already been deleted once by an agent reading the spec and not the history. Do not let that happen again.** If it ever looks like it should go, ask her first.
+
+---
 
 ## Rules
 
@@ -97,7 +99,7 @@ Generic cyberpunk · neon and glow · gaming HUDs · rounded SaaS cards and drop
 
 ## Open
 
-1. ~~Whether the rust accent stays warm or goes colder~~ Resolved 24 Aug 2026: it went colder, to #C22A50
+1. ~~Whether the rust accent stays warm or goes colder~~ Resolved 24 Aug 2026: it went colder, to #C22A50. Closed for good 11 Sep 2026: Identity V1 pairs #C22A50 (paper) with #F2607F (dark) and deprecates every orange, no alias.
 2. Whether Story 02 and Story 03 also convert to the dark system, now that Story 01 has
 3. Story bands in-page vs separate pages
 4. Stack — static HTML, Webflow, or Next.js

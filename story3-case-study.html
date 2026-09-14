@@ -18,14 +18,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
 <title>Designing for a wait that could not be shortened · Laura Benavente</title>
-<link rel="stylesheet" href="tokens.css?v=2">
+<link rel="stylesheet" href="tokens.css?v=48">
 <style>
 @font-face{font-family:'Libertinus Serif';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/libertinus-serif-latin-400-normal.woff2) format('woff2')}
 @font-face{font-family:'Libertinus Serif';font-weight:400;font-style:italic;font-display:swap;src:url(fonts/libertinus-serif-latin-400-italic.woff2) format('woff2')}
 @font-face{font-family:'Roboto';font-weight:300;font-style:normal;font-display:swap;src:url(fonts/roboto-latin-300-normal.woff2) format('woff2')}
 @font-face{font-family:'Roboto';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/roboto-latin-400-normal.woff2) format('woff2')}
 @font-face{font-family:'Roboto';font-weight:500;font-style:normal;font-display:swap;src:url(fonts/roboto-latin-500-normal.woff2) format('woff2')}
-@font-face{font-family:'Roboto';font-weight:700;font-style:normal;font-display:swap;src:url(fonts/roboto-latin-700-normal.woff2) format('woff2')}
 @font-face{font-family:'Roboto Mono';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/roboto-mono-latin-400-normal.woff2) format('woff2')}
 
 /* Los tokens viven en tokens.css, cargado antes de este bloque. */
@@ -33,31 +32,36 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--dark);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+html{background:var(--lb-ground);color:var(--lb-ink);font-family:var(--lb-font-body)}
+body{margin:0;background:var(--lb-ground);color:var(--lb-ink);font-family:var(--lb-font-body);
+  font-size:var(--lb-body);line-height:var(--lb-lh-body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
-.w{max-width:1280px;margin:0 auto;padding:0 var(--m)}
+.w{max-width:1280px;margin:0 auto;padding:0 var(--lb-margin)}
 .sec{padding:clamp(80px,11vw,180px) 0;position:relative}
-.light{background:var(--paper);color:#0E0E11}
-.light p{color:#33333A}
-.pivot p{color:var(--ink)}
-.light .k,.light .n{color:#686872}
-.pivot .k,.pivot .n{color:var(--ink)}
-.light .rule{background:rgba(14,14,17,.14)}
-.pivot .rule{background:rgba(255,255,255,.16)}
-.tint{background:var(--dark-2)}
+.light{background:var(--lb-cream);color:var(--lb-cream-ink)}
+.light p{color:var(--lb-cream-body)}
+.pivot p{color:var(--lb-ink)}
+.light .k{color:var(--lb-cream-meta)}
+/* La cifra es estructura, no metadato: sobre papel va en tinta plena. */
+.light .n{color:var(--lb-cream-ink)}
+.pivot .k,.pivot .n{color:var(--lb-ink)}
+.light .rule{background:var(--lb-line-on-paper)}
+.pivot .rule{background:var(--lb-line)}
+.tint{background:var(--lb-raised)}
 
-.skip-link{position:absolute;left:16px;top:-60px;z-index:200;background:var(--ink);color:#0E0E11;
-  padding:10px 18px;font-family:var(--mono);font-size:11px;letter-spacing:1px;text-decoration:none;transition:top .2s}
+.skip-link{position:absolute;left:16px;top:-60px;z-index:200;background:var(--lb-ink);color:var(--lb-ground);
+  padding:10px 18px;font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);
+  text-transform:uppercase;text-decoration:none;transition:top .2s}
 .skip-link:focus{top:12px}
-.navbar{position:fixed;top:0;left:0;right:0;z-index:100;mix-blend-mode:difference;color:#fff}
-.nav-bar{max-width:1280px;margin:0 auto;padding:20px var(--m);display:flex;justify-content:space-between;
+.navbar{position:fixed;top:0;left:0;right:0;z-index:100;mix-blend-mode:difference;color:var(--lb-ink)}
+.nav-bar{max-width:1280px;margin:0 auto;padding:20px var(--lb-margin);display:flex;justify-content:space-between;
   align-items:flex-start;gap:20px;cursor:pointer;list-style:none}
 .nav-bar::-webkit-details-marker{display:none}
 .nav-bar::marker{content:''}
-.nav-logo{font-family:var(--sans);font-weight:700;font-size:11px;line-height:1;letter-spacing:.03em;
-  text-transform:uppercase;text-decoration:none;color:#fff}
-.nav-toggle{font-family:var(--sans);font-weight:700;font-size:11px;line-height:1;letter-spacing:.03em;
-  text-transform:uppercase;color:#fff}
+.nav-logo{font-family:var(--lb-font-display);font-weight:400;font-size:14px;line-height:1;
+  letter-spacing:.02em;text-decoration:none;color:var(--lb-ink)}
+.nav-toggle{font-family:var(--lb-font-body);font-weight:500;font-size:var(--lb-body-s);line-height:1;letter-spacing:.03em;
+  text-transform:uppercase;color:var(--lb-ink)}
 .nav-toggle .lbl-close{display:none}
 .nav-d[open] .nav-toggle .lbl-open{display:none}
 .nav-d[open] .nav-toggle .lbl-close{display:inline}
@@ -92,7 +96,7 @@ body{margin:0;background:var(--dark);color:var(--ink);font-family:var(--sans);fo
   .nav-toggle:hover{transform:none}
 }
 
-.nav-panel{display:block;max-width:1280px;margin:0 auto;padding:0 var(--m);
+.nav-panel{display:block;max-width:1280px;margin:0 auto;padding:0 var(--lb-margin);
   overflow:hidden;max-height:0;visibility:hidden;
   transition:max-height .55s cubic-bezier(.16,1,.3,1),visibility 0s linear .55s}
 .nav-d[open] .nav-panel{max-height:70vh;visibility:visible;
@@ -102,8 +106,8 @@ body{margin:0;background:var(--dark);color:var(--ink);font-family:var(--sans);fo
 .nav-links{padding-top:12px;gap:12px}
 .nav-foot{flex-direction:row;justify-content:flex-end;flex-wrap:wrap;padding-top:20px;gap:16px}
 .nav-links a,.nav-foot a{display:block;position:relative;overflow:hidden;
-  font-family:var(--sans);font-weight:700;font-size:11px;line-height:1;letter-spacing:.03em;
-  text-transform:uppercase;text-decoration:none;color:#fff}
+  font-family:var(--lb-font-body);font-weight:500;font-size:var(--lb-body-s);line-height:1;letter-spacing:.03em;
+  text-transform:uppercase;text-decoration:none;color:var(--lb-ink)}
 .nav-foot a{opacity:.55}
 .nav-links a:hover{opacity:.6}
 .nav-foot a:hover{opacity:1}
@@ -124,28 +128,87 @@ body{margin:0;background:var(--dark);color:var(--ink);font-family:var(--sans);fo
 .nav-d:not([open]) .nav-links a span,.nav-d:not([open]) .nav-foot a span{transition-delay:0s}
 html:not(.js) .nav-panel{max-height:none;visibility:visible;overflow:visible}
 html:not(.js) .nav-links a span,html:not(.js) .nav-foot a span{transform:none}
-.navbar :focus-visible{outline-color:#fff}
+.navbar :focus-visible{outline-color:var(--lb-ink)}
 @media(max-width:760px){
-  .nav-links a,.nav-foot a{font-size:14px}
+  .nav-links a,.nav-foot a{font-size:var(--lb-body)}
   .nav-links,.nav-foot{gap:22px}
   .nav-links a::after,.nav-foot a::after{top:-11px;bottom:-11px}
 }
-:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-.light :focus-visible{outline-color:#0E0E11}
-.pivot :focus-visible{outline-color:var(--ink)}
+:focus-visible{outline:2px solid var(--lb-ink);outline-offset:3px}
+.light :focus-visible{outline-color:var(--lb-cream-ink)}
+.pivot :focus-visible{outline-color:var(--lb-ink)}
 
-h1{font-family:var(--serif);font-weight:400;font-size:clamp(46px,9.6vw,152px);line-height:.92;letter-spacing:-.022em;margin:0}
-h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,6vw,84px);line-height:.98;letter-spacing:-.016em;margin:0}
-h3{font-family:var(--serif);font-weight:400;font-size:clamp(21px,2.4vw,30px);line-height:1.18;margin:0 0 12px}
-p{margin:0 0 22px;max-width:60ch;color:var(--ink-2)}
+h1{font-family:var(--lb-font-display);font-weight:400;font-size:var(--lb-display-xl);
+  line-height:.9;letter-spacing:var(--lb-track-display);margin:0}
+h2{font-family:var(--lb-font-display);font-weight:400;font-size:var(--lb-display-l);
+  line-height:var(--lb-lh-display-l);letter-spacing:var(--lb-track-display);margin:0}
+h3{font-family:var(--lb-font-display);font-weight:400;font-size:var(--lb-display-m);
+  line-height:var(--lb-lh-display-m);letter-spacing:var(--lb-track-display);margin:0 0 12px}
+p{margin:0 0 22px;max-width:62ch;color:var(--lb-ink-2);
+  font-size:var(--lb-body);line-height:var(--lb-lh-body)}
 em{font-style:italic}
-strong{font-weight:500;color:var(--ink)}
-.light strong{color:#0E0E11}
-.pivot strong{color:var(--ink)}
+strong{font-weight:500;color:var(--lb-ink)}
+.light strong{color:var(--lb-cream-ink)}
+.pivot strong{color:var(--lb-ink)}
 
-.k{font-family:var(--mono);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--mid);margin:0 0 20px}
-.n{font-family:var(--serif);font-size:clamp(40px,5vw,72px);line-height:.8;color:var(--color-text-secondary);opacity:.55}
-.rule{height:1px;background:var(--line);margin:26px 0 40px}
+/* Kicker. Es la mitad izquierda de la cabecera de seccion del §4: etiqueta
+   en mono y un filete prisma de 1px llenando el resto de la linea. El valor
+   de la derecha no se pone porque no hay ningun dato real que poner ahi. */
+.k{display:flex;align-items:center;gap:var(--lb-space-3);
+  font-family:var(--lb-font-mono);font-size:var(--lb-label);
+  letter-spacing:var(--lb-track-label);text-transform:uppercase;
+  color:var(--lb-mid);margin:0 0 20px}
+.k::after{content:'';flex:1 1 auto;height:1px;min-width:40px;background:var(--lb-prism-sm)}
+/* La cabecera de capitulo ya lleva su filete prisma debajo del titular. Dos
+   prismas en la misma cabecera dejan de ser una firma y pasan a ser ruido, asi
+   que ahi el kicker vuelve a ser solo kicker. La firma del §4 se queda para
+   las etiquetas de sub-bloque, que antes flotaban sin estructura. */
+.head .k{display:block}
+.head .k::after{content:none}
+/* Cifra de capitulo. Bloque numerado del §4: Libertinus 34px y un filete
+   macizo de 26px debajo. Antes era un 72px fantasma al 55% de opacidad, que
+   es decoracion; asi es estructura y se lee. */
+.n{display:block;font-family:var(--lb-font-display);font-weight:400;
+  font-size:var(--lb-numeral);line-height:var(--lb-lh-display-m);
+  letter-spacing:var(--lb-track-display);color:var(--lb-ink)}
+.n::after{content:'';display:block;width:26px;height:var(--lb-hairline);
+  background:currentColor;margin-top:12px}
+.rule{margin:26px 0 40px}
+/* LINEA PRISM. La regla estructural de la casa. Los siete colores no se
+   redefinen aqui: son los --color-prism-* de tokens.css, que es el tablero de
+   identidad. Crear un segundo juego de nombres para los mismos valores es
+   exactamente como se desincroniza un sistema.
+   Es solo regla: nunca relleno, nunca fondo detras de texto, nunca borde de
+   caja, nunca vertical. Maximo 2px.
+   Se dibuja de izquierda a derecha al entrar en cuadro, una vez, y se queda.
+   El degradado no se mueve nunca: lo unico que anima es el barrido. */
+/* El barrido va en una capa interior, no en la regla.
+   El motivo no es de estilo: IntersectionObserver mide la caja YA
+   transformada, asi que con scaleX(0) sobre la propia regla su ancho es 0, su
+   area es 0 y isIntersecting sale false para siempre. Reglas que no se
+   dibujaban nunca. Con el barrido dentro, la caja observada conserva su ancho
+   real y el observador la ve; lo que se mueve es el ::before.
+   Radio de 1px y cantos rectos, maximo 2px de alto: §3. */
+.prism-rule{
+  height:2px;border:0;border-radius:1px;flex:none;
+  overflow:hidden;background:none}
+.prism-rule::before{
+  content:'';display:block;width:100%;height:100%;
+  background:var(--lb-prism);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 700ms var(--lb-ease)}
+.prism-rule.is-drawn::before{transform:scaleX(1)}
+/* El rango corto por debajo de ~120px de ancho, que es donde las siete paradas
+   dejan de distinguirse (§3). */
+.prism-rule--short::before{background:var(--lb-prism-sm)}
+/* Dentro de un bloque de texto la regla baja a 1.5px. */
+.rule.prism-rule{height:1.5px}
+/* Sin JS no hay observador, asi que la regla se dibuja sola: si no, la pagina
+   se quedaria sin ninguna linea estructural. */
+html:not(.js) .prism-rule::before{transform:none}
+@media (prefers-reduced-motion:reduce){
+  .prism-rule::before{transform:none;transition:none}
+}
 
 .head{display:grid;grid-template-columns:clamp(80px,9vw,150px) 1fr;gap:clamp(20px,3vw,50px);align-items:start}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,90px)}
@@ -154,12 +217,13 @@ strong{font-weight:500;color:var(--ink)}
 @media(max-width:900px){.two,.two-a,.three,.head{grid-template-columns:1fr;gap:26px}}
 
 .hero{padding:clamp(120px,16vw,160px) 0 0}
-.hero-top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:clamp(50px,9vw,120px);gap:20px;flex-wrap:wrap}
-.hero-top span{font-family:var(--mono);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--mid)}
-.hero h1 em{color:var(--color-text-secondary)}
-.hero-meta{display:flex;flex-wrap:wrap;margin:clamp(44px,6vw,80px) 0 0;border-top:1px solid var(--line)}
-.hero-meta span{font-family:var(--mono);font-size:10px;letter-spacing:1.1px;text-transform:uppercase;color:var(--mid);
-  padding:14px 22px 14px 0;border-right:1px solid var(--line-2);margin-right:22px}
+.hero-top{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:14px;gap:20px;flex-wrap:wrap}
+.hero-top + .prism-rule{margin-bottom:clamp(50px,9vw,120px)}
+.hero-top span{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:1.4px;text-transform:uppercase;color:var(--lb-mid)}
+.hero h1 em{color:var(--lb-ink-2)}
+.hero-meta{display:flex;flex-wrap:wrap;margin:clamp(44px,6vw,80px) 0 0;border-top:var(--lb-hairline) solid var(--lb-line)}
+.hero-meta span{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-mid);
+  padding:14px 22px 14px 0;border-right:var(--lb-hairline) solid var(--lb-line);margin-right:22px}
 .hero-meta span:last-child{border-right:0;margin-right:0}
 
 /* RESULT CHIPS. La cifra en serif a escala de titular es lo que hace que el ojo
@@ -167,66 +231,99 @@ strong{font-weight:500;color:var(--ink)}
    Sin caja, sin radio y sin color: la escala tipografica hace el trabajo sola,
    y el oxido sigue reservado para marcar donde se rompe la experiencia. */
 .stats{display:flex;flex-wrap:wrap;margin:clamp(34px,4.4vw,60px) 0 0;
-  border-top:1px solid var(--line)}
+  border-top:var(--lb-hairline) solid var(--lb-line)}
 .stat{padding:20px clamp(26px,3vw,44px) 0 0;margin-right:clamp(26px,3vw,44px);
-  border-right:1px solid var(--line-2)}
+  border-right:var(--lb-hairline) solid var(--lb-line)}
 .stat:last-child{border-right:0;margin-right:0;padding-right:0}
-.stat b{display:block;font-family:var(--serif);font-weight:400;
-  font-size:clamp(30px,3.6vw,50px);line-height:1;letter-spacing:-.02em;color:var(--ink)}
-.stat i{display:block;font-style:normal;font-family:var(--mono);font-size:10px;
-  letter-spacing:1.1px;text-transform:uppercase;color:var(--mid);margin-top:12px}
+.stat b{display:block;font-family:var(--lb-font-display);font-weight:400;
+  font-size:var(--lb-display-l);line-height:var(--lb-lh-display-l);letter-spacing:var(--lb-track-display);color:var(--lb-ink)}
+.stat i{display:block;font-style:normal;font-family:var(--lb-font-mono);font-size:10px;
+  letter-spacing:1.1px;text-transform:uppercase;color:var(--lb-mid);margin-top:12px}
 /* En estrecho pasan a columna y los separadores giran de verticales a horizontales */
 @media(max-width:700px){
   .stats{display:block}
-  .stat{border-right:0;border-bottom:1px solid var(--line-2);margin-right:0;padding:16px 0}
+  .stat{border-right:0;border-bottom:var(--lb-hairline) solid var(--lb-line);margin-right:0;padding:16px 0}
   .stat:last-child{border-bottom:0;padding-bottom:0}
 }
 
 .conf{margin-top:clamp(46px,6vw,84px);display:grid;grid-template-columns:clamp(80px,9vw,150px) 1fr;gap:clamp(20px,3vw,50px)}
 @media(max-width:900px){.conf{grid-template-columns:1fr}}
-.conf .body{max-width:56ch;font-size:15.5px;color:var(--color-text-secondary);border-left:2px solid var(--ink);padding-left:24px}
-.rd{display:inline-block;background:var(--ink);color:transparent;padding:0 .55em;user-select:none}
+.conf .body{max-width:56ch;font-size:var(--lb-body-s);color:var(--lb-ink-2);border-left:var(--lb-hairline) solid var(--lb-line-strong);padding-left:24px}
+.rd{display:inline-block;background:var(--lb-ink);color:transparent;padding:0 .55em;user-select:none}
 
-.pivot{background:var(--dark);color:var(--ink);padding:clamp(90px,14vw,220px) 0}
-.pivot .stmt{font-family:var(--serif);font-size:clamp(34px,7.4vw,116px);line-height:.98;letter-spacing:-.022em;max-width:17ch;margin:0 0 clamp(40px,6vw,80px)}
-.pivot .stmt i{font-style:italic;color:var(--red-l)}
+.pivot{background:var(--lb-ground);color:var(--lb-ink);padding:clamp(90px,14vw,220px) 0}
+.pivot .stmt{font-family:var(--lb-font-display);font-size:var(--lb-display-xl);
+  line-height:.9;letter-spacing:var(--lb-track-display);max-width:17ch;margin:0 0 clamp(40px,6vw,80px)}
+.pivot .stmt i{font-style:italic;color:var(--lb-accent)}
 
 figure{margin:0}
-figcaption{font-family:var(--mono);font-size:10px;letter-spacing:1.1px;text-transform:uppercase;color:var(--mid);margin-top:16px;padding-top:10px;border-top:1px solid var(--line-2)}
-.light figcaption{color:#686872;border-color:rgba(14,14,17,.09)}
-.pivot figcaption{color:var(--ink);border-color:rgba(255,255,255,.1)}
+/* LOS TRES PRODUCTOS DE MOVISTAR. Esta pagina baja a fondo en Smart WiFi, pero
+   el encargo fueron tres productos con tres modelos de interaccion distintos.
+   Sin este bloque la pagina deja fuera dos tercios del trabajo. */
+.trio{display:grid;grid-template-columns:repeat(3,1fr);
+  gap:clamp(26px,3.2vw,50px);margin-top:clamp(40px,5vw,70px)}
+/* El kicker de la columna 02 envuelve a dos lineas y las otras dos no. Sin un
+   alto reservado, esa imagen baja y las tres dejan de alinearse. */
+.trio .k{min-height:2.9em}
+/* Dentro del trio el kicker es solo etiqueta. Con el filete prisma de la
+   cabecera de seccion saldrian seis prismas en una pantalla, y el ornamento
+   deja de significar nada. */
+.trio .k::after{content:none}
+.trio .k{display:block}
+.trio img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;
+  object-position:top center;border:var(--lb-hairline) solid var(--lb-line);
+  border-radius:var(--lb-radius);background:var(--lb-raised)}
+.trio .k{margin:0 0 6px}
+
+.trio img{margin:0 0 18px}
+.trio h3{font-family:var(--lb-font-display);font-weight:400;font-size:var(--lb-display-m);
+  line-height:var(--lb-lh-display-m);letter-spacing:var(--lb-track-display);
+  color:var(--lb-ink);margin:0 0 14px}
+.trio p{font-size:var(--lb-body-s);line-height:var(--lb-lh-body-s);margin:14px 0 0;max-width:none}
+.trio .aqui{color:var(--lb-accent)}
+@media(max-width:860px){.trio{grid-template-columns:1fr;gap:clamp(34px,7vw,52px)}}
+figcaption{font-family:var(--lb-font-mono);font-size:var(--lb-label);
+  letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-mid);margin-top:16px;padding-top:10px;border-top:var(--lb-hairline) solid var(--lb-line)}
+.light figcaption{color:var(--lb-cream-meta);border-color:var(--lb-line-on-paper)}
+.pivot figcaption{color:var(--lb-ink);border-color:var(--lb-line)}
 svg{display:block;width:100%;height:auto}
 .figimg{display:block;width:100%;height:auto}
 .fig-mid{max-width:460px}
 .fig-phone{max-width:375px}
-.tl{font-family:'Roboto Mono',monospace;font-size:8.5px;letter-spacing:1px;fill:#7A7A80}
-.tt{font-family:'Roboto',Arial,sans-serif;font-size:11px;font-weight:500;fill:#0E0E11}
-.ts{font-family:'Roboto',Arial,sans-serif;font-size:9.5px;fill:#7A7A80}
-.hr{stroke:rgba(14,14,17,.16);stroke-width:.75;fill:none}
+.tl{font-family:var(--lb-font-mono);font-size:8.5px;letter-spacing:1px;fill:var(--lb-mid)}
+.tt{font-family:var(--lb-font-body);font-size:11px;font-weight:500;fill:var(--lb-cream-ink)}
+.ts{font-family:var(--lb-font-body);font-size:9.5px;fill:var(--lb-mid)}
+.hr{stroke:var(--lb-line-on-paper);stroke-width:.75;fill:none}
 
 .step{display:grid;grid-template-columns:clamp(60px,7vw,110px) 1fr;gap:clamp(18px,3vw,44px);
-  padding:clamp(28px,3.4vw,46px) 0;border-top:1px solid var(--line)}
-.step:last-of-type{border-bottom:1px solid var(--line)}
-.step .sn{font-family:var(--serif);font-size:clamp(28px,3.4vw,46px);line-height:.9;color:var(--color-text-secondary);opacity:.5}
-.step p{margin:0;font-size:16px;max-width:56ch}
+  padding:clamp(28px,3.4vw,46px) 0;border-top:var(--lb-hairline) solid var(--lb-line)}
+.step:last-of-type{border-bottom:var(--lb-hairline) solid var(--lb-line)}
+.step .sn{font-family:var(--lb-font-display);font-size:var(--lb-numeral);line-height:var(--lb-lh-display-m);color:var(--lb-ink-2);opacity:.5}
+.step p{margin:0;font-size:var(--lb-body);max-width:56ch}
 @media(max-width:900px){.step{grid-template-columns:1fr;gap:10px}}
 
-.facts{border-top:1px solid rgba(255,255,255,.16)}
-.fact{padding:20px 0;border-bottom:1px solid rgba(255,255,255,.1);display:grid;grid-template-columns:1fr 1.4fr;gap:20px;align-items:baseline}
-.fact .fk{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink)}
-.fact .fv{font-family:var(--serif);font-size:clamp(18px,1.9vw,24px);line-height:1.3;color:var(--ink)}
+.facts{border-top:var(--lb-hairline) solid var(--lb-line)}
+.fact{padding:20px 0;border-bottom:var(--lb-hairline) solid var(--lb-line);display:grid;grid-template-columns:1fr 1.4fr;gap:20px;align-items:baseline}
+.fact .fk{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-ink)}
+.fact .fv{font-family:var(--lb-font-display);font-size:var(--lb-display-s);line-height:var(--lb-lh-display-s);color:var(--lb-ink)}
 
-.pull{font-family:var(--serif);font-size:clamp(24px,3.4vw,44px);line-height:1.16;letter-spacing:-.012em;
-  max-width:22ch;margin:0;padding-left:28px;border-left:2px solid var(--red)}
+.pull{font-family:var(--lb-font-display);font-size:var(--lb-display-l);
+  line-height:var(--lb-lh-display-l);letter-spacing:var(--lb-track-display);
+  max-width:22ch;margin:0;padding-left:28px;
+  border-left:var(--lb-hairline) solid var(--lb-accent-deep)}
 
 ul.p{list-style:none;margin:0;padding:0}
-ul.p li{padding:14px 0;border-top:1px solid var(--line-2);font-size:16px;color:var(--ink-2);display:flex;gap:16px}
-ul.p li .i{font-family:var(--mono);font-size:10px;color:var(--mid);letter-spacing:1px;padding-top:4px;flex:none}
-.light ul.p li{border-color:rgba(14,14,17,.09);color:#33333A}
-.pivot ul.p li{border-color:rgba(255,255,255,.1);color:var(--ink)}
+ul.p li{padding:14px 0;border-top:var(--lb-hairline) solid var(--lb-line);
+  font-size:var(--lb-body);line-height:var(--lb-lh-body);color:var(--lb-ink-2);display:flex;gap:16px}
+ul.p li .i{font-family:var(--lb-font-mono);font-size:var(--lb-label);color:var(--lb-mid);
+  letter-spacing:var(--lb-track-label);text-transform:uppercase;padding-top:4px;flex:none}
+.light ul.p li{border-color:var(--lb-line-on-paper);color:var(--lb-cream-body)}
+.pivot ul.p li{border-color:var(--lb-line);color:var(--lb-ink)}
 
-footer{padding:60px 0 90px;border-top:1px solid var(--line)}
-footer p{font-family:var(--mono);font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--mid);max-width:none}
+footer{padding:0 0 90px}
+footer > .prism-rule{margin-bottom:60px}
+footer p{font-family:var(--lb-font-mono);font-size:var(--lb-label);
+  letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-mid);max-width:none}
 
 .rv{opacity:0;transform:translateY(18px)}
 html.js .rv{transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1)}
@@ -280,6 +377,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span>Laura Benavente · Story 03</span>
       <span>Consumer · Telecom</span>
     </div>
+    <div class="prism-rule"></div>
     <h1>Designing for<br>a wait that<br><em>could not be shortened</em></h1>
 
     <div class="stats">
@@ -298,6 +396,48 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </header>
 
+<!-- EL ENCARGO COMPLETO. El ppt lo cuenta como tres productos y esta pagina
+     solo contaba uno. Cada columna dice exactamente lo que dice el ppt: ni una
+     palabra mas, porque de Conexion Segura y Living Apps no hay mas escrito. -->
+<section class="sec">
+  <div class="w">
+    <p class="k">The work at Movistar</p>
+    <h2 style="max-width:20ch">Three products.<br>Three different design challenges.</h2>
+    <div class="rule prism-rule"></div>
+    <p style="max-width:58ch">Two years at <strong>frog</strong> for Telef&oacute;nica, across web, mobile and television. This case follows the second one all the way down.</p>
+
+    <div class="trio">
+      <figure class="rv">
+        <p class="k">01 &nbsp;·&nbsp; Web</p>
+        <h3>Conexi&oacute;n Segura</h3>
+        <img src="images/s3-conexion-segura.jpg?v=1" width="2396" height="1850" loading="lazy" decoding="async"
+             alt="Conexi&oacute;n Segura: the home security dashboard showing web protection, threats analysed this month and connected devices.">
+        <p><strong>Security self-service dashboard</strong></p>
+        <p class="k" style="margin-top:12px">Business goal</p>
+        <p>Increase service activation and improve service management.</p>
+      </figure>
+      <figure class="rv" data-d="1">
+        <p class="k aqui">02 &nbsp;·&nbsp; Mobile &nbsp;·&nbsp; iOS + Android</p>
+        <h3>Smart WiFi Selfcare</h3>
+        <img src="images/s3-smart-wifi.jpg?v=1" width="2400" height="1850" loading="lazy" decoding="async"
+             alt="Smart WiFi Selfcare: connection speed results, WiFi signal quality and help content inside the Movistar app.">
+        <p><strong>Connectivity diagnosis and self-service</strong></p>
+        <p class="k" style="margin-top:12px">Business goal</p>
+        <p>Increase self-service and reduce calls to 1002.</p>
+      </figure>
+      <figure class="rv" data-d="2">
+        <p class="k">03 &nbsp;·&nbsp; TV &nbsp;·&nbsp; Remote &nbsp;·&nbsp; Voice</p>
+        <h3>Living Apps</h3>
+        <img src="images/s3-living-apps.jpg?v=1" width="2413" height="1850" loading="lazy" decoding="async"
+             alt="A Living App on the television: an IKEA interior design course with episodes, navigated with the remote.">
+        <p><strong>TV experiences and partner-built Living Apps</strong></p>
+        <p class="k" style="margin-top:12px">Business goal</p>
+        <p>Enable Telef&oacute;nica partners to create and update Living Apps more independently.</p>
+      </figure>
+    </div>
+  </div>
+</section>
+
 <section class="sec">
   <div class="w">
     <div class="head">
@@ -305,7 +445,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div>
         <p class="k">The context</p>
         <h2>An app tied<br>to a physical<br>router</h2>
-        <div class="rule"></div>
+        <div class="rule prism-rule"></div>
         <div class="two-a">
           <div>
             <p>Smart WiFi is a mobile app that lets Movistar customers set up their router, change the WiFi password and share their connection. Selfcare was a new feature inside it: help people diagnose and resolve their own connectivity problems.</p>
@@ -353,7 +493,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div>
         <p class="k">My role</p>
         <h2>Designing inside<br>the constraints,<br>not around them</h2>
-        <div class="rule"></div>
+        <div class="rule prism-rule"></div>
         <div class="two-a">
           <div>
             <p>I was the UX designer on the feature, working within Movistar's existing design system and alongside the engineering team building it.</p>
@@ -382,15 +522,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div>
         <p class="k">The work</p>
         <h2>Two problems,<br>two languages</h2>
-        <div class="rule"></div>
+        <div class="rule prism-rule"></div>
         <div class="two">
           <div>
             <h3>Motion, for the part you wait through</h3>
-            <p style="font-size:16px">The diagnostic sequence was designed as visible stages rather than a single indeterminate load. Each stage names what the system is doing, so the passing time reads as progress rather than as absence. The goal was never to disguise the duration. It was to make it comprehensible.</p>
+            <p>The diagnostic sequence was designed as visible stages rather than a single indeterminate load. Each stage names what the system is doing, so the passing time reads as progress rather than as absence. The goal was never to disguise the duration. It was to make it comprehensible.</p>
           </div>
           <div>
             <h3>Illustration, for the part you read</h3>
-            <p style="font-size:16px">A large part of Selfcare is explanatory content: why your connection behaves the way it does, what you can do about it. I created a set of illustrations so each topic was recognisable at a glance, turning a help section people avoid into something they could actually navigate.</p>
+            <p>A large part of Selfcare is explanatory content: why your connection behaves the way it does, what you can do about it. I created a set of illustrations so each topic was recognisable at a glance, turning a help section people avoid into something they could actually navigate.</p>
           </div>
         </div>
         <figure class="rv" style="margin-top:clamp(44px,5vw,72px)">
@@ -410,7 +550,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div>
         <p class="k">Outcome</p>
         <h2>People diagnosed<br>their own<br>connection</h2>
-        <div class="rule"></div>
+        <div class="rule prism-rule"></div>
         <div class="two">
           <div>
             <p>The feature let customers analyse their own connectivity without calling for assistance, which was the point of building it, and the measure the business cared about.</p>
@@ -435,11 +575,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div>
         <p class="k">What I took from it</p>
         <h2>Three things<br>I kept</h2>
-        <div class="rule"></div>
+        <div class="rule prism-rule"></div>
         <div class="three">
-          <div class="rv"><h3>Some constraints are the brief</h3><p style="font-size:16px">The test was slow and would stay slow. Accepting that early moved the problem from speed to comprehension, and comprehension was solvable. Arguing with a technical fact wastes the time you could spend designing around it.</p></div>
-          <div class="rv"><h3>Design in the room where reality lives</h3><p style="font-size:16px">Bringing a wireflow to every grooming meant edge cases surfaced while the design was still cheap to change. A flow engineering can break is worth more than a comp they can only approve.</p></div>
-          <div class="rv"><h3>Waiting is an experience, not a gap</h3><p style="font-size:16px">People will stay with a slow process they understand and abandon a fast one they do not. Control is what holds attention, and it can be designed.</p></div>
+          <div class="rv"><h3>Some constraints are the brief</h3><p>The test was slow and would stay slow. Accepting that early moved the problem from speed to comprehension, and comprehension was solvable. Arguing with a technical fact wastes the time you could spend designing around it.</p></div>
+          <div class="rv"><h3>Design in the room where reality lives</h3><p>Bringing a wireflow to every grooming meant edge cases surfaced while the design was still cheap to change. A flow engineering can break is worth more than a comp they can only approve.</p></div>
+          <div class="rv"><h3>Waiting is an experience, not a gap</h3><p>People will stay with a slow process they understand and abandon a fast one they do not. Control is what holds attention, and it can be designed.</p></div>
         </div>
       </div>
     </div>
@@ -449,11 +589,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </main>
 
 <footer>
+  <div class="prism-rule"></div>
   <div class="w"><p>Original work delivered for Telefónica at frog, 2019 · Laura Benavente</p></div>
 </footer>
 
 <script>
 document.documentElement.classList.add('js');
+
+/* LINEA PRISM. Un solo observador para todas las reglas de la pagina. Se dibuja
+   al 40% de visibilidad y se deja de observar: se dibuja una vez y se queda, no
+   se rebobina al subir. Sin matematicas de scroll, sin rAF, sin libreria. */
+var reglas=document.querySelectorAll('.prism-rule');
+if(reglas.length&&'IntersectionObserver' in window){
+  var pio=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('is-drawn'); pio.unobserve(en.target) }
+    });
+  },{threshold:0,rootMargin:'0px 0px -8% 0px'});
+  reglas.forEach(function(r){ pio.observe(r) });
+}
+
 var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{rootMargin:'0px 0px -10% 0px'});
 document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
 setTimeout(function(){document.querySelectorAll('.rv:not(.in)').forEach(function(el){el.classList.add('in')})},3500);

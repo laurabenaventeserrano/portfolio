@@ -17,3 +17,9 @@ ehthumbs.db
 
 # Local Netlify folder
 .netlify
+
+# Originales de video sin recortar. Viven en images/ porque es donde los dejo
+# Laura, pero no se publican: Code-proto-1.mov muestra a partir de 0:31 el
+# entorno de autoria, el selector de modelo, su propio prompt y sus marcadores.
+# Lo que se publica son los .mp4 de video/, ya recortados.
+images/*.mov

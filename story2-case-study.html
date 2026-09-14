@@ -18,14 +18,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
 <title>Removing the blank page from client documents · Laura Benavente</title>
-<link rel="stylesheet" href="tokens.css?v=2">
+<link rel="stylesheet" href="tokens.css?v=48">
 <style>
 @font-face{font-family:'Libertinus Serif';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/libertinus-serif-latin-400-normal.woff2) format('woff2')}
 @font-face{font-family:'Libertinus Serif';font-weight:400;font-style:italic;font-display:swap;src:url(fonts/libertinus-serif-latin-400-italic.woff2) format('woff2')}
 @font-face{font-family:'Roboto';font-weight:300;font-style:normal;font-display:swap;src:url(fonts/roboto-latin-300-normal.woff2) format('woff2')}
 @font-face{font-family:'Roboto';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/roboto-latin-400-normal.woff2) format('woff2')}
 @font-face{font-family:'Roboto';font-weight:500;font-style:normal;font-display:swap;src:url(fonts/roboto-latin-500-normal.woff2) format('woff2')}
-@font-face{font-family:'Roboto';font-weight:700;font-style:normal;font-display:swap;src:url(fonts/roboto-latin-700-normal.woff2) format('woff2')}
 @font-face{font-family:'Roboto Mono';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/roboto-mono-latin-400-normal.woff2) format('woff2')}
 
 /* Los tokens viven en tokens.css, cargado antes de este bloque. */
@@ -33,31 +32,36 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--dark);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+html{background:var(--lb-ground);color:var(--lb-ink);font-family:var(--lb-font-body)}
+body{margin:0;background:var(--lb-ground);color:var(--lb-ink);font-family:var(--lb-font-body);
+  font-size:var(--lb-body);line-height:var(--lb-lh-body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
-.w{max-width:1280px;margin:0 auto;padding:0 var(--m)}
+.w{max-width:1280px;margin:0 auto;padding:0 var(--lb-margin)}
 .sec{padding:clamp(80px,11vw,180px) 0;position:relative}
-.light{background:var(--paper);color:#0E0E11}
-.light p{color:#33333A}
-.pivot p{color:var(--ink)}
-.light .k,.light .n{color:#686872}
-.pivot .k,.pivot .n{color:var(--ink)}
-.light .rule{background:rgba(14,14,17,.14)}
-.pivot .rule{background:rgba(255,255,255,.16)}
-.tint{background:var(--dark-2)}
+.light{background:var(--lb-cream);color:var(--lb-cream-ink)}
+.light p{color:var(--lb-cream-body)}
+.pivot p{color:var(--lb-ink)}
+.light .k{color:var(--lb-cream-meta)}
+/* La cifra es estructura, no metadato: sobre papel va en tinta plena. */
+.light .n{color:var(--lb-cream-ink)}
+.pivot .k,.pivot .n{color:var(--lb-ink)}
+.light .rule{background:var(--lb-line-on-paper)}
+.pivot .rule{background:var(--lb-line)}
+.tint{background:var(--lb-raised)}
 
-.skip-link{position:absolute;left:16px;top:-60px;z-index:200;background:var(--ink);color:#0E0E11;
-  padding:10px 18px;font-family:var(--mono);font-size:11px;letter-spacing:1px;text-decoration:none;transition:top .2s}
+.skip-link{position:absolute;left:16px;top:-60px;z-index:200;background:var(--lb-ink);color:var(--lb-ground);
+  padding:10px 18px;font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);
+  text-transform:uppercase;text-decoration:none;transition:top .2s}
 .skip-link:focus{top:12px}
-.navbar{position:fixed;top:0;left:0;right:0;z-index:100;mix-blend-mode:difference;color:#fff}
-.nav-bar{max-width:1280px;margin:0 auto;padding:20px var(--m);display:flex;justify-content:space-between;
+.navbar{position:fixed;top:0;left:0;right:0;z-index:100;mix-blend-mode:difference;color:var(--lb-ink)}
+.nav-bar{max-width:1280px;margin:0 auto;padding:20px var(--lb-margin);display:flex;justify-content:space-between;
   align-items:flex-start;gap:20px;cursor:pointer;list-style:none}
 .nav-bar::-webkit-details-marker{display:none}
 .nav-bar::marker{content:''}
-.nav-logo{font-family:var(--sans);font-weight:700;font-size:11px;line-height:1;letter-spacing:.03em;
-  text-transform:uppercase;text-decoration:none;color:#fff}
-.nav-toggle{font-family:var(--sans);font-weight:700;font-size:11px;line-height:1;letter-spacing:.03em;
-  text-transform:uppercase;color:#fff}
+.nav-logo{font-family:var(--lb-font-display);font-weight:400;font-size:14px;line-height:1;
+  letter-spacing:.02em;text-decoration:none;color:var(--lb-ink)}
+.nav-toggle{font-family:var(--lb-font-body);font-weight:500;font-size:var(--lb-body-s);line-height:1;letter-spacing:.03em;
+  text-transform:uppercase;color:var(--lb-ink)}
 .nav-toggle .lbl-close{display:none}
 .nav-d[open] .nav-toggle .lbl-open{display:none}
 .nav-d[open] .nav-toggle .lbl-close{display:inline}
@@ -92,7 +96,7 @@ body{margin:0;background:var(--dark);color:var(--ink);font-family:var(--sans);fo
   .nav-toggle:hover{transform:none}
 }
 
-.nav-panel{display:block;max-width:1280px;margin:0 auto;padding:0 var(--m);
+.nav-panel{display:block;max-width:1280px;margin:0 auto;padding:0 var(--lb-margin);
   overflow:hidden;max-height:0;visibility:hidden;
   transition:max-height .55s cubic-bezier(.16,1,.3,1),visibility 0s linear .55s}
 .nav-d[open] .nav-panel{max-height:70vh;visibility:visible;
@@ -102,8 +106,8 @@ body{margin:0;background:var(--dark);color:var(--ink);font-family:var(--sans);fo
 .nav-links{padding-top:12px;gap:12px}
 .nav-foot{flex-direction:row;justify-content:flex-end;flex-wrap:wrap;padding-top:20px;gap:16px}
 .nav-links a,.nav-foot a{display:block;position:relative;overflow:hidden;
-  font-family:var(--sans);font-weight:700;font-size:11px;line-height:1;letter-spacing:.03em;
-  text-transform:uppercase;text-decoration:none;color:#fff}
+  font-family:var(--lb-font-body);font-weight:500;font-size:var(--lb-body-s);line-height:1;letter-spacing:.03em;
+  text-transform:uppercase;text-decoration:none;color:var(--lb-ink)}
 .nav-foot a{opacity:.55}
 .nav-links a:hover{opacity:.6}
 .nav-foot a:hover{opacity:1}
@@ -124,28 +128,87 @@ body{margin:0;background:var(--dark);color:var(--ink);font-family:var(--sans);fo
 .nav-d:not([open]) .nav-links a span,.nav-d:not([open]) .nav-foot a span{transition-delay:0s}
 html:not(.js) .nav-panel{max-height:none;visibility:visible;overflow:visible}
 html:not(.js) .nav-links a span,html:not(.js) .nav-foot a span{transform:none}
-.navbar :focus-visible{outline-color:#fff}
+.navbar :focus-visible{outline-color:var(--lb-ink)}
 @media(max-width:760px){
-  .nav-links a,.nav-foot a{font-size:14px}
+  .nav-links a,.nav-foot a{font-size:var(--lb-body)}
   .nav-links,.nav-foot{gap:22px}
   .nav-links a::after,.nav-foot a::after{top:-11px;bottom:-11px}
 }
-:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-.light :focus-visible{outline-color:#0E0E11}
-.pivot :focus-visible{outline-color:var(--ink)}
+:focus-visible{outline:2px solid var(--lb-ink);outline-offset:3px}
+.light :focus-visible{outline-color:var(--lb-cream-ink)}
+.pivot :focus-visible{outline-color:var(--lb-ink)}
 
-h1{font-family:var(--serif);font-weight:400;font-size:clamp(46px,9.6vw,152px);line-height:.92;letter-spacing:-.022em;margin:0}
-h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,6vw,84px);line-height:.98;letter-spacing:-.016em;margin:0}
-h3{font-family:var(--serif);font-weight:400;font-size:clamp(21px,2.4vw,30px);line-height:1.18;margin:0 0 12px}
-p{margin:0 0 22px;max-width:60ch;color:var(--ink-2)}
+h1{font-family:var(--lb-font-display);font-weight:400;font-size:var(--lb-display-xl);
+  line-height:.9;letter-spacing:var(--lb-track-display);margin:0}
+h2{font-family:var(--lb-font-display);font-weight:400;font-size:var(--lb-display-l);
+  line-height:var(--lb-lh-display-l);letter-spacing:var(--lb-track-display);margin:0}
+h3{font-family:var(--lb-font-display);font-weight:400;font-size:var(--lb-display-m);
+  line-height:var(--lb-lh-display-m);letter-spacing:var(--lb-track-display);margin:0 0 12px}
+p{margin:0 0 22px;max-width:62ch;color:var(--lb-ink-2);
+  font-size:var(--lb-body);line-height:var(--lb-lh-body)}
 em{font-style:italic}
-strong{font-weight:500;color:var(--ink)}
-.light strong{color:#0E0E11}
-.pivot strong{color:var(--ink)}
+strong{font-weight:500;color:var(--lb-ink)}
+.light strong{color:var(--lb-cream-ink)}
+.pivot strong{color:var(--lb-ink)}
 
-.k{font-family:var(--mono);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--mid);margin:0 0 20px}
-.n{font-family:var(--serif);font-size:clamp(40px,5vw,72px);line-height:.8;color:var(--color-text-secondary);opacity:.55}
-.rule{height:1px;background:var(--line);margin:26px 0 40px}
+/* Kicker. Es la mitad izquierda de la cabecera de seccion del §4: etiqueta
+   en mono y un filete prisma de 1px llenando el resto de la linea. El valor
+   de la derecha no se pone porque no hay ningun dato real que poner ahi. */
+.k{display:flex;align-items:center;gap:var(--lb-space-3);
+  font-family:var(--lb-font-mono);font-size:var(--lb-label);
+  letter-spacing:var(--lb-track-label);text-transform:uppercase;
+  color:var(--lb-mid);margin:0 0 20px}
+.k::after{content:'';flex:1 1 auto;height:1px;min-width:40px;background:var(--lb-prism-sm)}
+/* La cabecera de capitulo ya lleva su filete prisma debajo del titular. Dos
+   prismas en la misma cabecera dejan de ser una firma y pasan a ser ruido, asi
+   que ahi el kicker vuelve a ser solo kicker. La firma del §4 se queda para
+   las etiquetas de sub-bloque, que antes flotaban sin estructura. */
+.head .k{display:block}
+.head .k::after{content:none}
+/* Cifra de capitulo. Bloque numerado del §4: Libertinus 34px y un filete
+   macizo de 26px debajo. Antes era un 72px fantasma al 55% de opacidad, que
+   es decoracion; asi es estructura y se lee. */
+.n{display:block;font-family:var(--lb-font-display);font-weight:400;
+  font-size:var(--lb-numeral);line-height:var(--lb-lh-display-m);
+  letter-spacing:var(--lb-track-display);color:var(--lb-ink)}
+.n::after{content:'';display:block;width:26px;height:var(--lb-hairline);
+  background:currentColor;margin-top:12px}
+.rule{margin:26px 0 40px}
+/* LINEA PRISM. La regla estructural de la casa. Los siete colores no se
+   redefinen aqui: son los --color-prism-* de tokens.css, que es el tablero de
+   identidad. Crear un segundo juego de nombres para los mismos valores es
+   exactamente como se desincroniza un sistema.
+   Es solo regla: nunca relleno, nunca fondo detras de texto, nunca borde de
+   caja, nunca vertical. Maximo 2px.
+   Se dibuja de izquierda a derecha al entrar en cuadro, una vez, y se queda.
+   El degradado no se mueve nunca: lo unico que anima es el barrido. */
+/* El barrido va en una capa interior, no en la regla.
+   El motivo no es de estilo: IntersectionObserver mide la caja YA
+   transformada, asi que con scaleX(0) sobre la propia regla su ancho es 0, su
+   area es 0 y isIntersecting sale false para siempre. Reglas que no se
+   dibujaban nunca. Con el barrido dentro, la caja observada conserva su ancho
+   real y el observador la ve; lo que se mueve es el ::before.
+   Radio de 1px y cantos rectos, maximo 2px de alto: §3. */
+.prism-rule{
+  height:2px;border:0;border-radius:1px;flex:none;
+  overflow:hidden;background:none}
+.prism-rule::before{
+  content:'';display:block;width:100%;height:100%;
+  background:var(--lb-prism);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 700ms var(--lb-ease)}
+.prism-rule.is-drawn::before{transform:scaleX(1)}
+/* El rango corto por debajo de ~120px de ancho, que es donde las siete paradas
+   dejan de distinguirse (§3). */
+.prism-rule--short::before{background:var(--lb-prism-sm)}
+/* Dentro de un bloque de texto la regla baja a 1.5px. */
+.rule.prism-rule{height:1.5px}
+/* Sin JS no hay observador, asi que la regla se dibuja sola: si no, la pagina
+   se quedaria sin ninguna linea estructural. */
+html:not(.js) .prism-rule::before{transform:none}
+@media (prefers-reduced-motion:reduce){
+  .prism-rule::before{transform:none;transition:none}
+}
 
 .head{display:grid;grid-template-columns:clamp(80px,9vw,150px) 1fr;gap:clamp(20px,3vw,50px);align-items:start}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,90px)}
@@ -154,12 +217,13 @@ strong{font-weight:500;color:var(--ink)}
 @media(max-width:900px){.two,.two-a,.three,.head{grid-template-columns:1fr;gap:26px}}
 
 .hero{padding:clamp(120px,16vw,160px) 0 0}
-.hero-top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:clamp(50px,9vw,120px);gap:20px;flex-wrap:wrap}
-.hero-top span{font-family:var(--mono);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--mid)}
-.hero h1 em{color:var(--color-text-secondary)}
-.hero-meta{display:flex;flex-wrap:wrap;margin:clamp(44px,6vw,80px) 0 0;border-top:1px solid var(--line)}
-.hero-meta span{font-family:var(--mono);font-size:10px;letter-spacing:1.1px;text-transform:uppercase;color:var(--mid);
-  padding:14px 22px 14px 0;border-right:1px solid var(--line-2);margin-right:22px}
+.hero-top{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:14px;gap:20px;flex-wrap:wrap}
+.hero-top + .prism-rule{margin-bottom:clamp(50px,9vw,120px)}
+.hero-top span{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:1.4px;text-transform:uppercase;color:var(--lb-mid)}
+.hero h1 em{color:var(--lb-ink-2)}
+.hero-meta{display:flex;flex-wrap:wrap;margin:clamp(44px,6vw,80px) 0 0;border-top:var(--lb-hairline) solid var(--lb-line)}
+.hero-meta span{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-mid);
+  padding:14px 22px 14px 0;border-right:var(--lb-hairline) solid var(--lb-line);margin-right:22px}
 .hero-meta span:last-child{border-right:0;margin-right:0}
 
 /* RESULT CHIPS. La cifra en serif a escala de titular es lo que hace que el ojo
@@ -167,63 +231,81 @@ strong{font-weight:500;color:var(--ink)}
    Sin caja, sin radio y sin color: la escala tipografica hace el trabajo sola,
    y el oxido sigue reservado para marcar donde se rompe la experiencia. */
 .stats{display:flex;flex-wrap:wrap;margin:clamp(34px,4.4vw,60px) 0 0;
-  border-top:1px solid var(--line)}
+  border-top:var(--lb-hairline) solid var(--lb-line)}
 .stat{padding:20px clamp(26px,3vw,44px) 0 0;margin-right:clamp(26px,3vw,44px);
-  border-right:1px solid var(--line-2)}
+  border-right:var(--lb-hairline) solid var(--lb-line)}
 .stat:last-child{border-right:0;margin-right:0;padding-right:0}
-.stat b{display:block;font-family:var(--serif);font-weight:400;
-  font-size:clamp(30px,3.6vw,50px);line-height:1;letter-spacing:-.02em;color:var(--ink)}
-.stat i{display:block;font-style:normal;font-family:var(--mono);font-size:10px;
-  letter-spacing:1.1px;text-transform:uppercase;color:var(--mid);margin-top:12px}
+.stat b{display:block;font-family:var(--lb-font-display);font-weight:400;
+  font-size:var(--lb-display-l);line-height:var(--lb-lh-display-l);letter-spacing:var(--lb-track-display);color:var(--lb-ink)}
+.stat i{display:block;font-style:normal;font-family:var(--lb-font-mono);font-size:10px;
+  letter-spacing:1.1px;text-transform:uppercase;color:var(--lb-mid);margin-top:12px}
 /* En estrecho pasan a columna y los separadores giran de verticales a horizontales */
 @media(max-width:700px){
   .stats{display:block}
-  .stat{border-right:0;border-bottom:1px solid var(--line-2);margin-right:0;padding:16px 0}
+  .stat{border-right:0;border-bottom:var(--lb-hairline) solid var(--lb-line);margin-right:0;padding:16px 0}
   .stat:last-child{border-bottom:0;padding-bottom:0}
 }
 
 .conf{margin-top:clamp(46px,6vw,84px);display:grid;grid-template-columns:clamp(80px,9vw,150px) 1fr;gap:clamp(20px,3vw,50px)}
 @media(max-width:900px){.conf{grid-template-columns:1fr}}
-.conf .body{max-width:56ch;font-size:15.5px;color:var(--color-text-secondary);border-left:2px solid var(--ink);padding-left:24px}
-.rd{display:inline-block;background:var(--ink);color:transparent;padding:0 .55em;user-select:none}
+.conf .body{max-width:56ch;font-size:var(--lb-body-s);color:var(--lb-ink-2);border-left:var(--lb-hairline) solid var(--lb-line-strong);padding-left:24px}
+.rd{display:inline-block;background:var(--lb-ink);color:transparent;padding:0 .55em;user-select:none}
 
-.pivot{background:var(--dark);color:var(--ink);padding:clamp(90px,14vw,220px) 0}
-.pivot .stmt{font-family:var(--serif);font-size:clamp(34px,7.4vw,116px);line-height:.98;letter-spacing:-.022em;max-width:17ch;margin:0 0 clamp(40px,6vw,80px)}
-.pivot .stmt i{font-style:italic;color:var(--red-l)}
+.pivot{background:var(--lb-ground);color:var(--lb-ink);padding:clamp(90px,14vw,220px) 0}
+.pivot .stmt{font-family:var(--lb-font-display);font-size:var(--lb-display-xl);
+  line-height:.9;letter-spacing:var(--lb-track-display);max-width:17ch;margin:0 0 clamp(40px,6vw,80px)}
+.pivot .stmt i{font-style:italic;color:var(--lb-accent)}
 
 figure{margin:0}
-figcaption{font-family:var(--mono);font-size:10px;letter-spacing:1.1px;text-transform:uppercase;color:var(--mid);margin-top:16px;padding-top:10px;border-top:1px solid var(--line-2)}
-.light figcaption{color:#686872;border-color:rgba(14,14,17,.09)}
-.pivot figcaption{color:var(--ink);border-color:rgba(255,255,255,.1)}
+/* EVIDENCIA REAL. Este caso no tenia ni una sola captura: sus cuatro figuras
+   iban marcadas como "Reconstructed". Estas dos si son producto, y por eso el
+   pie las nombra de otra manera. */
+figure img,figure video{display:block;width:100%;height:auto;
+  border:var(--lb-hairline) solid var(--lb-line);border-radius:var(--lb-radius);
+  background:var(--lb-raised)}
+.light figure img,.light figure video{border-color:var(--lb-line-on-paper);
+  background:var(--lb-paper-inset)}
+figcaption.real{color:var(--lb-ink-2)}
+.light figcaption.real{color:var(--lb-cream-body)}
+figcaption{font-family:var(--lb-font-mono);font-size:var(--lb-label);
+  letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-mid);margin-top:16px;padding-top:10px;border-top:var(--lb-hairline) solid var(--lb-line)}
+.light figcaption{color:var(--lb-cream-meta);border-color:var(--lb-line-on-paper)}
+.pivot figcaption{color:var(--lb-ink);border-color:var(--lb-line)}
 svg{display:block;width:100%;height:auto}
-.tl{font-family:'Roboto Mono',monospace;font-size:8.5px;letter-spacing:1px;fill:#8C8C93}
-.tt{font-family:'Roboto',Arial,sans-serif;font-size:11px;font-weight:500;fill:var(--ink)}
-.ts{font-family:'Roboto',Arial,sans-serif;font-size:9.5px;fill:#8C8C93}
-.hr{stroke:rgba(14,14,17,.16);stroke-width:.75;fill:none}
+.tl{font-family:var(--lb-font-mono);font-size:8.5px;letter-spacing:1px;fill:var(--lb-mid)}
+.tt{font-family:var(--lb-font-body);font-size:11px;font-weight:500;fill:var(--lb-ink)}
+.ts{font-family:var(--lb-font-body);font-size:9.5px;fill:var(--lb-mid)}
+.hr{stroke:var(--lb-line-on-paper);stroke-width:.75;fill:none}
 
 .step{display:grid;grid-template-columns:clamp(60px,7vw,110px) 1fr;gap:clamp(18px,3vw,44px);
-  padding:clamp(28px,3.4vw,46px) 0;border-top:1px solid var(--line)}
-.step:last-of-type{border-bottom:1px solid var(--line)}
-.step .sn{font-family:var(--serif);font-size:clamp(28px,3.4vw,46px);line-height:.9;color:var(--color-text-secondary);opacity:.5}
-.step p{margin:0;font-size:16px;max-width:56ch}
+  padding:clamp(28px,3.4vw,46px) 0;border-top:var(--lb-hairline) solid var(--lb-line)}
+.step:last-of-type{border-bottom:var(--lb-hairline) solid var(--lb-line)}
+.step .sn{font-family:var(--lb-font-display);font-size:var(--lb-numeral);line-height:var(--lb-lh-display-m);color:var(--lb-ink-2);opacity:.5}
+.step p{margin:0;font-size:var(--lb-body);max-width:56ch}
 @media(max-width:900px){.step{grid-template-columns:1fr;gap:10px}}
 
-.facts{border-top:1px solid rgba(255,255,255,.16)}
-.fact{padding:20px 0;border-bottom:1px solid rgba(255,255,255,.1);display:grid;grid-template-columns:1fr 1.4fr;gap:20px;align-items:baseline}
-.fact .fk{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink)}
-.fact .fv{font-family:var(--serif);font-size:clamp(18px,1.9vw,24px);line-height:1.3;color:var(--ink)}
+.facts{border-top:var(--lb-hairline) solid var(--lb-line)}
+.fact{padding:20px 0;border-bottom:var(--lb-hairline) solid var(--lb-line);display:grid;grid-template-columns:1fr 1.4fr;gap:20px;align-items:baseline}
+.fact .fk{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-ink)}
+.fact .fv{font-family:var(--lb-font-display);font-size:var(--lb-display-s);line-height:var(--lb-lh-display-s);color:var(--lb-ink)}
 
-.pull{font-family:var(--serif);font-size:clamp(24px,3.4vw,44px);line-height:1.16;letter-spacing:-.012em;
-  max-width:22ch;margin:0;padding-left:28px;border-left:2px solid var(--red)}
+.pull{font-family:var(--lb-font-display);font-size:var(--lb-display-l);
+  line-height:var(--lb-lh-display-l);letter-spacing:var(--lb-track-display);
+  max-width:22ch;margin:0;padding-left:28px;
+  border-left:var(--lb-hairline) solid var(--lb-accent-deep)}
 
 ul.p{list-style:none;margin:0;padding:0}
-ul.p li{padding:14px 0;border-top:1px solid var(--line-2);font-size:16px;color:var(--ink-2);display:flex;gap:16px}
-ul.p li .i{font-family:var(--mono);font-size:10px;color:var(--mid);letter-spacing:1px;padding-top:4px;flex:none}
-.light ul.p li{border-color:rgba(14,14,17,.09);color:#33333A}
-.pivot ul.p li{border-color:rgba(255,255,255,.1);color:var(--ink)}
+ul.p li{padding:14px 0;border-top:var(--lb-hairline) solid var(--lb-line);
+  font-size:var(--lb-body);line-height:var(--lb-lh-body);color:var(--lb-ink-2);display:flex;gap:16px}
+ul.p li .i{font-family:var(--lb-font-mono);font-size:var(--lb-label);color:var(--lb-mid);
+  letter-spacing:var(--lb-track-label);text-transform:uppercase;padding-top:4px;flex:none}
+.light ul.p li{border-color:var(--lb-line-on-paper);color:var(--lb-cream-body)}
+.pivot ul.p li{border-color:var(--lb-line);color:var(--lb-ink)}
 
-footer{padding:60px 0 90px;border-top:1px solid var(--line)}
-footer p{font-family:var(--mono);font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--mid);max-width:none}
+footer{padding:0 0 90px}
+footer > .prism-rule{margin-bottom:60px}
+footer p{font-family:var(--lb-font-mono);font-size:var(--lb-label);
+  letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-mid);max-width:none}
 
 .rv{opacity:0;transform:translateY(18px)}
 html.js .rv{transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1)}
@@ -277,6 +359,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span>Laura Benavente · Story 02</span>
       <span>B2B SaaS · AI-native</span>
     </div>
+    <div class="prism-rule"></div>
     <h1>Removing the<br>blank page from<br><em>client documents</em></h1>
 
     <div class="stats">
@@ -302,7 +385,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div>
         <p class="k">The context</p>
         <h2>A requirement<br>about editing</h2>
-        <div class="rule"></div>
+        <div class="rule prism-rule"></div>
         <div class="two-a">
           <div>
             <p>Accounting and tax professionals regularly send documents to their end clients for signature. The product requirement I was given was narrow and reasonable: <strong>improve the document editing experience</strong> for those documents.</p>
@@ -313,33 +396,38 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <figure>
               <svg viewBox="0 0 640 330" role="img" aria-label="Three existing routes to produce a client document, all of them slow, one of them leaving the product entirely">
                 <text class="tl" x="0" y="10">HOW A DOCUMENT GOT WRITTEN</text>
-                <rect x="0" y="24" width="640" height="1" fill="rgba(255,255,255,.14)"/>
+                <rect x="0" y="24" width="640" height="1" fill="var(--lb-line)"/>
                 <g>
-                  <rect x="0" y="46" width="200" height="76" fill="#17171B"/>
+                  <rect x="0" y="46" width="200" height="76" fill="#141416"/>
                   <text class="tt" x="16" y="70">Predefined template</text>
                   <text class="ts" x="16" y="88">Rigid. Rarely a real fit.</text>
                   <text class="ts" x="16" y="104">Heavy editing anyway.</text>
 
-                  <rect x="220" y="46" width="200" height="76" fill="#17171B"/>
+                  <rect x="220" y="46" width="200" height="76" fill="#141416"/>
                   <text class="tt" x="236" y="70">Write it by hand</text>
                   <text class="ts" x="236" y="88">Slow. From an empty page.</text>
                   <text class="ts" x="236" y="104">Typing errors carry risk.</text>
 
-                  <rect x="440" y="46" width="200" height="76" fill="#1E1E24" stroke="#E0714F" stroke-width="1"/>
-                  <text class="tt" x="456" y="70" style="fill:#E0714F">Leave and come back</text>
+                  <rect x="440" y="46" width="200" height="76" fill="#141416" stroke="#F2607F" stroke-width="1"/>
+                  <text class="tt" x="456" y="70" style="fill:#F2607F">Leave and come back</text>
                   <text class="ts" x="456" y="88">Draft it in another tool,</text>
                   <text class="ts" x="456" y="104">paste the result back in.</text>
                 </g>
-                <g stroke="rgba(255,255,255,.3)" stroke-width=".75" stroke-dasharray="2 3" fill="none">
+                <g stroke="var(--lb-line-strong)" stroke-width=".75" stroke-dasharray="2 3" fill="none">
                   <path d="M100 122 V168"/><path d="M320 122 V168"/>
                 </g>
-                <path d="M540 122 V168" stroke="#E0714F" stroke-width="1" stroke-dasharray="2 3" fill="none"/>
-                <rect x="0" y="168" width="640" height="42" fill="#F6F4EF"/>
-                <text class="tt" x="16" y="194" style="fill:#0E0E11">Document sent to the end client for signature</text>
+                <path d="M540 122 V168" stroke="#F2607F" stroke-width="1" stroke-dasharray="2 3" fill="none"/>
+                <rect x="0" y="168" width="640" height="42" fill="#FDFBF6"/>
+                <text class="tt" x="16" y="194" style="fill:var(--lb-cream-ink)">Document sent to the end client for signature</text>
                 <text class="ts" x="0" y="248">The third route was the one nobody had designed,</text>
                 <text class="ts" x="0" y="266">and the one that took client information outside the product.</text>
               </svg>
               <figcaption>Reconstructed · routes, not interfaces</figcaption>
+            </figure>
+            <figure class="rv" style="margin-top:clamp(34px,4vw,56px)">
+              <img src="images/s2-blank-page.jpg?v=1" width="2600" height="1275" loading="lazy" decoding="async"
+                   alt="The document editor inside CCH iFirm with an empty engagement letter: a blank body reading Start typing, and the actions Insert a template and Draft with AI.">
+              <figcaption class="real">CCH iFirm · the blank page the requirement was written about</figcaption>
             </figure>
           </div>
         </div>
@@ -361,26 +449,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="rv">
         <figure>
           <svg viewBox="0 0 640 300" role="img" aria-label="Two pieces of evidence that already existed inside the company, connected for the first time by this proposal">
-            <text class="tl" x="0" y="10" style="fill:#6E6E76">WHAT THE COMPANY ALREADY KNEW</text>
-            <rect x="0" y="26" width="286" height="88" fill="none" stroke="rgba(255,255,255,.2)" stroke-width=".75"/>
-            <text class="tt" x="18" y="52" style="fill:#F2F0EA">The product requirement</text>
-            <text class="ts" x="18" y="72" style="fill:#9E9EA6">Improve document editing for</text>
-            <text class="ts" x="18" y="88" style="fill:#9E9EA6">documents sent to end clients.</text>
+            <text class="tl" x="0" y="10" style="fill:var(--lb-mid)">WHAT THE COMPANY ALREADY KNEW</text>
+            <rect x="0" y="26" width="286" height="88" fill="none" stroke="var(--lb-line-strong)" stroke-width=".75"/>
+            <text class="tt" x="18" y="52" style="fill:#F2EFEA">The product requirement</text>
+            <text class="ts" x="18" y="72" style="fill:#BDB9B3">Improve document editing for</text>
+            <text class="ts" x="18" y="88" style="fill:#BDB9B3">documents sent to end clients.</text>
 
-            <rect x="354" y="26" width="286" height="88" fill="none" stroke="rgba(255,255,255,.2)" stroke-width=".75"/>
-            <text class="tt" x="372" y="52" style="fill:#F2F0EA">Prior user research</text>
-            <text class="ts" x="372" y="72" style="fill:#9E9EA6">Our users already used AI to</text>
-            <text class="ts" x="372" y="88" style="fill:#9E9EA6">draft emails and written content.</text>
+            <rect x="354" y="26" width="286" height="88" fill="none" stroke="var(--lb-line-strong)" stroke-width=".75"/>
+            <text class="tt" x="372" y="52" style="fill:#F2EFEA">Prior user research</text>
+            <text class="ts" x="372" y="72" style="fill:#BDB9B3">Our users already used AI to</text>
+            <text class="ts" x="372" y="88" style="fill:#BDB9B3">draft emails and written content.</text>
 
-            <g stroke="var(--color-accent)" stroke-width="1.2" fill="none">
+            <g stroke="var(--lb-accent)" stroke-width="1.2" fill="none">
               <path d="M143 114 C143 158 320 150 320 176"/>
               <path d="M497 114 C497 158 320 150 320 176"/>
             </g>
-            <circle cx="143" cy="114" r="3.2" fill="var(--color-accent)"/><circle cx="497" cy="114" r="3.2" fill="var(--color-accent)"/>
-            <rect x="150" y="176" width="340" height="52" fill="#F2F0EA"/>
-            <text class="tt" x="170" y="200" style="fill:#0E0E11">Nobody had put these two together</text>
-            <text class="ts" x="170" y="218" style="fill:#3A3A42">That connection was the proposal.</text>
-            <text class="ts" x="0" y="270" style="fill:#6E6E76">The evidence was not new. Using it to redefine the scope was.</text>
+            <circle cx="143" cy="114" r="3.2" fill="var(--lb-accent)"/><circle cx="497" cy="114" r="3.2" fill="var(--lb-accent)"/>
+            <rect x="150" y="176" width="340" height="52" fill="#F2EFEA"/>
+            <text class="tt" x="170" y="200" style="fill:var(--lb-cream-ink)">Nobody had put these two together</text>
+            <text class="ts" x="170" y="218" style="fill:#3A3835">That connection was the proposal.</text>
+            <text class="ts" x="0" y="270" style="fill:var(--lb-mid)">The evidence was not new. Using it to redefine the scope was.</text>
           </svg>
           <figcaption>Reconstructed · reasoning, not findings</figcaption>
         </figure>
@@ -396,7 +484,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div>
         <p class="k">My role</p>
         <h2>The AI was not<br>in the brief.<br>It was my proposal.</h2>
-        <div class="rule"></div>
+        <div class="rule prism-rule"></div>
         <div class="two-a">
           <div>
             <p>I designed the full navigation and interaction flow for the improved signature experience, from the first wireframes through to the concepts used for user validation.</p>
@@ -425,51 +513,56 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div>
         <p class="k">The design</p>
         <h2>Review is not<br>a step. It is<br>the product.</h2>
-        <div class="rule"></div>
+        <div class="rule prism-rule"></div>
         <p style="margin-bottom:clamp(44px,5vw,72px);max-width:58ch">These documents go to an end client for signature. A generated draft that reaches a client unread is not a time saving. It is a liability. So the flow was built around a single non-negotiable principle: <strong>the professional reads and approves before anything is stored or sent.</strong></p>
+        <figure class="rv" style="margin-bottom:clamp(40px,4.6vw,64px)">
+          <video src="video/s2-draft-with-ai.mp4" muted loop playsinline preload="metadata"
+                 width="2884" height="1402" aria-label="Draft with AI inside CCH iFirm: from the empty document, the professional opens the panel, chooses the document type and client, writes in plain sentences what the letter should cover, and generates a first draft. The panel states that nothing is sent to the client."></video>
+          <figcaption class="real">CCH iFirm · the instruction step. Intent, not prompt engineering</figcaption>
+        </figure>
         <figure class="rv">
           <svg viewBox="0 0 1100 260" role="img" aria-label="The drafting flow: the user writes an instruction, the system generates a draft, the professional reviews and edits it, and only then saves and sends">
             <text class="tl" x="0" y="10">THE FLOW</text>
             <g>
-              <rect x="0" y="30" width="196" height="92" fill="#17171B"/>
+              <rect x="0" y="30" width="196" height="92" fill="#141416"/>
               <text class="tl" x="16" y="52">01 · THE USER</text>
               <text class="tt" x="16" y="76">Writes an instruction</text>
               <text class="ts" x="16" y="94">What the document needs to say,</text>
               <text class="ts" x="16" y="109">in their own words.</text>
 
-              <rect x="226" y="30" width="196" height="92" fill="#17171B"/>
+              <rect x="226" y="30" width="196" height="92" fill="#141416"/>
               <text class="tl" x="242" y="52">02 · THE SYSTEM</text>
               <text class="tt" x="242" y="76">Generates a draft</text>
               <text class="ts" x="242" y="94">A starting point, inside the</text>
               <text class="ts" x="242" y="109">product. Never an empty page.</text>
 
-              <rect x="452" y="30" width="230" height="92" fill="#1E1E24" stroke="#E0714F" stroke-width="1.4"/>
-              <text class="tl" x="470" y="52" style="fill:#E0714F">03 · THE PROFESSIONAL</text>
-              <text class="tt" x="470" y="76" style="fill:#E0714F">Reviews and edits</text>
+              <rect x="452" y="30" width="230" height="92" fill="#141416" stroke="#F2607F" stroke-width="1.4"/>
+              <text class="tl" x="470" y="52" style="fill:#F2607F">03 · THE PROFESSIONAL</text>
+              <text class="tt" x="470" y="76" style="fill:#F2607F">Reviews and edits</text>
               <text class="ts" x="470" y="94">Full editing. Nothing is stored</text>
               <text class="ts" x="470" y="109">until the human is satisfied.</text>
 
-              <rect x="712" y="30" width="176" height="92" fill="#17171B"/>
+              <rect x="712" y="30" width="176" height="92" fill="#141416"/>
               <text class="tl" x="728" y="52">04</text>
               <text class="tt" x="728" y="76">Saves</text>
               <text class="ts" x="728" y="94">A deliberate act,</text>
               <text class="ts" x="728" y="109">not an automatic one.</text>
 
-              <rect x="918" y="30" width="182" height="92" fill="#F6F4EF"/>
-              <text class="tl" x="934" y="52" style="fill:#686872">05</text>
-              <text class="tt" x="934" y="76" style="fill:#0E0E11">Sends for signature</text>
-              <text class="ts" x="934" y="94" style="fill:#33333A">Reaches the end client</text>
-              <text class="ts" x="934" y="109" style="fill:#33333A">only after approval.</text>
+              <rect x="918" y="30" width="182" height="92" fill="#FDFBF6"/>
+              <text class="tl" x="934" y="52" style="fill:var(--lb-cream-meta)">05</text>
+              <text class="tt" x="934" y="76" style="fill:var(--lb-cream-ink)">Sends for signature</text>
+              <text class="ts" x="934" y="94" style="fill:var(--lb-cream-body)">Reaches the end client</text>
+              <text class="ts" x="934" y="109" style="fill:var(--lb-cream-body)">only after approval.</text>
             </g>
-            <g stroke="rgba(255,255,255,.34)" stroke-width="1" fill="none">
+            <g stroke="var(--lb-line-strong)" stroke-width="1" fill="none">
               <path d="M196 76 H226"/><path d="M422 76 H452"/><path d="M682 76 H712"/><path d="M888 76 H918"/>
             </g>
-            <path d="M567 122 V154" stroke="#E0714F" stroke-width="1" stroke-dasharray="2 3" fill="none"/>
-            <rect x="360" y="154" width="414" height="30" fill="none" stroke="#E0714F" stroke-width="1"/>
-            <text class="tt" x="378" y="174" style="fill:#E0714F">The AI never finishes the document. A person does.</text>
+            <path d="M567 122 V154" stroke="#F2607F" stroke-width="1" stroke-dasharray="2 3" fill="none"/>
+            <rect x="360" y="154" width="414" height="30" fill="none" stroke="#F2607F" stroke-width="1"/>
+            <text class="tt" x="378" y="174" style="fill:#F2607F">The AI never finishes the document. A person does.</text>
             <text class="ts" x="0" y="230">Generation is assistance. Approval stays with the professional who signs their name to the work.</text>
           </svg>
-          <figcaption>Reconstructed flow · no original UI</figcaption>
+          <figcaption>Reconstructed · the rule the flow is built on</figcaption>
         </figure>
       </div>
     </div>
@@ -483,7 +576,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div>
         <p class="k">Scope</p>
         <h2>What I chose<br>not to build</h2>
-        <div class="rule"></div>
+        <div class="rule prism-rule"></div>
         <div class="two">
           <div>
             <p>The concept included saving a generated document as a reusable template, a genuinely useful idea, and the obvious next step for anyone producing similar documents repeatedly.</p>
@@ -511,7 +604,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div>
         <p class="k">Validation and release</p>
         <h2>Tested small,<br>released for real</h2>
-        <div class="rule"></div>
+        <div class="rule prism-rule"></div>
         <div class="two">
           <div>
             <p>We ran a fast concept validation with three trusted customers before committing to build. The results were strongly positive: they found the feature intuitive and useful, and the concept design validated well enough to proceed.</p>
@@ -540,25 +633,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="rv">
         <figure>
           <svg viewBox="0 0 640 300" role="img" aria-label="Expected usage limited to formal contracts, against actual usage spanning anything requiring a client signature">
-            <text class="tl" x="0" y="10" style="fill:#6E6E76">WHAT I DESIGNED FOR</text>
-            <rect x="0" y="24" width="180" height="104" fill="none" stroke="rgba(255,255,255,.2)" stroke-width=".75"/>
-            <rect x="18" y="46" width="144" height="14" fill="#F2F0EA"/>
-            <rect x="18" y="70" width="120" height="14" fill="#F2F0EA"/>
-            <rect x="18" y="94" width="136" height="14" fill="#F2F0EA"/>
-            <text class="ts" x="0" y="150" style="fill:#6E6E76">Formal, structured documents.</text>
+            <text class="tl" x="0" y="10" style="fill:var(--lb-mid)">WHAT I DESIGNED FOR</text>
+            <rect x="0" y="24" width="180" height="104" fill="none" stroke="var(--lb-line-strong)" stroke-width=".75"/>
+            <rect x="18" y="46" width="144" height="14" fill="#F2EFEA"/>
+            <rect x="18" y="70" width="120" height="14" fill="#F2EFEA"/>
+            <rect x="18" y="94" width="136" height="14" fill="#F2EFEA"/>
+            <text class="ts" x="0" y="150" style="fill:var(--lb-mid)">Formal, structured documents.</text>
 
-            <text class="tl" x="300" y="10" style="fill:#6E6E76">WHAT PEOPLE USED IT FOR</text>
-            <rect x="300" y="24" width="340" height="104" fill="none" stroke="#E0714F" stroke-width=".75"/>
-            <g fill="#F2F0EA">
+            <text class="tl" x="300" y="10" style="fill:var(--lb-mid)">WHAT PEOPLE USED IT FOR</text>
+            <rect x="300" y="24" width="340" height="104" fill="none" stroke="#F2607F" stroke-width=".75"/>
+            <g fill="#F2EFEA">
               <rect x="318" y="42" width="120" height="12"/><rect x="452" y="42" width="86" height="12"/><rect x="552" y="42" width="68" height="12"/>
               <rect x="318" y="62" width="94" height="12"/><rect x="426" y="62" width="112" height="12"/><rect x="552" y="62" width="68" height="12"/>
               <rect x="318" y="82" width="140" height="12"/><rect x="472" y="82" width="74" height="12"/><rect x="560" y="82" width="60" height="12"/>
               <rect x="318" y="102" width="78" height="12"/><rect x="410" y="102" width="128" height="12"/><rect x="552" y="102" width="68" height="12"/>
             </g>
-            <text class="ts" x="300" y="150" style="fill:#E0714F">Anything that needed a client signature.</text>
-            <path d="M180 76 H300" stroke="#E0714F" stroke-width="1" fill="none"/>
-            <text class="tt" x="0" y="212" style="fill:#F2F0EA">The scope was set by the artefact.</text>
-            <text class="tt" x="0" y="234" style="fill:#F2F0EA">The need was set by the moment: facing an empty page.</text>
+            <text class="ts" x="300" y="150" style="fill:#F2607F">Anything that needed a client signature.</text>
+            <path d="M180 76 H300" stroke="#F2607F" stroke-width="1" fill="none"/>
+            <text class="tt" x="0" y="212" style="fill:#F2EFEA">The scope was set by the artefact.</text>
+            <text class="tt" x="0" y="234" style="fill:#F2EFEA">The need was set by the moment: facing an empty page.</text>
           </svg>
           <figcaption>Reconstructed · qualitative observation, not measured data</figcaption>
         </figure>
@@ -574,11 +667,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div>
         <p class="k">What I took from it</p>
         <h2>Three things<br>I kept</h2>
-        <div class="rule"></div>
+        <div class="rule prism-rule"></div>
         <div class="three">
-          <div class="rv"><h3>The best AI feature is often already happening</h3><p style="font-size:16px">Our users had solved their own problem with an outside tool. The research existed; the work was connecting it to a requirement nobody had linked it to. Behaviour that routes around your product is a specification.</p></div>
-          <div class="rv"><h3>In regulated work, review is the feature</h3><p style="font-size:16px">When a document carries a client's signature, the value is not what the model writes. It is that a qualified person read it, changed it, and chose to stand behind it. Design the approval, not just the generation.</p></div>
-          <div class="rv"><h3>Scope the moment, not the artefact</h3><p style="font-size:16px">I framed this around contracts. Users framed it around the blank page. Getting that boundary wrong is cheap to discover after launch and expensive to assume before it.</p></div>
+          <div class="rv"><h3>The best AI feature is often already happening</h3><p>Our users had solved their own problem with an outside tool. The research existed; the work was connecting it to a requirement nobody had linked it to. Behaviour that routes around your product is a specification.</p></div>
+          <div class="rv"><h3>In regulated work, review is the feature</h3><p>When a document carries a client's signature, the value is not what the model writes. It is that a qualified person read it, changed it, and chose to stand behind it. Design the approval, not just the generation.</p></div>
+          <div class="rv"><h3>Scope the moment, not the artefact</h3><p>I framed this around contracts. Users framed it around the blank page. Getting that boundary wrong is cheap to discover after launch and expensive to assume before it.</p></div>
         </div>
       </div>
     </div>
@@ -588,14 +681,41 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </main>
 
 <footer>
+  <div class="prism-rule"></div>
   <div class="w"><p>Wolters Kluwer · CCH iFirm · Laura Benavente</p></div>
 </footer>
 
 <script>
 document.documentElement.classList.add('js');
+
+/* LINEA PRISM. Un solo observador para todas las reglas de la pagina. Se dibuja
+   al 40% de visibilidad y se deja de observar: se dibuja una vez y se queda, no
+   se rebobina al subir. Sin matematicas de scroll, sin rAF, sin libreria. */
+var reglas=document.querySelectorAll('.prism-rule');
+if(reglas.length&&'IntersectionObserver' in window){
+  var pio=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('is-drawn'); pio.unobserve(en.target) }
+    });
+  },{threshold:0,rootMargin:'0px 0px -8% 0px'});
+  reglas.forEach(function(r){ pio.observe(r) });
+}
+
 var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{rootMargin:'0px 0px -10% 0px'});
 document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
 setTimeout(function(){document.querySelectorAll('.rv:not(.in)').forEach(function(el){el.classList.add('in')})},3500);
+/* El video del caso solo corre mientras esta en cuadro: son 2,7MB y dejarlo
+   decodificando fuera de pantalla es gasto puro. Con movimiento reducido no
+   arranca solo y aparecen los controles. */
+var RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.querySelectorAll('figure video').forEach(function(v){
+  if(RM){ v.setAttribute('controls',''); return }
+  var vio=new IntersectionObserver(function(es){
+    es.forEach(function(e){ e.isIntersecting ? v.play().catch(function(){}) : v.pause() });
+  },{threshold:.25});
+  vio.observe(v);
+});
+
 var navD=document.getElementById('nav-d');
 if(navD){
   navD.querySelectorAll('.nav-panel a').forEach(function(a){

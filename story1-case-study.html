@@ -17,7 +17,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
-<title>The Wolters Kluwer Story · Laura Benavente</title>
+<title>CCH iFirm by Wolters Kluwer · Laura Benavente</title>
 <meta name="description" content="Designing complex financial software for a global ecosystem: cloud migration, cross-product navigation, design systems and research across accounting and tax products at Wolters Kluwer.">
 
 <!--
@@ -40,14 +40,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   decoding="async" alt="..."> y su <figcaption>.
 -->
 
-<link rel="stylesheet" href="tokens.css?v=2">
+<link rel="stylesheet" href="tokens.css?v=48">
 <style>
 @font-face{font-family:'Libertinus Serif';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/libertinus-serif-latin-400-normal.woff2) format('woff2')}
 @font-face{font-family:'Libertinus Serif';font-weight:400;font-style:italic;font-display:swap;src:url(fonts/libertinus-serif-latin-400-italic.woff2) format('woff2')}
 @font-face{font-family:'Roboto';font-weight:300;font-style:normal;font-display:swap;src:url(fonts/roboto-latin-300-normal.woff2) format('woff2')}
 @font-face{font-family:'Roboto';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/roboto-latin-400-normal.woff2) format('woff2')}
 @font-face{font-family:'Roboto';font-weight:500;font-style:normal;font-display:swap;src:url(fonts/roboto-latin-500-normal.woff2) format('woff2')}
-@font-face{font-family:'Roboto';font-weight:700;font-style:normal;font-display:swap;src:url(fonts/roboto-latin-700-normal.woff2) format('woff2')}
 @font-face{font-family:'Roboto Mono';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/roboto-mono-latin-400-normal.woff2) format('woff2')}
 
 /* Dark editorial system, same tokens as index.html. The case study now shares
@@ -57,10 +56,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--dark);color:var(--ink);font-family:var(--sans);
-  font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+html{background:var(--lb-ground);color:var(--lb-ink);font-family:var(--lb-font-body)}
+body{margin:0;background:var(--lb-ground);color:var(--lb-ink);font-family:var(--lb-font-body);
+  font-size:var(--lb-body);line-height:var(--lb-lh-body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
-.w{max-width:1280px;margin:0 auto;padding:0 var(--m)}
+.w{max-width:1280px;margin:0 auto;padding:0 var(--lb-margin)}
 
 /* Rhythm. Three densities, assigned deliberately so the page never settles into
    a predictable beat. Uniform padding ran this page to 33 screens with every
@@ -71,44 +71,47 @@ body{margin:0;background:var(--dark);color:var(--ink);font-family:var(--sans);
 
 /* Full-bleed utilities. 100vw would include the scrollbar and push the page
    sideways, so the real scrollbar width is measured once and subtracted. */
-.ph--bleed{width:calc(100vw - var(--sbw));
-  margin-left:calc(50% - (100vw - var(--sbw))/2);margin-right:calc(50% - (100vw - var(--sbw))/2)}
-.ph--wide{width:calc(92vw - var(--sbw));
-  margin-left:calc(50% - (92vw - var(--sbw))/2);margin-right:calc(50% - (92vw - var(--sbw))/2)}
+.ph--bleed{width:calc(100vw - var(--lb-sbw));
+  margin-left:calc(50% - (100vw - var(--lb-sbw))/2);margin-right:calc(50% - (100vw - var(--lb-sbw))/2)}
+.ph--wide{width:calc(92vw - var(--lb-sbw));
+  margin-left:calc(50% - (92vw - var(--lb-sbw))/2);margin-right:calc(50% - (92vw - var(--lb-sbw))/2)}
 @media(max-width:767px){.ph--bleed,.ph--wide{width:100%;margin-left:0;margin-right:0}}
 /* Un pie no se va al borde de la pantalla solo porque su figura vaya a sangre.
    La imagen ocupa el ancho entero; el pie vuelve al margen del texto, que es
    donde el lector lo busca. Antes esta utilidad no se habia usado nunca con
    pie, asi que el caso no estaba cubierto. */
 figure.ph--bleed > figcaption,figure.ph--wide > figcaption{
-  max-width:var(--maxw);margin-left:auto;margin-right:auto;
-  padding-left:var(--m);padding-right:var(--m)}
-.tint{background:var(--dark-2)}
+  max-width:var(--lb-maxw);margin-left:auto;margin-right:auto;
+  padding-left:var(--lb-margin);padding-right:var(--lb-margin)}
+.tint{background:var(--lb-raised)}
 /* the one light moment in the page: the working-model chapter, so the reader
    surfaces once before the closing statement */
-.light{background:var(--paper);color:#0E0E11}
-.light p{color:#33333A}
-.light .k,.light .n{color:#686872}
-.light .rule{background:rgba(14,14,17,.14)}
-.light strong{color:#0E0E11}
-.light ul.p li{border-color:rgba(14,14,17,.09);color:#33333A}
-.light ul.p li .i{color:#686872}
-.light :focus-visible{outline-color:#0E0E11}
+.light{background:var(--lb-cream);color:var(--lb-cream-ink)}
+.light p{color:var(--lb-cream-body)}
+.light .k{color:var(--lb-cream-meta)}
+/* La cifra es estructura, no metadato: sobre papel va en tinta plena. */
+.light .n{color:var(--lb-cream-ink)}
+.light .rule{background:var(--lb-line-on-paper)}
+.light strong{color:var(--lb-cream-ink)}
+.light ul.p li{border-color:var(--lb-line-on-paper);color:var(--lb-cream-body)}
+.light ul.p li .i{color:var(--lb-cream-meta)}
+.light :focus-visible{outline-color:var(--lb-cream-ink)}
 
 [id]{scroll-margin-top:92px}
 
-.skip-link{position:absolute;left:16px;top:-60px;z-index:200;background:var(--ink);color:#0E0E11;
-  padding:10px 18px;font-family:var(--mono);font-size:11px;letter-spacing:1px;text-decoration:none;transition:top .2s}
+.skip-link{position:absolute;left:16px;top:-60px;z-index:200;background:var(--lb-ink);color:var(--lb-ground);
+  padding:10px 18px;font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);
+  text-transform:uppercase;text-decoration:none;transition:top .2s}
 .skip-link:focus{top:12px}
-.navbar{position:fixed;top:0;left:0;right:0;z-index:100;mix-blend-mode:difference;color:#fff}
-.nav-bar{max-width:1280px;margin:0 auto;padding:20px var(--m);display:flex;justify-content:space-between;
+.navbar{position:fixed;top:0;left:0;right:0;z-index:100;mix-blend-mode:difference;color:var(--lb-ink)}
+.nav-bar{max-width:1280px;margin:0 auto;padding:20px var(--lb-margin);display:flex;justify-content:space-between;
   align-items:flex-start;gap:20px;cursor:pointer;list-style:none}
 .nav-bar::-webkit-details-marker{display:none}
 .nav-bar::marker{content:''}
-.nav-logo{font-family:var(--sans);font-weight:700;font-size:11px;line-height:1;letter-spacing:.03em;
-  text-transform:uppercase;text-decoration:none;color:#fff}
-.nav-toggle{font-family:var(--sans);font-weight:700;font-size:11px;line-height:1;letter-spacing:.03em;
-  text-transform:uppercase;color:#fff}
+.nav-logo{font-family:var(--lb-font-display);font-weight:400;font-size:14px;line-height:1;
+  letter-spacing:.02em;text-decoration:none;color:var(--lb-ink)}
+.nav-toggle{font-family:var(--lb-font-body);font-weight:500;font-size:var(--lb-body-s);line-height:1;letter-spacing:.03em;
+  text-transform:uppercase;color:var(--lb-ink)}
 .nav-toggle .lbl-close{display:none}
 .nav-d[open] .nav-toggle .lbl-open{display:none}
 .nav-d[open] .nav-toggle .lbl-close{display:inline}
@@ -143,7 +146,7 @@ figure.ph--bleed > figcaption,figure.ph--wide > figcaption{
   .nav-toggle:hover{transform:none}
 }
 
-.nav-panel{display:block;max-width:1280px;margin:0 auto;padding:0 var(--m);
+.nav-panel{display:block;max-width:1280px;margin:0 auto;padding:0 var(--lb-margin);
   overflow:hidden;max-height:0;visibility:hidden;
   transition:max-height .55s cubic-bezier(.16,1,.3,1),visibility 0s linear .55s}
 .nav-d[open] .nav-panel{max-height:70vh;visibility:visible;
@@ -153,8 +156,8 @@ figure.ph--bleed > figcaption,figure.ph--wide > figcaption{
 .nav-links{padding-top:12px;gap:12px}
 .nav-foot{flex-direction:row;justify-content:flex-end;flex-wrap:wrap;padding-top:20px;gap:16px}
 .nav-links a,.nav-foot a{display:block;position:relative;overflow:hidden;
-  font-family:var(--sans);font-weight:700;font-size:11px;line-height:1;letter-spacing:.03em;
-  text-transform:uppercase;text-decoration:none;color:#fff}
+  font-family:var(--lb-font-body);font-weight:500;font-size:var(--lb-body-s);line-height:1;letter-spacing:.03em;
+  text-transform:uppercase;text-decoration:none;color:var(--lb-ink)}
 .nav-foot a{opacity:.55}
 .nav-links a:hover{opacity:.6}
 .nav-foot a:hover{opacity:1}
@@ -175,25 +178,84 @@ figure.ph--bleed > figcaption,figure.ph--wide > figcaption{
 .nav-d:not([open]) .nav-links a span,.nav-d:not([open]) .nav-foot a span{transition-delay:0s}
 html:not(.js) .nav-panel{max-height:none;visibility:visible;overflow:visible}
 html:not(.js) .nav-links a span,html:not(.js) .nav-foot a span{transform:none}
-.navbar :focus-visible{outline-color:#fff}
+.navbar :focus-visible{outline-color:var(--lb-ink)}
 @media(max-width:760px){
-  .nav-links a,.nav-foot a{font-size:14px}
+  .nav-links a,.nav-foot a{font-size:var(--lb-body)}
   .nav-links,.nav-foot{gap:22px}
   .nav-links a::after,.nav-foot a::after{top:-11px;bottom:-11px}
 }
-:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+:focus-visible{outline:2px solid var(--lb-ink);outline-offset:3px}
 
-h1{font-family:var(--serif);font-weight:400;font-size:clamp(46px,9.6vw,150px);line-height:.92;letter-spacing:-.022em;margin:0}
-h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,6vw,84px);line-height:.98;letter-spacing:-.016em;margin:0}
-h3{font-family:var(--serif);font-weight:400;font-size:clamp(21px,2.4vw,30px);line-height:1.18;margin:0 0 12px}
-p{margin:0 0 22px;max-width:60ch;color:var(--ink-2)}
+h1{font-family:var(--lb-font-display);font-weight:400;font-size:var(--lb-display-xl);
+  line-height:.9;letter-spacing:var(--lb-track-display);margin:0}
+h2{font-family:var(--lb-font-display);font-weight:400;font-size:var(--lb-display-l);
+  line-height:var(--lb-lh-display-l);letter-spacing:var(--lb-track-display);margin:0}
+h3{font-family:var(--lb-font-display);font-weight:400;font-size:var(--lb-display-m);
+  line-height:var(--lb-lh-display-m);letter-spacing:var(--lb-track-display);margin:0 0 12px}
+p{margin:0 0 22px;max-width:62ch;color:var(--lb-ink-2);
+  font-size:var(--lb-body);line-height:var(--lb-lh-body)}
 em{font-style:italic}
-strong{font-weight:500;color:var(--ink)}
+strong{font-weight:500;color:var(--lb-ink)}
 
-.k{font-family:var(--mono);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--mid);margin:0 0 20px}
-.n{font-family:var(--serif);font-size:clamp(40px,5vw,72px);line-height:.8;color:var(--color-text-secondary);opacity:.55}
-.rule{height:1px;background:var(--line);margin:26px 0 40px}
-.lead{font-size:clamp(19px,2vw,23px);line-height:1.5;color:var(--ink);max-width:46ch}
+/* Kicker. Es la mitad izquierda de la cabecera de seccion del §4: etiqueta
+   en mono y un filete prisma de 1px llenando el resto de la linea. El valor
+   de la derecha no se pone porque no hay ningun dato real que poner ahi. */
+.k{display:flex;align-items:center;gap:var(--lb-space-3);
+  font-family:var(--lb-font-mono);font-size:var(--lb-label);
+  letter-spacing:var(--lb-track-label);text-transform:uppercase;
+  color:var(--lb-mid);margin:0 0 20px}
+.k::after{content:'';flex:1 1 auto;height:1px;min-width:40px;background:var(--lb-prism-sm)}
+/* La cabecera de capitulo ya lleva su filete prisma debajo del titular. Dos
+   prismas en la misma cabecera dejan de ser una firma y pasan a ser ruido, asi
+   que ahi el kicker vuelve a ser solo kicker. La firma del §4 se queda para
+   las etiquetas de sub-bloque, que antes flotaban sin estructura. */
+.head .k{display:block}
+.head .k::after{content:none}
+/* Cifra de capitulo. Bloque numerado del §4: Libertinus 34px y un filete
+   macizo de 26px debajo. Antes era un 72px fantasma al 55% de opacidad, que
+   es decoracion; asi es estructura y se lee. */
+.n{display:block;font-family:var(--lb-font-display);font-weight:400;
+  font-size:var(--lb-numeral);line-height:var(--lb-lh-display-m);
+  letter-spacing:var(--lb-track-display);color:var(--lb-ink)}
+.n::after{content:'';display:block;width:26px;height:var(--lb-hairline);
+  background:currentColor;margin-top:12px}
+.rule{margin:26px 0 40px}
+/* LINEA PRISM. La regla estructural de la casa. Los siete colores no se
+   redefinen aqui: son los --color-prism-* de tokens.css, que es el tablero de
+   identidad. Crear un segundo juego de nombres para los mismos valores es
+   exactamente como se desincroniza un sistema.
+   Es solo regla: nunca relleno, nunca fondo detras de texto, nunca borde de
+   caja, nunca vertical. Maximo 2px.
+   Se dibuja de izquierda a derecha al entrar en cuadro, una vez, y se queda.
+   El degradado no se mueve nunca: lo unico que anima es el barrido. */
+/* El barrido va en una capa interior, no en la regla.
+   El motivo no es de estilo: IntersectionObserver mide la caja YA
+   transformada, asi que con scaleX(0) sobre la propia regla su ancho es 0, su
+   area es 0 y isIntersecting sale false para siempre. Reglas que no se
+   dibujaban nunca. Con el barrido dentro, la caja observada conserva su ancho
+   real y el observador la ve; lo que se mueve es el ::before.
+   Radio de 1px y cantos rectos, maximo 2px de alto: §3. */
+.prism-rule{
+  height:2px;border:0;border-radius:1px;flex:none;
+  overflow:hidden;background:none}
+.prism-rule::before{
+  content:'';display:block;width:100%;height:100%;
+  background:var(--lb-prism);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 700ms var(--lb-ease)}
+.prism-rule.is-drawn::before{transform:scaleX(1)}
+/* El rango corto por debajo de ~120px de ancho, que es donde las siete paradas
+   dejan de distinguirse (§3). */
+.prism-rule--short::before{background:var(--lb-prism-sm)}
+/* Dentro de un bloque de texto la regla baja a 1.5px. */
+.rule.prism-rule{height:1.5px}
+/* Sin JS no hay observador, asi que la regla se dibuja sola: si no, la pagina
+   se quedaria sin ninguna linea estructural. */
+html:not(.js) .prism-rule::before{transform:none}
+@media (prefers-reduced-motion:reduce){
+  .prism-rule::before{transform:none;transition:none}
+}
+.lead{font-size:17px;line-height:1.55;color:var(--lb-ink);max-width:46ch}
 
 .head{display:grid;grid-template-columns:clamp(80px,9vw,150px) 1fr;gap:clamp(20px,3vw,50px);align-items:start}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,90px)}
@@ -203,15 +265,16 @@ strong{font-weight:500;color:var(--ink)}
 @media(max-width:900px){.two,.two-a,.two-b,.three,.head{grid-template-columns:1fr;gap:26px}}
 
 .hero{padding:clamp(120px,16vw,170px) 0 0}
-.hero-top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);
-  padding-bottom:14px;margin-bottom:clamp(50px,9vw,110px);gap:20px;flex-wrap:wrap}
-.hero-top span{font-family:var(--mono);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--mid)}
-.hero h1 em{color:var(--color-text-secondary)}
-.hero-sub{font-family:var(--serif);font-size:clamp(22px,3vw,40px);line-height:1.14;letter-spacing:-.01em;
-  color:var(--color-text-secondary);margin:clamp(20px,2.4vw,34px) 0 0;max-width:24ch}
-.hero-meta{display:flex;flex-wrap:wrap;margin:clamp(44px,6vw,80px) 0 0;border-top:1px solid var(--line)}
-.hero-meta span{font-family:var(--mono);font-size:10px;letter-spacing:1.1px;text-transform:uppercase;color:var(--mid);
-  padding:14px 22px 14px 0;border-right:1px solid var(--line-2);margin-right:22px}
+.hero-top{display:flex;justify-content:space-between;align-items:baseline;
+  padding-bottom:14px;gap:20px;flex-wrap:wrap}
+.hero-top + .prism-rule{margin-bottom:clamp(50px,9vw,110px)}
+.hero-top span{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:1.4px;text-transform:uppercase;color:var(--lb-mid)}
+.hero h1 em{color:var(--lb-ink-2)}
+.hero-sub{font-family:var(--lb-font-display);font-size:var(--lb-display-l);line-height:var(--lb-lh-display-l);letter-spacing:-.01em;
+  color:var(--lb-ink-2);margin:clamp(20px,2.4vw,34px) 0 0;max-width:24ch}
+.hero-meta{display:flex;flex-wrap:wrap;margin:clamp(44px,6vw,80px) 0 0;border-top:var(--lb-hairline) solid var(--lb-line)}
+.hero-meta span{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-mid);
+  padding:14px 22px 14px 0;border-right:var(--lb-hairline) solid var(--lb-line);margin-right:22px}
 .hero-meta span:last-child{border-right:0;margin-right:0}
 
 /* RESULT CHIPS. La cifra en serif a escala de titular es lo que hace que el ojo
@@ -219,49 +282,91 @@ strong{font-weight:500;color:var(--ink)}
    Sin caja, sin radio y sin color: la escala tipografica hace el trabajo sola,
    y el oxido sigue reservado para marcar donde se rompe la experiencia. */
 .stats{display:flex;flex-wrap:wrap;margin:clamp(34px,4.4vw,60px) 0 0;
-  border-top:1px solid var(--line)}
+  border-top:var(--lb-hairline) solid var(--lb-line)}
 .stat{padding:20px clamp(26px,3vw,44px) 0 0;margin-right:clamp(26px,3vw,44px);
-  border-right:1px solid var(--line-2)}
+  border-right:var(--lb-hairline) solid var(--lb-line)}
 .stat:last-child{border-right:0;margin-right:0;padding-right:0}
-.stat b{display:block;font-family:var(--serif);font-weight:400;
-  font-size:clamp(30px,3.6vw,50px);line-height:1;letter-spacing:-.02em;color:var(--ink)}
-.stat i{display:block;font-style:normal;font-family:var(--mono);font-size:10px;
-  letter-spacing:1.1px;text-transform:uppercase;color:var(--mid);margin-top:12px}
+.stat b{display:block;font-family:var(--lb-font-display);font-weight:400;
+  font-size:var(--lb-display-l);line-height:var(--lb-lh-display-l);letter-spacing:var(--lb-track-display);color:var(--lb-ink)}
+.stat i{display:block;font-style:normal;font-family:var(--lb-font-mono);font-size:10px;
+  letter-spacing:1.1px;text-transform:uppercase;color:var(--lb-mid);margin-top:12px}
 /* En estrecho pasan a columna y los separadores giran de verticales a horizontales */
 @media(max-width:700px){
   .stats{display:block}
-  .stat{border-right:0;border-bottom:1px solid var(--line-2);margin-right:0;padding:16px 0}
+  .stat{border-right:0;border-bottom:var(--lb-hairline) solid var(--lb-line);margin-right:0;padding:16px 0}
   .stat:last-child{border-bottom:0;padding-bottom:0}
 }
 .hero-note{margin-top:clamp(40px,5vw,72px);display:grid;grid-template-columns:clamp(80px,9vw,150px) 1fr;gap:clamp(20px,3vw,50px)}
 @media(max-width:900px){.hero-note{grid-template-columns:1fr}}
-.hero-note .body{max-width:56ch;font-size:16.5px;color:var(--ink-2);border-left:2px solid var(--ink);padding-left:24px}
+.hero-note .body{max-width:56ch;font-size:var(--lb-body);color:var(--lb-ink-2);border-left:var(--lb-hairline) solid var(--lb-line-strong);padding-left:24px}
 
 /* full-bleed statement, the two moments where the page stops and says one thing */
-.pivot{background:var(--dark-2);padding:clamp(90px,14vw,220px) 0}
-.pivot .stmt{font-family:var(--serif);font-size:clamp(34px,7.4vw,116px);line-height:.98;letter-spacing:-.022em;
-  max-width:17ch;margin:0 0 clamp(36px,5vw,64px);color:var(--ink)}
-.pivot .stmt i{font-style:italic;color:var(--red-l)}
-.pivot .after{max-width:52ch;color:var(--ink-2);margin:0}
+.pivot{background:var(--lb-raised);padding:clamp(90px,14vw,220px) 0}
+.pivot .stmt{font-family:var(--lb-font-display);font-size:var(--lb-display-xl);
+  line-height:.9;letter-spacing:var(--lb-track-display);
+  max-width:17ch;margin:0 0 clamp(36px,5vw,64px);color:var(--lb-ink)}
+.pivot .stmt i{font-style:italic;color:var(--lb-accent)}
+.pivot .after{max-width:52ch;color:var(--lb-ink-2);margin:0}
 
 figure{margin:0}
-figcaption{font-family:var(--mono);font-size:10px;letter-spacing:1.1px;text-transform:uppercase;color:var(--mid);
-  margin-top:16px;padding-top:10px;border-top:1px solid var(--line-2)}
-.light figcaption{color:#686872;border-color:rgba(14,14,17,.09)}
+
+/* LOS DOS MODELOS DE CONTEXTO. La pieza central del caso: cliente primero
+   contra producto primero, cada uno con su riesgo escrito al final de la fila.
+   Es una tabla de lectura, no una tabla de datos, asi que va en rejilla y no
+   en <table>: no hay cabeceras que asociar. */
+.modelos{display:grid;grid-template-columns:1.05fr 1fr 1fr .8fr 1.5fr;
+  gap:0 clamp(18px,2.4vw,34px);align-items:start;
+  padding:clamp(22px,2.6vw,36px) 0;border-top:var(--lb-hairline) solid var(--lb-line)}
+.modelos:last-child{border-bottom:var(--lb-hairline) solid var(--lb-line)}
+.modelos p{margin:0;max-width:none}
+.modelos .k{margin:0 0 8px;display:block}
+/* Dentro de la tabla el kicker es solo etiqueta. Con el filete prisma de la
+   cabecera de seccion saldrian diez prismas en una pantalla. */
+.modelos .k::after{content:none}
+.modelos .mk{color:var(--lb-accent);line-height:1.5}
+.light .modelos{border-color:var(--lb-line-on-paper)}
+.light .modelos .mk{color:var(--lb-accent-deep)}
+@media(max-width:860px){
+  .modelos{grid-template-columns:1fr 1fr;gap:18px 24px}
+  .modelos .mk{grid-column:1/-1}
+  /* Partida en dos columnas la fila de cabecera deja de ser una cabecera. */
+  .modelos--head{display:none}
+  .modelos > p:first-child{grid-column:1/-1}
+}
+
+/* La cifra del bloque numerado dentro de una columna: el mismo tratamiento del
+   §4 de la identidad, en pequeno. */
+.num6{display:block;font-family:var(--lb-font-display);font-weight:400;
+  font-size:var(--lb-numeral);line-height:var(--lb-lh-display-m);
+  letter-spacing:var(--lb-track-display);color:var(--lb-ink);margin:0 0 var(--lb-space-3)}
+.num6::after{content:'';display:block;width:26px;height:var(--lb-hairline);
+  background:currentColor;margin-top:11px}
+.light .num6{color:var(--lb-cream-ink)}
+/* Video de producto. Mismo tratamiento que .figimg: filete de 1px y esquina de
+   2px, para que una captura en movimiento no cante distinto a una fija. */
+figure video{display:block;width:100%;height:auto;
+  border:var(--lb-hairline) solid var(--lb-line);border-radius:var(--lb-radius);
+  background:var(--lb-raised)}
+.light figure video{border-color:var(--lb-line-on-paper);background:var(--lb-paper-inset)}
+figcaption{font-family:var(--lb-font-mono);font-size:var(--lb-label);
+  letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-mid);
+  margin-top:16px;padding-top:10px;border-top:var(--lb-hairline) solid var(--lb-line)}
+.light figcaption{color:var(--lb-cream-meta);border-color:var(--lb-line-on-paper)}
 .figimg{display:block;width:100%;height:auto}
 
 /* numbered image placeholder. --ar carries the aspect ratio the layout expects,
    so the final asset can drop in without recomposing the section. */
-.ph__box{position:relative;aspect-ratio:var(--ar,16/9);border:1px solid var(--line);background:var(--dark-2);
+.ph__box{position:relative;aspect-ratio:var(--ar,16/9);border:var(--lb-hairline) solid var(--lb-line);background:var(--lb-raised);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center}
-.light .ph__box{border-color:rgba(14,14,17,.16);background:var(--paper-2)}
-.ph__box::before,.ph__box::after{content:'';position:absolute;width:14px;height:14px;border:1px solid var(--mid);opacity:.5}
+.light .ph__box{border-color:var(--lb-line-on-paper);background:var(--lb-paper-inset)}
+.ph__box::before,.ph__box::after{content:'';position:absolute;width:14px;height:14px;border:var(--lb-hairline) solid var(--lb-mid);opacity:.5}
 .ph__box::before{top:12px;left:12px;border-right:0;border-bottom:0}
 .ph__box::after{bottom:12px;right:12px;border-left:0;border-top:0}
-.ph__id{font-family:var(--mono);font-size:clamp(13px,1.5vw,18px);letter-spacing:3px;color:var(--ink)}
-.light .ph__id{color:#0E0E11}
-.ph__note{font-family:var(--mono);font-size:10px;letter-spacing:1.1px;text-transform:uppercase;
-  color:var(--mid);max-width:36ch;line-height:1.7;margin:0}
+.ph__id{font-family:var(--lb-font-mono);font-size:12px;letter-spacing:var(--lb-track-kicker);
+  text-transform:uppercase;color:var(--lb-ink)}
+.light .ph__id{color:var(--lb-cream-ink)}
+.ph__note{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);text-transform:uppercase;
+  color:var(--lb-mid);max-width:36ch;line-height:1.7;margin:0}
 /* la figura del hero ya cuelga fuera de .w, así que ocupa el ancho sin trucos.
    Un 100vw aquí sumaba el ancho de la barra de scroll y desbordaba. */
 .ph-bleed{width:100%}
@@ -269,11 +374,11 @@ figcaption{font-family:var(--mono);font-size:10px;letter-spacing:1.1px;text-tran
 /* Hero shot. Sits hard against the right edge and stops short of the left, so
    the weight stays on the title. The screenshot is RGBA: its rounded corners
    let the ground through, and it is never cropped or distorted. */
-.hero-shot{margin:clamp(56px,7vw,100px) 0 0 auto;width:56%;max-width:820px;padding-right:var(--m)}
+.hero-shot{margin:clamp(56px,7vw,100px) 0 0 auto;width:56%;max-width:820px;padding-right:var(--lb-margin)}
 .hero-shot .figimg{width:100%;height:auto}
-.hero-shot figcaption{padding-left:0;margin-right:var(--m);text-align:right}
+.hero-shot figcaption{padding-left:0;margin-right:var(--lb-margin);text-align:right}
 @media(max-width:767px){
-  .hero-shot{width:auto;margin:clamp(44px,9vw,70px) var(--m) 0}
+  .hero-shot{width:auto;margin:clamp(44px,9vw,70px) var(--lb-margin) 0}
   .hero-shot figcaption{margin-right:0;text-align:left}
 }
 /* 21:9 a lo ancho del móvil son 161px de alto: una tira donde no se leería nada.
@@ -281,51 +386,60 @@ figcaption{font-family:var(--mono);font-size:10px;letter-spacing:1.1px;text-tran
 @media(max-width:600px){.ph-bleed .ph__box{aspect-ratio:16/9}}
 
 .step{display:grid;grid-template-columns:clamp(60px,7vw,110px) 1fr;gap:clamp(18px,3vw,44px);
-  padding:clamp(28px,3.4vw,46px) 0;border-top:1px solid var(--line)}
-.step:last-of-type{border-bottom:1px solid var(--line)}
-.step .sn{font-family:var(--serif);font-size:clamp(28px,3.4vw,46px);line-height:.9;color:var(--color-text-secondary);opacity:.5}
-.step p{margin:0;font-size:16px;max-width:56ch}
-.light .step{border-color:rgba(14,14,17,.14)}
+  padding:clamp(28px,3.4vw,46px) 0;border-top:var(--lb-hairline) solid var(--lb-line)}
+.step:last-of-type{border-bottom:var(--lb-hairline) solid var(--lb-line)}
+.step .sn{font-family:var(--lb-font-display);font-size:var(--lb-numeral);line-height:var(--lb-lh-display-m);color:var(--lb-ink-2);opacity:.5}
+.step p{margin:0;font-size:var(--lb-body);max-width:56ch}
+.light .step{border-color:var(--lb-line-on-paper)}
 @media(max-width:900px){.step{grid-template-columns:1fr;gap:10px}}
 
 /* research chain: what we found, what it meant, what I decided, what I designed */
-.chain{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
-.chain > div{background:var(--dark);padding:clamp(22px,2.4vw,34px)}
-.chain .ck{font-family:var(--mono);font-size:9.5px;letter-spacing:1.3px;text-transform:uppercase;color:var(--mid);margin:0 0 14px}
-.chain p{margin:0;font-size:15.5px;color:var(--ink-2);max-width:none}
+.chain{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--lb-line);border:var(--lb-hairline) solid var(--lb-line)}
+.chain > div{background:var(--lb-ground);padding:clamp(22px,2.4vw,34px)}
+.chain .ck{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-mid);margin:0 0 14px}
+.chain p{margin:0;font-size:var(--lb-body-s);color:var(--lb-ink-2);max-width:none}
 @media(max-width:900px){.chain{grid-template-columns:1fr}}
 
-.facts{border-top:1px solid var(--line)}
-.fact{padding:20px 0;border-bottom:1px solid var(--line-2);display:grid;grid-template-columns:1fr 1.4fr;gap:20px;align-items:baseline}
-.fact .fk{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink)}
-.fact .fv{font-family:var(--serif);font-size:clamp(18px,1.9vw,24px);line-height:1.3;color:var(--ink)}
+.facts{border-top:var(--lb-hairline) solid var(--lb-line)}
+.fact{padding:20px 0;border-bottom:var(--lb-hairline) solid var(--lb-line);display:grid;grid-template-columns:1fr 1.4fr;gap:20px;align-items:baseline}
+.fact .fk{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-ink)}
+.fact .fv{font-family:var(--lb-font-display);font-size:var(--lb-display-s);line-height:var(--lb-lh-display-s);color:var(--lb-ink)}
 @media(max-width:600px){.fact{grid-template-columns:1fr;gap:6px}}
 
-.pull{font-family:var(--serif);font-size:clamp(24px,3.4vw,44px);line-height:1.16;letter-spacing:-.012em;
-  max-width:22ch;margin:0;padding-left:28px;border-left:2px solid var(--red-l);color:var(--ink)}
-.light .pull{color:#0E0E11}
+.pull{font-family:var(--lb-font-display);font-size:var(--lb-display-l);
+  line-height:var(--lb-lh-display-l);letter-spacing:var(--lb-track-display);
+  max-width:22ch;margin:0;padding-left:28px;
+  border-left:var(--lb-hairline) solid var(--lb-accent);color:var(--lb-ink)}
+.light .pull{color:var(--lb-cream-ink)}
 
-.principle{font-family:var(--serif);font-size:clamp(26px,4vw,58px);line-height:1.06;letter-spacing:-.016em;
-  margin:0 0 clamp(24px,3vw,44px);max-width:20ch;color:var(--ink)}
-.principle i{font-style:italic;color:var(--color-accent)}
+.principle{font-family:var(--lb-font-display);font-size:var(--lb-display-l);
+  line-height:var(--lb-lh-display-l);letter-spacing:var(--lb-track-display);
+  margin:0 0 clamp(24px,3vw,44px);max-width:20ch;color:var(--lb-ink)}
+.principle i{font-style:italic;color:var(--lb-accent)}
 
 ul.p{list-style:none;margin:0;padding:0}
-ul.p li{padding:14px 0;border-top:1px solid var(--line-2);font-size:16px;color:var(--ink-2);display:flex;gap:16px}
-ul.p li .i{font-family:var(--mono);font-size:10px;color:var(--mid);letter-spacing:1px;padding-top:4px;flex:none}
+ul.p li{padding:14px 0;border-top:var(--lb-hairline) solid var(--lb-line);
+  font-size:var(--lb-body);line-height:var(--lb-lh-body);color:var(--lb-ink-2);display:flex;gap:16px}
+ul.p li .i{font-family:var(--lb-font-mono);font-size:var(--lb-label);color:var(--lb-mid);
+  letter-spacing:var(--lb-track-label);text-transform:uppercase;padding-top:4px;flex:none}
 
 /* markets and domains: compact mono grid, structure not decoration */
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
-.tags li{font-family:var(--mono);font-size:10px;letter-spacing:1.1px;text-transform:uppercase;
-  color:var(--ink-2);border:1px solid var(--line);padding:8px 12px}
-.light .tags li{color:#33333A;border-color:rgba(14,14,17,.16)}
+.tags li{font-family:var(--lb-font-mono);font-size:10px;line-height:1;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--lb-ink-2);
+  border:var(--lb-hairline) solid var(--lb-line);border-radius:var(--lb-radius);
+  padding:5px 9px}
+.light .tags li{color:var(--lb-cream-body);border-color:var(--lb-line-on-paper)}
 
-footer{padding:60px 0 90px;border-top:1px solid var(--line)}
-footer p{font-family:var(--mono);font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--mid);max-width:none}
+footer{padding:0 0 90px}
+footer > .prism-rule{margin-bottom:60px}
+footer p{font-family:var(--lb-font-mono);font-size:var(--lb-label);
+  letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-mid);max-width:none}
 .next{display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap;
-  padding:0 0 40px;margin-bottom:40px;border-bottom:1px solid var(--line)}
-.next a{font-family:var(--serif);font-size:clamp(24px,3.4vw,44px);line-height:1;color:var(--ink);text-decoration:none}
-.next a:hover{color:var(--color-text-secondary)}
-.next span{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--mid)}
+  padding:0 0 40px;margin-bottom:40px;border-bottom:var(--lb-hairline) solid var(--lb-line)}
+.next a{font-family:var(--lb-font-display);font-size:var(--lb-display-l);line-height:var(--lb-lh-display-l);color:var(--lb-ink);text-decoration:none}
+.next a:hover{color:var(--lb-ink-2)}
+.next span{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-mid)}
 
 /* Reveal patterns. The previous version moved 18px and fired the moment an
    element peeked over the bottom edge, so it finished off-screen and nothing
@@ -420,9 +534,9 @@ html.js .pin-step{transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .9s 
 .pin-step .ph__box{max-height:calc(100% - 44px)}
 .pin-step.on{opacity:1;transform:none}
 .pin-count{display:flex;gap:8px;margin:0 0 22px;padding:0;list-style:none}
-.pin-count li{width:34px;height:2px;background:var(--line)}
+.pin-count li{width:34px;height:2px;background:var(--lb-line)}
 html.js .pin-count li{transition:background .5s}
-.pin-count li.on{background:var(--ink)}
+.pin-count li.on{background:var(--lb-ink)}
 /* Without JS, and for readers who asked for less motion, the track collapses
    and both states simply sit one after the other. */
 html:not(.js) .pin-track{height:auto}
@@ -468,27 +582,27 @@ html:not(.js) .rv--mask{clip-path:none}
 
 /* Etiquetas dentro de los SVG. Mismo mono que los pies de figura, para que un
    diagrama dibujado y una captura de producto se lean como el mismo material. */
-.tl{font-family:var(--mono);font-size:8.5px;letter-spacing:1px;fill:var(--mid)}
-.tt{font-family:var(--sans);font-size:11.5px;font-weight:500;fill:var(--ink)}
-.ts{font-family:var(--sans);font-size:9.5px;fill:var(--mid)}
+.tl{font-family:var(--lb-font-mono);font-size:8.5px;letter-spacing:1px;fill:var(--lb-mid)}
+.tt{font-family:var(--lb-font-body);font-size:var(--lb-body-s);font-weight:500;fill:var(--lb-ink)}
+.ts{font-family:var(--lb-font-body);font-size:9.5px;fill:var(--lb-mid)}
 svg.dg{display:block;width:100%;height:auto;overflow:visible}
 
 /* El titular del hero es mas largo que el anterior, asi que baja un escalon:
    a 150px ocupaba seis lineas y empujaba los chips fuera de la primera pantalla. */
-.hero h1.long{font-size:clamp(40px,7.2vw,104px);line-height:.96}
+.hero h1.long{font-size:var(--lb-display-xl);line-height:.9}
 
 /* Los tres niveles de trabajo. Rejilla con filete superior, misma familia de
    separadores que .hero-meta y .stats. */
 .levels{display:grid;grid-template-columns:repeat(3,1fr);
-  margin-top:clamp(40px,5vw,72px);border-top:1px solid var(--line)}
-.level{padding:26px clamp(22px,2.4vw,36px) 0 0;border-right:1px solid var(--line-2)}
+  margin-top:clamp(40px,5vw,72px);border-top:var(--lb-hairline) solid var(--lb-line)}
+.level{padding:26px clamp(22px,2.4vw,36px) 0 0;border-right:var(--lb-hairline) solid var(--lb-line)}
 .level:last-child{border-right:0}
-.level h3{font-family:var(--mono);font-size:10.5px;letter-spacing:1.4px;
-  text-transform:uppercase;color:var(--ink);margin:0 0 14px;font-weight:400}
-.level p{font-size:15.5px;margin:0;max-width:34ch}
+.level h3{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:1.4px;
+  text-transform:uppercase;color:var(--lb-ink);margin:0 0 14px;font-weight:400}
+.level p{font-size:var(--lb-body-s);margin:0;max-width:34ch}
 @media(max-width:760px){
   .levels{grid-template-columns:1fr}
-  .level{border-right:0;border-bottom:1px solid var(--line-2);padding:22px 0}
+  .level{border-right:0;border-bottom:var(--lb-hairline) solid var(--lb-line);padding:22px 0}
   .level:last-child{border-bottom:0}
 }
 
@@ -496,15 +610,15 @@ svg.dg{display:block;width:100%;height:auto;overflow:visible}
    cajas: el numero en mono a la izquierda y la frase en serif, con la misma
    regla de separacion que .levels. */
 .lrn{list-style:none;margin:clamp(46px,5vw,80px) 0 0;padding:0;
-  border-top:1px solid var(--line)}
+  border-top:var(--lb-hairline) solid var(--lb-line)}
 .lrn li{display:flex;gap:clamp(20px,3vw,52px);align-items:baseline;
-  padding:clamp(22px,2.6vw,34px) 0;border-bottom:1px solid var(--line-2)}
+  padding:clamp(22px,2.6vw,34px) 0;border-bottom:var(--lb-hairline) solid var(--lb-line)}
 .lrn li:last-child{border-bottom:0}
-.lrn .i{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;
-  color:var(--mid);flex:none;padding-top:8px}
-.lrn p{font-family:var(--serif);font-weight:400;
-  font-size:clamp(21px,2.2vw,30px);line-height:1.3;letter-spacing:-.01em;
-  color:var(--ink);margin:0;max-width:40ch}
+.lrn .i{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);
+  color:var(--lb-mid);flex:none;padding-top:8px}
+.lrn p{font-family:var(--lb-font-display);font-weight:400;
+  font-size:var(--lb-display-m);line-height:var(--lb-lh-display-m);letter-spacing:-.01em;
+  color:var(--lb-ink);margin:0;max-width:40ch}
 @media(max-width:700px){
   .lrn li{display:block}
   .lrn .i{display:block;margin-bottom:10px;padding-top:0}
@@ -522,30 +636,30 @@ html:not(.js) .lrn.rv li{opacity:1;transform:none}
 /* Las cuatro preguntas que estructuran la segunda mitad de la pagina.
    Van numeradas porque son una secuencia real: cada una supone la anterior. */
 .qs{display:grid;grid-template-columns:1fr 1fr;
-  margin-top:clamp(44px,5vw,80px);border-top:1px solid var(--line)}
-.q{padding:30px clamp(26px,3vw,48px) 34px 0;border-right:1px solid var(--line-2);
-  border-bottom:1px solid var(--line-2)}
+  margin-top:clamp(44px,5vw,80px);border-top:var(--lb-hairline) solid var(--lb-line)}
+.q{padding:30px clamp(26px,3vw,48px) 34px 0;border-right:var(--lb-hairline) solid var(--lb-line);
+  border-bottom:var(--lb-hairline) solid var(--lb-line)}
 .q:nth-child(2n){border-right:0;padding-left:clamp(26px,3vw,48px)}
 .q:nth-last-child(-n+2){border-bottom:0}
-.q .qn{font-family:var(--mono);font-size:10px;letter-spacing:1.4px;color:var(--mid);
+.q .qn{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);color:var(--lb-mid);
   display:block;margin-bottom:16px}
-.q p{font-family:var(--serif);font-size:clamp(20px,2.2vw,29px);line-height:1.18;
-  letter-spacing:-.01em;color:var(--ink);margin:0;max-width:22ch}
+.q p{font-family:var(--lb-font-display);font-size:var(--lb-display-m);line-height:var(--lb-lh-display-m);
+  letter-spacing:-.01em;color:var(--lb-ink);margin:0;max-width:22ch}
 @media(max-width:760px){
   .qs{grid-template-columns:1fr}
-  .q,.q:nth-child(2n){border-right:0;padding:24px 0;border-bottom:1px solid var(--line-2)}
+  .q,.q:nth-child(2n){border-right:0;padding:24px 0;border-bottom:var(--lb-hairline) solid var(--lb-line)}
   .q:last-child{border-bottom:0}
 }
 
 /* Los cinco pasos del handoff. Numerados: es un orden de trabajo real. */
-.hand{margin-top:clamp(40px,5vw,72px);border-top:1px solid var(--line)}
+.hand{margin-top:clamp(40px,5vw,72px);border-top:var(--lb-hairline) solid var(--lb-line)}
 .hstep{display:grid;grid-template-columns:clamp(46px,5vw,74px) 1fr;
-  gap:clamp(16px,2vw,34px);padding:28px 0;border-bottom:1px solid var(--line-2)}
+  gap:clamp(16px,2vw,34px);padding:28px 0;border-bottom:var(--lb-hairline) solid var(--lb-line)}
 .hstep:last-child{border-bottom:0}
-.hstep .hn{font-family:var(--mono);font-size:10px;letter-spacing:1.4px;color:var(--mid)}
-.hstep h3{font-family:var(--serif);font-weight:400;font-size:clamp(19px,2vw,26px);
+.hstep .hn{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);color:var(--lb-mid)}
+.hstep h3{font-family:var(--lb-font-display);font-weight:400;font-size:var(--lb-display-m);
   line-height:1.16;margin:0 0 10px}
-.hstep p{margin:0;font-size:15.5px;max-width:56ch}
+.hstep p{margin:0;font-size:var(--lb-body-s);max-width:56ch}
 @media(max-width:600px){.hstep{grid-template-columns:1fr;gap:10px}}
 
 /* Las capturas se agrupan por region, no por producto: tres columnas, dos
@@ -553,17 +667,19 @@ html:not(.js) .lrn.rv li{opacity:1;transform:none}
    se comporta distinto en cada mercado, que es justo lo que dice el capitulo.
    Contain y no cover: una captura de producto no se recorta para cuadrar. */
 .regions{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,2.6vw,44px);
-  margin-top:24px;padding-top:24px;border-top:1px solid var(--line)}
+  margin-top:24px;padding-top:24px;border-top:var(--lb-hairline) solid var(--lb-line)}
 .region > .k{margin-bottom:18px}
 .region figure{margin:0 0 clamp(16px,1.8vw,26px)}
 .region figure:last-child{margin-bottom:0}
 .region img{display:block;width:100%;height:auto;aspect-ratio:2;object-fit:contain;
-  background:var(--dark-3)}
+  background:var(--lb-raised)}
 @media(max-width:900px){.regions{grid-template-columns:1fr;gap:clamp(28px,4vw,44px)}}
 
 /* Etiqueta de pareja disenado / construido. Dice cual es cual y nada mas. */
-.tag-d{font-family:var(--mono);font-size:9.5px;letter-spacing:1.4px;
-  text-transform:uppercase;color:var(--mid);margin:0 0 14px}
+.tag-d{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);
+  text-transform:uppercase;color:var(--lb-mid);margin:0 0 14px}
+.three .k::after,.two .k::after,.two-a .k::after,.two-b .k::after,
+.hand .k::after,.facts .k::after{content:none}
 </style>
 </head>
 <body>
@@ -611,8 +727,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span>Story 1</span>
       <span>Wolters Kluwer</span>
     </div>
-    <h1 class="rv long">From fragmented<br>products to a<br><em>connected ecosystem</em></h1>
-    <p class="hero-sub rv" data-d="1">The Wolters Kluwer Story</p>
+    <div class="prism-rule"></div>
+    <h1 class="rv long">CCH iFirm by<br><em>Wolters Kluwer</em></h1>
+    <p class="hero-sub rv" data-d="1">Designing continuity across a fragmented SaaS ecosystem</p>
 
     <div class="stats rv" data-d="2">
       <div class="stat"><b>6</b><i>Products unified</i></div>
@@ -621,10 +738,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <div class="hero-meta rv" data-d="3">
-      <span>Senior Product Designer</span>
-      <span>B2B SaaS</span>
-      <span>Accounting, tax and finance</span>
-      <span>UK · Netherlands · Belgium · Italy · Scandinavia</span>
+      <span>Systems thinking</span>
+      <span>Product design</span>
+      <span>Design system</span>
+      <span>Customer validation</span>
+      <span>Stakeholder alignment</span>
     </div>
 
     <div class="hero-note rv" data-d="4">
@@ -633,793 +751,640 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 </header>
-
-<!-- 02 · THIS WAS NOT ONE PROJECT ............................................ -->
-<section class="sec sec--open" id="not-one-project">
+<!-- 07 · THE CONTEXT ......................................................... -->
+<section class="sec sec--open" id="context">
   <div class="w">
     <div class="head rv">
-      <div class="n">01</div>
+      <span class="n">01</span>
       <div>
-        <p class="k">Scope</p>
-        <h2><span class="ln"><i>This was not</i></span><span class="ln"><i>one project</i></span></h2>
-        <div class="rule"></div>
-        <p class="lead">It was work across several products, several markets and several teams, over a number of years.</p>
+        <span class="k">The context</span>
+        <h2>From on-premise to cloud</h2>
+        <div class="rule prism-rule"></div>
+        <p class="lead">Global iFirm was evolving from a collection of products into a more connected cloud experience.</p>
       </div>
     </div>
 
-    <div class="two" style="margin-top:clamp(46px,5vw,80px)">
-      <div class="rv">
-        <p>There is no single launch date here, and no single screen that contains the work. Different products were at different stages of maturity, owned by different teams, sold into different countries.</p>
-        <p>What connected all of it was one question that kept coming back in different disguises.</p>
-      </div>
-      <div class="rv" data-d="1">
-        <p class="pull">How do separate products start behaving like one ecosystem?</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 03 · THE STARTING POINT ................................................. -->
-<section class="sec tint" id="starting-point">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">02</div>
-      <div>
-        <p class="k">The starting point</p>
-        <h2><span class="ln"><i>The products worked.</i></span><span class="ln"><i>The ecosystem did not.</i></span></h2>
-        <div class="rule"></div>
-        <p class="lead">Wolters Kluwer builds the software that accounting, tax and financial professionals use to do their work. On screen it looks like forms and tables. The complexity sits underneath.</p>
-      </div>
-    </div>
-
-    <div class="two-a" style="margin-top:clamp(50px,6vw,90px)">
-      <div class="rv">
-        <p class="k">What the software covers</p>
-        <ul class="p">
-          <li><span class="i">01</span><span>Accounting and client accounting</span></li>
-          <li><span class="i">02</span><span>Tax</span></li>
-          <li><span class="i">03</span><span>Client management and contacts</span></li>
-          <li><span class="i">04</span><span>Time tracking, jobs and billing</span></li>
-          <li><span class="i">05</span><span>Documents</span></li>
-          <li><span class="i">06</span><span>Workflows and reporting</span></li>
-        </ul>
-      </div>
-      <div class="rv" data-d="1">
-        <p class="k">How it got this way</p>
-        <p>The portfolio had grown over time. Different teams. Different products. Different markets. Acquisitions that arrived carrying their own conventions. Legacy foundations underneath. Regulation that changes by country.</p>
-        <p>Each product made sense on its own terms. Together, they did not always behave like parts of the same environment.</p>
-        <p class="k" style="margin-top:34px">Who uses it</p>
-        <p>Accountants, tax advisers and finance professionals.</p>
-      </div>
-    </div>
-
-    <!-- Seis entornos reales del mismo portfolio, ordenados por region. Uno
-         on-premise y cinco en la nube. Sustituye al diagrama abstracto porque
-         las interfaces de verdad dicen lo mismo y lo dicen con evidencia. -->
-    <div class="rv" style="margin-top:clamp(54px,6vw,96px)">
-      <p class="k">The same portfolio, market by market</p>
-      <div class="regions">
-
-        <div class="region">
-          <p class="k">United Kingdom</p>
-          <figure>
-            <img src="images/CCH%20ifirm%20UK_On%20premise%20_01.png" width="655" height="369" loading="lazy" decoding="async"
-                 alt="The on-premise product on Windows: a dense ribbon of icons across the top, a client record open on the Document Centre tab, and a list of bills, correspondence and portal messages beside a preview of the invoice.">
-            <figcaption>On premise · Document centre</figcaption>
-          </figure>
-          <figure>
-            <img src="images/CCH%20ifirm%20UK_02.png" width="761" height="369" loading="lazy" decoding="async"
-                 alt="Accounts Production in the cloud: the client overview with business details along the top, a validations panel sorting fifteen items into errors, warnings and information, and the financial overview below.">
-            <figcaption>Cloud · Accounts Production</figcaption>
-          </figure>
-        </div>
-
-        <div class="region">
-          <p class="k">Canada</p>
-          <figure>
-            <img src="images/CCH%20ifirm%20Canada%20Tax%20Prep_03.png" width="816" height="380" loading="lazy" decoding="async"
-                 alt="Taxprep Pro: a table of corporate returns with client code, business number, return status, filing eligibility and tax year dates, above a paging control.">
-            <figcaption>Tax Prep · Corporate returns</figcaption>
-          </figure>
-          <figure>
-            <img src="images/CCH%20ifirm%20Canada_05.png" width="824" height="399" loading="lazy" decoding="async"
-                 alt="The firm dashboard: a left navigation listing firm applications and the Taxprep products, beside panels for team efficiency, work in progress by partner, resource allocation and annual revenue.">
-            <figcaption>Cloud · Dashboard</figcaption>
-          </figure>
-        </div>
-
-        <div class="region">
-          <p class="k">Asia Pacific</p>
-          <figure>
-            <img src="images/CCH%20ifirm%20APAC%20Tax%20Return_04.png" width="655" height="372" loading="lazy" decoding="async"
-                 alt="An individual tax return in preparation: a section list down the left from front cover to tax summary, and a form of personal details, residency dates and addresses on the right.">
-            <figcaption>Tax · Individual return</figcaption>
-          </figure>
-          <figure>
-            <img src="images/CCH%20ifirm%20APAC_04.png" width="778" height="375" loading="lazy" decoding="async"
-                 alt="Contact details in the cloud product: a dark left navigation, a row of actions across the top, and the client summary split into client details, communication details and address.">
-            <figcaption>Cloud · Contacts</figcaption>
-          </figure>
-        </div>
-
-      </div>
-      <p style="margin-top:clamp(26px,2.8vw,40px);font-size:15.5px">Each one internally reasonable. Each one with its own navigation model, its own vocabulary, its own idea of where a client lives. Nothing shared across the gaps.</p>
-    </div>
-
-    <div class="rv" style="margin-top:clamp(44px,5vw,72px)">
-      <p class="k">Markets</p>
-      <ul class="tags">
-        <li>United Kingdom</li><li>Netherlands</li><li>Belgium</li><li>Italy</li>
-        <li>Scandinavia</li><li>Europe</li><li>Global</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- 04 · THE CLOUD CHANGED THE PROBLEM ....................................... -->
-<section class="sec sec--open" id="cloud">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">03</div>
-      <div>
-        <p class="k">Cloud migration</p>
-        <h2><span class="ln"><i>Then the cloud</i></span><span class="ln"><i>changed the problem</i></span></h2>
-        <div class="rule"></div>
-        <p class="lead">Moving a product to the cloud is not a re-skin. It changes what the product is allowed to know about the person using it.</p>
-      </div>
-    </div>
-
-    <div class="two-a" style="margin-top:clamp(46px,5vw,80px)">
-      <div class="rv">
-        <p>On-premise software had been a set of applications a firm installed and opened one at a time. Nobody expected them to know about each other, because they could not.</p>
-        <p>In the cloud they became parts of one environment, and people started expecting them to behave that way. That expectation is the whole design problem.</p>
-      </div>
-      <div class="rv" data-d="1">
-        <p class="k">What that reframing touched</p>
-        <ul class="p">
-          <li><span class="i">01</span><span>Navigation and information architecture</span></li>
-          <li><span class="i">02</span><span>Identity and authentication</span></li>
-          <li><span class="i">03</span><span>Client context across applications</span></li>
-          <li><span class="i">04</span><span>Product discovery and entry points</span></li>
-          <li><span class="i">05</span><span>Cross-product relationships and journeys</span></li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- El antes y el despues de la migracion, uno al lado del otro. A la
-         izquierda una aplicacion que se instalaba y se abria sola; a la derecha
-         un panel que da por hecho que los demas productos existen. La distancia
-         entre las dos es el capitulo entero. -->
-    <div class="two rv" style="margin-top:clamp(50px,6vw,90px)">
-      <figure>
-        <p class="tag-d">From</p>
-        <img class="figimg" src="images/from%20on%20premise.png" width="655" height="369" loading="lazy" decoding="async"
-             alt="The on-premise product on Windows: a dense ribbon of icons across the top, a client record open on the Document Centre tab, and a list of bills, correspondence and portal messages beside a preview of the invoice.">
-        <figcaption>Installed software, opened on its own</figcaption>
-      </figure>
-      <figure>
-        <p class="tag-d">To</p>
-        <img class="figimg" src="images/To%20the%20could.png" width="742" height="360" loading="lazy" decoding="async"
-             alt="The services panel in the cloud product: each product a firm subscribes to shown as a card with a short description and a launch action, marked as subscribed.">
-        <figcaption>One environment, several products</figcaption>
-      </figure>
-    </div>
-
-  </div>
-</section>
-
-<!-- 05 · UNDERSTANDING THE SYSTEM ............................................ -->
-<section class="sec tint" id="system-map">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">04</div>
-      <div>
-        <p class="k">Understanding the system</p>
-        <h2><span class="ln"><i>Before designing, I had to</i></span><span class="ln"><i>understand what was</i></span><span class="ln"><i>actually connected</i></span></h2>
-        <div class="rule"></div>
-        <p class="lead">In an ecosystem the interface is the last thing you should decide. Everything above it changes what it needs to be.</p>
-      </div>
-    </div>
-
-
-    <!-- El artefacto real del capitulo: el recorrido tal y como se hacia, con
-         la banda que marca hasta donde sobrevive el contexto de cliente antes
-         de tener que volver a establecerlo. -->
-    <figure class="rv rv--mask drift" style="margin-top:clamp(44px,5vw,76px)">
-      <img class="figimg" src="images/IMAGE_05.png" width="3195" height="1051" loading="lazy" decoding="async"
-           alt="The journey mapped end to end: login, select a client, pick a product, work in accounts, exit to another product, work in tax, then remove the client and start again. A band across the middle marks how far the client context survives before it has to be established again.">
-      <figcaption>The client context logic</figcaption>
-    </figure>
-
-  </div>
-</section>
-
-<!-- 06 · MY ROLE ............................................................. -->
-<section class="sec" id="role">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">05</div>
-      <div>
-        <p class="k">Scope and role</p>
-        <h2><span class="ln"><i>My work moved</i></span><span class="ln"><i>between three levels</i></span></h2>
-        <div class="rule"></div>
-      </div>
-    </div>
-
-    <div class="levels rv">
-      <div class="level">
-        <h3>System</h3>
-        <p>How products connect. Architecture, navigation, identity, context, the relationships the interface has to express.</p>
-      </div>
-      <div class="level">
-        <h3>Product</h3>
-        <p>How workflows work. Sequence, grouping, what belongs on a screen and what belongs somewhere else.</p>
-      </div>
-      <div class="level">
-        <h3>Detail</h3>
-        <p>How people interact with the interface. States, naming, feedback, the small decisions that make dense software usable.</p>
-      </div>
-    </div>
-
-    <div class="two-b" style="margin-top:clamp(46px,5vw,80px)">
-      <div class="rv">
-        <div class="facts">
-          <div class="fact"><span class="fk">Role</span><span class="fv">Senior Product Designer</span></div>
-          <div class="fact"><span class="fk">Products</span><span class="fv">Accounting, tax, client management, billing, documents</span></div>
-          <div class="fact"><span class="fk">Markets</span><span class="fv">UK, Netherlands, Belgium, Italy, Scandinavia</span></div>
-          <div class="fact"><span class="fk">Worked with</span><span class="fv">Product managers, engineers, researchers, other designers, regional stakeholders</span></div>
-          <div class="fact"><span class="fk">Contributed to</span><span class="fv">The company design system</span></div>
-        </div>
-      </div>
-      <div class="rv" data-d="1">
-        <p>I designed end to end: understanding the workflow, mapping the information architecture, designing the interaction, testing it, and staying with it through build.</p>
-        <p>Some of the work was new product design. A lot of it was improving software that already existed and already had users, which is a different discipline: you inherit decisions, constraints and habits, and you have to decide which of them are worth changing.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 08 · FINDING THE REAL PROBLEMS ........................................... -->
-<section class="sec sec--open" id="judgement">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">06</div>
-      <div>
-        <p class="k">Finding the real problems</p>
-        <h2><span class="ln"><i>Not every difference</i></span><span class="ln"><i>was a problem</i></span></h2>
-        <div class="rule"></div>
-      </div>
-    </div>
-
-    <div style="margin-top:clamp(44px,5vw,80px)">
-      <p class="principle rv">Global consistency, <i>regional flexibility.</i></p>
-      <p class="lead rv" data-d="1">Not every country needs an identical interface. They need a coherent system that can adapt without fragmenting.</p>
-    </div>
-
-    <!-- La misma pantalla en los dos extremos de la decision: el dashboard tal
-         y como existia en un mercado, y el dashboard unificado. Es el ejemplo
-         mas claro de lo que significa unificar sin aplanar. -->
-    <div class="two rv" style="margin-top:clamp(50px,6vw,90px)">
-      <figure>
-        <p class="tag-d">Region</p>
-        <img class="figimg" src="images/06-01.png" width="1677" height="812" loading="lazy" decoding="async"
-             alt="The dashboard as it existed in one market: a left navigation listing firm applications and the Taxprep products, beside panels for team efficiency, work in progress by partner, resource allocation and annual revenue.">
-        <figcaption>The dashboard in one market</figcaption>
-      </figure>
-      <figure>
-        <p class="tag-d">Global</p>
-        <img class="figimg" src="images/06-02.png" width="1280" height="810" loading="lazy" decoding="async"
-             alt="The unified dashboard: one navigation down the left, and a grid of panels showing last returns, resource allocation, work in progress by partner, documents and annual revenue.">
-        <figcaption>The dashboard as one system</figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
-
-<!-- 09 · THE FOUR DESIGN PROBLEMS ............................................ -->
-<section class="sec tint sec--tight" id="problems">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">07</div>
-      <div>
-        <p class="k">The four design problems</p>
-        <h2><span class="ln"><i>Four questions,</i></span><span class="ln"><i>asked in order</i></span></h2>
-        <div class="rule"></div>
-        <p class="lead">Everything that follows is an answer to one of these. They are not four projects. They are four faces of the same problem.</p>
-      </div>
-    </div>
-
-    <div class="qs rv">
-      <div class="q"><span class="qn">01</span><p>How do separate products become one environment?</p></div>
-      <div class="q"><span class="qn">02</span><p>How does context survive across products?</p></div>
-      <div class="q"><span class="qn">03</span><p>How do you make dense professional software easier to work with without oversimplifying it?</p></div>
-      <div class="q"><span class="qn">04</span><p>How do individual solutions become reusable patterns?</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- 10 · DESIGN PROBLEM 01 ................................................... -->
-<section class="sec sec--open" id="one-environment">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">08</div>
-      <div>
-        <p class="k">Design problem 01</p>
-        <h2><span class="ln"><i>How do separate products</i></span><span class="ln"><i>become one environment?</i></span></h2>
-        <div class="rule"></div>
-        <p class="lead">Contacts, Jobs &amp; Billing, Tax, Documents, Time &amp; Billing, Client Accounting, Reporting. Each had its own navigation model, and each model was internally reasonable.</p>
-      </div>
-    </div>
-
-    <div class="two" style="margin-top:clamp(46px,5vw,80px)">
-      <div class="rv">
-        <p>Put together, they were not. A user crossing from one to another had to relearn where things live, what the hierarchy means and how to get back.</p>
-        <p>I worked on the level above the screens: information architecture, global navigation, contextual navigation, entry points into each product, and the relationships between applications that the interface had to express.</p>
-      </div>
-      <div class="rv" data-d="1">
-        <p class="pull" style="margin-top:clamp(28px,3vw,44px)">System-level problems, not styling problems.</p>
-      </div>
-    </div>
-
-
-    <div class="two-a" style="margin-top:clamp(54px,6vw,96px)">
-      <div class="rv">
-        <p class="k">Entry point</p>
-        <p>A dashboard in a growing ecosystem has one honest job: get the person to the right place, with the right context, quickly.</p>
-        <p>The temptation is to make it the product, to fill it with everything because everything is available. That produces a screen people scan once and then bypass. I designed it as a way in, not as the work itself.</p>
-      </div>
-      <div class="rv" data-d="1">
-        <p class="k">What it had to do</p>
-        <ul class="p">
-          <li><span class="i">01</span><span>Make the product ecosystem understandable at a glance</span></li>
-          <li><span class="i">02</span><span>Support discovery of products a firm may not know it has</span></li>
-          <li><span class="i">03</span><span>Establish hierarchy between frequent and occasional work</span></li>
-          <li><span class="i">04</span><span>Carry cross-product relationships, not just links</span></li>
-        </ul>
-      </div>
-    </div>
-
-    <figure class="rv rv--mask drift" style="margin-top:clamp(50px,6vw,90px)">
-      <img class="figimg" src="images/IMAGE_10.png" width="1280" height="810" loading="lazy" decoding="async"
-           alt="The CCH iFirm dashboard: the product navigation down the left, and a grid of panels showing last returns, resource allocation, work in progress by partner, documents and annual revenue.">
-      <figcaption>Dashboard · Wolters Kluwer</figcaption>
-    </figure>
-
-    <div class="two" style="margin-top:clamp(54px,6vw,96px)">
-      <div class="rv">
-        <p class="k">Identity and authentication</p>
-        <p>I worked on moving towards a unified authentication and single sign-on experience across Europe. On a slide this is a technical project. In use, it is the first thing every person meets, every day, before any of the design work further in gets a chance.</p>
-      </div>
-      <div class="rv" data-d="1">
-        <p>It had to be consistent across products that had signed people in differently for years, hold up against regional considerations, and scale as more products joined. Getting it wrong would have been felt everywhere at once.</p>
-        <p>This is what I mean by designing at ecosystem level: the decision is made once and lands in every product.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 11 · DESIGN PROBLEM 02 ................................................... -->
-<section class="sec tint" id="context">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">09</div>
-      <div>
-        <p class="k">Design problem 02</p>
-        <h2><span class="ln"><i>Context is</i></span><span class="ln"><i>a design object</i></span></h2>
-        <div class="rule"></div>
-      </div>
-    </div>
-
-    <div class="two" style="margin-top:clamp(40px,5vw,70px)">
-      <div class="rv">
-        <p>I mapped the existing workflow to see exactly where context was lost and what it cost each time, then explored how a persistent client context could travel with the user across applications.</p>
-      </div>
-      <div class="rv" data-d="1">
-        <p>Treating context as an object the system carries, rather than a selection each screen makes, changes the interaction design of every product that touches it. That is why it was worth the mapping before the designing.</p>
-      </div>
-    </div>
-
-    <div class="two" style="margin-top:clamp(50px,6vw,90px)">
+    <div class="two" style="margin-top:clamp(44px,6vw,86px)">
       <figure class="rv">
-        <p class="tag-d">Before</p>
-        <img class="figimg" src="images/IMAGE_08.png?v=2" width="1280" height="810" loading="lazy" decoding="async"
-             alt="Firm Settings with the product panel open on the right, listing the practice tools and the products a firm has access to, with two markers set against the two separate ways into the same ecosystem.">
-        <figcaption>3 levels of navigation</figcaption>
+        <img class="figimg" src="images/from on premise.png" alt="On-premise environment: separate products, each with its own entry point." loading="lazy" decoding="async">
+        <figcaption>On-premise · one environment per product</figcaption>
       </figure>
-      <figure class="rv rv--mask" data-d="1">
-        <p class="tag-d">Proposed</p>
-        <img class="figimg" src="images/IMAGE_09.png?v=2" width="1280" height="810" loading="lazy" decoding="async"
-             alt="A single left navigation running from Dashboard through contacts, jobs and billing to the compliance products and settings, with two markers set against the levels of the hierarchy.">
-        <figcaption>Unified navigation experience</figcaption>
+      <figure class="rv" data-d="1">
+        <img class="figimg" src="images/To the could.png" alt="Cloud environment: products gathered under a single connected experience." loading="lazy" decoding="async">
+        <figcaption>Cloud · one connected experience</figcaption>
       </figure>
     </div>
+  </div>
+</section>
 
-    <!-- El tablero entero del problema de contexto: el enunciado, el desajuste
-         entre como piensa un fiscalista y como le lleva el producto, y el
-         recorrido anotado pantalla a pantalla. Es la prueba de los dos parrafos
-         de arriba. A lo ancho porque es denso: a media columna no se leeria una
-         sola anotacion. -->
-    <figure class="rv rv--mask" style="margin-top:clamp(50px,6vw,90px)">
-      <img class="figimg" src="images/09-context-concept.png" width="2048" height="1607" loading="lazy" decoding="async"
-           alt="The concept board for client context: the problem statement, the mismatch between how tax professionals think, client then form then year then action, and how the product leads, form then client, and an annotated walk through the real screens.">
-      <figcaption>The client context problem, mapped end to end</figcaption>
-    </figure>
+<!-- 08 · DESIGN CHALLENGE .................................................... -->
+<section class="pivot" id="challenge">
+  <div class="w">
+    <span class="k rv">Design challenge</span>
+    <p class="stmt rv" data-d="1">How might we help users move between products without losing context?</p>
+  </div>
+</section>
 
-    <!-- La solucion del problema 02, en texto. Sin imagen: la unica que habia
-         (IMAGE_07) esta retirada a peticion de Laura, dos veces. Si llega un
-         artefacto nuevo de la solucion, entra debajo de estas dos columnas. -->
-    <div class="two-a" style="margin-top:clamp(54px,6vw,96px)">
-      <div class="rv">
-        <p class="k">The solution</p>
-        <p>A client context that stays with the person instead of being chosen again on every screen. The switcher sits beside the work rather than in front of it, and the links out to documents, relationships and the client record open without dropping the client on the way.</p>
+<!-- 09 · THE RESEARCH INSIGHT ................................................ -->
+<section class="sec sec--open" id="insight">
+  <div class="w">
+    <div class="head rv">
+      <span class="n">02</span>
+      <div>
+        <span class="k">The research insight</span>
+        <h2>Users don't think in products or clients. They think in the work they need to do.</h2>
+        <div class="rule prism-rule"></div>
       </div>
-      <div class="rv" data-d="1">
-        <p class="k">What it changes</p>
+    </div>
+  </div>
+</section>
+
+<!-- 10 · RESEARCH ............................................................ -->
+<section class="sec tint" id="research">
+  <div class="w">
+    <span class="k rv">The research insight</span>
+    <p class="principle rv" data-d="1" style="max-width:26ch">There is a mismatch between the user's mental model and the product model.</p>
+
+    <div class="two-a rv" data-d="2" style="margin-top:clamp(44px,6vw,80px)">
+      <div>
+        <span class="tag-d">The key user mental model was</span>
+        <p class="lead">&ldquo;I'm working on a tax return.&rdquo;</p>
+      </div>
+      <div>
+        <span class="tag-d">The existing system, however, was built around a different mental model</span>
+        <p class="lead">&ldquo;I'm working on a client.&rdquo; &nbsp;&ldquo;I'm working on a product.&rdquo;</p>
+      </div>
+    </div>
+
+    <div class="two rv" data-d="3" style="margin-top:clamp(44px,6vw,80px)">
+      <div>
+        <span class="tag-d">A design opportunity might be</span>
+        <p>Shift the experience from client-based navigation towards workflow continuity.</p>
+      </div>
+      <div>
+        <span class="tag-d">Research method</span>
         <ul class="p">
-          <li><span class="i">01</span><span>The client is selected once, not once per product</span></li>
-          <li><span class="i">02</span><span>Moving between applications keeps the work in view</span></li>
-          <li><span class="i">03</span><span>The switcher stops being a full list to search through</span></li>
+          <li><span class="i">5</span>Foundational research sessions with existing customers</li>
+          <li><span class="i">2</span>Meetings with subject matter experts</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · THE CORE PROBLEM .................................................... -->
+<section class="sec sec--open" id="core-problem">
+  <div class="w">
+    <div class="head rv">
+      <span class="n">03</span>
+      <div>
+        <span class="k">The core problem</span>
+        <h2>Unifying the Wolters Kluwer product ecosystem exposed a fundamental information architecture problem.</h2>
+        <div class="rule prism-rule"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 · TWO CONTEXT MODELS .................................................. -->
+<section class="sec sec--tight" id="models">
+  <div class="w">
+    <span class="k rv">The core problem</span>
+    <div class="rv" data-d="1" style="margin-top:clamp(24px,3vw,40px)">
+      <div class="modelos modelos--head">
+        <p class="k">Model</p>
+        <p class="k">Step 1</p>
+        <p class="k">Step 2</p>
+        <p class="k">Step 3</p>
+        <p class="k">Risk</p>
+      </div>
+      <div class="modelos">
+        <p><strong>Client context</strong></p>
+        <p>Select a client</p>
+        <p>Select a product</p>
+        <p>Work</p>
+        <p class="mk">Systems only work with a client selected</p>
+      </div>
+      <div class="modelos">
+        <p><strong>Firm context</strong></p>
+        <p>Select a product</p>
+        <p>Select a client</p>
+        <p>Work</p>
+        <p class="mk">Breaks workflow continuity</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 · THE RISK OF CLIENT-CONTEXT .......................................... -->
+<!-- 14 · THE RISK OF FIRM-CONTEXT ............................................ -->
+<section class="sec" id="risks">
+  <div class="w">
+    <div class="two rv">
+      <div>
+        <h3>The risk of client-context</h3>
+        <ul class="p">
+          <li><span class="i">01</span>On-premise and CCH iFirm compliance apps are client centric</li>
+          <li><span class="i">02</span>Some applications only work with client context</li>
+          <li><span class="i">03</span>The current client switcher opens the full list of clients</li>
+          <li><span class="i">04</span>The component is inefficient: slow and not smart</li>
+        </ul>
+      </div>
+      <div>
+        <h3>The risk of firm-context</h3>
+        <ul class="p">
+          <li><span class="i">01</span>Doesn't support a continuous workflow</li>
+          <li><span class="i">02</span>Users have to go back and forward to select another client</li>
+          <li><span class="i">03</span>Open the selected client documentation or data</li>
+          <li><span class="i">04</span>Move to the next job</li>
         </ul>
       </div>
     </div>
 
-
+    <p class="pull rv" data-d="2" style="margin-top:clamp(50px,6vw,90px)">The product makes users navigate between contexts instead of helping them progress through their work.</p>
   </div>
 </section>
 
-<!-- 12 · LO QUE NO CONSTRUI ................................................. -->
-<!-- El capitulo que faltaba. CLAUDE.md dice que "what I chose not to build" es
-     una de las dos secciones mas fuertes de un caso y que todos la necesitan;
-     Story 1 no la tenia. El tablero de las tres propuestas es exactamente eso:
-     tres caminos con su limitacion escrita al lado. No digo cual se construyo
-     porque el tablero no lo dice y no me lo voy a inventar. -->
+<!-- 15 · DESIGN QUESTION ..................................................... -->
+<section class="pivot" id="design-question">
+  <div class="w">
+    <span class="k rv">Design question</span>
+    <p class="stmt rv" data-d="1" style="font-size:var(--lb-display-l);line-height:var(--lb-lh-display-l);max-width:22ch">How can we make client context persistent across the experience without adding another layer of navigation or creating unnecessary development complexity?</p>
+  </div>
+</section>
+
+<!-- 16 · MY ROLE ............................................................. -->
+<!-- 17 · MY ROLE 2 ........................................................... -->
+<section class="sec sec--open light" id="role">
+  <div class="w">
+    <div class="head rv">
+      <span class="n">04</span>
+      <div>
+        <span class="k">My role</span>
+        <h2>From problem definition to implementation</h2>
+        <div class="rule prism-rule"></div>
+      </div>
+    </div>
+
+    <div class="three rv" data-d="1" style="margin-top:clamp(40px,5vw,72px)">
+      <div>
+        <span class="num6">01</span>
+        <span class="k">Frame the problem</span>
+        <p>Users were working across multiple products, but the experience didn't preserve their client context.</p>
+      </div>
+      <div>
+        <span class="num6">02</span>
+        <span class="k">Understand the user</span>
+        <p>Conducted foundational research and interviews with SMEs to understand the jobs to be done, user goals and motivations.</p>
+      </div>
+      <div>
+        <span class="num6">03</span>
+        <span class="k">Explore solutions</span>
+        <p>Explored multiple solutions for preserving client context across products while enhancing the user workflow.</p>
+      </div>
+    </div>
+
+    <div class="three rv" data-d="2" style="margin-top:clamp(34px,4vw,58px)">
+      <div>
+        <span class="num6">04</span>
+        <span class="k">Validate</span>
+        <p>Built a coded prototype of the proposed interaction.</p>
+      </div>
+      <div>
+        <span class="num6">05</span>
+        <span class="k">Align and ship</span>
+        <p>Presented the findings and the different solution options to stakeholders.</p>
+      </div>
+      <div>
+        <span class="num6">06</span>
+        <span class="k">Design handoff</span>
+        <p>Applied the existing design system to the new experience, ensuring the solution was consistent with the broader cloud product ecosystem.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 18 · EXPECTED OUTCOME .................................................... -->
+<section class="sec sec--open" id="expected">
+  <div class="w">
+    <div class="head rv">
+      <span class="n">05</span>
+      <div>
+        <span class="k">Expected outcome</span>
+        <h2>Ensure the post-migration experience preserves a strong, persistent client context that aligns with UK user workflows, while fitting coherently within Global iFirm's existing firm-level architecture.</h2>
+        <div class="rule prism-rule"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 19 · THE OPTIONS ......................................................... -->
 <section class="sec tint" id="options">
   <div class="w">
     <div class="head rv">
-      <div class="n">10</div>
+      <span class="n">06</span>
       <div>
-        <p class="k">What I did not build</p>
-        <h2><span class="ln"><i>Three ways to solve it,</i></span><span class="ln"><i>and what each one cost</i></span></h2>
-        <div class="rule"></div>
+        <span class="k">The options</span>
+        <h2>Three ways to solve the problem</h2>
+        <div class="rule prism-rule"></div>
       </div>
     </div>
 
-    <div class="two" style="margin-top:clamp(40px,5vw,70px)">
-      <div class="rv">
-        <p>I put three options on the table rather than one. Deep links that carry the client with you. The same, plus a client switcher inside the product. And a contextual layer that suggests the next step instead of waiting to be asked.</p>
-      </div>
-      <div class="rv" data-d="1">
-        <p>Each one has its limitation written next to it, and what it still does not solve. That is the part worth showing: choosing between options is the work.</p>
-      </div>
-    </div>
-
-    <!-- El tablero se queda dentro del margen del texto, como el resto de la
-         pagina. Su letra no se lee a este tamano y no se leia tampoco a sangre:
-         es un documento de trabajo, no una lamina. Lo que se lee es la forma,
-         tres caminos con la misma retícula, y el argumento va debajo recortado
-         a tamano legible. -->
-    <figure class="rv rv--mask" style="margin-top:clamp(50px,6vw,90px)">
-      <img class="figimg" src="images/10-three-proposals.png" width="1846" height="2048" loading="lazy" decoding="async"
-           alt="Three proposals side by side: deep linking with context preservation, the same with an in-app client switcher, and both plus an AI contextual assistant. Each carries its concept, how it works, positive impact, limitation, who it suits best, and what it still leaves unsolved.">
-      <figcaption>The working board · three proposals, same structure</figcaption>
-    </figure>
-
-    <div class="two-a" style="margin-top:clamp(50px,6vw,90px)">
-      <figure class="rv">
-        <img class="figimg" src="images/10-proposal-detail.png" width="560" height="200" loading="lazy" decoding="async"
-             alt="A detail of the first proposal: what it helps with, reduce manual steps, prevent context loss, support a more continuous workflow in the same client context. And below, what is missing: it breaks the client switching workflow.">
-        <figcaption>Proposal 01 · what it solves, and what it breaks</figcaption>
-      </figure>
-      <div class="rv" data-d="1">
-        <p class="pull" style="margin-top:clamp(20px,2.4vw,36px)">A proposal without a stated cost is not a proposal.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- 13 · DESIGN PROBLEM 04 ................................................... -->
-<section class="sec tint" id="patterns">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">11</div>
+    <div class="three rv" data-d="1" style="margin-top:clamp(40px,5vw,72px)">
       <div>
-        <p class="k">Design problem 04</p>
-        <h2><span class="ln"><i>When the same problem</i></span><span class="ln"><i>appeared twice, it probably</i></span><span class="ln"><i>did not belong to one screen</i></span></h2>
-        <div class="rule"></div>
-      </div>
-    </div>
-
-    <div class="two" style="margin-top:clamp(46px,5vw,80px)">
-      <div class="rv">
-        <p>I applied the company design system across products and used it to pull inconsistent experiences back towards a shared language, including acquired products that had arrived with conventions of their own.</p>
-        <p>And I contributed to it regularly. Working across products meant I kept meeting the same problem in different places, which is exactly the signal that something belongs in the system rather than in a screen.</p>
-      </div>
-      <div class="rv" data-d="1">
+        <span class="num6">01</span>
+        <span class="k">Context preservation</span>
+        <p>Deep linking with client context.</p>
         <ul class="p">
-          <li><span class="i">01</span><span>Identified patterns that repeated across products</span></li>
-          <li><span class="i">02</span><span>Reduced duplication of solved problems</span></li>
-          <li><span class="i">03</span><span>Brought acquired products closer to the system</span></li>
-          <li><span class="i">04</span><span>Contributed components and patterns back</span></li>
-        </ul>
-        <p style="margin-top:26px">System work also reduces build effort. A pattern designed once, agreed once and implemented once stops three teams solving it three ways.</p>
-      </div>
-    </div>
-
-
-    <figure class="rv drift" style="margin-top:clamp(44px,5vw,76px)">
-      <img class="figimg" src="images/IMAGE_15.png" width="1169" height="431" loading="lazy" decoding="async" style="max-width:1169px"
-           alt="The component library open beside a card component: the layers and assets panel listing the shared components, the card selected with its dimensions, and two of its states, one plain and one selected with an overflow menu open.">
-      <figcaption>Design system work</figcaption>
-    </figure>
-
-    <div class="two" style="margin-top:clamp(54px,6vw,96px)">
-      <div class="rv">
-        <p class="k">Accessibility was part of the same quality problem</p>
-        <p>I reviewed products for accessibility and usability together, because in dense professional software they find the same faults. Weak hierarchy, low contrast, meaning carried by colour alone and unclear interactive states fail an accessibility audit and also slow down everyone else.</p>
-      </div>
-      <div class="rv" data-d="1">
-        <p>Treating it as a quality lens rather than a compliance checkbox meant the fixes improved the product for all users, not only the ones the standard was written for.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 14 · RESEARCH AND VALIDATION ............................................. -->
-<section class="sec sec--open" id="research">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">12</div>
-      <div>
-        <p class="k">Research and validation</p>
-        <h2><span class="ln"><i>Research changed</i></span><span class="ln"><i>the direction</i></span></h2>
-        <div class="rule"></div>
-        <p class="lead">I led and contributed to foundational research to understand what users actually needed, and tested concepts with real users and customers before committing to them.</p>
-      </div>
-    </div>
-
-    <div class="chain rv" style="margin-top:clamp(44px,5vw,76px)">
-      <div>
-        <p class="ck">Research</p>
-        <p>Understanding current workflows, pain points, expectations and future needs, including where regional practice genuinely differs.</p>
-      </div>
-      <div>
-        <p class="ck">Insight</p>
-        <p>Which differences were accidental and which were real. Where standardisation would help and where it would break someone's job.</p>
-      </div>
-      <div>
-        <p class="ck">Decision</p>
-        <p>What to unify, what to leave regional, what to sequence first, and what not to build at all.</p>
-      </div>
-      <div>
-        <p class="ck">Validation</p>
-        <p>Prototypes tested with the people who do the work, then designed again with what came back.</p>
-      </div>
-    </div>
-
-    <div class="two" style="margin-top:clamp(46px,5vw,80px)">
-      <div class="rv">
-        <p class="pull">Research was most useful when it proved me wrong.</p>
-      </div>
-      <div class="rv" data-d="1">
-        <p>Testing a concept with people who do the work daily is the fastest way to find the assumption you did not know you had made, and it is far cheaper to find it in a prototype than in a release.</p>
-        <p>Where testing confirmed a direction, it did something else useful: it gave the team the evidence to commit properly instead of hedging.</p>
-      </div>
-    </div>
-
-    <figure class="rv rv--mask drift" style="margin-top:clamp(50px,6vw,90px)">
-      <img class="figimg" src="images/IMAGE_14.png" width="2126" height="1086" loading="lazy" decoding="async"
-           alt="The research board: two participant profiles with their personality scales, needs, motivations and pain points, a user journey map for each one running from planning the week through shopping and cooking to eating, the opportunities drawn out of every stage, and a context tree pulling the whole set into one structure.">
-      <figcaption>Synthesis to decision</figcaption>
-    </figure>
-  </div>
-</section>
-
-<!-- 16 · HANDOFF AND ENGINEERING ............................................. -->
-<section class="sec sec--open" id="handoff">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">13</div>
-      <div>
-        <p class="k">Handoff</p>
-        <h2><span class="ln"><i>My handoff was not a file.</i></span><span class="ln"><i>It was a shared</i></span><span class="ln"><i>understanding.</i></span></h2>
-        <div class="rule"></div>
-      </div>
-    </div>
-
-    <div class="hand rv">
-      <div class="hstep">
-        <div class="hn">01</div>
-        <div>
-          <h3>Prepare the flow</h3>
-          <p>I made sure the full journey was clear, not only individual screens. A screen that makes sense alone can still be impossible to arrive at.</p>
-        </div>
-      </div>
-      <div class="hstep">
-        <div class="hn">02</div>
-        <div>
-          <h3>Define behaviour</h3>
-          <p>States, interactions, empty states, errors and edge cases. In professional software the edge cases are not rare, they are Tuesday.</p>
-        </div>
-      </div>
-      <div class="hstep">
-        <div class="hn">03</div>
-        <div>
-          <h3>Connect the system</h3>
-          <p>Components, patterns and references to the design system, so what gets built is the shared thing and not a local copy of it.</p>
-        </div>
-      </div>
-      <div class="hstep">
-        <div class="hn">04</div>
-        <div>
-          <h3>Work with engineering</h3>
-          <p>Questions, technical constraints and alternatives. The constraint is usually real, and the alternative is usually findable.</p>
-        </div>
-      </div>
-      <div class="hstep">
-        <div class="hn">05</div>
-        <div>
-          <h3>Review the build</h3>
-          <p>Checking the implementation and resolving what changed on the way, before it reached the people who use it.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- El artefacto real del handoff: el recorrido entero montado pantalla a
-         pantalla, con los conectores que dicen desde donde se llega a cada una.
-         Es lo que sostiene los cinco pasos de arriba. -->
-    <figure class="rv rv--mask drift" style="margin-top:clamp(50px,6vw,90px)">
-      <img class="figimg" src="images/13.Design-handoff.png" width="1746" height="660" loading="lazy" decoding="async"
-           alt="Handoff board titled select a contact: the dashboard, the contacts list and the job details screen laid out in sequence, with connectors running from the login entry point through each screen, so the whole journey can be read at once rather than screen by screen.">
-      <figcaption>Handoff · the flow, not the screens</figcaption>
-    </figure>
-  </div>
-</section>
-
-<!-- 17 · STAYING CLOSE TO THE BUILD .......................................... -->
-<section class="sec tint" id="build">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">14</div>
-      <div>
-        <p class="k">Engineering collaboration</p>
-        <h2><span class="ln"><i>The handoff often</i></span><span class="ln"><i>changed the design too</i></span></h2>
-        <div class="rule"></div>
-      </div>
-    </div>
-
-    <div class="two" style="margin-top:clamp(40px,5vw,70px)">
-      <div class="rv">
-        <p>Handoff was not the moment when I disappeared. Engineering questions often exposed assumptions, constraints or missing states that had not appeared during the design phase.</p>
-      </div>
-      <div class="rv" data-d="1">
-        <p>Sometimes that meant changing the implementation. Sometimes it meant changing the design.</p>
-        <p class="pull" style="margin-top:clamp(28px,3vw,44px)">I stayed close to the build.</p>
-      </div>
-    </div>
-
-    <div class="levels rv" style="margin-top:clamp(44px,5vw,76px)">
-      <div class="level"><h3>Before build</h3><p>Clarify the flow, so the first question is not what happens here.</p></div>
-      <div class="level"><h3>During build</h3><p>Answer questions and resolve ambiguity while it is still cheap to resolve.</p></div>
-      <div class="level"><h3>After build</h3><p>Review the implementation against the intent, and agree what actually changed.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- 18 · AI AND CODE GAMES ................................................... -->
-<section class="sec" id="ai">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">15</div>
-      <div>
-        <p class="k">Emerging technology</p>
-        <h2><span class="ln"><i>AI as a tool,</i></span><span class="ln"><i>not a theme</i></span></h2>
-        <div class="rule"></div>
-      </div>
-    </div>
-
-    <div class="two" style="margin-top:clamp(40px,5vw,70px)">
-      <div class="rv">
-        <p class="k">In the design process</p>
-        <p>I use AI to move faster through the parts of the work that are volume rather than judgement: exploring more concepts before committing, analysing information, and cutting repetitive production work. It buys time for the thinking, it does not do the thinking.</p>
-      </div>
-      <div class="rv" data-d="1">
-        <p class="k">In the product</p>
-        <p>I also explored where AI could genuinely improve customer workflows in professional software, which is a narrower set of places than the current enthusiasm suggests.</p>
-      </div>
-    </div>
-
-    <div class="two-a rv" style="margin-top:clamp(46px,5vw,80px);padding-top:clamp(30px,3.4vw,48px);border-top:1px solid var(--line)">
-      <div>
-        <p class="k">Also</p>
-        <h3 style="margin:0">Code Games</h3>
-      </div>
-      <div>
-        <p style="margin:0">I took part in Code Games, an internal initiative where people from different teams build something together outside their usual work. I joined to contribute beyond my own projects, to learn directly from engineers and data colleagues, and to get to know people across the company I would never have met through the roadmap.</p>
-      </div>
-    </div>
-
-    <!-- Arranca solo, en silencio y en bucle: el navegador solo permite autoplay
-         si va muteado. preload="auto" para que ya este cargado cuando el lector
-         llegue. Sin controles: la barra nativa del navegador metia una franja
-         gris de interfaz atravesando la composicion. El script del pie lo deja
-         quieto si se ha pedido menos movimiento. -->
-    <figure class="rv" style="margin-top:clamp(34px,4vw,56px)">
-      <video class="figimg" id="code-games" autoplay muted loop playsinline preload="auto"
-             width="1442" height="836">
-        <source src="video/code-games.mp4" type="video/mp4">
-        <a href="video/code-games.mp4">Download the Code Games video</a>
-      </video>
-      <figcaption>Code Games</figcaption>
-    </figure>
-  </div>
-</section>
-
-<!-- 19 · IMPACT ............................................................. -->
-<section class="sec light sec--open" id="impact">
-  <div class="w">
-    <div class="head rv">
-      <div class="n">16</div>
-      <div>
-        <p class="k">Impact</p>
-        <h2><span class="ln"><i>What changed</i></span></h2>
-        <div class="rule"></div>
-      </div>
-    </div>
-
-    <div class="two" style="margin-top:clamp(44px,5vw,76px)">
-      <div class="rv">
-        <ul class="p">
-          <li><span class="i">01</span><span>More coherent experiences across products that had grown apart</span></li>
-          <li><span class="i">02</span><span>Greater consistency across markets, without flattening real local needs</span></li>
-          <li><span class="i">03</span><span>Better cross-product navigation and clearer entry points</span></li>
-          <li><span class="i">04</span><span>Shared foundations and reusable patterns contributed back to the design system</span></li>
+          <li><span class="i">+</span>Lowest effort</li>
+          <li><span class="i">+</span>Solves the core problem</li>
         </ul>
       </div>
-      <div class="rv" data-d="1">
+      <div>
+        <span class="num6">02</span>
+        <span class="k">Context management</span>
+        <p>Deep linking and an in-app client switcher.</p>
         <ul class="p">
-          <li><span class="i">05</span><span>Product decisions validated with users before they were built</span></li>
-          <li><span class="i">06</span><span>Less duplicated design and development work</span></li>
-          <li><span class="i">07</span><span>Improvements shipped into existing professional software</span></li>
-          <li><span class="i">08</span><span>Modernised experiences as products moved to the cloud</span></li>
+          <li><span class="i">+</span>More flexibility</li>
+          <li><span class="i">−</span>More interaction complexity</li>
+        </ul>
+      </div>
+      <div>
+        <span class="num6">03</span>
+        <span class="k">Context assistance</span>
+        <p>Deep linking, switcher and AI.</p>
+        <ul class="p">
+          <li><span class="i">+</span>Highest potential</li>
+          <li><span class="i">−</span>Highest complexity</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 20 · REFLECTION ......................................................... -->
-<section class="sec" id="reflection">
+<figure class="sec sec--tight rv" style="max-width:850px;margin-left:auto;margin-right:auto;padding-left:var(--lb-margin);padding-right:var(--lb-margin)">
+  <img class="figimg" src="images/10-three-proposals.png" alt="Exploration board comparing the three proposals: concept, how it works, positive impact, limitations and research findings for each." loading="lazy" decoding="async">
+  <figcaption>Solution exploration · the three proposals compared</figcaption>
+</figure>
+
+<!-- 20 · THE MATRIX .......................................................... -->
+<section class="sec" id="matrix">
+  <div class="w">
+    <span class="k rv">The matrix</span>
+    <h3 class="rv" data-d="1">Which solution gives the right value for the effort?</h3>
+  </div>
+  <div class="w"><figure class="rv drift" data-d="2" style="margin-top:clamp(30px,4vw,54px)">
+    <img class="figimg" src="images/s1-matrix.jpg" alt="Value against effort matrix plotting the three proposals." loading="lazy" decoding="async">
+    <figcaption>User and product value against implementation effort</figcaption>
+  </figure></div>
+</section>
+
+<!-- 21 · THE STRATEGIC DECISION .............................................. -->
+<section class="sec sec--open tint" id="decision">
   <div class="w">
     <div class="head rv">
-      <div class="n">17</div>
+      <span class="n">07</span>
       <div>
-        <p class="k">Reflection</p>
-        <h2><span class="ln"><i>My learnings</i></span></h2>
-        <div class="rule"></div>
+        <span class="k">The strategic decision</span>
+        <h2>Proposal 1</h2>
+        <div class="rule prism-rule"></div>
+        <p class="lead">Solve the core problem now. Keep the bigger opportunity open.</p>
       </div>
     </div>
 
-    <ul class="lrn rv">
-      <li><span class="i">01</span><p>I learnt to zoom out far enough to understand the system, and in far enough to solve the interaction.</p></li>
-      <li><span class="i">02</span><p>Context is something the system carries, not something each screen asks for again.</p></li>
-      <li><span class="i">03</span><p>Not every difference is a problem. The job was deciding which ones to keep.</p></li>
-      <li><span class="i">04</span><p>Design does not end at handoff. The questions engineering asks are part of the design.</p></li>
-    </ul>
+    <div class="facts rv" data-d="1" style="margin-top:clamp(40px,5vw,72px)">
+      <div class="fact"><span class="fk">User value</span><span class="fv">Preserves client context</span></div>
+      <div class="fact"><span class="fk">Product fit</span><span class="fv">Works with the existing experience</span></div>
+      <div class="fact"><span class="fk">Delivery</span><span class="fv">Lower implementation complexity</span></div>
+      <div class="fact"><span class="fk">Future</span><span class="fv">Keeps the path open for richer contextual experiences</span></div>
+    </div>
   </div>
 </section>
 
-<!-- 21 · CLOSING ............................................................ -->
-<section class="pivot" id="closing">
+<!-- 22 · FROM AN EMPTY STATE ................................................. -->
+<section class="sec sec--tight" id="from-empty">
   <div class="w">
-    <p class="stmt rv">My job was often to design the connection between things that had previously been designed <i>separately.</i></p>
-    <p class="after rv" data-d="1">I am grateful for everything I learnt at Wolters Kluwer.</p>
+    <span class="k rv">The strategic decision</span>
+    <h3 class="rv" data-d="1">From an empty state</h3>
+  </div>
+  <figure class="ph--wide rv" data-d="2" style="margin-top:clamp(26px,3vw,44px)">
+    <img class="figimg" src="images/s1-empty-state.jpg" alt="The product opening with no client selected and nothing to act on." loading="lazy" decoding="async">
+    <figcaption>CCH iFirm · no client context</figcaption>
+  </figure>
+</section>
+
+<!-- 23 · TO A MORE CONNECTED EXPERIENCE ...................................... -->
+<section class="sec sec--tight" id="to-connected">
+  <div class="w">
+    <h3 class="rv">To a more connected experience</h3>
+  </div>
+  <figure class="ph--wide rv" data-d="1" style="margin-top:clamp(26px,3vw,44px)">
+    <img class="figimg" src="images/s1-connected.jpg" alt="The same product with the client context carried across into the destination product." loading="lazy" decoding="async">
+    <figcaption>CCH iFirm · client context carried across</figcaption>
+  </figure>
+</section>
+
+<!-- 24 · THE OUTCOME ......................................................... -->
+<section class="sec sec--open light" id="outcome">
+  <div class="w">
+    <div class="head rv">
+      <span class="n">08</span>
+      <div>
+        <span class="k">The outcome</span>
+        <h2>A simpler solution that worked for users, product and delivery</h2>
+        <div class="rule prism-rule"></div>
+      </div>
+    </div>
+
+    <div class="three rv" data-d="1" style="margin-top:clamp(40px,5vw,72px)">
+      <div>
+        <span class="k">User</span>
+        <h3>Client context is preserved</h3>
+        <p>Users move between products without repeatedly re-establishing their context.</p>
+      </div>
+      <div>
+        <span class="k">Product</span>
+        <h3>A more connected experience</h3>
+        <p>The solution fits the existing product model and design system.</p>
+      </div>
+      <div>
+        <span class="k">Business and delivery</span>
+        <h3>Lower implementation effort</h3>
+        <p>The team avoided the complexity of a more ambitious solution while still solving the core problem.</p>
+      </div>
+    </div>
+
+    <div class="two-a rv" data-d="2" style="margin-top:clamp(46px,6vw,84px)">
+      <span class="k">In closing</span>
+      <p>My contribution was not just designing the interaction. I helped the team identify the right problem, explore the solution space, validate the direction with customers and converge on a solution that was both useful and feasible to build.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 25 · THE SYSTEM .......................................................... -->
+<section class="sec sec--open" id="system">
+  <div class="w">
+    <div class="head rv">
+      <span class="n">09</span>
+      <div>
+        <span class="k">The system</span>
+        <h2>The solution had to feel like part of the product</h2>
+        <div class="rule prism-rule"></div>
+        <p class="lead">The experience needed to work within the existing Global iFirm ecosystem, navigation model and design system.</p>
+      </div>
+    </div>
+
+    <div class="chain rv" data-d="1" style="margin-top:clamp(40px,5vw,72px)">
+      <div><p class="ck">Navigation</p><p>Preserve context across product transitions.</p></div>
+      <div><p class="ck">Information architecture</p><p>Keep the experience clear within the existing structure.</p></div>
+      <div><p class="ck">Design system</p><p>Use established components, patterns and behaviours.</p></div>
+      <div><p class="ck">Consistency</p><p>Make the experience feel native to the receiving product.</p></div>
+    </div>
+
+    <p class="principle rv" data-d="2" style="margin-top:clamp(50px,6vw,90px)">Improve the journey without creating a new interaction model.</p>
+  </div>
+</section>
+
+<!-- 26 · THE EXPERIENCE ...................................................... -->
+<section class="sec sec--tight" id="experience">
+  <div class="w">
+    <span class="k rv">The experience</span>
+    <h3 class="rv" data-d="1">Context follows the user</h3>
+
+    <div class="three rv" data-d="2" style="margin-top:clamp(30px,4vw,52px)">
+      <div>
+        <span class="num6">01</span>
+        <span class="k">Select a client</span>
+        <p>The client becomes the active context.</p>
+      </div>
+      <div>
+        <span class="num6">02</span>
+        <span class="k">Start an action</span>
+        <p>The user navigates to another product.</p>
+      </div>
+      <div>
+        <span class="num6">03</span>
+        <span class="k">Context is preserved</span>
+        <p>The destination opens within the same client context.</p>
+      </div>
+    </div>
+  </div>
+
+  <figure class="ph--bleed rv drift" data-d="3" style="margin-top:clamp(34px,4.4vw,64px)">
+    <img class="figimg" src="images/s1-experience.jpg" alt="Final proposal: the returns list inside CCH iFirm with the active client carried in the header." loading="lazy" decoding="async">
+    <figcaption>Final proposal · less repetition, more continuity</figcaption>
+  </figure>
+</section>
+
+<!-- 27 · THE VALIDATION · WHY CODE ........................................... -->
+<section class="sec sec--open tint" id="validation">
+  <div class="w">
+    <div class="head rv">
+      <span class="n">10</span>
+      <div>
+        <span class="k">The validation</span>
+        <h2>From static screens to a working experience</h2>
+        <div class="rule prism-rule"></div>
+        <p class="lead">I translated the proposed experience into a functional coded prototype to test the interaction, behaviour and feasibility of the solution beyond static designs.</p>
+      </div>
+    </div>
+
+    <div class="chain rv" data-d="1" style="margin-top:clamp(40px,5vw,72px)">
+      <div><p class="ck">Design</p><p>The proposed experience, drawn.</p></div>
+      <div><p class="ck">Coded prototype</p><p>The same experience, running.</p></div>
+      <div><p class="ck">Customer testing</p><p>Five customers, one real task.</p></div>
+      <div><p class="ck">Evidence</p><p>Confidence to proceed.</p></div>
+    </div>
+
+    <div class="two rv" data-d="2" style="margin-top:clamp(46px,6vw,84px)">
+      <div>
+        <span class="k">Why code</span>
+        <ul class="p">
+          <li><span class="i">01</span>Test the real interaction. Identify potential issues before development and refine the solution with a more realistic representation of the product.</li>
+          <li><span class="i">02</span>Explore behaviour. Validate navigation, context and component behaviour across the experience.</li>
+          <li><span class="i">03</span>Reduce implementation uncertainty. Move beyond static screens and test the flow as users would actually experience it.</li>
+        </ul>
+      </div>
+      <div>
+        <span class="k">Built with</span>
+        <ul class="tags">
+          <li>HTML</li><li>CSS</li><li>JavaScript</li><li>TypeScript</li><li>GitHub Copilot</li>
+        </ul>
+        <p style="margin-top:22px">I used GitHub Copilot as a development partner to translate the designed experience into a functional prototype while keeping the design system and interaction decisions consistent with the intended product.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 28 · THE CODED PROTOTYPE ................................................. -->
+<section class="sec sec--tight" id="prototype">
+  <figure class="ph--wide rv">
+    <video src="video/s1-coded-prototype.mp4" muted loop playsinline preload="metadata"
+      aria-label="The coded prototype running: selecting a client, moving to another product and arriving with the context intact."></video>
+    <figcaption>The coded prototype · HTML, CSS, JavaScript and TypeScript</figcaption>
+  </figure>
+</section>
+
+<!-- 29 · TESTING WITH CUSTOMERS .............................................. -->
+<section class="sec" id="testing">
+  <div class="w">
+    <span class="k rv">Validation</span>
+    <h3 class="rv" data-d="1">Testing the new experience with customers</h3>
+
+    <div class="two-a rv" data-d="2" style="margin-top:clamp(34px,4vw,56px)">
+      <div>
+        <p class="lead">We tested the experience with <strong>5 customers</strong> who were transitioning from the on-premise product.</p>
+        <div class="rule prism-rule prism-rule--short"></div>
+        <span class="k">The task</span>
+        <p>Open the return for client Acme and check a piece of information in the client record.</p>
+      </div>
+      <div>
+        <span class="k">What we observed</span>
+        <div class="facts">
+          <div class="fact"><span class="fk">4 / 5</span><span class="fv">Completed the task</span></div>
+          <div class="fact"><span class="fk">1 / 5</span><span class="fv">Needed assistance</span></div>
+          <div class="fact"><span class="fk">~10 sec</span><span class="fv">To reach the requested information</span></div>
+          <!-- La cuarta fila de la diapositiva no tiene cifra: en el original
+               llevaba un "04" que es el numero de fila, no un valor. La clave
+               va vacia antes que inventar una. -->
+          <div class="fact"><span class="fk"></span><span class="fv">Avoided unnecessary implementation complexity</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 30 · WHAT THEY SAID ...................................................... -->
+<section class="pivot" id="quotes">
+  <div class="w">
+    <span class="k rv">Validation</span>
+    <div class="qs rv" data-d="1">
+      <div class="q"><span class="qn">Customer</span><p>&ldquo;It makes sense.&rdquo;</p></div>
+      <div class="q"><span class="qn">Customer</span><p>&ldquo;It's a question of getting used to it.&rdquo;</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 31 · THE TAKEAWAY ........................................................ -->
+<section class="sec" id="takeaway">
+  <div class="w">
+    <span class="k rv">Validation</span>
+    <h3 class="rv" data-d="1">The takeaway</h3>
+    <div class="two rv" data-d="2" style="margin-top:clamp(26px,3vw,44px)">
+      <p>The test indicated that customers transitioning from the on-premise experience could successfully understand and navigate the new structure, with most participants completing the task independently.</p>
+      <p>The remaining friction was primarily related to familiarity with the new experience rather than the underlying information architecture.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 32 · IMPLEMENTATION AND HANDOFF .......................................... -->
+<section class="sec sec--open light" id="handoff">
+  <div class="w">
+    <div class="head rv">
+      <span class="n">11</span>
+      <div>
+        <span class="k">Implementation and handoff</span>
+        <h2>From design system to implementation-ready product</h2>
+        <div class="rule prism-rule"></div>
+      </div>
+    </div>
+
+    <div class="hand rv" data-d="1">
+      <div class="hstep">
+        <span class="hn">01</span>
+        <div>
+          <h3>Design system</h3>
+          <p>Components and variants. Reusable components.</p>
+        </div>
+      </div>
+      <div class="hstep">
+        <span class="hn">02</span>
+        <div>
+          <h3>Interaction and behaviour</h3>
+          <p>States, interactions and edge cases.</p>
+        </div>
+      </div>
+      <div class="hstep">
+        <span class="hn">03</span>
+        <div>
+          <h3>Implementation specs</h3>
+          <p>Layout and spacing, visual properties, responsive behaviour.</p>
+        </div>
+      </div>
+      <div class="hstep">
+        <span class="hn">04</span>
+        <div>
+          <h3>Developer handoff</h3>
+          <p>Ready for development. Design to development.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 34 · FROM DESIGN TO IMPLEMENTATION ....................................... -->
+<section class="sec sec--tight light" id="handoff-artefact">
+  <div class="w">
+    <span class="k rv">Implementation and handoff</span>
+    <h3 class="rv" data-d="1">From design to implementation</h3>
+  </div>
+  <div class="w"><figure class="rv" data-d="2" style="margin-top:clamp(26px,3vw,44px)">
+    <img class="figimg" src="images/13.Design-handoff.png" alt="Handoff documentation: components, states, spacing and behaviour specified for development." loading="lazy" decoding="async">
+    <figcaption>Design handoff · specification for development</figcaption>
+  </figure></div>
+</section>
+
+<!-- 35 · FUTURE DIRECTION .................................................... -->
+<section class="sec sec--open" id="future">
+  <div class="w">
+    <div class="head rv">
+      <span class="n">12</span>
+      <div>
+        <span class="k">Future direction</span>
+        <h2>From preserving context to understanding context</h2>
+        <div class="rule prism-rule"></div>
+        <p class="lead">An AI-powered contextual sidebar. The future opportunity was to make client context dynamic and helpful, rather than something the user has to manually maintain.</p>
+      </div>
+    </div>
+
+    <div class="three rv" data-d="1" style="margin-top:clamp(40px,5vw,72px)">
+      <div>
+        <span class="k">Workflow patterns</span>
+        <p>How the user typically works across products and tasks.</p>
+      </div>
+      <div>
+        <span class="k">Assigned jobs</span>
+        <p>What work is currently assigned to them and which clients or jobs require attention.</p>
+      </div>
+      <div>
+        <span class="k">Result</span>
+        <p>The product understands what the user is working on and helps them stay within that context.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 36 · THE CONCEPT, RUNNING ................................................ -->
+<section class="sec sec--tight" id="ai-concept">
+  <figure class="ph--wide rv">
+    <video src="video/s1-ai-concept.mp4" muted loop playsinline preload="metadata"
+      aria-label="Concept of the AI contextual sidebar reading the user's workflow and assigned jobs."></video>
+    <figcaption>Concept · an AI-powered contextual sidebar</figcaption>
+  </figure>
+</section>
+
+<!-- 37 · END TO END .......................................................... -->
+<section class="pivot" id="end-to-end">
+  <div class="w">
+    <span class="k rv">End to end</span>
+    <p class="stmt rv" data-d="1" style="font-size:var(--lb-display-l);line-height:var(--lb-lh-display-l);max-width:24ch">I stayed involved beyond the final screens, connecting design decisions to a working prototype, validating the experience with customers and translating the final solution into implementation-ready specifications.</p>
   </div>
 </section>
 
 </main>
 
 <footer>
+  <div class="prism-rule"></div>
   <div class="w">
     <div class="next">
       <span>Next</span>
@@ -1432,10 +1397,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>
 document.documentElement.classList.add('js');
 
+/* LINEA PRISM. Un solo observador para todas las reglas de la pagina. Se dibuja
+   al 40% de visibilidad y se deja de observar: se dibuja una vez y se queda, no
+   se rebobina al subir. Sin matematicas de scroll, sin rAF, sin libreria. */
+var reglas=document.querySelectorAll('.prism-rule');
+if(reglas.length&&'IntersectionObserver' in window){
+  var pio=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('is-drawn'); pio.unobserve(en.target) }
+    });
+  },{threshold:0,rootMargin:'0px 0px -8% 0px'});
+  reglas.forEach(function(r){ pio.observe(r) });
+}
+
+
 /* Real scrollbar width, so the full-bleed figures span the viewport without
    pushing the page sideways. Recalculated on resize. */
 function medirBarra(){
-  document.documentElement.style.setProperty('--sbw',
+  document.documentElement.style.setProperty('--lb-sbw',
     (window.innerWidth-document.documentElement.clientWidth)+'px');
 }
 medirBarra();
@@ -1526,6 +1505,17 @@ requestAnimationFrame(function(){requestAnimationFrame(function(){sweep();moverD
    setTimeout is not. Scoped to what the visitor has reached, so it can never
    pre-empt the reveals further down. */
 setTimeout(sweep,4000);
+/* Los videos solo corren mientras estan en cuadro: son 13MB entre los dos.
+   Con movimiento reducido no arrancan solos y aparecen los controles. */
+var RMv=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.querySelectorAll('figure video').forEach(function(v){
+  if(RMv){ v.setAttribute('controls',''); return }
+  var vio=new IntersectionObserver(function(es){
+    es.forEach(function(e){ e.isIntersecting ? v.play().catch(function(){}) : v.pause() });
+  },{threshold:.25});
+  vio.observe(v);
+});
+
 var navD=document.getElementById('nav-d');
 if(navD){
   navD.querySelectorAll('.nav-panel a').forEach(function(a){

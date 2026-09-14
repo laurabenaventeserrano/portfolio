@@ -22,6 +22,60 @@ function revealAll(){
 /* No-motion path: reduced-motion, or no observer support.
    html.js is never added, so CSS resolves everything to its final state. */
 var RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* LINEA PRISM. Un solo observador para todas las reglas de la pagina. Se dibuja
+   una vez y se queda: no se rebobina al subir. Sin matematicas de scroll, sin
+   rAF, sin libreria.
+   El umbral es 0, no 0.4, y el motivo importa: la regla arranca en scaleX(0) y
+   IntersectionObserver mide la caja ya transformada, asi que su area es cero y
+   la proporcion de interseccion nunca pasa de 0. Con 0.4 habia reglas que no se
+   dibujaban jamas. El margen negativo del 8% abajo devuelve la sensacion que
+   buscaba el 0.4: la regla se dibuja al llegar a ella, no al asomar un pixel. */
+var reglas=document.querySelectorAll('.prism-rule');
+if(reglas.length&&'IntersectionObserver' in window){
+  var pio=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('is-drawn'); pio.unobserve(en.target) }
+    });
+  },{threshold:0,rootMargin:'0px 0px -8% 0px'});
+  reglas.forEach(function(r){ pio.observe(r) });
+}
+
+/* FROM STRATEGY TO BUILD. El scroll vertical mueve la tira en horizontal.
+   Un solo listener pasivo, throttle con rAF, una lectura de geometria y una
+   escritura por fotograma. Sin libreria y sin secuestrar el scroll: la rueda
+   sigue haciendo lo de siempre, que es lo que separa esto de un scroll-jacking.
+   En movil y con movimiento reducido el CSS deja la seccion en vertical y este
+   bloque no tiene nada que mover, asi que ni se instala. */
+var fsb=document.querySelector('.fsb');
+if(fsb&&window.matchMedia('(min-width:861px)').matches&&
+   !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  var pista=fsb.querySelector('.fsb-track');
+  var pasos=Array.prototype.slice.call(fsb.querySelectorAll('.fsb-labels li'));
+  var pend=false, ultimo=-1;
+  function fsbPaso(){
+    var r=pista.getBoundingClientRect();
+    var recorrido=r.height-window.innerHeight;
+    var p=recorrido>0?Math.min(1,Math.max(0,-r.top/recorrido)):0;
+    fsb.style.setProperty('--lb-progress',p.toFixed(4));
+    var act=Math.min(pasos.length-1,Math.floor(p*pasos.length));
+    if(act!==ultimo){
+      pasos.forEach(function(l,i){
+        if(i===act)l.setAttribute('aria-current','step');
+        else l.removeAttribute('aria-current');
+      });
+      ultimo=act;
+    }
+    pend=false;
+  }
+  window.addEventListener('scroll',function(){
+    if(!pend){ requestAnimationFrame(fsbPaso); pend=true }
+  },{passive:true});
+  window.addEventListener('resize',function(){
+    if(!pend){ requestAnimationFrame(fsbPaso); pend=true }
+  },{passive:true});
+  fsbPaso();
+}
+
 /* FILM DEL LAB. Solo corre mientras esta en cuadro: son 60 segundos y 11MB, y
    dejarlo decodificando con la seccion fuera de pantalla gasta bateria y
    fotogramas que hacen falta en el scroll.
@@ -175,8 +229,10 @@ function start(){
     chapterEls.forEach(function(el){cio.observe(el)});
   }
 
-  /* resplandor del pie: crece desde el suelo durante el último tramo de scroll
-     y llega a su altura completa exactamente al final de la página. */
+  /* RESPLANDOR DEL PIE.
+     DECISION APROBADA DE LAURA. NO SE TOCA. Ver styles.css e index.html.
+     Crece desde el suelo durante el ultimo tramo de scroll y llega a su altura
+     completa exactamente al final de la pagina. */
   var glow=document.getElementById('glow');
   if(glow){
     var minReveal=.045, gpend=false;
