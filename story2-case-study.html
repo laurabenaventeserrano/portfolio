@@ -40,7 +40,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   decoding="async" alt="..."> y su <figcaption>.
 -->
 
-<link rel="stylesheet" href="tokens.css?v=67">
+<link rel="stylesheet" href="tokens.css?v=69">
 <style>
 @font-face{font-family:'Libertinus Serif';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/libertinus-serif-latin-400-normal.woff2) format('woff2')}
 @font-face{font-family:'Libertinus Serif';font-weight:400;font-style:italic;font-display:swap;src:url(fonts/libertinus-serif-latin-400-italic.woff2) format('woff2')}
@@ -839,7 +839,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="hero-note rv" data-d="4">
       <div></div>
-      <div class="body">Built inside CCH iFirm at Wolters Kluwer, their cloud practice management product for accounting and tax firms, and released in the Canadian market.</div>
+      <div class="body">Built inside CCH iFirm at Wolters Kluwer, their cloud practice management product for accounting and tax firms, and released in the Canadian market. Some of this work cannot be shown as it was built. The interfaces here are redrawn and the data is altered; the decisions, constraints and outcomes are not.</div>
     </div>
   </div>
 </header>
@@ -1086,7 +1086,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <figure class="ph--bleed rv rv--mask" style="margin-top:clamp(40px,5vw,76px)">
     <img class="figimg" src="images/s2-wireflow.jpg" width="1800" height="479" loading="lazy" decoding="async"
          alt="Lo-fi wireflow in six frames: the blank document, the instruction in the user's own words, generating with a cancel, the draft landing in the document rather than a preview, review and edit, and approval as a named act.">
-    <figcaption>Reconstructed &middot; the flow used to argue the scope change. The annotations are the argument, not the pixels</figcaption>
+    <figcaption>The flow used to argue the scope change. The annotations are the argument, not the pixels</figcaption>
   </figure>
 
   <div class="w">
@@ -1098,15 +1098,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <figure class="pf2">
         <img class="figimg" src="images/s2-spec-panel.jpg" width="1200" height="584" loading="lazy" decoding="async"
              alt="The instruction panel with its redlines: 24 pixel padding, a 104 pixel input, a panel between 640 and 720 wide, all spacing on an eight pixel grid, and a line stating that nothing is sent to the client.">
-        <figcaption>Reconstructed &middot; spacing on an 8px grid</figcaption>
+        <figcaption>The instruction panel &middot; spacing on an 8px grid</figcaption>
       </figure>
+    </div>
+  </div>
+
+  <div class="w">
+    <div class="two-a rv" style="margin-top:clamp(46px,6vw,84px)">
+      <div>
+        <span class="k">Accessibility, written into the spec</span>
+        <p>Three of the notes the specification carries, so they are built rather than retrofitted.</p>
+      </div>
+      <ul class="p">
+        <li><span class="i">01</span>The panel is a <strong>labelled region, not a dialog</strong>. It does not trap focus, and the document stays readable and editable behind it.</li>
+        <li><span class="i">02</span>Generation progress is <strong>announced politely</strong>, so a screen reader hears that work is happening without the draft interrupting whatever is being read.</li>
+        <li><span class="i">03</span><strong>Colour is never the only signal.</strong> The rail that marks machine-written text is paired with a chip that says so in words.</li>
+      </ul>
     </div>
   </div>
 
   <figure class="ph--wide rv drift" style="margin-top:clamp(40px,5vw,76px)">
     <img class="figimg" src="images/s2-spec-sheet.jpg" width="1400" height="1032" loading="lazy" decoding="async"
          alt="The full interaction specification: entry point, instruction, review and edit, approve and send, each state drawn and annotated, with developer notes covering that generation is never terminal, that nothing persists before approval, that markers are paragraph-scoped, that failure is not a dead end, that the panel is a labelled region announced politely and colour is never the only signal, and what was left out of the MVP.">
-    <figcaption>Reconstructed &middot; every state, with the notes development needed to build it</figcaption>
+    <figcaption>Every state, with the notes development needed to build it</figcaption>
   </figure>
 </section>
 
@@ -1213,6 +1227,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="w">
     <span class="k rv">Build</span>
     <p class="stmt rv" data-d="1">I helped turn an AI opportunity into a product decision and a shippable MVP.</p>
+  </div>
+</section>
+
+
+<!-- PLAN DE MEDICION. Lo que se mediria, no lo que se midio: no hay datos de
+     producto y no se inventan. Que es lo unico irreversible en un portfolio.
+     Lo que demuestra criterio es saber que preguntar, no tener el numero. -->
+<section class="sec sec--open" id="measure">
+  <div class="w">
+    <div class="head rv">
+      <span class="n">10</span>
+      <div>
+        <span class="k">How I would measure it</span>
+        <h2>Are people reading what the AI wrote?</h2>
+        <div class="rule prism-rule"></div>
+        <p class="lead">No product analytics were available to me on this work, so this is the plan rather than the result. Written as it would go to the team.</p>
+      </div>
+    </div>
+
+    <div class="facts rv" data-d="1" style="margin-top:clamp(40px,5vw,72px)">
+      <div class="fact"><span class="fk">Target behaviour</span><span class="fv">Starting a document from a draft instead of an empty page, and editing it before approving</span></div>
+      <div class="fact"><span class="fk">Event to instrument</span><span class="fv">Drafts generated, drafts edited before save, drafts discarded without saving</span></div>
+      <div class="fact"><span class="fk">The question</span><span class="fv">What proportion of generated drafts are edited before approval?</span></div>
+      <div class="fact"><span class="fk">At thirty days</span><span class="fv">A high edit rate is the good outcome here: it means people are reading. A high discard rate points at the instruction step, not the model</span></div>
+    </div>
   </div>
 </section>
 

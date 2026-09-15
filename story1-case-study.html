@@ -40,7 +40,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   decoding="async" alt="..."> y su <figcaption>.
 -->
 
-<link rel="stylesheet" href="tokens.css?v=67">
+<link rel="stylesheet" href="tokens.css?v=69">
 <style>
 @font-face{font-family:'Libertinus Serif';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/libertinus-serif-latin-400-normal.woff2) format('woff2')}
 @font-face{font-family:'Libertinus Serif';font-weight:400;font-style:italic;font-display:swap;src:url(fonts/libertinus-serif-latin-400-italic.woff2) format('woff2')}
@@ -882,7 +882,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="stat"><b>6</b><i>Products unified</i></div>
       <div class="stat"><b>5</b><i>Markets</i></div>
       <div class="stat"><b>1</b><i>Shared design system</i></div>
-      <div class="stat"><b>Months</b><i>of development effort avoided</i></div>
+      <div class="stat"><b>L &rarr; S</b><i>Development effort</i></div>
     </div>
 
     <div class="hero-meta rv" data-d="3">
@@ -895,7 +895,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="hero-note rv" data-d="4">
       <div></div>
-      <div class="body">Several years of work across accounting, tax and practice management products, while a fragmented portfolio was moving towards a more connected cloud environment.</div>
+      <div class="body">Several years of work across accounting, tax and practice management products, while a fragmented portfolio was moving towards a more connected cloud environment. Some of this work cannot be shown as it was built. The interfaces here are redrawn and the data is altered; the decisions, constraints and outcomes are not.</div>
     </div>
   </div>
 </header>
@@ -1280,8 +1280,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div>
         <span class="k">Business and delivery</span>
-        <h3>Months of development effort avoided</h3>
-        <p>Testing the direction with customers before it was built is what produced the saving. The evidence supported the simplest of the three proposals, so the team never spent the months the more ambitious options would have cost, and still solved the core problem.</p>
+        <h3>From an L to an S</h3>
+        <p>The two richer proposals were L-sized builds. Testing the direction with customers before committing is what let us ship an S instead: the evidence supported the simplest of the three, so the team never spent the months the others would have cost, and the core problem was still solved.</p>
       </div>
     </div>
 
@@ -1524,6 +1524,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
          alt="The handoff board for the select-a-return flow, marked ready for dev: every screen of the journey laid out in sequence, each state annotated and linked to the step before it.">
     <figcaption>Design handoff · the select-a-return flow, ready for dev</figcaption>
   </figure></div>
+</section>
+
+
+<!-- PLAN DE MEDICION. Lo que se mediria, no lo que se midio: no hay datos de
+     producto y no se inventan. Que es lo unico irreversible en un portfolio.
+     Lo que demuestra criterio es saber que preguntar, no tener el numero. -->
+<section class="sec sec--open tint" id="measure">
+  <div class="w">
+    <div class="head rv">
+      <span class="n">13</span>
+      <div>
+        <span class="k">How I would measure it</span>
+        <h2>Is the context actually travelling?</h2>
+        <div class="rule prism-rule"></div>
+        <p class="lead">No product analytics were available to me on this work, so this is the plan rather than the result. Written as it would go to the team.</p>
+      </div>
+    </div>
+
+    <div class="facts rv" data-d="1" style="margin-top:clamp(40px,5vw,72px)">
+      <div class="fact"><span class="fk">Target behaviour</span><span class="fv">Arriving in a second product with the client already loaded, instead of selecting it again</span></div>
+      <div class="fact"><span class="fk">Event to instrument</span><span class="fv">Destination product opened from a client context, against opened cold</span></div>
+      <div class="fact"><span class="fk">The question</span><span class="fv">Does the share of context-carried entries grow release over release?</span></div>
+      <div class="fact"><span class="fk">At thirty days</span><span class="fv">If it does not move, the deep link is not discoverable. That is a placement problem, not a model problem</span></div>
+    </div>
+  </div>
 </section>
 
 <!-- 35 · FUTURE DIRECTION .................................................... -->
