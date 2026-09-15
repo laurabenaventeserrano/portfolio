@@ -1,0 +1,248 @@
+/* =========================================================================
+   NAVEGACION · Identity V1
+   =========================================================================
+   Un solo archivo para las cuatro paginas. Antes vivia cuatro veces: una en
+   styles.css y tres copiada a mano dentro de cada caso, asi que cualquier
+   arreglo habia que hacerlo cuatro veces y las cuatro copias ya habian
+   empezado a separarse.
+
+   Depende de tokens.css. No define ni un color ni una medida propia salvo
+   los dos tamanos que el encargo fija a mano (MENU a 11px, el pie a 10.5px).
+   ========================================================================= */
+
+
+/* -------------------------------------------------------------------------
+   1 · EL SUELO MANDA
+   La barra ya no corre en mix-blend-mode:difference. Invertir era la unica
+   forma de leerse sobre los dos suelos sin un solo listener, pero tambien
+   invierte el filete prisma, y un prisma invertido son siete colores que no
+   estan en la paleta: por eso el filete no existia en la barra. Con
+   data-ground la barra pinta con los tokens de verdad y el prisma sale en
+   su color. Oscuro es el valor por defecto, que es el suelo del sitio.
+   ------------------------------------------------------------------------- */
+:root{
+  --nav-bg:    var(--lb-ground);
+  --nav-ink:   var(--lb-ink);        /* 17.8:1 sobre oscuro */
+  --nav-meta:  var(--lb-ink-2);      /*  9.1:1 — --lb-mid se queda en 4.4 */
+  --nav-accent:var(--lb-accent);     /*  6.3:1 */
+  --nav-line:  var(--lb-line);
+}
+:root[data-ground="paper"]{
+  --nav-bg:    var(--lb-cream);
+  --nav-ink:   var(--lb-cream-ink);  /* 18.9:1 sobre papel */
+  --nav-meta:  var(--lb-cream-body); /* 11.0:1 */
+  --nav-accent:var(--lb-accent-deep);/*  5.6:1 */
+  --nav-line:  var(--lb-line-on-paper);
+}
+
+
+/* -------------------------------------------------------------------------
+   2 · ESTADO CERRADO · la barra
+   Misma geometria que antes. La barra va por encima de la hoja: su banda
+   queda visible mientras el menu esta abierto, y el padding-top del panel
+   la respeta.
+   ------------------------------------------------------------------------- */
+.nav,.navbar{position:fixed;top:0;left:0;right:0;z-index:100;color:var(--nav-ink)}
+
+.nav-bar{position:relative;z-index:2;
+  max-width:var(--lb-maxw);margin:0 auto;padding:20px var(--lb-margin);
+  display:flex;justify-content:space-between;align-items:center;gap:20px;
+  cursor:pointer;list-style:none}
+.nav-bar::-webkit-details-marker{display:none}
+.nav-bar::marker{content:''}
+
+/* La marca es tipografica: no hay simbolo. Libertinus, porque el papel que
+   piensa es el que firma. */
+.nav-logo{position:relative;
+  font-family:var(--lb-font-display);font-weight:400;
+  font-size:var(--lb-display-s);line-height:1;letter-spacing:.02em;
+  text-decoration:none;color:var(--nav-ink)}
+/* El area de pulsacion de la marca son 19px de alto: la 2.5.8 pide 24. El
+   ::after la estira sin tocar la caja del texto ni la linea de la barra. */
+.nav-logo::after{content:'';position:absolute;left:-4px;right:-4px;top:-7px;bottom:-7px}
+
+/* El control va en mono: identidad en serif, control en mono. */
+.nav-toggle{position:relative;display:inline-block;
+  font-family:var(--lb-font-mono);font-weight:400;font-size:11px;line-height:1;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--nav-ink)}
+.nav-toggle .lbl-close{display:none}
+.nav-d[open] .nav-toggle .lbl-open{display:none}
+.nav-d[open] .nav-toggle .lbl-close{display:inline}
+/* right:.24em descuenta el tracking de la ultima letra: sin eso el filete
+   sobresale por la derecha el ancho de un espacio. */
+.nav-toggle::after{content:'';position:absolute;left:0;right:.24em;bottom:-7px;height:1px;
+  background:var(--lb-prism-sm);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .32s var(--lb-ease)}
+@media(hover:hover){.nav-bar:hover .nav-toggle::after{transform:scaleX(1)}}
+.nav-bar:focus-visible .nav-toggle::after{transform:scaleX(1)}
+
+
+/* -------------------------------------------------------------------------
+   3 · ESTADO ABIERTO · la hoja
+   Opaca y con el suelo de la seccion desde la que se abre. El wipe es un
+   clip-path, no una altura: una altura animada refluye el contenido en cada
+   fotograma, y aqui dentro hay siete filas de Libertinus a 44px.
+   ------------------------------------------------------------------------- */
+.nav-panel{position:fixed;inset:0;z-index:1;
+  display:flex;flex-direction:column;
+  background:var(--nav-bg);color:var(--nav-ink);
+  padding:98px 0 34px;
+  clip-path:inset(0 0 100% 0);visibility:hidden;
+  transition:clip-path .36s var(--lb-ease),visibility 0s linear .36s}
+.nav-d[open] .nav-panel{clip-path:inset(0 0 0 0);visibility:visible;
+  transition:clip-path .36s var(--lb-ease),visibility 0s}
+/* <details> no anima al cerrarse: el panel se queda montado y el atributo
+   open se retira 240ms mas tarde desde nav.js. */
+.nav-d.is-closing .nav-panel{clip-path:inset(0 0 100% 0);
+  transition:clip-path .24s var(--lb-ease)}
+
+/* 3.1 · Cabecera de firma */
+/* Las tres zonas repiten exactamente la caja de .nav-bar: misma medida
+   maxima, mismos margenes automaticos, mismo relleno lateral. La hoja es a
+   sangre, pero su contenido cae bajo el wordmark, no contra el borde de la
+   pantalla, que es donde se iba en cuanto la ventana pasaba de --lb-maxw. */
+.nav-head,.nav-links,.nav-foot{
+  width:100%;max-width:var(--lb-maxw);margin-left:auto;margin-right:auto;
+  padding-left:var(--lb-margin);padding-right:var(--lb-margin);
+  box-sizing:border-box}
+
+.nav-head{flex:none;display:flex;align-items:center;gap:20px;height:52px;
+  font-family:var(--lb-font-mono);font-size:var(--lb-kicker);
+  letter-spacing:var(--lb-track-kicker);text-transform:uppercase;
+  color:var(--nav-meta)}
+.nav-head__rule{flex:1;height:1px;background:var(--nav-line)}
+
+/* 3.2 · El indice.
+   margin:auto 0 lo centra en el hueco que dejan cabecera y pie. */
+.nav-links{flex:none;margin-top:auto;margin-bottom:auto;
+  list-style:none;counter-reset:nav}
+.nav-links li{position:relative;counter-increment:nav;
+  opacity:0;transform:translateY(14px)}
+.nav-d[open] .nav-links li{opacity:1;transform:none;
+  transition:opacity .32s var(--lb-ease),transform .42s var(--lb-ease)}
+.nav-d[open] .nav-links li:nth-child(1){transition-delay:.12s}
+.nav-d[open] .nav-links li:nth-child(2){transition-delay:.16s}
+.nav-d[open] .nav-links li:nth-child(3){transition-delay:.20s}
+.nav-d[open] .nav-links li:nth-child(4){transition-delay:.24s}
+.nav-d[open] .nav-links li:nth-child(5){transition-delay:.28s}
+.nav-d[open] .nav-links li:nth-child(6){transition-delay:.32s}
+.nav-d[open] .nav-links li:nth-child(7){transition-delay:.36s}
+
+/* El filete de arriba es la hairline; el prisma se dibuja encima de ella al
+   pasar por encima. Va en el <li> porque el <a> ya gasta sus dos
+   pseudoelementos en el numero y la meta. */
+.nav-links li::after{content:'';position:absolute;left:0;right:0;top:0;height:1px;
+  background:var(--lb-prism);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .3s var(--lb-ease)}
+@media(hover:hover){.nav-links li:hover::after{transform:scaleX(1)}}
+.nav-links li:has(a:focus-visible)::after{transform:scaleX(1)}
+
+.nav-links a{display:grid;grid-template-columns:56px minmax(0,1fr) auto;
+  align-items:baseline;gap:18px;padding:14px 0;
+  border-top:var(--lb-hairline) solid var(--nav-line);
+  text-decoration:none;color:var(--nav-ink)}
+/* Columna 1: el numero. Contador CSS, no siete numeros escritos a mano que
+   se descuadran en cuanto entra o sale un destino. */
+.nav-links a::before{content:counter(nav,decimal-leading-zero);
+  font-family:var(--lb-font-mono);font-size:var(--lb-label);line-height:1;
+  letter-spacing:.18em;color:var(--nav-meta)}
+/* Columna 2: la etiqueta. Libertinus: aqui es donde el menu piensa. */
+.nav-links a span{display:block;
+  font-family:var(--lb-font-display);font-weight:400;
+  font-size:clamp(28px,4.4vw,44px);line-height:1.1;
+  letter-spacing:var(--lb-track-display);
+  transition:transform .3s var(--lb-ease),color .3s var(--lb-ease)}
+/* Columna 3: la meta. El texto sale de data-meta en el propio enlace. */
+.nav-links a::after{content:attr(data-meta);justify-self:end;text-align:right;
+  font-family:var(--lb-font-mono);font-size:var(--lb-label);line-height:1;
+  letter-spacing:var(--lb-track-label);text-transform:uppercase;
+  color:var(--nav-meta)}
+
+@media(hover:hover){
+  .nav-links li:hover a span{transform:translateX(10px);color:var(--nav-accent)}
+}
+.nav-links a:focus-visible span{transform:translateX(10px);color:var(--nav-accent)}
+
+/* Donde esta el lector ahora. En los casos es aria-current; en la portada es
+   una clase, porque tres de los destinos apuntan a otra pagina y marcarlos
+   como "page" mentiria al lector de pantalla. */
+.nav-links a[aria-current="page"] span,
+.nav-links a.is-current span{color:var(--nav-accent)}
+.nav-links li:has(a[aria-current="page"])::after,
+.nav-links li:has(a.is-current)::after{transform:scaleX(1)}
+
+/* 3.3 · El pie */
+.nav-foot{flex:none;padding-top:18px;list-style:none;
+  display:flex;gap:28px;flex-wrap:wrap;
+  border-top:var(--lb-hairline) solid var(--nav-line);
+  opacity:0;transform:translateY(14px)}
+.nav-d[open] .nav-foot{opacity:1;transform:none;
+  transition:opacity .32s var(--lb-ease) .26s,transform .42s var(--lb-ease) .26s}
+/* padding:7px 0 no es aire: a 10.5px el texto mide 11px de alto y la 2.5.8
+   pide 24. Con el relleno el destino llega a 25. */
+.nav-foot a{position:relative;display:block;padding:7px 0;
+  font-family:var(--lb-font-mono);font-size:10.5px;line-height:1;
+  letter-spacing:var(--lb-track-label);text-transform:uppercase;
+  text-decoration:none;color:var(--nav-meta);
+  transition:color .3s var(--lb-ease)}
+.nav-foot a::after{content:'';position:absolute;left:0;right:0;bottom:4px;height:1px;
+  background:currentColor;opacity:0;transition:opacity .3s var(--lb-ease)}
+@media(hover:hover){
+  .nav-foot a:hover{color:var(--nav-accent)}
+  .nav-foot a:hover::after{opacity:1}
+}
+.nav-foot a:focus-visible{color:var(--nav-accent)}
+.nav-foot a:focus-visible::after{opacity:1}
+
+
+/* -------------------------------------------------------------------------
+   4 · FOCO
+   ------------------------------------------------------------------------- */
+.nav :focus-visible,.navbar :focus-visible{
+  outline:1px solid var(--nav-accent);outline-offset:3px}
+
+
+/* -------------------------------------------------------------------------
+   5 · ESTRECHO
+   ------------------------------------------------------------------------- */
+@media(max-width:760px){
+  .nav-panel{padding:84px 0 28px}
+  .nav-head,.nav-links,.nav-foot{padding-left:20px;padding-right:20px}
+  .nav-head{height:44px}
+  .nav-foot{gap:20px}
+}
+/* Bajo 520px la meta no cabe sin partirse en dos lineas y descuadrar la
+   linea base de la etiqueta. Se va entera. */
+@media(max-width:520px){
+  .nav-links a{grid-template-columns:40px minmax(0,1fr);gap:14px}
+  .nav-links a::after{display:none}
+}
+
+
+/* -------------------------------------------------------------------------
+   6 · MENOS MOVIMIENTO
+   Solo opacidad. Ni wipes ni desplazamientos.
+   ------------------------------------------------------------------------- */
+@media(prefers-reduced-motion:reduce){
+  .nav-panel{clip-path:none;opacity:0;
+    transition:opacity .12s linear,visibility 0s linear .12s}
+  .nav-d[open] .nav-panel{opacity:1;transition:opacity .12s linear,visibility 0s}
+  .nav-d.is-closing .nav-panel{opacity:0;transition:opacity .12s linear}
+  .nav-links li,.nav-foot{transform:none;transition:opacity .12s linear}
+  .nav-d[open] .nav-links li,.nav-d[open] .nav-foot{transition-delay:0s}
+  .nav-links a span{transition:color .12s linear}
+  .nav-links li:hover a span,.nav-links a:focus-visible span{transform:none}
+  .nav-toggle::after,.nav-links li::after,.nav-foot a::after{transition:none}
+}
+
+
+/* -------------------------------------------------------------------------
+   7 · SIN JS
+   <details> abre y cierra solo, y todo lo de arriba cuelga de [open], asi
+   que el menu funciona entero. Lo unico que sobra es el estado de partida de
+   las filas: sin transiciones se quedarian invisibles.
+   ------------------------------------------------------------------------- */
+html:not(.js) .nav-links li,
+html:not(.js) .nav-foot{opacity:1;transform:none}

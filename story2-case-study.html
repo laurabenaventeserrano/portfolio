@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="case-study">
+<html lang="en" class="case-study" data-ground="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -41,6 +41,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 -->
 
 <link rel="stylesheet" href="tokens.css?v=74">
+<link rel="stylesheet" href="nav.css?v=78">
 <style>
 @font-face{font-family:'Libertinus Serif';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/libertinus-serif-latin-400-normal.woff2) format('woff2')}
 @font-face{font-family:'Libertinus Serif';font-weight:400;font-style:italic;font-display:swap;src:url(fonts/libertinus-serif-latin-400-italic.woff2) format('woff2')}
@@ -103,87 +104,8 @@ figure.ph--bleed > figcaption,figure.ph--wide > figcaption{
   padding:10px 18px;font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);
   text-transform:uppercase;text-decoration:none;transition:top .2s}
 .skip-link:focus{top:12px}
-.navbar{position:fixed;top:0;left:0;right:0;z-index:100;mix-blend-mode:difference;color:var(--lb-ink)}
-.nav-bar{max-width:1280px;margin:0 auto;padding:20px var(--lb-margin);display:flex;justify-content:space-between;
-  align-items:flex-start;gap:20px;cursor:pointer;list-style:none}
-.nav-bar::-webkit-details-marker{display:none}
-.nav-bar::marker{content:''}
-.nav-logo{font-family:var(--lb-font-display);font-weight:400;font-size:14px;line-height:1;
-  letter-spacing:.02em;text-decoration:none;color:var(--lb-ink)}
-.nav-toggle{font-family:var(--lb-font-body);font-weight:500;font-size:var(--lb-body-s);line-height:1;letter-spacing:.03em;
-  text-transform:uppercase;color:var(--lb-ink)}
-.nav-toggle .lbl-close{display:none}
-.nav-d[open] .nav-toggle .lbl-open{display:none}
-.nav-d[open] .nav-toggle .lbl-close{display:inline}
-
-/* HOVER DEL BOTON DE MENU. Subrayado que entra y un acercamiento corto.
-   Cuatro decisiones que no se ven en el resultado pero lo sostienen:
-   - El subrayado es un pseudoelemento con background:currentColor, no
-     text-decoration. La barra va en mix-blend-mode:difference, asi que
-     currentColor se invierte con el resto y funciona sobre papel y sobre negro.
-     Ademas text-decoration no se puede animar de un lado al otro.
-   - transform-origin a la derecha: el boton vive pegado al borde de la pantalla
-     y crecer desde el centro lo empujaria contra el margen.
-   - El mismo estado en :focus-visible. Quien navega con teclado tiene que ver
-     lo mismo que quien pasa el raton, no solo el contorno.
-   - Todo dentro de (hover:hover): en tactil no hay hover, y sin este guardia el
-     estado se queda pegado despues de tocar. */
-.nav-toggle{display:inline-block;position:relative;transform-origin:right center;
-  transition:transform .45s cubic-bezier(.16,1,.3,1)}
-.nav-toggle::after{content:'';position:absolute;left:0;right:0;bottom:-5px;height:1px;
-  background:currentColor;transform:scaleX(0);transform-origin:right center;
-  transition:transform .45s cubic-bezier(.16,1,.3,1)}
-@media(hover:hover){
-  .nav-toggle:hover,
-  .nav-bar:focus-visible .nav-toggle{transform:scale(1.12)}
-  .nav-toggle:hover::after,
-  .nav-bar:focus-visible .nav-toggle::after{transform:scaleX(1)}
-}
-/* El subrayado se queda: es la senal de que ese elemento hace algo. Lo que se
-   va es el movimiento. */
-@media (prefers-reduced-motion:reduce){
-  .nav-toggle,.nav-toggle::after{transition:none}
-  .nav-toggle:hover{transform:none}
-}
-
-.nav-panel{display:block;max-width:1280px;margin:0 auto;padding:0 var(--lb-margin);
-  overflow:hidden;max-height:0;visibility:hidden;
-  transition:max-height .55s cubic-bezier(.16,1,.3,1),visibility 0s linear .55s}
-.nav-d[open] .nav-panel{max-height:70vh;visibility:visible;
-  transition:max-height .55s cubic-bezier(.16,1,.3,1),visibility 0s}
-.nav-links,.nav-foot{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;
-  align-items:flex-end;text-align:right}
-.nav-links{padding-top:12px;gap:12px}
-.nav-foot{flex-direction:row;justify-content:flex-end;flex-wrap:wrap;padding-top:20px;gap:16px}
-.nav-links a,.nav-foot a{display:block;position:relative;overflow:hidden;
-  font-family:var(--lb-font-body);font-weight:500;font-size:var(--lb-body-s);line-height:1;letter-spacing:.03em;
-  text-transform:uppercase;text-decoration:none;color:var(--lb-ink)}
-.nav-foot a{opacity:.55}
-.nav-links a:hover{opacity:.6}
-.nav-foot a:hover{opacity:1}
-.nav-links a::after,.nav-foot a::after{content:'';position:absolute;left:0;right:0;top:-7px;bottom:-7px}
-.nav-links a span,.nav-foot a span{display:block;transform:translateY(110%);
-  transition:transform .6s cubic-bezier(.16,1,.3,1)}
-.nav-d[open] .nav-links a span,.nav-d[open] .nav-foot a span{transform:translateY(0)}
-.nav-links li:nth-child(1) a span{transition-delay:.05s}
-.nav-links li:nth-child(2) a span{transition-delay:.11s}
-.nav-links li:nth-child(3) a span{transition-delay:.17s}
-.nav-links li:nth-child(4) a span{transition-delay:.23s}
-.nav-links li:nth-child(5) a span{transition-delay:.29s}
-.nav-links li:nth-child(6) a span{transition-delay:.35s}
-.nav-foot li:nth-child(1) a span{transition-delay:.41s}
-.nav-foot li:nth-child(2) a span{transition-delay:.45s}
-.nav-foot li:nth-child(3) a span{transition-delay:.49s}
-.nav-foot li:nth-child(4) a span{transition-delay:.53s}
-.nav-d:not([open]) .nav-links a span,.nav-d:not([open]) .nav-foot a span{transition-delay:0s}
-html:not(.js) .nav-panel{max-height:none;visibility:visible;overflow:visible}
-html:not(.js) .nav-links a span,html:not(.js) .nav-foot a span{transform:none}
-.navbar :focus-visible{outline-color:var(--lb-ink)}
-@media(max-width:760px){
-  .nav-links a,.nav-foot a{font-size:var(--lb-body)}
-  .nav-links,.nav-foot{gap:22px}
-  .nav-links a::after,.nav-foot a::after{top:-11px;bottom:-11px}
-}
+/* La navegacion vive en nav.css, cargado arriba. Estaba copiada aqui, en
+   las otras dos historias y en styles.css: cuatro copias del mismo menu. */
 :focus-visible{outline:2px solid var(--lb-ink);outline-offset:3px}
 
 h1{font-family:var(--lb-font-display);font-weight:400;font-size:var(--lb-display-xl);
@@ -573,7 +495,7 @@ html:not(.js) .rv--mask{clip-path:none}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .rv{opacity:1!important;transform:none!important}
-  .nav-links a span,.nav-foot a span{transform:none!important;transition:none!important}}
+}
 
 /* ============ NARRATIVA: DIAGRAMAS Y BLOQUES NUEVOS ====================== */
 
@@ -748,12 +670,6 @@ p,li,figcaption,.fsb-c,.ap-d,.about-sub,.hero-note .body,.after{text-wrap:pretty
   --lb-accent:     var(--lb-accent-deep);
 }
 
-/* 4 · ACCESIBILIDAD · El area de pulsacion del logo eran 14px de alto.
-   WCAG 2.5.8 pide 24. Los enlaces del menu ya lo resolvian con un ::after;
-   el logo no lo tenia. */
-.nav-logo{position:relative}
-.nav-logo::after{content:'';position:absolute;left:-4px;right:-4px;top:-7px;bottom:-7px}
-
 /* 7 · ACCESIBILIDAD · La cadena llevaba fondo oscuro (--lb-ground) tambien
    dentro de las secciones de papel, asi que sus etiquetas quedaban a 3,57:1.
    La cadena toma el suelo de la seccion en la que esta, y el contraste sale
@@ -763,60 +679,6 @@ p,li,figcaption,.fsb-c,.ap-d,.about-sub,.hero-note .body,.after{text-wrap:pretty
 .light .chain p{color:var(--lb-cream-body)}
 .light .chain .ck{color:var(--lb-cream-meta)}
 
-/* El menu tiene un enlace mas. Sin su retardo aparece de golpe mientras los
-   otros cascadean, y se lee como un fallo. */
-.nav-links li:nth-child(7) a span{transition-delay:.41s}
-.nav-foot li:nth-child(1) a span{transition-delay:.47s}
-.nav-foot li:nth-child(2) a span{transition-delay:.51s}
-.nav-foot li:nth-child(3) a span{transition-delay:.55s}
-.nav-foot li:nth-child(4) a span{transition-delay:.59s}
-
-/* =========================================================
-   MENU. Correccion de sistema.
-   "Laura Benavente" iba en Libertinus 14 y "Menu" en Roboto 13, en
-   mayusculas y con tracking: cuatro diferencias a la vez (familia, cuerpo,
-   peso y caja) en la misma linea, y por eso parecian dos sistemas.
-   "Menu" llevaba el traje de una etiqueta con la fuente de texto. La voz de
-   etiqueta de esta casa es Roboto Mono, que es el estilo mas repetido del
-   sitio. Pasa a mono y el par queda disenado: serif para la identidad, mono
-   para el control.
-   Los enlaces eran del tamano de un pie de foto. Un menu a pantalla completa
-   que ofrece letra de pie no da ninguna razon para haberse abierto: pasan a
-   display. El contraste entre el control diminuto y lo que revela es lo que
-   hace que un menu se recuerde.
-   ========================================================= */
-.nav-logo{font-size:var(--lb-display-s)}
-.nav-toggle{font-family:var(--lb-font-mono);font-weight:400;font-size:var(--lb-label);
-  letter-spacing:var(--lb-track-label)}
-.nav-d[open] .nav-panel{max-height:86vh}
-.nav-links{padding-top:clamp(18px,2.4vw,34px);gap:clamp(4px,.6vw,10px)}
-.nav-foot{padding-top:clamp(24px,3vw,40px);gap:clamp(16px,2vw,26px)}
-.nav-links a{font-family:var(--lb-font-display);font-weight:400;
-  font-size:clamp(30px,4.6vw,56px);line-height:1.04;
-  letter-spacing:var(--lb-track-display);text-transform:none}
-.nav-foot a{font-family:var(--lb-font-mono);font-weight:400;font-size:var(--lb-label);
-  letter-spacing:var(--lb-track-label);text-transform:uppercase}
-.nav-links a::after{top:-4px;bottom:-4px}
-.nav-foot a::after{top:-9px;bottom:-9px}
-/* En display el gesto no es bajar la opacidad, que aplana un titular: es el
-   filete que se dibuja debajo, como en el resto de la casa. */
-.nav-links a:hover{opacity:1}
-.nav-links a::before{content:'';position:absolute;left:0;right:0;bottom:.12em;height:1px;
-  background:currentColor;transform:scaleX(0);transform-origin:left;
-  transition:transform .5s var(--lb-ease)}
-@media(hover:hover){.nav-links a:hover::before{transform:scaleX(1)}}
-.nav-links li:nth-child(7) a span{transition-delay:.41s}
-.nav-foot li:nth-child(1) a span{transition-delay:.47s}
-.nav-foot li:nth-child(2) a span{transition-delay:.51s}
-.nav-foot li:nth-child(3) a span{transition-delay:.55s}
-.nav-foot li:nth-child(4) a span{transition-delay:.59s}
-@media(max-width:760px){
-  .nav-links{gap:6px}
-  .nav-foot{gap:18px}
-  .nav-links a{font-size:30px}
-  .nav-links a::after{top:-6px;bottom:-6px}
-  .nav-foot a::after{top:-12px;bottom:-12px}
-}
 </style>
 </head>
 <body>
@@ -837,14 +699,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </span>
     </summary>
     <div class="nav-panel">
+      <div class="nav-head" aria-hidden="true">
+        <span>Index</span>
+        <span class="nav-head__rule"></span>
+        <span>Seven destinations</span>
+      </div>
       <ul class="nav-links">
-        <li><a href="index.html#hero"><span>Home</span></a></li>
-        <li><a href="index.html#origin"><span>Origin</span></a></li>
-        <li><a href="story1-case-study.html"><span>Story 1</span></a></li>
-        <li><a href="story2-case-study.html"><span>Story 2</span></a></li>
-        <li><a href="story3-case-study.html"><span>Story 3</span></a></li>
-        <li><a href="index.html#lab"><span>Having fun with AI</span></a></li>
-        <li><a href="Laura_Benavente_CV_En.pdf?v=2" target="_blank" rel="noopener"><span>CV</span></a></li>
+        <li><a href="index.html#hero" data-meta="Start" aria-label="Home"><span>Home</span></a></li>
+        <li><a href="index.html#origin" data-meta="Accounting → Product" aria-label="Origin"><span>Origin</span></a></li>
+        <li><a href="story1-case-study.html" data-meta="Wolters Kluwer · Ecosystem" aria-label="Story 1"><span>Story 1</span></a></li>
+        <li><a href="story2-case-study.html" data-meta="Wolters Kluwer · Strategy" aria-label="Story 2" aria-current="page"><span>Story 2</span></a></li>
+        <li><a href="story3-case-study.html" data-meta="Movistar · Self-diagnosis" aria-label="Story 3"><span>Story 3</span></a></li>
+        <li><a href="index.html#lab" data-meta="The lab" aria-label="Having fun with AI"><span>Having fun with AI</span></a></li>
+        <li><a href="Laura_Benavente_CV_En.pdf?v=2" target="_blank" rel="noopener" data-meta="PDF ↗" aria-label="CV"><span>CV</span></a></li>
       </ul>
       <ul class="nav-foot">
         <li><a href="mailto:laurabenavente@me.com"><span>Contact me</span></a></li>
@@ -1483,15 +1350,8 @@ document.querySelectorAll('figure video').forEach(function(v){
   vio.observe(v);
 });
 
-var navD=document.getElementById('nav-d');
-if(navD){
-  navD.querySelectorAll('.nav-panel a').forEach(function(a){
-    a.addEventListener('click',function(){navD.removeAttribute('open')});
-  });
-  document.addEventListener('keydown',function(e){
-    if(e.key==='Escape'&&navD.hasAttribute('open')){navD.removeAttribute('open');navD.querySelector('.nav-bar').focus()}
-  });
-}
+/* El menu lo lleva nav.js. */
 </script>
+<script src="nav.js?v=76" defer></script>
 </body>
 </html>

@@ -36,117 +36,9 @@ a{color:inherit}
   text-transform:uppercase;text-decoration:none;transition:top .2s}
 .skip-link:focus{top:12px}
 
-/* nav: fixed corner menu, opens/closes as a native disclosure (no JS required).
-   Transparent and difference-blended, so it reads white over the dark page and
-   dark over the paper closing section without any scroll listener. */
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;
-  mix-blend-mode:difference;color:var(--lb-ink)}
-.nav-bar{max-width:var(--lb-maxw);margin:0 auto;padding:20px var(--lb-margin);display:flex;justify-content:space-between;
-  align-items:flex-start;gap:20px;cursor:pointer;list-style:none}
-.nav-bar::-webkit-details-marker{display:none}
-.nav-bar::marker{content:''}
-/* MARCA. Es tipografica, no hay simbolo. Va en Libertinus, no en Roboto en
-   versalitas: el papel "Piensa" es el que firma.
-   El filete prisma del bloqueo pequeno no puede ir aqui: la barra entera corre
-   en mix-blend-mode:difference para leerse sobre papel y sobre negro sin un
-   solo listener de scroll, y un hijo no puede salirse del grupo de mezcla de
-   su ancestro. Un prisma invertido son siete colores que no estan en la
-   paleta, asi que el filete se omite en vez de falsearlo. */
-.nav-logo{font-family:var(--lb-font-display);font-weight:400;font-size:var(--lb-display-s);line-height:1;
-  letter-spacing:.02em;text-decoration:none;color:var(--lb-ink)}
-.nav-toggle{font-family:var(--lb-font-mono);font-weight:400;font-size:var(--lb-label);
-  line-height:1;letter-spacing:var(--lb-track-label);
-  text-transform:uppercase;color:var(--lb-ink)}
-.nav-toggle .lbl-close{display:none}
-.nav-d[open] .nav-toggle .lbl-open{display:none}
-.nav-d[open] .nav-toggle .lbl-close{display:inline}
-
-/* HOVER DEL BOTON DE MENU. Subrayado que entra y un acercamiento corto.
-   Cuatro decisiones que no se ven en el resultado pero lo sostienen:
-   - El subrayado es un pseudoelemento con background:currentColor, no
-     text-decoration. La barra va en mix-blend-mode:difference, asi que
-     currentColor se invierte con el resto y funciona sobre papel y sobre negro.
-     Ademas text-decoration no se puede animar de un lado al otro.
-   - transform-origin a la derecha: el boton vive pegado al borde de la pantalla
-     y crecer desde el centro lo empujaria contra el margen.
-   - El mismo estado en :focus-visible. Quien navega con teclado tiene que ver
-     lo mismo que quien pasa el raton, no solo el contorno.
-   - Todo dentro de (hover:hover): en tactil no hay hover, y sin este guardia el
-     estado se queda pegado despues de tocar. */
-.nav-toggle{display:inline-block;position:relative;transform-origin:right center;
-  transition:transform .45s cubic-bezier(.16,1,.3,1)}
-.nav-toggle::after{content:'';position:absolute;left:0;right:0;bottom:-5px;height:1px;
-  background:currentColor;transform:scaleX(0);transform-origin:right center;
-  transition:transform .45s cubic-bezier(.16,1,.3,1)}
-@media(hover:hover){
-  .nav-toggle:hover,
-  .nav-bar:focus-visible .nav-toggle{transform:scale(1.12)}
-  .nav-toggle:hover::after,
-  .nav-bar:focus-visible .nav-toggle::after{transform:scaleX(1)}
-}
-/* El subrayado se queda: es la senal de que ese elemento hace algo. Lo que se
-   va es el movimiento. */
-@media (prefers-reduced-motion:reduce){
-  .nav-toggle,.nav-toggle::after{transition:none}
-  .nav-toggle:hover{transform:none}
-}
-
-
-/* Kept rendered while closed: a display:none panel has no painted start frame,
-   so the masked reveal would be skipped entirely on open. */
-.nav-panel{display:block;max-width:var(--lb-maxw);margin:0 auto;padding:0 var(--lb-margin);
-  overflow:hidden;max-height:0;visibility:hidden;
-  transition:max-height .55s cubic-bezier(.16,1,.3,1),visibility 0s linear .55s}
-.nav-d[open] .nav-panel{max-height:86vh;visibility:visible;
-  transition:max-height .55s cubic-bezier(.16,1,.3,1),visibility 0s}
-.nav-links,.nav-foot{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;
-  align-items:flex-end;text-align:right;gap:14px}
-.nav-links{padding-top:clamp(18px,2.4vw,34px);gap:clamp(4px,.6vw,10px)}
-/* secondary links run as a row: nine stacked items collided with the hero headline */
-.nav-foot{flex-direction:row;justify-content:flex-end;flex-wrap:wrap;
-  padding-top:clamp(24px,3vw,40px);gap:clamp(16px,2vw,26px)}
-.nav-links a,.nav-foot a{display:block;position:relative;overflow:hidden;
-  text-decoration:none;color:var(--lb-ink)}
-.nav-links a{font-family:var(--lb-font-display);font-weight:400;
-  font-size:clamp(30px,4.6vw,56px);line-height:1.04;
-  letter-spacing:var(--lb-track-display);text-transform:none}
-/* Los secundarios se quedan en la voz de etiqueta: son destino, no titular. */
-.nav-foot a{font-family:var(--lb-font-mono);font-weight:400;font-size:var(--lb-label);
-  line-height:1;letter-spacing:var(--lb-track-label);text-transform:uppercase;opacity:.55}
-.nav-links a::before{content:'';position:absolute;left:0;right:0;bottom:.12em;height:1px;
-  background:currentColor;transform:scaleX(0);transform-origin:left;
-  transition:transform .5s var(--lb-ease)}
-@media(hover:hover){.nav-links a:hover::before{transform:scaleX(1)}}
-.nav-foot a:hover{opacity:1}
-/* enlarges the tap area into the gap without breaking the one-line mask */
-.nav-links a::after{content:'';position:absolute;left:0;right:0;top:-4px;bottom:-4px}
-.nav-foot a::after{content:'';position:absolute;left:0;right:0;top:-9px;bottom:-9px}
-/* the reveal itself: each label starts pushed below its own mask */
-.nav-links a span,.nav-foot a span{display:block;transform:translateY(110%);
-  transition:transform .6s cubic-bezier(.16,1,.3,1)}
-.nav-d[open] .nav-links a span,.nav-d[open] .nav-foot a span{transform:translateY(0)}
-.nav-links li:nth-child(1) a span{transition-delay:.05s}
-.nav-links li:nth-child(2) a span{transition-delay:.11s}
-.nav-links li:nth-child(3) a span{transition-delay:.17s}
-.nav-links li:nth-child(4) a span{transition-delay:.23s}
-.nav-links li:nth-child(5) a span{transition-delay:.29s}
-.nav-links li:nth-child(6) a span{transition-delay:.35s}
-.nav-foot li:nth-child(1) a span{transition-delay:.41s}
-.nav-foot li:nth-child(2) a span{transition-delay:.45s}
-.nav-foot li:nth-child(3) a span{transition-delay:.49s}
-.nav-foot li:nth-child(4) a span{transition-delay:.53s}
-.nav-d:not([open]) .nav-links a span,.nav-d:not([open]) .nav-foot a span{transition-delay:0s}
-html:not(.js) .nav-panel{max-height:none;visibility:visible;overflow:visible}
-html:not(.js) .nav-links a span,html:not(.js) .nav-foot a span{transform:none}
-@media(max-width:760px){
-  /* En movil el menu no se encoge a tamano de pie: es la misma revelacion,
-     solo que el peldano de display que cabe. El clamp ya lo resuelve, asi
-     que aqui solo se toca el aire y el area de pulsacion. */
-  .nav-links{gap:6px}
-  .nav-foot{gap:18px}
-  .nav-links a::after{top:-6px;bottom:-6px}
-  .nav-foot a::after{top:-12px;bottom:-12px}
-}
+/* La navegacion vive entera en nav.css, que cargan las cuatro paginas.
+   Antes estaba aqui y copiada a mano dentro de cada caso: cuatro copias
+   del mismo menu que ya habian empezado a separarse entre si. */
 
 /* =========================================================
    BOTON  ·  identidad V1 §4
@@ -814,12 +706,6 @@ section.lab h2{text-align:left;font-family:var(--lb-font-display);font-weight:40
   transition:color var(--lb-dur-ui,180ms) ease}
 .lab-link:hover .lab-handle{color:var(--lb-ink)}
 .bg-row .lab{padding:0;border-top:0}
-/* El film del lab. Ancho grande pero no a sangre: la seccion es un descanso,
-   no un climax, y a sangre competiria con las tres historias que van justo
-   encima. El fondo oscuro evita el destello blanco mientras carga. */
-.lab-film{margin:clamp(50px,7vw,96px) 0 0;width:100%;max-width:550px}
-.lab-film video{display:block;width:100%;height:auto;background:var(--lb-raised)}
-@media(max-width:760px){.lab-film{margin-top:clamp(38px,8vw,60px)}}
 
 
 /* TRES MANERAS. Banda en papel entre el About y el trabajo. Ojo con el color:
@@ -1021,7 +907,6 @@ html.js .shot[data-d="2"]{transition-delay:.22s}
   html{scroll-behavior:auto}
   .rv{opacity:1!important;transform:none!important}
   .ln i{transform:none!important}
-  .nav-links a span,.nav-foot a span{transform:none!important;transition:none!important}
   .cue span{animation:none}
   .hero{min-height:auto;padding:170px 0 90px}
 }
@@ -1061,12 +946,6 @@ p,li,figcaption,.fsb-c,.ap-d,.about-sub,.hero-note .body,.after{text-wrap:pretty
   --lb-accent:     var(--lb-accent-deep);
 }
 
-/* 4 · ACCESIBILIDAD · El area de pulsacion del logo eran 14px de alto.
-   WCAG 2.5.8 pide 24. Los enlaces del menu ya lo resolvian con un ::after;
-   el logo no lo tenia. */
-.nav-logo{position:relative}
-.nav-logo::after{content:'';position:absolute;left:-4px;right:-4px;top:-7px;bottom:-7px}
-
 /* =========================================================
    ORIGEN. Contabilidad antes que producto.
    Suelo papel entre dos oscuros, porque es el momento en que la pagina deja
@@ -1104,13 +983,6 @@ p,li,figcaption,.fsb-c,.ap-d,.about-sub,.hero-note .body,.after{text-wrap:pretty
   letter-spacing:.04em;color:var(--lb-ink);margin:0;
   padding-left:14px;border-left:var(--lb-hairline) solid var(--lb-accent)}
 
-/* El menu tiene un enlace mas. Sin su retardo aparece de golpe mientras los
-   otros cascadean, y se lee como un fallo. */
-.nav-links li:nth-child(7) a span{transition-delay:.41s}
-.nav-foot li:nth-child(1) a span{transition-delay:.47s}
-.nav-foot li:nth-child(2) a span{transition-delay:.51s}
-.nav-foot li:nth-child(3) a span{transition-delay:.55s}
-.nav-foot li:nth-child(4) a span{transition-delay:.59s}
 
 /* QUE ES EL LAB. Iba sin explicar: titulo, handle y video. Un reclutador no
    sabia si es trabajo profesional, aficion o una cuenta muerta. El copy sale
@@ -1139,13 +1011,61 @@ p,li,figcaption,.fsb-c,.ap-d,.about-sub,.hero-note .body,.after{text-wrap:pretty
   padding-top:clamp(28px,3.4vw,44px);border-top:var(--lb-hairline) solid var(--lb-line)}
 .lab-pieza h3{font-family:var(--lb-font-display);font-weight:400;
   font-size:var(--lb-display-m);line-height:var(--lb-lh-display-m);
-  letter-spacing:var(--lb-track-display);color:var(--lb-ink);margin:0 0 14px;text-wrap:balance}
-.lab-pieza p{font-size:var(--lb-body);line-height:var(--lb-lh-body);
-  color:var(--lb-ink-2);margin:0 0 14px;max-width:56ch;text-wrap:pretty}
-.lab-pieza .k{margin:0 0 14px}
+  letter-spacing:var(--lb-track-display);color:var(--lb-ink);margin:0;text-wrap:balance}
+.lab-pieza .k{display:block;font-family:var(--lb-font-mono);font-size:var(--lb-label);
+  letter-spacing:var(--lb-track-label);text-transform:uppercase;
+  color:var(--lb-mid);margin:0 0 14px}
+
+/* EL EXPERIMENTO ES SU VIDEO. La pieza ya no es un parrafo con un boton al
+   lado: lo primero que se ve es la cosa corriendo. Ocupa las dos columnas
+   porque es la cabeza del bloque, no una ilustracion de apoyo. */
+.lab-media{grid-column:1/-1;position:relative;display:block;width:100%;
+  aspect-ratio:1280/740;overflow:hidden;background:var(--lb-raised);
+  cursor:pointer;text-decoration:none;color:var(--lb-ink);
+  margin:0 0 clamp(22px,2.8vw,38px)}
+.lab-media video{display:block;width:100%;height:100%;object-fit:cover}
+
+/* El velo es el suelo oscuro de la casa a .88, no un negro nuevo. A esa
+   opacidad la tinta corrida da 13:1 sobre el fotograma mas claro de los dos
+   videos, asi que la descripcion se lee siempre, no solo sobre lo oscuro. */
+.lab-media__veil{position:absolute;inset:0;display:flex;flex-direction:column;
+  justify-content:flex-end;gap:14px;padding:clamp(20px,3vw,40px);
+  background:rgba(10,10,12,.88);
+  opacity:0;transition:opacity .35s var(--lb-ease)}
+@media(hover:hover){.lab-media:hover .lab-media__veil{opacity:1}}
+.lab-media:focus-visible .lab-media__veil{opacity:1}
+.lab-media__desc{font-size:var(--lb-body);line-height:var(--lb-lh-body);
+  color:var(--lb-ink);max-width:56ch;text-wrap:pretty}
+.lab-media__priv,.lab-media__cue{font-family:var(--lb-font-mono);
+  font-size:var(--lb-label);letter-spacing:var(--lb-track-label);
+  text-transform:uppercase}
+/* Tinta corrida, no metadato: --lb-mid se queda en 3.7:1 sobre el velo. */
+.lab-media__priv{color:var(--lb-ink-2)}
+.lab-media__cue{color:var(--lb-ink)}
+/* Sin raton no hay hover que descubrir: el velo se queda puesto. */
+@media(hover:none){.lab-media__veil{opacity:1}}
+@media(prefers-reduced-motion:reduce){.lab-media__veil{transition:none}}
+/* Red de seguridad para los anchos intermedios: antes de recortar la
+   descripcion, que se pueda desplazar. */
+.lab-media__veil{overflow-y:auto}
+
+/* En estrecho el velo no cabe y no hay forma de hacerlo caber: a 332px de
+   ancho la caja del video mide 192px de alto, y la descripcion sola ya pide
+   mas. Asi que el texto deja de ir encima y pasa a ir debajo, que ademas es
+   lo que necesita un telefono, donde no hay hover que lo revele. */
+@media(max-width:760px){
+  .lab-media{aspect-ratio:auto;background:none;overflow:visible}
+  .lab-media video{aspect-ratio:1280/740;background:var(--lb-raised)}
+  .lab-media__veil{position:static;opacity:1;background:none;
+    padding:18px 0 0;gap:12px;overflow:visible}
+  .lab-media__desc{color:var(--lb-ink-2)}
+  .lab-media__priv{color:var(--lb-mid)}
+}
+
 .lab-priv{font-family:var(--lb-font-mono);font-size:var(--lb-label);
   letter-spacing:var(--lb-track-label);text-transform:uppercase;
   color:var(--lb-mid);margin:0!important}
 @media(max-width:820px){
   .lab-pieza{grid-template-columns:1fr;align-items:start;gap:26px}
+  .lab-media{margin-bottom:4px}
 }

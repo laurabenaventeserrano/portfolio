@@ -4,16 +4,7 @@ var sel='.rv, .shot';
 var aboutSel='.about li .ln';
 var hero=document.getElementById('hero');
 
-/* nav: works with or without motion */
-var navD=document.getElementById('nav-d');
-if(navD){
-  navD.querySelectorAll('.nav-panel a').forEach(function(a){
-    a.addEventListener('click',function(){navD.removeAttribute('open')});
-  });
-  document.addEventListener('keydown',function(e){
-    if(e.key==='Escape'&&navD.hasAttribute('open')){navD.removeAttribute('open');navD.querySelector('.nav-bar').focus()}
-  });
-}
+/* El menu lo lleva nav.js, que cargan las cuatro paginas. */
 
 function revealAll(){
   document.querySelectorAll(sel+', '+aboutSel).forEach(function(el){el.classList.add('in')});
@@ -82,12 +73,14 @@ if(fsb&&window.matchMedia('(min-width:861px)').matches&&
    Va antes del return por movimiento reducido a proposito, para cubrir los dos
    caminos: si se ha pedido menos movimiento no arranca solo y aparecen los
    controles, para que el lector decida. */
-function soloEnCuadro(v,margen){
+function soloEnCuadro(v,margen,sinControles){
   if(!v)return;
   if(RM||!('IntersectionObserver' in window)){
     /* Con movimiento reducido no arranca solo: se queda en su poster y
-       aparecen los controles, para que decida quien lee. */
-    v.controls=true;
+       aparecen los controles, para que decida quien lee. Salvo dentro de un
+       enlace: unos controles ahi son un mando interactivo metido en otro, y
+       el lector no sabria si pulsa el play o abre la pieza. */
+    if(!sinControles)v.controls=true;
     return;
   }
   var o=new IntersectionObserver(function(entries){
@@ -104,7 +97,11 @@ function soloEnCuadro(v,margen){
   o.observe(v);
 }
 
-soloEnCuadro(document.getElementById('lab-film'),'0px 0px -15% 0px');
+/* Un video por experimento. Van dentro del enlace que abre la pieza, asi que
+   nunca llevan controles: el mando es el enlace entero. */
+document.querySelectorAll('.lab-media video').forEach(function(v){
+  soloEnCuadro(v,'0px 0px -15% 0px',true);
+});
 
 /* Las dos portadas con video. Margen mas holgado que el del lab: ocupan la
    pantalla entera, asi que conviene que ya esten corriendo cuando el lector
