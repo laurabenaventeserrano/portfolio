@@ -52,9 +52,10 @@ a{color:inherit}
    solo listener de scroll, y un hijo no puede salirse del grupo de mezcla de
    su ancestro. Un prisma invertido son siete colores que no estan en la
    paleta, asi que el filete se omite en vez de falsearlo. */
-.nav-logo{font-family:var(--lb-font-display);font-weight:400;font-size:14px;line-height:1;
+.nav-logo{font-family:var(--lb-font-display);font-weight:400;font-size:var(--lb-display-s);line-height:1;
   letter-spacing:.02em;text-decoration:none;color:var(--lb-ink)}
-.nav-toggle{font-family:var(--lb-font-body);font-weight:500;font-size:var(--lb-body-s);line-height:1;letter-spacing:.03em;
+.nav-toggle{font-family:var(--lb-font-mono);font-weight:400;font-size:var(--lb-label);
+  line-height:1;letter-spacing:var(--lb-track-label);
   text-transform:uppercase;color:var(--lb-ink)}
 .nav-toggle .lbl-close{display:none}
 .nav-d[open] .nav-toggle .lbl-open{display:none}
@@ -96,22 +97,30 @@ a{color:inherit}
 .nav-panel{display:block;max-width:var(--lb-maxw);margin:0 auto;padding:0 var(--lb-margin);
   overflow:hidden;max-height:0;visibility:hidden;
   transition:max-height .55s cubic-bezier(.16,1,.3,1),visibility 0s linear .55s}
-.nav-d[open] .nav-panel{max-height:70vh;visibility:visible;
+.nav-d[open] .nav-panel{max-height:86vh;visibility:visible;
   transition:max-height .55s cubic-bezier(.16,1,.3,1),visibility 0s}
 .nav-links,.nav-foot{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;
   align-items:flex-end;text-align:right;gap:14px}
-.nav-links{padding-top:12px;gap:12px}
+.nav-links{padding-top:clamp(18px,2.4vw,34px);gap:clamp(4px,.6vw,10px)}
 /* secondary links run as a row: nine stacked items collided with the hero headline */
-.nav-foot{flex-direction:row;justify-content:flex-end;flex-wrap:wrap;padding-top:20px;gap:16px}
+.nav-foot{flex-direction:row;justify-content:flex-end;flex-wrap:wrap;
+  padding-top:clamp(24px,3vw,40px);gap:clamp(16px,2vw,26px)}
 .nav-links a,.nav-foot a{display:block;position:relative;overflow:hidden;
-  font-family:var(--lb-font-body);font-weight:500;line-height:1;letter-spacing:.03em;
-  text-transform:uppercase;text-decoration:none;color:var(--lb-ink)}
-.nav-links a{font-size:var(--lb-body-s)}
-.nav-foot a{font-size:var(--lb-body-s);opacity:.55}
-.nav-links a:hover,.nav-foot a:hover{opacity:.6}
+  text-decoration:none;color:var(--lb-ink)}
+.nav-links a{font-family:var(--lb-font-display);font-weight:400;
+  font-size:clamp(30px,4.6vw,56px);line-height:1.04;
+  letter-spacing:var(--lb-track-display);text-transform:none}
+/* Los secundarios se quedan en la voz de etiqueta: son destino, no titular. */
+.nav-foot a{font-family:var(--lb-font-mono);font-weight:400;font-size:var(--lb-label);
+  line-height:1;letter-spacing:var(--lb-track-label);text-transform:uppercase;opacity:.55}
+.nav-links a::before{content:'';position:absolute;left:0;right:0;bottom:.12em;height:1px;
+  background:currentColor;transform:scaleX(0);transform-origin:left;
+  transition:transform .5s var(--lb-ease)}
+@media(hover:hover){.nav-links a:hover::before{transform:scaleX(1)}}
 .nav-foot a:hover{opacity:1}
 /* enlarges the tap area into the gap without breaking the one-line mask */
-.nav-links a::after,.nav-foot a::after{content:'';position:absolute;left:0;right:0;top:-7px;bottom:-7px}
+.nav-links a::after{content:'';position:absolute;left:0;right:0;top:-4px;bottom:-4px}
+.nav-foot a::after{content:'';position:absolute;left:0;right:0;top:-9px;bottom:-9px}
 /* the reveal itself: each label starts pushed below its own mask */
 .nav-links a span,.nav-foot a span{display:block;transform:translateY(110%);
   transition:transform .6s cubic-bezier(.16,1,.3,1)}
@@ -130,9 +139,13 @@ a{color:inherit}
 html:not(.js) .nav-panel{max-height:none;visibility:visible;overflow:visible}
 html:not(.js) .nav-links a span,html:not(.js) .nav-foot a span{transform:none}
 @media(max-width:760px){
-  .nav-links a,.nav-foot a{font-size:var(--lb-body)}
-  .nav-links,.nav-foot{gap:22px}
-  .nav-links a::after,.nav-foot a::after{top:-11px;bottom:-11px}
+  /* En movil el menu no se encoge a tamano de pie: es la misma revelacion,
+     solo que el peldano de display que cabe. El clamp ya lo resuelve, asi
+     que aqui solo se toca el aire y el area de pulsacion. */
+  .nav-links{gap:6px}
+  .nav-foot{gap:18px}
+  .nav-links a::after{top:-6px;bottom:-6px}
+  .nav-foot a::after{top:-12px;bottom:-12px}
 }
 
 /* =========================================================

@@ -40,7 +40,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   decoding="async" alt="..."> y su <figcaption>.
 -->
 
-<link rel="stylesheet" href="tokens.css?v=71">
+<link rel="stylesheet" href="tokens.css?v=74">
 <style>
 @font-face{font-family:'Libertinus Serif';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/libertinus-serif-latin-400-normal.woff2) format('woff2')}
 @font-face{font-family:'Libertinus Serif';font-weight:400;font-style:italic;font-display:swap;src:url(fonts/libertinus-serif-latin-400-italic.woff2) format('woff2')}
@@ -762,6 +762,53 @@ p,li,figcaption,.fsb-c,.ap-d,.about-sub,.hero-note .body,.after{text-wrap:pretty
 .nav-foot li:nth-child(2) a span{transition-delay:.51s}
 .nav-foot li:nth-child(3) a span{transition-delay:.55s}
 .nav-foot li:nth-child(4) a span{transition-delay:.59s}
+
+/* =========================================================
+   MENU. Correccion de sistema.
+   "Laura Benavente" iba en Libertinus 14 y "Menu" en Roboto 13, en
+   mayusculas y con tracking: cuatro diferencias a la vez (familia, cuerpo,
+   peso y caja) en la misma linea, y por eso parecian dos sistemas.
+   "Menu" llevaba el traje de una etiqueta con la fuente de texto. La voz de
+   etiqueta de esta casa es Roboto Mono, que es el estilo mas repetido del
+   sitio. Pasa a mono y el par queda disenado: serif para la identidad, mono
+   para el control.
+   Los enlaces eran del tamano de un pie de foto. Un menu a pantalla completa
+   que ofrece letra de pie no da ninguna razon para haberse abierto: pasan a
+   display. El contraste entre el control diminuto y lo que revela es lo que
+   hace que un menu se recuerde.
+   ========================================================= */
+.nav-logo{font-size:var(--lb-display-s)}
+.nav-toggle{font-family:var(--lb-font-mono);font-weight:400;font-size:var(--lb-label);
+  letter-spacing:var(--lb-track-label)}
+.nav-d[open] .nav-panel{max-height:86vh}
+.nav-links{padding-top:clamp(18px,2.4vw,34px);gap:clamp(4px,.6vw,10px)}
+.nav-foot{padding-top:clamp(24px,3vw,40px);gap:clamp(16px,2vw,26px)}
+.nav-links a{font-family:var(--lb-font-display);font-weight:400;
+  font-size:clamp(30px,4.6vw,56px);line-height:1.04;
+  letter-spacing:var(--lb-track-display);text-transform:none}
+.nav-foot a{font-family:var(--lb-font-mono);font-weight:400;font-size:var(--lb-label);
+  letter-spacing:var(--lb-track-label);text-transform:uppercase}
+.nav-links a::after{top:-4px;bottom:-4px}
+.nav-foot a::after{top:-9px;bottom:-9px}
+/* En display el gesto no es bajar la opacidad, que aplana un titular: es el
+   filete que se dibuja debajo, como en el resto de la casa. */
+.nav-links a:hover{opacity:1}
+.nav-links a::before{content:'';position:absolute;left:0;right:0;bottom:.12em;height:1px;
+  background:currentColor;transform:scaleX(0);transform-origin:left;
+  transition:transform .5s var(--lb-ease)}
+@media(hover:hover){.nav-links a:hover::before{transform:scaleX(1)}}
+.nav-links li:nth-child(7) a span{transition-delay:.41s}
+.nav-foot li:nth-child(1) a span{transition-delay:.47s}
+.nav-foot li:nth-child(2) a span{transition-delay:.51s}
+.nav-foot li:nth-child(3) a span{transition-delay:.55s}
+.nav-foot li:nth-child(4) a span{transition-delay:.59s}
+@media(max-width:760px){
+  .nav-links{gap:6px}
+  .nav-foot{gap:18px}
+  .nav-links a{font-size:30px}
+  .nav-links a::after{top:-6px;bottom:-6px}
+  .nav-foot a::after{top:-12px;bottom:-12px}
+}
 </style>
 </head>
 <body>
