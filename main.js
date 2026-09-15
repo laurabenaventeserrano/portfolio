@@ -82,24 +82,36 @@ if(fsb&&window.matchMedia('(min-width:861px)').matches&&
    Va antes del return por movimiento reducido a proposito, para cubrir los dos
    caminos: si se ha pedido menos movimiento no arranca solo y aparecen los
    controles, para que el lector decida. */
-var film=document.getElementById('lab-film');
-if(film){
+function soloEnCuadro(v,margen){
+  if(!v)return;
   if(RM||!('IntersectionObserver' in window)){
-    film.controls=true;
-  }else{
-    var fio=new IntersectionObserver(function(entries){
-      entries.forEach(function(en){
-        if(en.isIntersecting){
-          var pr=film.play();
-          if(pr&&pr.catch)pr.catch(function(){ film.controls=true });
-        }else{
-          film.pause();
-        }
-      });
-    },{rootMargin:'0px 0px -15% 0px'});
-    fio.observe(film);
+    /* Con movimiento reducido no arranca solo: se queda en su poster y
+       aparecen los controles, para que decida quien lee. */
+    v.controls=true;
+    return;
   }
+  var o=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        if(v.preload==='none'){ v.preload='auto'; v.load() }
+        var pr=v.play();
+        if(pr&&pr.catch)pr.catch(function(){ v.controls=true });
+      }else{
+        v.pause();
+      }
+    });
+  },{rootMargin:margen});
+  o.observe(v);
 }
+
+soloEnCuadro(document.getElementById('lab-film'),'0px 0px -15% 0px');
+
+/* Las dos portadas con video. Margen mas holgado que el del lab: ocupan la
+   pantalla entera, asi que conviene que ya esten corriendo cuando el lector
+   termina de entrar en ellas. */
+document.querySelectorAll('.story-hero__media video').forEach(function(v){
+  soloEnCuadro(v,'0px 0px -5% 0px');
+});
 
 if(RM||!('IntersectionObserver' in window)){ revealAll(); return }
 
@@ -335,7 +347,7 @@ function start(){
 
   /* scroll-linked parallax: under 8% displacement, desktop only */
   if(window.matchMedia('(min-width:761px)').matches){
-    var fills=Array.prototype.slice.call(document.querySelectorAll('.story-hero__media img'));
+    var fills=Array.prototype.slice.call(document.querySelectorAll('.story-hero__media img,.story-hero__media video'));
     var ticking=false;
     /* Cada pieza se mueve a SU ritmo, no todas al mismo: es lo que separa una
        composicion de tres imagenes con parallax. La relacion entre ellas cambia

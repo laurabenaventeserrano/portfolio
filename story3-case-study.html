@@ -17,8 +17,30 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
-<title>Designing for a wait that could not be shortened · Laura Benavente</title>
-<link rel="stylesheet" href="tokens.css?v=48">
+<title>Designing across connected consumer experiences · Laura Benavente</title>
+<meta name="description" content="Movistar at frog: three products across web, mobile and television, and a connectivity diagnostic whose wait could not be shortened, only made understandable.">
+
+<!--
+  IMAGENES. Ya no queda ningun marcador vacio: la pagina solo monta archivos
+  reales. Los numeros son los del guion original, con los huecos que se
+  retiraron por el camino.
+
+  05 images/IMAGE_05.png   3195x1051  el diagrama del recorrido
+  08 images/IMAGE_08.png   1280x810   Firm Settings y el panel de productos
+  09 images/IMAGE_09.png   1280x810   navegacion lateral anotada
+  10 images/IMAGE_10.png   1280x810   el dashboard
+  13 images/13.Design-handoff.png 1746x660  el tablero de handoff
+  14 images/IMAGE_14.png   2126x1086  el tablero de research
+  15 images/IMAGE_15.png   1169x431   biblioteca de componentes
+
+  video/code-games.mp4     1442x836   9s, arranca solo y en silencio
+
+  Retirados: 01, 02, 03, 04, 06, 07, 11, 12 y 16. Para anadir una imagen nueva, un <figure> con
+  <img class="figimg" src="..." width="..." height="..." loading="lazy"
+  decoding="async" alt="..."> y su <figcaption>.
+-->
+
+<link rel="stylesheet" href="tokens.css?v=61">
 <style>
 @font-face{font-family:'Libertinus Serif';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/libertinus-serif-latin-400-normal.woff2) format('woff2')}
 @font-face{font-family:'Libertinus Serif';font-weight:400;font-style:italic;font-display:swap;src:url(fonts/libertinus-serif-latin-400-italic.woff2) format('woff2')}
@@ -27,6 +49,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 @font-face{font-family:'Roboto';font-weight:500;font-style:normal;font-display:swap;src:url(fonts/roboto-latin-500-normal.woff2) format('woff2')}
 @font-face{font-family:'Roboto Mono';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/roboto-mono-latin-400-normal.woff2) format('woff2')}
 
+/* Dark editorial system, same tokens as index.html. The case study now shares
+   the homepage ground instead of the warm-paper system of Story 2 and Story 3. */
 /* Los tokens viven en tokens.css, cargado antes de este bloque. */
 
 
@@ -37,17 +61,43 @@ body{margin:0;background:var(--lb-ground);color:var(--lb-ink);font-family:var(--
   font-size:var(--lb-body);line-height:var(--lb-lh-body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
 .w{max-width:1280px;margin:0 auto;padding:0 var(--lb-margin)}
-.sec{padding:clamp(80px,11vw,180px) 0;position:relative}
+
+/* Rhythm. Three densities, assigned deliberately so the page never settles into
+   a predictable beat. Uniform padding ran this page to 33 screens with every
+   section between 1 and 2.3 screens, which is a metronome, not a story. */
+.sec{padding:clamp(60px,7vw,104px) 0;position:relative}
+.sec--open{padding:clamp(100px,13vw,190px) 0}
+.sec--tight{padding:clamp(38px,4.4vw,62px) 0}
+
+/* Full-bleed utilities. 100vw would include the scrollbar and push the page
+   sideways, so the real scrollbar width is measured once and subtracted. */
+.ph--bleed{width:calc(100vw - var(--lb-sbw));
+  margin-left:calc(50% - (100vw - var(--lb-sbw))/2);margin-right:calc(50% - (100vw - var(--lb-sbw))/2)}
+.ph--wide{width:calc(92vw - var(--lb-sbw));
+  margin-left:calc(50% - (92vw - var(--lb-sbw))/2);margin-right:calc(50% - (92vw - var(--lb-sbw))/2)}
+@media(max-width:767px){.ph--bleed,.ph--wide{width:100%;margin-left:0;margin-right:0}}
+/* Un pie no se va al borde de la pantalla solo porque su figura vaya a sangre.
+   La imagen ocupa el ancho entero; el pie vuelve al margen del texto, que es
+   donde el lector lo busca. Antes esta utilidad no se habia usado nunca con
+   pie, asi que el caso no estaba cubierto. */
+figure.ph--bleed > figcaption,figure.ph--wide > figcaption{
+  max-width:var(--lb-maxw);margin-left:auto;margin-right:auto;
+  padding-left:var(--lb-margin);padding-right:var(--lb-margin)}
+.tint{background:var(--lb-raised)}
+/* the one light moment in the page: the working-model chapter, so the reader
+   surfaces once before the closing statement */
 .light{background:var(--lb-cream);color:var(--lb-cream-ink)}
 .light p{color:var(--lb-cream-body)}
-.pivot p{color:var(--lb-ink)}
 .light .k{color:var(--lb-cream-meta)}
 /* La cifra es estructura, no metadato: sobre papel va en tinta plena. */
 .light .n{color:var(--lb-cream-ink)}
-.pivot .k,.pivot .n{color:var(--lb-ink)}
 .light .rule{background:var(--lb-line-on-paper)}
-.pivot .rule{background:var(--lb-line)}
-.tint{background:var(--lb-raised)}
+.light strong{color:var(--lb-cream-ink)}
+.light ul.p li{border-color:var(--lb-line-on-paper);color:var(--lb-cream-body)}
+.light ul.p li .i{color:var(--lb-cream-meta)}
+.light :focus-visible{outline-color:var(--lb-cream-ink)}
+
+[id]{scroll-margin-top:92px}
 
 .skip-link{position:absolute;left:16px;top:-60px;z-index:200;background:var(--lb-ink);color:var(--lb-ground);
   padding:10px 18px;font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);
@@ -135,8 +185,6 @@ html:not(.js) .nav-links a span,html:not(.js) .nav-foot a span{transform:none}
   .nav-links a::after,.nav-foot a::after{top:-11px;bottom:-11px}
 }
 :focus-visible{outline:2px solid var(--lb-ink);outline-offset:3px}
-.light :focus-visible{outline-color:var(--lb-cream-ink)}
-.pivot :focus-visible{outline-color:var(--lb-ink)}
 
 h1{font-family:var(--lb-font-display);font-weight:400;font-size:var(--lb-display-xl);
   line-height:.9;letter-spacing:var(--lb-track-display);margin:0}
@@ -148,8 +196,6 @@ p{margin:0 0 22px;max-width:62ch;color:var(--lb-ink-2);
   font-size:var(--lb-body);line-height:var(--lb-lh-body)}
 em{font-style:italic}
 strong{font-weight:500;color:var(--lb-ink)}
-.light strong{color:var(--lb-cream-ink)}
-.pivot strong{color:var(--lb-ink)}
 
 /* Kicker. Es la mitad izquierda de la cabecera de seccion del §4: etiqueta
    en mono y un filete prisma de 1px llenando el resto de la linea. El valor
@@ -209,18 +255,23 @@ html:not(.js) .prism-rule::before{transform:none}
 @media (prefers-reduced-motion:reduce){
   .prism-rule::before{transform:none;transition:none}
 }
+.lead{font-size:17px;line-height:1.55;color:var(--lb-ink);max-width:46ch}
 
 .head{display:grid;grid-template-columns:clamp(80px,9vw,150px) 1fr;gap:clamp(20px,3vw,50px);align-items:start}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,90px)}
 .two-a{display:grid;grid-template-columns:5fr 7fr;gap:clamp(30px,5vw,80px)}
+.two-b{display:grid;grid-template-columns:7fr 5fr;gap:clamp(30px,5vw,80px)}
 .three{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(26px,3.6vw,58px)}
-@media(max-width:900px){.two,.two-a,.three,.head{grid-template-columns:1fr;gap:26px}}
+@media(max-width:900px){.two,.two-a,.two-b,.three,.head{grid-template-columns:1fr;gap:26px}}
 
-.hero{padding:clamp(120px,16vw,160px) 0 0}
-.hero-top{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:14px;gap:20px;flex-wrap:wrap}
-.hero-top + .prism-rule{margin-bottom:clamp(50px,9vw,120px)}
+.hero{padding:clamp(120px,16vw,170px) 0 0}
+.hero-top{display:flex;justify-content:space-between;align-items:baseline;
+  padding-bottom:14px;gap:20px;flex-wrap:wrap}
+.hero-top + .prism-rule{margin-bottom:clamp(50px,9vw,110px)}
 .hero-top span{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:1.4px;text-transform:uppercase;color:var(--lb-mid)}
 .hero h1 em{color:var(--lb-ink-2)}
+.hero-sub{font-family:var(--lb-font-display);font-size:var(--lb-display-l);line-height:var(--lb-lh-display-l);letter-spacing:-.01em;
+  color:var(--lb-ink-2);margin:clamp(20px,2.4vw,34px) 0 0;max-width:24ch}
 .hero-meta{display:flex;flex-wrap:wrap;margin:clamp(44px,6vw,80px) 0 0;border-top:var(--lb-hairline) solid var(--lb-line)}
 .hero-meta span{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-mid);
   padding:14px 22px 14px 0;border-right:var(--lb-hairline) solid var(--lb-line);margin-right:22px}
@@ -245,92 +296,472 @@ html:not(.js) .prism-rule::before{transform:none}
   .stat{border-right:0;border-bottom:var(--lb-hairline) solid var(--lb-line);margin-right:0;padding:16px 0}
   .stat:last-child{border-bottom:0;padding-bottom:0}
 }
+.hero-note{margin-top:clamp(40px,5vw,72px);display:grid;grid-template-columns:clamp(80px,9vw,150px) 1fr;gap:clamp(20px,3vw,50px)}
+@media(max-width:900px){.hero-note{grid-template-columns:1fr}}
+.hero-note .body{max-width:56ch;font-size:var(--lb-body);color:var(--lb-ink-2);border-left:var(--lb-hairline) solid var(--lb-line-strong);padding-left:24px}
 
-.conf{margin-top:clamp(46px,6vw,84px);display:grid;grid-template-columns:clamp(80px,9vw,150px) 1fr;gap:clamp(20px,3vw,50px)}
-@media(max-width:900px){.conf{grid-template-columns:1fr}}
-.conf .body{max-width:56ch;font-size:var(--lb-body-s);color:var(--lb-ink-2);border-left:var(--lb-hairline) solid var(--lb-line-strong);padding-left:24px}
-.rd{display:inline-block;background:var(--lb-ink);color:transparent;padding:0 .55em;user-select:none}
-
-.pivot{background:var(--lb-ground);color:var(--lb-ink);padding:clamp(90px,14vw,220px) 0}
+/* full-bleed statement, the two moments where the page stops and says one thing */
+.pivot{background:var(--lb-raised);padding:clamp(90px,14vw,220px) 0}
 .pivot .stmt{font-family:var(--lb-font-display);font-size:var(--lb-display-xl);
-  line-height:.9;letter-spacing:var(--lb-track-display);max-width:17ch;margin:0 0 clamp(40px,6vw,80px)}
+  line-height:.9;letter-spacing:var(--lb-track-display);
+  max-width:17ch;margin:0 0 clamp(36px,5vw,64px);color:var(--lb-ink)}
 .pivot .stmt i{font-style:italic;color:var(--lb-accent)}
+.pivot .after{max-width:52ch;color:var(--lb-ink-2);margin:0}
 
 figure{margin:0}
-/* LOS TRES PRODUCTOS DE MOVISTAR. Esta pagina baja a fondo en Smart WiFi, pero
-   el encargo fueron tres productos con tres modelos de interaccion distintos.
-   Sin este bloque la pagina deja fuera dos tercios del trabajo. */
-.trio{display:grid;grid-template-columns:repeat(3,1fr);
-  gap:clamp(26px,3.2vw,50px);margin-top:clamp(40px,5vw,70px)}
-/* El kicker de la columna 02 envuelve a dos lineas y las otras dos no. Sin un
-   alto reservado, esa imagen baja y las tres dejan de alinearse. */
-.trio .k{min-height:2.9em}
-/* Dentro del trio el kicker es solo etiqueta. Con el filete prisma de la
-   cabecera de seccion saldrian seis prismas en una pantalla, y el ornamento
-   deja de significar nada. */
-.trio .k::after{content:none}
-.trio .k{display:block}
-.trio img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;
-  object-position:top center;border:var(--lb-hairline) solid var(--lb-line);
-  border-radius:var(--lb-radius);background:var(--lb-raised)}
-.trio .k{margin:0 0 6px}
 
-.trio img{margin:0 0 18px}
-.trio h3{font-family:var(--lb-font-display);font-weight:400;font-size:var(--lb-display-m);
-  line-height:var(--lb-lh-display-m);letter-spacing:var(--lb-track-display);
-  color:var(--lb-ink);margin:0 0 14px}
-.trio p{font-size:var(--lb-body-s);line-height:var(--lb-lh-body-s);margin:14px 0 0;max-width:none}
-.trio .aqui{color:var(--lb-accent)}
-@media(max-width:860px){.trio{grid-template-columns:1fr;gap:clamp(34px,7vw,52px)}}
+/* LOS DOS MODELOS DE CONTEXTO. La pieza central del caso: cliente primero
+   contra producto primero, cada uno con su riesgo escrito al final de la fila.
+   Es una tabla de lectura, no una tabla de datos, asi que va en rejilla y no
+   en <table>: no hay cabeceras que asociar. */
+.modelos{display:grid;grid-template-columns:1.05fr 1fr 1fr .8fr 1.5fr;
+  gap:0 clamp(18px,2.4vw,34px);align-items:start;
+  padding:clamp(22px,2.6vw,36px) 0;border-top:var(--lb-hairline) solid var(--lb-line)}
+.modelos:last-child{border-bottom:var(--lb-hairline) solid var(--lb-line)}
+.modelos p{margin:0;max-width:none}
+.modelos .k{margin:0 0 8px;display:block}
+/* Dentro de la tabla el kicker es solo etiqueta. Con el filete prisma de la
+   cabecera de seccion saldrian diez prismas en una pantalla. */
+.modelos .k::after{content:none}
+.modelos .mk{color:var(--lb-accent);line-height:1.5}
+.light .modelos{border-color:var(--lb-line-on-paper)}
+.light .modelos .mk{color:var(--lb-accent-deep)}
+@media(max-width:860px){
+  .modelos{grid-template-columns:1fr 1fr;gap:18px 24px}
+  .modelos .mk{grid-column:1/-1}
+}
+
+/* La cifra del bloque numerado dentro de una columna: el mismo tratamiento del
+   §4 de la identidad, en pequeno. */
+.num6{display:block;font-family:var(--lb-font-display);font-weight:400;
+  font-size:var(--lb-numeral);line-height:var(--lb-lh-display-m);
+  letter-spacing:var(--lb-track-display);color:var(--lb-ink);margin:0 0 var(--lb-space-3)}
+.num6::after{content:'';display:block;width:26px;height:var(--lb-hairline);
+  background:currentColor;margin-top:11px}
+.light .num6{color:var(--lb-cream-ink)}
+/* Video de producto. Mismo tratamiento que .figimg: filete de 1px y esquina de
+   2px, para que una captura en movimiento no cante distinto a una fija. */
+figure video{display:block;width:100%;height:auto;
+  border:var(--lb-hairline) solid var(--lb-line);border-radius:var(--lb-radius);
+  background:var(--lb-raised)}
+.light figure video{border-color:var(--lb-line-on-paper);background:var(--lb-paper-inset)}
 figcaption{font-family:var(--lb-font-mono);font-size:var(--lb-label);
-  letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-mid);margin-top:16px;padding-top:10px;border-top:var(--lb-hairline) solid var(--lb-line)}
+  letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-mid);
+  margin-top:16px;padding-top:10px;border-top:var(--lb-hairline) solid var(--lb-line)}
 .light figcaption{color:var(--lb-cream-meta);border-color:var(--lb-line-on-paper)}
-.pivot figcaption{color:var(--lb-ink);border-color:var(--lb-line)}
-svg{display:block;width:100%;height:auto}
 .figimg{display:block;width:100%;height:auto}
-.fig-mid{max-width:460px}
-.fig-phone{max-width:375px}
-.tl{font-family:var(--lb-font-mono);font-size:8.5px;letter-spacing:1px;fill:var(--lb-mid)}
-.tt{font-family:var(--lb-font-body);font-size:11px;font-weight:500;fill:var(--lb-cream-ink)}
-.ts{font-family:var(--lb-font-body);font-size:9.5px;fill:var(--lb-mid)}
-.hr{stroke:var(--lb-line-on-paper);stroke-width:.75;fill:none}
+
+/* numbered image placeholder. --ar carries the aspect ratio the layout expects,
+   so the final asset can drop in without recomposing the section. */
+.ph__box{position:relative;aspect-ratio:var(--ar,16/9);border:var(--lb-hairline) solid var(--lb-line);background:var(--lb-raised);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center}
+.light .ph__box{border-color:var(--lb-line-on-paper);background:var(--lb-paper-inset)}
+.ph__box::before,.ph__box::after{content:'';position:absolute;width:14px;height:14px;border:var(--lb-hairline) solid var(--lb-mid);opacity:.5}
+.ph__box::before{top:12px;left:12px;border-right:0;border-bottom:0}
+.ph__box::after{bottom:12px;right:12px;border-left:0;border-top:0}
+.ph__id{font-family:var(--lb-font-mono);font-size:12px;letter-spacing:var(--lb-track-kicker);
+  text-transform:uppercase;color:var(--lb-ink)}
+.light .ph__id{color:var(--lb-cream-ink)}
+.ph__note{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);text-transform:uppercase;
+  color:var(--lb-mid);max-width:36ch;line-height:1.7;margin:0}
+/* la figura del hero ya cuelga fuera de .w, así que ocupa el ancho sin trucos.
+   Un 100vw aquí sumaba el ancho de la barra de scroll y desbordaba. */
+.ph-bleed{width:100%}
+
+/* Hero shot. Sits hard against the right edge and stops short of the left, so
+   the weight stays on the title. The screenshot is RGBA: its rounded corners
+   let the ground through, and it is never cropped or distorted. */
+.hero-shot{margin:clamp(56px,7vw,100px) 0 0 auto;width:56%;max-width:820px;padding-right:var(--lb-margin)}
+.hero-shot .figimg{width:100%;height:auto}
+.hero-shot figcaption{padding-left:0;margin-right:var(--lb-margin);text-align:right}
+@media(max-width:767px){
+  .hero-shot{width:auto;margin:clamp(44px,9vw,70px) var(--lb-margin) 0}
+  .hero-shot figcaption{margin-right:0;text-align:left}
+}
+/* 21:9 a lo ancho del móvil son 161px de alto: una tira donde no se leería nada.
+   El montaje del hero se recorta más cuadrado ahí. */
+@media(max-width:600px){.ph-bleed .ph__box{aspect-ratio:16/9}}
 
 .step{display:grid;grid-template-columns:clamp(60px,7vw,110px) 1fr;gap:clamp(18px,3vw,44px);
   padding:clamp(28px,3.4vw,46px) 0;border-top:var(--lb-hairline) solid var(--lb-line)}
 .step:last-of-type{border-bottom:var(--lb-hairline) solid var(--lb-line)}
 .step .sn{font-family:var(--lb-font-display);font-size:var(--lb-numeral);line-height:var(--lb-lh-display-m);color:var(--lb-ink-2);opacity:.5}
 .step p{margin:0;font-size:var(--lb-body);max-width:56ch}
+.light .step{border-color:var(--lb-line-on-paper)}
 @media(max-width:900px){.step{grid-template-columns:1fr;gap:10px}}
+
+/* research chain: what we found, what it meant, what I decided, what I designed */
+.chain{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--lb-line);border:var(--lb-hairline) solid var(--lb-line)}
+.chain > div{background:var(--lb-ground);padding:clamp(22px,2.4vw,34px)}
+.chain .ck{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-mid);margin:0 0 14px}
+.chain p{margin:0;font-size:var(--lb-body-s);color:var(--lb-ink-2);max-width:none}
+@media(max-width:900px){.chain{grid-template-columns:1fr}}
 
 .facts{border-top:var(--lb-hairline) solid var(--lb-line)}
 .fact{padding:20px 0;border-bottom:var(--lb-hairline) solid var(--lb-line);display:grid;grid-template-columns:1fr 1.4fr;gap:20px;align-items:baseline}
 .fact .fk{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-ink)}
 .fact .fv{font-family:var(--lb-font-display);font-size:var(--lb-display-s);line-height:var(--lb-lh-display-s);color:var(--lb-ink)}
+@media(max-width:600px){.fact{grid-template-columns:1fr;gap:6px}}
 
 .pull{font-family:var(--lb-font-display);font-size:var(--lb-display-l);
   line-height:var(--lb-lh-display-l);letter-spacing:var(--lb-track-display);
   max-width:22ch;margin:0;padding-left:28px;
-  border-left:var(--lb-hairline) solid var(--lb-accent-deep)}
+  border-left:var(--lb-hairline) solid var(--lb-accent);color:var(--lb-ink)}
+.light .pull{color:var(--lb-cream-ink)}
+
+.principle{font-family:var(--lb-font-display);font-size:var(--lb-display-l);
+  line-height:var(--lb-lh-display-l);letter-spacing:var(--lb-track-display);
+  margin:0 0 clamp(24px,3vw,44px);max-width:20ch;color:var(--lb-ink)}
+.principle i{font-style:italic;color:var(--lb-accent)}
 
 ul.p{list-style:none;margin:0;padding:0}
 ul.p li{padding:14px 0;border-top:var(--lb-hairline) solid var(--lb-line);
   font-size:var(--lb-body);line-height:var(--lb-lh-body);color:var(--lb-ink-2);display:flex;gap:16px}
 ul.p li .i{font-family:var(--lb-font-mono);font-size:var(--lb-label);color:var(--lb-mid);
   letter-spacing:var(--lb-track-label);text-transform:uppercase;padding-top:4px;flex:none}
-.light ul.p li{border-color:var(--lb-line-on-paper);color:var(--lb-cream-body)}
-.pivot ul.p li{border-color:var(--lb-line);color:var(--lb-ink)}
+
+/* markets and domains: compact mono grid, structure not decoration */
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.tags li{font-family:var(--lb-font-mono);font-size:10px;line-height:1;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--lb-ink-2);
+  border:var(--lb-hairline) solid var(--lb-line);border-radius:var(--lb-radius);
+  padding:5px 9px}
+.light .tags li{color:var(--lb-cream-body);border-color:var(--lb-line-on-paper)}
 
 footer{padding:0 0 90px}
 footer > .prism-rule{margin-bottom:60px}
 footer p{font-family:var(--lb-font-mono);font-size:var(--lb-label);
   letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-mid);max-width:none}
+.next{display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap;
+  padding:0 0 40px;margin-bottom:40px;border-bottom:var(--lb-hairline) solid var(--lb-line)}
+.next a{font-family:var(--lb-font-display);font-size:var(--lb-display-l);line-height:var(--lb-lh-display-l);color:var(--lb-ink);text-decoration:none}
+.next a:hover{color:var(--lb-ink-2)}
+.next span{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-mid)}
 
-.rv{opacity:0;transform:translateY(18px)}
-html.js .rv{transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1)}
+/* Reveal patterns. The previous version moved 18px and fired the moment an
+   element peeked over the bottom edge, so it finished off-screen and nothing
+   appeared to happen. Travel is now 48px and the trigger sits well inside the
+   viewport (see sweep() below). */
+.rv{opacity:0;transform:translateY(48px)}
+html.js .rv{transition:opacity .95s cubic-bezier(.16,1,.3,1),transform 1.05s cubic-bezier(.16,1,.3,1)}
 html:not(.js) .rv{opacity:1;transform:none}
 .rv.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important}
+
+/* MASKED LINES. Each line of a chapter title rises out of its own clipped box,
+   staggered. The head block itself stays still so the lines carry the motion,
+   and its smaller parts fade up underneath them. */
+.ln{display:block;overflow:hidden;padding-bottom:.09em;margin-bottom:-.09em}
+.ln > i{display:block;font-style:inherit;transform:translateY(106%)}
+html.js .ln > i{transition:transform 1.05s cubic-bezier(.16,1,.3,1)}
+.rv.in .ln > i{transform:none}
+.rv .ln:nth-of-type(2) > i{transition-delay:.10s}
+.rv .ln:nth-of-type(3) > i{transition-delay:.20s}
+html:not(.js) .ln > i{transform:none}
+
+.head.rv{opacity:1;transform:none}
+.head.rv .n,.head.rv .k,.head.rv .rule,.head.rv .lead{opacity:0;transform:translateY(26px)}
+html.js .head.rv .n,html.js .head.rv .k,html.js .head.rv .rule,html.js .head.rv .lead{
+  transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1)}
+.head.rv.in .n,.head.rv.in .k,.head.rv.in .rule,.head.rv.in .lead{opacity:1;transform:none}
+.head.rv .rule{transition-delay:.16s}
+.head.rv .lead{transition-delay:.26s}
+html:not(.js) .head.rv .n,html:not(.js) .head.rv .k,
+html:not(.js) .head.rv .rule,html:not(.js) .head.rv .lead{opacity:1;transform:none}
+
+/* Figures fade only, so .drift can own the element transform. The box inside
+   carries the movement and a slight scale, so a screen settles into place. */
+figure.rv{transform:none}
+/* Also matches figures whose animated ancestor is the column around them
+   (IMAGE_13, 14 and 16), which otherwise only drifted along with their parent
+   and never got the settle. The figure never carries both transforms. */
+figure.rv .ph__box,figure.rv .figimg,
+.rv > figure:not(.rv) .ph__box,.rv > figure:not(.rv) .figimg{
+  transform:translateY(38px) scale(1.045);transform-origin:50% 50%}
+html.js figure.rv .ph__box,html.js figure.rv .figimg,
+html.js .rv > figure:not(.rv) .ph__box,html.js .rv > figure:not(.rv) .figimg{
+  transition:transform 1.3s cubic-bezier(.16,1,.3,1)}
+figure.rv.in .ph__box,figure.rv.in .figimg,
+.rv.in > figure:not(.rv) .ph__box,.rv.in > figure:not(.rv) .figimg{transform:none}
+/* Pieces that reach a viewport edge get the movement but not the scale: 1.045
+   on a full-width element is 4.5% wider than the window, so its edges would be
+   shaved off for the length of the reveal. */
+figure.hero-shot.rv .figimg,
+figure.ph-bleed.rv .figimg,
+figure.ph--bleed.rv .ph__box,figure.ph--bleed.rv .figimg,
+figure.ph--wide.rv .ph__box,figure.ph--wide.rv .figimg{transform:translateY(38px)}
+figure.hero-shot.rv.in .figimg,
+figure.ph-bleed.rv.in .figimg,
+figure.ph--bleed.rv.in .ph__box,figure.ph--bleed.rv.in .figimg,
+figure.ph--wide.rv.in .ph__box,figure.ph--wide.rv.in .figimg{transform:none}
+html:not(.js) figure.rv .ph__box,html:not(.js) figure.rv .figimg,
+html:not(.js) .rv > figure:not(.rv) .ph__box,html:not(.js) .rv > figure:not(.rv) .figimg{transform:none}
+
+/* STAGGER. Indexed lists arrive item by item instead of as one slab. */
+.rv ul.p li,.rv .tags li{opacity:0;transform:translateY(22px)}
+html.js .rv ul.p li,html.js .rv .tags li{
+  transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.rv.in ul.p li,.rv.in .tags li{opacity:1;transform:none}
+.rv.in ul.p li:nth-child(1),.rv.in .tags li:nth-child(1){transition-delay:.04s}
+.rv.in ul.p li:nth-child(2),.rv.in .tags li:nth-child(2){transition-delay:.10s}
+.rv.in ul.p li:nth-child(3),.rv.in .tags li:nth-child(3){transition-delay:.16s}
+.rv.in ul.p li:nth-child(4),.rv.in .tags li:nth-child(4){transition-delay:.22s}
+.rv.in ul.p li:nth-child(5),.rv.in .tags li:nth-child(5){transition-delay:.28s}
+.rv.in ul.p li:nth-child(6),.rv.in .tags li:nth-child(6){transition-delay:.34s}
+.rv.in ul.p li:nth-child(7),.rv.in .tags li:nth-child(7){transition-delay:.40s}
+.rv.in ul.p li:nth-child(8),.rv.in .tags li:nth-child(8){transition-delay:.46s}
+html:not(.js) .rv ul.p li,html:not(.js) .rv .tags li{opacity:1;transform:none}
+
+/* PINNED MOMENT. One per page. The stage holds still while the reader scrolls
+   the track behind it, and the two states of the client-context problem cross
+   over: the workflow as it was, then context carried across the ecosystem.
+   This exists because fragmentation becoming a system is something you watch
+   happen, not something a caption can tell you. */
+.pin-track{position:relative;height:260vh}
+.pin-stage{position:sticky;top:0;height:100vh;display:flex;align-items:center}
+.pin-stage .w{width:100%}
+/* Caja compartida. Los dos estados del anclaje tienen proporciones distintas
+   (3.04:1 y 2.13:1) y se apilan uno sobre otro: sin una altura comun el marco
+   daria un salto al conmutar. Cada imagen se ajusta dentro sin recortarse. */
+.pin-frame{position:relative;height:min(58vh,560px)}
+.pin-step{position:absolute;inset:0;opacity:0;transform:scale(.985);
+  display:flex;flex-direction:column;justify-content:center}
+html.js .pin-step{transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+.pin-step figure{display:flex;flex-direction:column;justify-content:center;min-height:0}
+.pin-step .figimg{width:100%;height:auto;max-height:calc(100% - 44px);object-fit:contain}
+.pin-step .ph__box{max-height:calc(100% - 44px)}
+.pin-step.on{opacity:1;transform:none}
+.pin-count{display:flex;gap:8px;margin:0 0 22px;padding:0;list-style:none}
+.pin-count li{width:34px;height:2px;background:var(--lb-line)}
+html.js .pin-count li{transition:background .5s}
+.pin-count li.on{background:var(--lb-ink)}
+/* Without JS, and for readers who asked for less motion, the track collapses
+   and both states simply sit one after the other. */
+html:not(.js) .pin-track{height:auto}
+html:not(.js) .pin-stage{position:static;height:auto;display:block}
+html:not(.js) .pin-frame{height:auto}
+html:not(.js) .pin-step{position:relative;opacity:1;transform:none;margin-bottom:40px;display:block}
+html:not(.js) .pin-step .figimg{max-height:none}
+html:not(.js) .pin-count{display:none}
+@media(max-width:767px){
+  .pin-track{height:auto}
+  .pin-frame{height:auto}
+  .pin-stage{position:static;height:auto;display:block}
+  .pin-step{position:relative;opacity:1;transform:none;margin-bottom:32px;display:block}
+  .pin-step .figimg{max-height:none}
+  .pin-count{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .pin-track{height:auto}
+  .pin-frame{height:auto}
+  .pin-stage{position:static;height:auto;display:block}
+  .pin-step{position:relative;opacity:1;transform:none;margin-bottom:32px;display:block}
+  .pin-step .figimg{max-height:none}
+  .pin-count{display:none}
+}
+
+/* UNMASK. The piece is uncovered from its lower edge rather than faded in.
+   Reserved for the evidence that a chapter is built around. */
+.rv--mask{opacity:1;transform:none;clip-path:inset(0 0 100% 0)}
+html.js .rv--mask{transition:clip-path 1.15s cubic-bezier(.16,1,.3,1)}
+.rv--mask.in{clip-path:inset(0 0 0 0)}
+html:not(.js) .rv--mask{clip-path:none}
+
+/* DRIFT. A slow counter-movement while the piece crosses the viewport, so the
+   largest images have depth. Offset is set from JS and stays under 8%. */
+.drift{will-change:transform}
+@media(max-width:767px){.drift{transform:none!important}}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rv{opacity:1!important;transform:none!important}
   .nav-links a span,.nav-foot a span{transform:none!important;transition:none!important}}
+
+/* ============ NARRATIVA: DIAGRAMAS Y BLOQUES NUEVOS ====================== */
+
+/* Etiquetas dentro de los SVG. Mismo mono que los pies de figura, para que un
+   diagrama dibujado y una captura de producto se lean como el mismo material. */
+.tl{font-family:var(--lb-font-mono);font-size:8.5px;letter-spacing:1px;fill:var(--lb-mid)}
+.tt{font-family:var(--lb-font-body);font-size:var(--lb-body-s);font-weight:500;fill:var(--lb-ink)}
+.ts{font-family:var(--lb-font-body);font-size:9.5px;fill:var(--lb-mid)}
+svg.dg{display:block;width:100%;height:auto;overflow:visible}
+
+/* El titular del hero es mas largo que el anterior, asi que baja un escalon:
+   a 150px ocupaba seis lineas y empujaba los chips fuera de la primera pantalla. */
+.hero h1.long{font-size:var(--lb-display-xl);line-height:.9}
+
+/* Los tres niveles de trabajo. Rejilla con filete superior, misma familia de
+   separadores que .hero-meta y .stats. */
+.levels{display:grid;grid-template-columns:repeat(3,1fr);
+  margin-top:clamp(40px,5vw,72px);border-top:var(--lb-hairline) solid var(--lb-line)}
+.level{padding:26px clamp(22px,2.4vw,36px) 0 0;border-right:var(--lb-hairline) solid var(--lb-line)}
+.level:last-child{border-right:0}
+.level h3{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:1.4px;
+  text-transform:uppercase;color:var(--lb-ink);margin:0 0 14px;font-weight:400}
+.level p{font-size:var(--lb-body-s);margin:0;max-width:34ch}
+@media(max-width:760px){
+  .levels{grid-template-columns:1fr}
+  .level{border-right:0;border-bottom:var(--lb-hairline) solid var(--lb-line);padding:22px 0}
+  .level:last-child{border-bottom:0}
+}
+
+/* Los cuatro aprendizajes que cierran el caso. Van como lineas, no como
+   cajas: el numero en mono a la izquierda y la frase en serif, con la misma
+   regla de separacion que .levels. */
+.lrn{list-style:none;margin:clamp(46px,5vw,80px) 0 0;padding:0;
+  border-top:var(--lb-hairline) solid var(--lb-line)}
+.lrn li{display:flex;gap:clamp(20px,3vw,52px);align-items:baseline;
+  padding:clamp(22px,2.6vw,34px) 0;border-bottom:var(--lb-hairline) solid var(--lb-line)}
+.lrn li:last-child{border-bottom:0}
+.lrn .i{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);
+  color:var(--lb-mid);flex:none;padding-top:8px}
+.lrn p{font-family:var(--lb-font-display);font-weight:400;
+  font-size:var(--lb-display-m);line-height:var(--lb-lh-display-m);letter-spacing:-.01em;
+  color:var(--lb-ink);margin:0;max-width:40ch}
+@media(max-width:700px){
+  .lrn li{display:block}
+  .lrn .i{display:block;margin-bottom:10px;padding-top:0}
+  .lrn p{max-width:none}
+}
+.lrn.rv li{opacity:0;transform:translateY(22px)}
+html.js .lrn.rv li{transition:opacity .7s cubic-bezier(.16,1,.3,1),
+  transform .7s cubic-bezier(.16,1,.3,1)}
+.lrn.rv.in li{opacity:1;transform:none}
+.lrn.rv.in li:nth-child(2){transition-delay:.08s}
+.lrn.rv.in li:nth-child(3){transition-delay:.16s}
+.lrn.rv.in li:nth-child(4){transition-delay:.24s}
+html:not(.js) .lrn.rv li{opacity:1;transform:none}
+
+/* Las cuatro preguntas que estructuran la segunda mitad de la pagina.
+   Van numeradas porque son una secuencia real: cada una supone la anterior. */
+.qs{display:grid;grid-template-columns:1fr 1fr;
+  margin-top:clamp(44px,5vw,80px);border-top:var(--lb-hairline) solid var(--lb-line)}
+.q{padding:30px clamp(26px,3vw,48px) 34px 0;border-right:var(--lb-hairline) solid var(--lb-line);
+  border-bottom:var(--lb-hairline) solid var(--lb-line)}
+.q:nth-child(2n){border-right:0;padding-left:clamp(26px,3vw,48px)}
+.q:nth-last-child(-n+2){border-bottom:0}
+.q .qn{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);color:var(--lb-mid);
+  display:block;margin-bottom:16px}
+.q p{font-family:var(--lb-font-display);font-size:var(--lb-display-m);line-height:var(--lb-lh-display-m);
+  letter-spacing:-.01em;color:var(--lb-ink);margin:0;max-width:22ch}
+@media(max-width:760px){
+  .qs{grid-template-columns:1fr}
+  .q,.q:nth-child(2n){border-right:0;padding:24px 0;border-bottom:var(--lb-hairline) solid var(--lb-line)}
+  .q:last-child{border-bottom:0}
+}
+
+/* Los cinco pasos del handoff. Numerados: es un orden de trabajo real. */
+.hand{margin-top:clamp(40px,5vw,72px);border-top:var(--lb-hairline) solid var(--lb-line)}
+.hstep{display:grid;grid-template-columns:clamp(46px,5vw,74px) 1fr;
+  gap:clamp(16px,2vw,34px);padding:28px 0;border-bottom:var(--lb-hairline) solid var(--lb-line)}
+.hstep:last-child{border-bottom:0}
+.hstep .hn{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);color:var(--lb-mid)}
+.hstep h3{font-family:var(--lb-font-display);font-weight:400;font-size:var(--lb-display-m);
+  line-height:1.16;margin:0 0 10px}
+.hstep p{margin:0;font-size:var(--lb-body-s);max-width:56ch}
+@media(max-width:600px){.hstep{grid-template-columns:1fr;gap:10px}}
+
+/* Las capturas se agrupan por region, no por producto: tres columnas, dos
+   pantallas cada una. Asi el lector ve de un vistazo que el mismo portfolio
+   se comporta distinto en cada mercado, que es justo lo que dice el capitulo.
+   Contain y no cover: una captura de producto no se recorta para cuadrar. */
+.regions{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,2.6vw,44px);
+  margin-top:24px;padding-top:24px;border-top:var(--lb-hairline) solid var(--lb-line)}
+.region > .k{margin-bottom:18px}
+.region figure{margin:0 0 clamp(16px,1.8vw,26px)}
+.region figure:last-child{margin-bottom:0}
+.region img{display:block;width:100%;height:auto;aspect-ratio:2;object-fit:contain;
+  background:var(--lb-raised)}
+@media(max-width:900px){.regions{grid-template-columns:1fr;gap:clamp(28px,4vw,44px)}}
+
+/* Etiqueta de pareja disenado / construido. Dice cual es cual y nada mas. */
+.tag-d{font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);
+  text-transform:uppercase;color:var(--lb-mid);margin:0 0 14px}
+
+/* LOS TRES PRODUCTOS. Tres columnas de igual peso: son tres retos distintos,
+   no uno principal y dos notas al pie. El kicker se alinea entre columnas con
+   min-height, porque los tres nombres no ocupan lo mismo. */
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(26px,3.4vw,54px)}
+.trio figure{margin:0}
+.trio .figimg{width:100%;height:auto;border:var(--lb-hairline) solid var(--lb-line);
+  border-radius:var(--lb-radius);background:var(--lb-raised);
+  /* El tercer producto viene 17px mas bajo que los otros dos en la
+     presentacion. Tres cajas de alturas distintas en fila se leen como un
+     descuido, asi que las tres toman la misma proporcion. */
+  aspect-ratio:731/578;object-fit:cover;object-position:top center}
+.trio figcaption{padding-left:0;margin-top:14px}
+.trio .k{margin:16px 0 8px;min-height:2.6em;align-items:flex-start}
+.trio .k::after{content:none}
+.trio p{font-size:var(--lb-body-s);margin:0 0 16px;max-width:none}
+.trio .sm{font-size:var(--lb-body-s);color:var(--lb-mid);margin-bottom:0}
+.trio .tag-d{margin-bottom:6px}
+@media(max-width:860px){.trio{grid-template-columns:1fr;gap:clamp(34px,5vw,50px)}
+  .trio .k{min-height:0}}
+
+/* El movil del brain time. Peldano de detalle: es una pantalla sola, no una
+   composicion, y a tamano completo dejaria de leerse como un momento. */
+.movil{margin:0;max-width:300px;justify-self:end}
+.movil .figimg{width:100%;height:auto;border:var(--lb-hairline) solid var(--lb-line);
+  border-radius:var(--lb-radius)}
+@media(max-width:900px){.movil{justify-self:start;margin-top:clamp(30px,4vw,44px)}}
+.pivot .two-b{align-items:center}
+.pivot .after{margin-top:clamp(20px,2.4vw,32px)}
+
+
+/* =========================================================
+   CORRECCIONES DE UI Y ACCESIBILIDAD
+   ========================================================= */
+
+/* 1 · EL RAG. Sin esto el navegador parte donde cabe, no donde debe:
+   "From preserving context to understanding context" caia en 934px y luego
+   164px, con una sola palabra en la segunda linea; el lead de la decision
+   dejaba una huerfana de 42px. balance reparte las lineas de un titular;
+   pretty impide que el texto corrido acabe en una palabra sola. */
+h1,h2,h3,h4,
+.stmt,.principle,.pull,.lead,.hero-sub,.pin-t,
+.fsb-t,.ap-t,.story-hero__title,.story-hero__standfirst,
+.fact .fv,.actor h3,.hstep h3{text-wrap:balance}
+p,li,figcaption,.fsb-c,.ap-d,.about-sub,.hero-note .body,.after{text-wrap:pretty}
+
+/* 2 · 17ch a 96px es demasiado estrecho para palabras largas: obliga a partir
+   en sitios malos por mucho que se equilibre. Con mas medida hay donde elegir. */
+.pivot .stmt{max-width:23ch}
+
+/* 3 · ACCESIBILIDAD · Los tokens de tinta estan calculados sobre el suelo
+   oscuro. Sobre papel, --lb-mid daba 3,33:1 y --lb-ink daba 1,11:1: texto
+   practicamente invisible en las fichas de resultado de Story 3. En vez de
+   perseguir cada selector, el suelo de papel cambia la tinta. Cualquier
+   componente que caiga en .light hereda el contraste correcto. */
+.light{
+  --lb-ink:        var(--lb-cream-ink);
+  --lb-ink-2:      var(--lb-cream-body);
+  --lb-mid:        #6B6863;
+  --lb-line:       var(--lb-line-on-paper);
+  --lb-line-strong:rgba(20,20,22,.28);
+  --lb-raised:     var(--lb-paper-inset);
+  --lb-accent:     var(--lb-accent-deep);
+}
+
+/* 4 · ACCESIBILIDAD · El area de pulsacion del logo eran 14px de alto.
+   WCAG 2.5.8 pide 24. Los enlaces del menu ya lo resolvian con un ::after;
+   el logo no lo tenia. */
+.nav-logo{position:relative}
+.nav-logo::after{content:'';position:absolute;left:-4px;right:-4px;top:-7px;bottom:-7px}
+
+/* 7 · ACCESIBILIDAD · La cadena llevaba fondo oscuro (--lb-ground) tambien
+   dentro de las secciones de papel, asi que sus etiquetas quedaban a 3,57:1.
+   La cadena toma el suelo de la seccion en la que esta, y el contraste sale
+   solo. */
+.light .chain{background:var(--lb-line-on-paper);border-color:var(--lb-line-on-paper)}
+.light .chain > div{background:var(--lb-cream)}
+.light .chain p{color:var(--lb-cream-body)}
+.light .chain .ck{color:var(--lb-cream-meta)}
+
+/* El menu tiene un enlace mas. Sin su retardo aparece de golpe mientras los
+   otros cascadean, y se lee como un fallo. */
+.nav-links li:nth-child(7) a span{transition-delay:.41s}
+.nav-foot li:nth-child(1) a span{transition-delay:.47s}
+.nav-foot li:nth-child(2) a span{transition-delay:.51s}
+.nav-foot li:nth-child(3) a span{transition-delay:.55s}
+.nav-foot li:nth-child(4) a span{transition-delay:.59s}
 </style>
 </head>
 <body>
@@ -353,6 +784,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="nav-panel">
       <ul class="nav-links">
         <li><a href="index.html#hero"><span>Home</span></a></li>
+        <li><a href="index.html#origin"><span>Origin</span></a></li>
         <li><a href="story1-case-study.html"><span>Story 1</span></a></li>
         <li><a href="story2-case-study.html"><span>Story 2</span></a></li>
         <li><a href="story3-case-study.html"><span>Story 3</span></a></li>
@@ -371,218 +803,225 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <main id="main">
 
-<header class="hero">
+
+<!-- 55 · HERO ............................................................... -->
+<header class="hero" id="top">
   <div class="w">
     <div class="hero-top">
-      <span>Laura Benavente · Story 03</span>
-      <span>Consumer · Telecom</span>
+      <span>Story 3</span>
+      <span>Movistar · Telefónica · multidevice</span>
     </div>
     <div class="prism-rule"></div>
-    <h1>Designing for<br>a wait that<br><em>could not be shortened</em></h1>
+    <h1 class="rv long">Designing across<br><em>connected consumer experiences</em></h1>
+    <p class="hero-sub rv" data-d="1">Three products. Three interaction models.</p>
 
-    <div class="stats">
+    <div class="stats rv" data-d="2">
+      <div class="stat"><b>3</b><i>Products</i></div>
       <div class="stat"><b>&minus;12%</b><i>Call centre calls</i></div>
-      <div class="stat"><b>Goal</b><i>Reduce call centre volume</i></div>
+      <div class="stat"><b>2019</b><i>Released</i></div>
     </div>
 
-    <div class="hero-meta">
-      <span>Interaction design</span><span>Technical constraints</span><span>Self-service</span>
-      <span>Motion design</span><span>Illustration</span><span>Design system</span>
+    <div class="hero-meta rv" data-d="3">
+      <span>End to end</span>
+      <span>Multiplatform</span>
+      <span>Interaction design</span>
+      <span>Design systems</span>
+      <span>Technical constraints</span>
     </div>
-    <div class="conf">
+
+    <div class="hero-note rv" data-d="4">
       <div></div>
-      <div class="body">Smart WiFi Selfcare, a diagnostics feature inside Movistar's Smart WiFi app, designed at <strong>frog</strong> for Telefónica. Released 2019.</div>
+      <div class="body">Two years at frog for Telefónica, across web, mobile and television. This case follows Smart WiFi Selfcare all the way down.</div>
     </div>
   </div>
 </header>
 
-<!-- EL ENCARGO COMPLETO. El ppt lo cuenta como tres productos y esta pagina
-     solo contaba uno. Cada columna dice exactamente lo que dice el ppt: ni una
-     palabra mas, porque de Conexion Segura y Living Apps no hay mas escrito. -->
-<section class="sec">
+<!-- 58b · THE WORK .......................................................... -->
+<section class="sec sec--open" id="work">
   <div class="w">
-    <p class="k">The work at Movistar</p>
-    <h2 style="max-width:20ch">Three products.<br>Three different design challenges.</h2>
-    <div class="rule prism-rule"></div>
-    <p style="max-width:58ch">Two years at <strong>frog</strong> for Telef&oacute;nica, across web, mobile and television. This case follows the second one all the way down.</p>
+    <div class="head rv">
+      <span class="n">01</span>
+      <div>
+        <span class="k">The work</span>
+        <h2>Three products. Three different design challenges.</h2>
+        <div class="rule prism-rule"></div>
+      </div>
+    </div>
 
-    <div class="trio">
-      <figure class="rv">
-        <p class="k">01 &nbsp;·&nbsp; Web</p>
-        <h3>Conexi&oacute;n Segura</h3>
-        <img src="images/s3-conexion-segura.jpg?v=1" width="2396" height="1850" loading="lazy" decoding="async"
-             alt="Conexi&oacute;n Segura: the home security dashboard showing web protection, threats analysed this month and connected devices.">
-        <p><strong>Security self-service dashboard</strong></p>
-        <p class="k" style="margin-top:12px">Business goal</p>
-        <p>Increase service activation and improve service management.</p>
+    <div class="trio rv" data-d="1" style="margin-top:clamp(40px,5vw,72px)">
+      <figure>
+        <img class="figimg" src="images/s3-conexion-segura.jpg" width="731" height="578" loading="lazy" decoding="async"
+             alt="Conexión Segura: a security dashboard listing threats blocked this month, devices covered, trusted pages and permission requests.">
+        <figcaption>01 · Web</figcaption>
+        <p class="k">Conexión Segura</p>
+        <p>Security self-service dashboard.</p>
+        <span class="tag-d">Business goal</span>
+        <p class="sm">Increase service activation and improve service management.</p>
       </figure>
-      <figure class="rv" data-d="1">
-        <p class="k aqui">02 &nbsp;·&nbsp; Mobile &nbsp;·&nbsp; iOS + Android</p>
-        <h3>Smart WiFi Selfcare</h3>
-        <img src="images/s3-smart-wifi.jpg?v=1" width="2400" height="1850" loading="lazy" decoding="async"
-             alt="Smart WiFi Selfcare: connection speed results, WiFi signal quality and help content inside the Movistar app.">
-        <p><strong>Connectivity diagnosis and self-service</strong></p>
-        <p class="k" style="margin-top:12px">Business goal</p>
-        <p>Increase self-service and reduce calls to 1002.</p>
+      <figure>
+        <img class="figimg" src="images/s3-smart-wifi.jpg" width="731" height="578" loading="lazy" decoding="async"
+             alt="Smart WiFi Selfcare: the diagnostic running, its results, and the help content that follows from them.">
+        <figcaption>02 · Mobile · iOS + Android</figcaption>
+        <p class="k">Smart WiFi Selfcare</p>
+        <p>Connectivity diagnosis and self-service.</p>
+        <span class="tag-d">Business goal</span>
+        <p class="sm">Increase self-service and reduce calls to 1002.</p>
       </figure>
-      <figure class="rv" data-d="2">
-        <p class="k">03 &nbsp;·&nbsp; TV &nbsp;·&nbsp; Remote &nbsp;·&nbsp; Voice</p>
-        <h3>Living Apps</h3>
-        <img src="images/s3-living-apps.jpg?v=1" width="2413" height="1850" loading="lazy" decoding="async"
-             alt="A Living App on the television: an IKEA interior design course with episodes, navigated with the remote.">
-        <p><strong>TV experiences and partner-built Living Apps</strong></p>
-        <p class="k" style="margin-top:12px">Business goal</p>
-        <p>Enable Telef&oacute;nica partners to create and update Living Apps more independently.</p>
+      <figure>
+        <img class="figimg" src="images/s3-living-apps.jpg" width="731" height="561" loading="lazy" decoding="async"
+             alt="Living Apps on television: an IKEA interior design course with its episodes laid out along the bottom of the screen.">
+        <figcaption>03 · TV · Remote · Voice</figcaption>
+        <p class="k">Living Apps</p>
+        <p>TV experiences and partner-built Living Apps.</p>
+        <span class="tag-d">Business goal</span>
+        <p class="sm">Enable Telefónica partners to create and update Living Apps more independently.</p>
       </figure>
     </div>
   </div>
 </section>
 
-<section class="sec">
+<!-- 57 · THE CHALLENGE ...................................................... -->
+<section class="pivot" id="challenge">
   <div class="w">
-    <div class="head">
-      <div><span class="n">01</span></div>
+    <span class="k rv">The challenge</span>
+    <p class="stmt rv" data-d="1" style="font-size:var(--lb-display-l);line-height:var(--lb-lh-display-l);max-width:24ch">Design simple experiences while working within very different technical, business and interaction constraints.</p>
+  </div>
+</section>
+
+<!-- 56 · SMART WIFI SELFCARE ................................................ -->
+<section class="sec sec--open" id="smartwifi">
+  <div class="w">
+    <div class="head rv">
+      <span class="n">02</span>
       <div>
-        <p class="k">The context</p>
-        <h2>An app tied<br>to a physical<br>router</h2>
+        <span class="k">Smart WiFi Selfcare</span>
+        <h2>How can the experience make a slow technical process understandable enough that users stay with it instead of abandoning it and calling support?</h2>
         <div class="rule prism-rule"></div>
-        <div class="two-a">
-          <div>
-            <p>Smart WiFi is a mobile app that lets Movistar customers set up their router, change the WiFi password and share their connection. Selfcare was a new feature inside it: help people diagnose and resolve their own connectivity problems.</p>
-            <p>The business goal was direct: <strong>encourage self-service and reduce support calls.</strong> Every problem a customer could solve alone was a call the operator did not have to take.</p>
-            <p>What made it hard is that the app is bound to real hardware in someone's home. The behaviour of the product depended on the router, the network, and on differences between iOS and Android that we did not control.</p>
-          </div>
-          <div class="rv">
-            <figure>
-          <img class="figimg" src="images/s3-fig1-wireflow.png" width="1600" height="1144" loading="lazy" decoding="async"
-               alt="The wireflow for the diagnostic experience: every screen of the Smart WiFi Selfcare flow laid out with its connections, decision points and error branches, as taken into grooming with the engineering team.">
-          <figcaption>Wireflow taken into grooming · Smart WiFi Selfcare, Movistar</figcaption>
-        </figure>
-          </div>
-        </div>
+      </div>
+    </div>
+
+    <div class="two-b rv" data-d="1" style="margin-top:clamp(40px,5vw,72px);align-items:start">
+      <div>
+        <span class="k">The problem</span>
+        <p>Movistar's Smart WiFi experience spanned different touchpoints, but users needed to understand and manage a technically complex connectivity problem.</p>
+        <span class="k" style="margin-top:clamp(28px,3.4vw,44px)">Business goal</span>
+        <p>Increase self-service and reduce dependence on customer support.</p>
+      </div>
+      <figure class="rv rv--mask shot" data-d="2">
+        <img class="figimg" src="images/s3-screens.jpg" width="1190" height="1428" loading="lazy" decoding="async"
+             alt="The Selfcare screens stacked together: the autodiagnostic menu, the speed test with its download and upload figures, the quality verdict, and the illustrated help topics on cable care and device load.">
+        <figcaption>Smart WiFi Selfcare · the touchpoints the feature spans</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 58 · THE BUSINESS GOAL, IN ONE LINE ..................................... -->
+<section class="pivot" id="goal">
+  <div class="w">
+    <span class="k rv">Business goal</span>
+    <p class="stmt rv" data-d="1">Decrease calls to 1002 by making users feel in <i>control</i>.</p>
+  </div>
+</section>
+
+<!-- 59 · THE WIREFLOW ....................................................... -->
+<section class="sec sec--tight" id="wireflow">
+  <div class="w">
+    <span class="k rv">The work</span>
+    <h3 class="rv" data-d="1">The flow engineering could break</h3>
+    <p class="lead rv" data-d="2" style="margin-top:18px">I brought a wireflow to every grooming session. Not a finished design for approval: a working flow that engineering could break, so technical reality shaped it while it was still cheap to change.</p>
+  </div>
+  <figure class="ph--bleed rv drift" data-d="3" style="margin-top:clamp(34px,4.4vw,64px)">
+    <img class="figimg" src="images/s3-wireflow.jpg" width="2600" height="1462" loading="lazy" decoding="async"
+         alt="The Selfcare wireflow: every screen of the diagnostic journey connected by decision points, with the permission refusals, the location-disabled states and the recovery paths drawn in alongside the happy path.">
+    <figcaption>Wireflow taken into grooming · Smart WiFi Selfcare, Movistar</figcaption>
+  </figure>
+</section>
+
+<!-- 61 · CLOCK TIME AND BRAIN TIME .......................................... -->
+<section class="pivot" id="braintime">
+  <div class="w">
+    <div class="two-b">
+      <div>
+        <span class="k rv">The idea</span>
+        <p class="stmt rv" data-d="1" style="font-size:var(--lb-display-l);line-height:var(--lb-lh-display-l);max-width:20ch">&ldquo;There are two kinds of time: clock time and <i>brain time</i>.&rdquo;</p>
+        <p class="after rv" data-d="2">The test was slow and would stay slow. Accepting that moved the problem from speed to comprehension, and comprehension was solvable.</p>
+      </div>
+      <figure class="movil rv rv--mask" data-d="2">
+        <img class="figimg" src="images/s3-brain-time.jpg" width="612" height="1088" loading="lazy" decoding="async"
+             alt="The diagnostic running on the phone: a single expanding pulse with the stage named underneath, so the wait reads as progress rather than absence.">
+        <figcaption>The test running</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 62.1 · THE FINAL UI ..................................................... -->
+<section class="sec sec--tight" id="final-ui">
+  <div class="w">
+    <span class="k rv">Smart WiFi</span>
+    <h3 class="rv" data-d="1">Final UI</h3>
+  </div>
+  <figure class="ph--bleed rv rv--mask" data-d="2" style="margin-top:clamp(26px,3vw,44px)">
+    <img class="figimg" src="images/s3-final-ui.jpg" width="2400" height="1344" loading="lazy" decoding="async"
+         alt="The shipped Selfcare screens laid out together: the autodiagnostic menu, the speed test running, download and upload results, the quality verdict with its recommendation, and the illustrated help articles on cable care, interference and device load.">
+    <figcaption>Smart WiFi Selfcare · the shipped experience</figcaption>
+  </figure>
+</section>
+
+<!-- 50 · EL TALLER ........................................................ -->
+<section class="sec sec--tight" id="workshop">
+  <div class="w">
+    <span class="k rv">The research</span>
+    <h3 class="rv" data-d="1">Where the problems were written down</h3>
+  </div>
+  <figure class="ph--wide rv drift" data-d="2" style="margin-top:clamp(26px,3vw,44px)">
+    <img class="figimg" src="images/s3-workshop.jpg" width="1343" height="1037" loading="lazy" decoding="async"
+         alt="A workshop wall: hand-written notes about what users do not understand, grouped into themes and pinned beside sketched screen options for the dashboard, the device list and the notifications.">
+    <figcaption>Workshop wall &middot; synthesis and early screen options</figcaption>
+  </figure>
+</section>
+
+<!-- 62 · THE OUTCOME ........................................................ -->
+<section class="sec sec--open light" id="outcome">
+  <div class="w">
+    <div class="head rv">
+      <span class="n">03</span>
+      <div>
+        <span class="k">The outcome</span>
+        <h2>People diagnosed their own connection</h2>
+        <div class="rule prism-rule"></div>
+        <p class="lead">We couldn't make the test faster. We could make the waiting understandable.</p>
+      </div>
+    </div>
+
+    <div class="facts rv" data-d="1" style="margin-top:clamp(40px,5vw,72px)">
+      <div class="fact"><span class="fk">&minus;12%</span><span class="fv">Call centre calls</span></div>
+      <div class="fact"><span class="fk">Released</span><span class="fv">2019, inside the Movistar Smart WiFi app</span></div>
+    </div>
+
+    <div class="three rv" data-d="2" style="margin-top:clamp(44px,6vw,80px)">
+      <div>
+        <span class="k">Experience</span>
+        <p>Progress · feedback · motion · illustration.</p>
+      </div>
+      <div>
+        <span class="k">System</span>
+        <p>iOS + Android · technical states · permissions · device conditions · navigation · edge cases.</p>
+      </div>
+      <div>
+        <span class="k">The build</span>
+        <p>Wireflows brought into engineering grooming · close front-end collaboration · Movistar Mystica design system · micro-interactions · illustrations.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="pivot">
+<!-- 63 · THE CLOSE .......................................................... -->
+<section class="pivot" id="close">
   <div class="w">
-    <p class="k">02 · The challenge</p>
-    <p class="stmt">The diagnostic test was slow, and no amount of design <i>was going to make it faster.</i></p>
-    <div class="two">
-      <div class="rv">
-        <p>Running a real performance test against a home network takes as long as it takes. That was a technical fact, not a design problem I could solve.</p>
-        <p>Which meant the actual problem was not duration. It was <strong>what a person believes is happening while they wait</strong>, and whether they stay with the process instead of abandoning it and calling support, which was precisely the outcome the feature existed to avoid.</p>
-        <p>A spinner would have been honest and useless. The design had to make the wait legible: something is happening, this is what it is, you are still in control of it.</p>
-      </div>
-      <div class="rv">
-        <figure>
-          <img class="figimg fig-mid" src="images/s3-fig2-results.png" width="1023" height="1400" loading="lazy" decoding="async"
-               alt="The results screen on a phone: a plain-language list of what the connection can support, followed by the measured download and upload speeds and a signal section.">
-          <figcaption>Results screen · Smart WiFi Selfcare, Movistar</figcaption>
-        </figure>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sec tint">
-  <div class="w">
-    <div class="head">
-      <div><span class="n">03</span></div>
-      <div>
-        <p class="k">My role</p>
-        <h2>Designing inside<br>the constraints,<br>not around them</h2>
-        <div class="rule prism-rule"></div>
-        <div class="two-a">
-          <div>
-            <p>I was the UX designer on the feature, working within Movistar's existing design system and alongside the engineering team building it.</p>
-            <p>The method that mattered: <strong>I brought a wireflow to every grooming session.</strong> Not a finished design for approval, a working flow that engineering could break, so that technical reality and product requirements shaped it while it was still cheap to change.</p>
-            <p>That is how the edge cases got mapped. Not by documenting them afterwards, but by designing in the room where they surfaced.</p>
-          </div>
-          <div class="rv">
-            <ul class="p">
-              <li><span class="i">01</span><span>End-to-end interaction and navigation flow for the Selfcare feature</span></li>
-              <li><span class="i">02</span><span>Edge-case mapping with engineering across iOS and Android</span></li>
-              <li><span class="i">03</span><span>Motion design for the diagnostic sequence, to make waiting legible</span></li>
-              <li><span class="i">04</span><span>A set of original illustrations for the help and FAQ content</span></li>
-              <li><span class="i">05</span><span>Final designs delivered within the Movistar design system</span></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sec">
-  <div class="w">
-    <div class="head">
-      <div><span class="n">04</span></div>
-      <div>
-        <p class="k">The work</p>
-        <h2>Two problems,<br>two languages</h2>
-        <div class="rule prism-rule"></div>
-        <div class="two">
-          <div>
-            <h3>Motion, for the part you wait through</h3>
-            <p>The diagnostic sequence was designed as visible stages rather than a single indeterminate load. Each stage names what the system is doing, so the passing time reads as progress rather than as absence. The goal was never to disguise the duration. It was to make it comprehensible.</p>
-          </div>
-          <div>
-            <h3>Illustration, for the part you read</h3>
-            <p>A large part of Selfcare is explanatory content: why your connection behaves the way it does, what you can do about it. I created a set of illustrations so each topic was recognisable at a glance, turning a help section people avoid into something they could actually navigate.</p>
-          </div>
-        </div>
-        <figure class="rv" style="margin-top:clamp(44px,5vw,72px)">
-          <img class="figimg fig-phone" src="images/s3-fig3-test.gif" width="375" height="667" loading="lazy" decoding="async"
-               alt="The diagnostic test running on a phone: the wait is broken into named stages that announce what is being measured, so the person can see progress instead of an unexplained spinner.">
-          <figcaption>The test running · Smart WiFi Selfcare, Movistar</figcaption>
-        </figure>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sec light">
-  <div class="w">
-    <div class="head">
-      <div><span class="n">05</span></div>
-      <div>
-        <p class="k">Outcome</p>
-        <h2>People diagnosed<br>their own<br>connection</h2>
-        <div class="rule prism-rule"></div>
-        <div class="two">
-          <div>
-            <p>The feature let customers analyse their own connectivity without calling for assistance, which was the point of building it, and the measure the business cared about.</p>
-            <p>For a support organisation, a customer who resolves their own problem is not only a cost avoided. It is a customer who did not spend twenty minutes on hold being told to restart the router.</p>
-          </div>
-          <div class="facts rv">
-            <div class="fact"><span class="fk">Released</span><span class="fv">2019, inside the Movistar Smart WiFi app</span></div>
-            <div class="fact"><span class="fk">Goal</span><span class="fv">Self-service diagnosis, fewer support calls</span></div>
-            <div class="fact"><span class="fk">Constraint</span><span class="fv">A test duration that could not be reduced</span></div>
-            <div class="fact"><span class="fk">Approach</span><span class="fv">Design the perception of the wait, not the wait</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sec">
-  <div class="w">
-    <div class="head">
-      <div><span class="n">06</span></div>
-      <div>
-        <p class="k">What I took from it</p>
-        <h2>Three things<br>I kept</h2>
-        <div class="rule prism-rule"></div>
-        <div class="three">
-          <div class="rv"><h3>Some constraints are the brief</h3><p>The test was slow and would stay slow. Accepting that early moved the problem from speed to comprehension, and comprehension was solvable. Arguing with a technical fact wastes the time you could spend designing around it.</p></div>
-          <div class="rv"><h3>Design in the room where reality lives</h3><p>Bringing a wireflow to every grooming meant edge cases surfaced while the design was still cheap to change. A flow engineering can break is worth more than a comp they can only approve.</p></div>
-          <div class="rv"><h3>Waiting is an experience, not a gap</h3><p>People will stay with a slow process they understand and abandon a fast one they do not. Control is what holds attention, and it can be designed.</p></div>
-        </div>
-      </div>
-    </div>
+    <span class="k rv">Business goal</span>
+    <p class="stmt rv" data-d="1" style="font-size:var(--lb-display-l);line-height:var(--lb-lh-display-l);max-width:24ch">The design didn't remove the technical constraint. It translated it into an experience people could understand and complete.</p>
   </div>
 </section>
 
@@ -590,7 +1029,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <footer>
   <div class="prism-rule"></div>
-  <div class="w"><p>Original work delivered for Telefónica at frog, 2019 · Laura Benavente</p></div>
+  <div class="w">
+    <div class="next">
+      <span>Next</span>
+      <a href="story1-case-study.html">CCH iFirm by Wolters Kluwer</a>
+    </div>
+    <p>frog · Telefónica · Movistar · Laura Benavente</p>
+  </div>
 </footer>
 
 <script>
@@ -609,9 +1054,112 @@ if(reglas.length&&'IntersectionObserver' in window){
   reglas.forEach(function(r){ pio.observe(r) });
 }
 
+
+/* Real scrollbar width, so the full-bleed figures span the viewport without
+   pushing the page sideways. Recalculated on resize. */
+function medirBarra(){
+  document.documentElement.style.setProperty('--lb-sbw',
+    (window.innerWidth-document.documentElement.clientWidth)+'px');
+}
+medirBarra();
+addEventListener('resize',medirBarra,{passive:true});
+
+/* DRIFT. The largest pieces counter-move slightly as they cross the viewport.
+   Capped at 7% of the element height, which is under the 8% the system allows,
+   and skipped entirely for readers who asked for less motion. */
+var quieto=matchMedia('(prefers-reduced-motion: reduce)').matches;
+var drifters=quieto?[]:Array.prototype.slice.call(document.querySelectorAll('.drift'));
+
+/* Un video en bucle que arranca solo es movimiento continuo. A quien ha pedido
+   menos movimiento se le deja parado en el primer fotograma, con sus controles
+   para verlo si quiere. Sin JS el video arranca igual: el atributo manda. */
+var cg=document.getElementById('code-games');
+if(cg&&quieto){cg.autoplay=false;cg.loop=false;cg.pause()}
+function moverDrift(){
+  var vh=window.innerHeight;
+  for(var i=0;i<drifters.length;i++){
+    var el=drifters[i], r=el.getBoundingClientRect();
+    if(r.bottom<0||r.top>vh)continue;
+    var centro=(r.top+r.height/2-vh/2)/vh;      /* -1 arriba, +1 abajo */
+    if(centro<-1)centro=-1; if(centro>1)centro=1;
+    el.style.transform='translate3d(0,'+(centro*r.height*0.07).toFixed(1)+'px,0)';
+  }
+}
 var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{rootMargin:'0px 0px -10% 0px'});
-document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
-setTimeout(function(){document.querySelectorAll('.rv:not(.in)').forEach(function(el){el.classList.add('in')})},3500);
+var watched=Array.prototype.slice.call(document.querySelectorAll('.rv'));
+watched.forEach(function(el){
+  var d=el.getAttribute('data-d');
+  if(d){el.style.transitionDelay=(parseFloat(d)*0.12)+'s'}
+  io.observe(el);
+});
+/* Reveal whatever the visitor has actually reached. Never the whole page: that
+   pre-empts every reveal further down, and on a page this long that is every
+   animation except the first screen. */
+function sweep(){
+  /* 0.78, not 0.92. At 0.92 an element was revealed the instant it peeked over
+     the bottom edge, so its one-second transition finished while it was still
+     out of sight and the page looked static. This fires it well inside view. */
+  var limit=window.innerHeight*0.78;
+  for(var i=watched.length-1;i>=0;i--){
+    var el=watched[i];
+    if(el.getBoundingClientRect().top<limit){
+      el.classList.add('in');io.unobserve(el);watched.splice(i,1);
+    }
+  }
+}
+/* Second driver, on scroll. IntersectionObserver is the primary path; this is
+   what keeps the page readable if it never delivers, which would otherwise
+   leave everything below the first screen invisible forever. Costs nothing
+   when the observer works, because revealed elements leave `watched`. */
+/* PINNED MOMENT. Scroll position through the track picks which state is showing.
+   Thresholds are an explicit array so the pacing is readable: the first state
+   holds for the first 45% of the track, then the second takes over and holds. */
+var pista=document.getElementById('context-pin');
+var pasos=pista?Array.prototype.slice.call(pista.querySelectorAll('.pin-step')):[];
+var marcas=pista?Array.prototype.slice.call(pista.querySelectorAll('.pin-count li')):[];
+var umbrales=[0,.45];
+function moverAnclaje(){
+  if(!pista||!pasos.length||quieto)return;
+  var r=pista.getBoundingClientRect(), vh=window.innerHeight;
+  var recorrido=r.height-vh;
+  if(recorrido<=0)return;
+  var p=(-r.top)/recorrido;
+  if(p<0)p=0; if(p>1)p=1;
+  var activo=0;
+  for(var i=0;i<umbrales.length;i++) if(p>=umbrales[i]) activo=i;
+  for(var j=0;j<pasos.length;j++){
+    pasos[j].classList.toggle('on', j===activo);
+    if(marcas[j]) marcas[j].classList.toggle('on', j===activo);
+  }
+}
+
+var pending=false;
+addEventListener('scroll',function(){
+  if(pending)return;
+  pending=true;
+  requestAnimationFrame(function(){pending=false;sweep();moverDrift();moverAnclaje()});
+},{passive:true});
+addEventListener('resize',function(){sweep();moverAnclaje()},{passive:true});
+/* Two frames before the first sweep, so the hidden start state is painted once.
+   Sweeping in the same tick as setup would jump straight to the end state and
+   the first screen would appear with no transition at all. */
+requestAnimationFrame(function(){requestAnimationFrame(function(){sweep();moverDrift();moverAnclaje()})});
+/* Last resort. rAF and IntersectionObserver are both suspended while a document
+   is hidden (a link opened in a background tab, some embedded webviews) and
+   setTimeout is not. Scoped to what the visitor has reached, so it can never
+   pre-empt the reveals further down. */
+setTimeout(sweep,4000);
+/* Los videos solo corren mientras estan en cuadro: son 13MB entre los dos.
+   Con movimiento reducido no arrancan solos y aparecen los controles. */
+var RMv=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.querySelectorAll('figure video').forEach(function(v){
+  if(RMv){ v.setAttribute('controls',''); return }
+  var vio=new IntersectionObserver(function(es){
+    es.forEach(function(e){ e.isIntersecting ? v.play().catch(function(){}) : v.pause() });
+  },{threshold:.25});
+  vio.observe(v);
+});
+
 var navD=document.getElementById('nav-d');
 if(navD){
   navD.querySelectorAll('.nav-panel a').forEach(function(a){

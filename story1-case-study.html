@@ -29,7 +29,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   08 images/IMAGE_08.png   1280x810   Firm Settings y el panel de productos
   09 images/IMAGE_09.png   1280x810   navegacion lateral anotada
   10 images/IMAGE_10.png   1280x810   el dashboard
-  13 images/13.Design-handoff.png 1746x660  el tablero de handoff
+  13 images/s1-handoff-board.jpg 1548x890  el tablero de handoff
   14 images/IMAGE_14.png   2126x1086  el tablero de research
   15 images/IMAGE_15.png   1169x431   biblioteca de componentes
 
@@ -40,7 +40,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   decoding="async" alt="..."> y su <figcaption>.
 -->
 
-<link rel="stylesheet" href="tokens.css?v=48">
+<link rel="stylesheet" href="tokens.css?v=61">
 <style>
 @font-face{font-family:'Libertinus Serif';font-weight:400;font-style:normal;font-display:swap;src:url(fonts/libertinus-serif-latin-400-normal.woff2) format('woff2')}
 @font-face{font-family:'Libertinus Serif';font-weight:400;font-style:italic;font-display:swap;src:url(fonts/libertinus-serif-latin-400-italic.woff2) format('woff2')}
@@ -491,11 +491,13 @@ figure.rv.in .ph__box,figure.rv.in .figimg,
 figure.hero-shot.rv .figimg,
 figure.ph-bleed.rv .figimg,
 figure.ph--bleed.rv .ph__box,figure.ph--bleed.rv .figimg,
-figure.ph--wide.rv .ph__box,figure.ph--wide.rv .figimg{transform:translateY(38px)}
+figure.ph--wide.rv .ph__box,figure.ph--wide.rv .figimg,
+figure.tira.rv .figimg{transform:translateY(38px)}
 figure.hero-shot.rv.in .figimg,
 figure.ph-bleed.rv.in .figimg,
 figure.ph--bleed.rv.in .ph__box,figure.ph--bleed.rv.in .figimg,
-figure.ph--wide.rv.in .ph__box,figure.ph--wide.rv.in .figimg{transform:none}
+figure.ph--wide.rv.in .ph__box,figure.ph--wide.rv.in .figimg,
+figure.tira.rv.in .figimg{transform:none}
 html:not(.js) figure.rv .ph__box,html:not(.js) figure.rv .figimg,
 html:not(.js) .rv > figure:not(.rv) .ph__box,html:not(.js) .rv > figure:not(.rv) .figimg{transform:none}
 
@@ -525,7 +527,7 @@ html:not(.js) .rv ul.p li,html:not(.js) .rv .tags li{opacity:1;transform:none}
 /* Caja compartida. Los dos estados del anclaje tienen proporciones distintas
    (3.04:1 y 2.13:1) y se apilan uno sobre otro: sin una altura comun el marco
    daria un salto al conmutar. Cada imagen se ajusta dentro sin recortarse. */
-.pin-frame{position:relative;height:min(58vh,560px)}
+.pin-frame{position:relative;height:min(64vh,620px)}
 .pin-step{position:absolute;inset:0;opacity:0;transform:scale(.985);
   display:flex;flex-direction:column;justify-content:center}
 html.js .pin-step{transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
@@ -680,6 +682,150 @@ html:not(.js) .lrn.rv li{opacity:1;transform:none}
   text-transform:uppercase;color:var(--lb-mid);margin:0 0 14px}
 .three .k::after,.two .k::after,.two-a .k::after,.two-b .k::after,
 .hand .k::after,.facts .k::after{content:none}
+
+/* =========================================================
+   PIEZAS NUEVAS DE LA PASADA DE PRUEBAS
+   ========================================================= */
+
+/* Titulo del paso anclado. Cambia con la pantalla, asi que hereda la
+   transicion del paso y no necesita la suya. */
+.pin-t{font-family:var(--lb-font-display);font-weight:400;
+  font-size:var(--lb-display-m);line-height:var(--lb-lh-display-m);
+  letter-spacing:var(--lb-track-display);margin:0 0 clamp(16px,2vw,26px);
+  color:var(--lb-ink)}
+.pin-step{display:flex;flex-direction:column;justify-content:center}
+.pin-step .figimg{width:auto;max-width:100%;height:auto;
+  max-height:calc(100% - 96px);margin:0 auto;object-fit:contain}
+@media(max-width:767px){.pin-step .figimg{max-height:none}}
+
+/* Captura contenida junto a su texto. La de la diapositiva 26 ya viene
+   cortada por la derecha: con filete se lee como recorte, a sangre parecia
+   una imagen rota. */
+.shot .figimg{border:var(--lb-hairline) solid var(--lb-line);
+  border-radius:var(--lb-radius);background:var(--lb-raised)}
+.light .shot .figimg{border-color:var(--lb-line-on-paper);background:var(--lb-paper-inset)}
+
+/* Los tres pasos, en columna junto a la pantalla. */
+.paso{padding:clamp(16px,1.8vw,24px) 0;border-top:var(--lb-hairline) solid var(--lb-line)}
+.paso:first-child{border-top:0;padding-top:0}
+.paso p{margin:0;font-size:var(--lb-body-s);max-width:42ch}
+.paso .k{margin:0 0 8px}
+.paso .k::after{content:none}
+.paso .num6{margin-bottom:12px}
+
+/* La cadena de la validacion. Cinco pasos, uno debajo de otro, con la flecha
+   entre ellos: es como esta escrita en su diapositiva. El ultimo en acento,
+   tambien como ahi. */
+.cadena{list-style:none;margin:clamp(34px,4vw,60px) 0 0;padding:0;
+  font-family:var(--lb-font-mono);font-size:var(--lb-body-s);
+  line-height:1.5;color:var(--lb-ink)}
+.cadena li{padding:0 0 0 26px;position:relative}
+.cadena li + li{margin-top:22px}
+.cadena li + li::before{content:'';position:absolute;left:5px;top:-19px;
+  width:1px;height:16px;background:var(--lb-line-strong)}
+.cadena li + li::after{content:'';position:absolute;left:2.5px;top:-7px;
+  width:7px;height:7px;border-right:1px solid var(--lb-line-strong);
+  border-bottom:1px solid var(--lb-line-strong);transform:rotate(45deg)}
+.cadena .fin{color:var(--lb-accent)}
+.light .cadena{color:var(--lb-cream-ink)}
+.light .cadena .fin{color:var(--lb-accent-deep)}
+/* Los cinco entran en cascada, no a la vez: el orden es el argumento. */
+.cadena.rv li{opacity:0;transform:translateY(16px)}
+html.js .cadena.rv li{transition:opacity .6s var(--lb-ease),transform .7s var(--lb-ease)}
+.cadena.rv.in li{opacity:1;transform:none}
+.cadena.rv.in li:nth-child(2){transition-delay:.09s}
+.cadena.rv.in li:nth-child(3){transition-delay:.18s}
+.cadena.rv.in li:nth-child(4){transition-delay:.27s}
+.cadena.rv.in li:nth-child(5){transition-delay:.36s}
+html:not(.js) .cadena.rv li{opacity:1;transform:none}
+
+/* Tira de detalle: muy panoramica, sangra por los dos lados. Es el peldano
+   mas bajo de la escala y solo se usa una vez en la pagina. */
+.tira{width:calc(100vw - var(--lb-sbw));margin-left:calc(50% - (100vw - var(--lb-sbw))/2);
+  margin-top:clamp(40px,5vw,76px)}
+.tira > figcaption{max-width:var(--lb-maxw);margin:0 auto;padding:0 var(--lb-margin)}
+@media(max-width:767px){.tira{width:100%;margin-left:0}}
+
+/* La pareja del contexto entra escalonada, no a la vez: son dos momentos de
+   una misma frase, no dos imagenes sueltas. */
+#context .two > figure:nth-child(2){transition-delay:.14s}
+
+
+/* =========================================================
+   CORRECCIONES DE UI Y ACCESIBILIDAD
+   ========================================================= */
+
+/* 1 · EL RAG. Sin esto el navegador parte donde cabe, no donde debe:
+   "From preserving context to understanding context" caia en 934px y luego
+   164px, con una sola palabra en la segunda linea; el lead de la decision
+   dejaba una huerfana de 42px. balance reparte las lineas de un titular;
+   pretty impide que el texto corrido acabe en una palabra sola. */
+h1,h2,h3,h4,
+.stmt,.principle,.pull,.lead,.hero-sub,.pin-t,
+.fsb-t,.ap-t,.story-hero__title,.story-hero__standfirst,
+.fact .fv,.actor h3,.hstep h3{text-wrap:balance}
+p,li,figcaption,.fsb-c,.ap-d,.about-sub,.hero-note .body,.after{text-wrap:pretty}
+
+/* 2 · 17ch a 96px es demasiado estrecho para palabras largas: obliga a partir
+   en sitios malos por mucho que se equilibre. Con mas medida hay donde elegir. */
+.pivot .stmt{max-width:23ch}
+
+/* 3 · ACCESIBILIDAD · Los tokens de tinta estan calculados sobre el suelo
+   oscuro. Sobre papel, --lb-mid daba 3,33:1 y --lb-ink daba 1,11:1: texto
+   practicamente invisible en las fichas de resultado de Story 3. En vez de
+   perseguir cada selector, el suelo de papel cambia la tinta. Cualquier
+   componente que caiga en .light hereda el contraste correcto. */
+.light{
+  --lb-ink:        var(--lb-cream-ink);
+  --lb-ink-2:      var(--lb-cream-body);
+  --lb-mid:        #6B6863;
+  --lb-line:       var(--lb-line-on-paper);
+  --lb-line-strong:rgba(20,20,22,.28);
+  --lb-raised:     var(--lb-paper-inset);
+  --lb-accent:     var(--lb-accent-deep);
+}
+
+/* 4 · ACCESIBILIDAD · El area de pulsacion del logo eran 14px de alto.
+   WCAG 2.5.8 pide 24. Los enlaces del menu ya lo resolvian con un ::after;
+   el logo no lo tenia. */
+.nav-logo{position:relative}
+.nav-logo::after{content:'';position:absolute;left:-4px;right:-4px;top:-7px;bottom:-7px}
+
+/* 5 · EL PAR ANCLADO. Las dos pantallas median 901 y 887 de ancho y
+   arrancaban en 270 y 276: el marco saltaba 14px al cambiar de estado. En un
+   antes y un despues lo unico que no puede moverse es el marco. Ahora el
+   marco es fijo, se alinea al canal del texto y la imagen se contiene dentro. */
+.pin-frame{height:min(72vh,700px)}
+.pin-step .figimg{flex:none;width:100%;max-width:none;height:auto;
+  max-height:none;aspect-ratio:16/7;object-fit:contain;margin:0;
+  border:var(--lb-hairline) solid var(--lb-line);border-radius:var(--lb-radius);
+  background:var(--lb-raised)}
+@media(max-width:767px){.pin-step .figimg{aspect-ratio:auto;object-fit:fill}}
+
+/* 6 · El tablero de propuestas flotaba centrado en un cuarto borde izquierdo
+   que no existia en el resto de la pagina. Ahora arranca en el canal del
+   texto, como todo lo demas que no va a sangre. */
+.tablero{max-width:1280px;margin-left:auto;margin-right:auto;
+  padding-left:var(--lb-margin);padding-right:var(--lb-margin)}
+.tablero .figimg{max-width:740px}
+.tablero figcaption{max-width:740px}
+
+/* 7 · ACCESIBILIDAD · La cadena llevaba fondo oscuro (--lb-ground) tambien
+   dentro de las secciones de papel, asi que sus etiquetas quedaban a 3,57:1.
+   La cadena toma el suelo de la seccion en la que esta, y el contraste sale
+   solo. */
+.light .chain{background:var(--lb-line-on-paper);border-color:var(--lb-line-on-paper)}
+.light .chain > div{background:var(--lb-cream)}
+.light .chain p{color:var(--lb-cream-body)}
+.light .chain .ck{color:var(--lb-cream-meta)}
+
+/* El menu tiene un enlace mas. Sin su retardo aparece de golpe mientras los
+   otros cascadean, y se lee como un fallo. */
+.nav-links li:nth-child(7) a span{transition-delay:.41s}
+.nav-foot li:nth-child(1) a span{transition-delay:.47s}
+.nav-foot li:nth-child(2) a span{transition-delay:.51s}
+.nav-foot li:nth-child(3) a span{transition-delay:.55s}
+.nav-foot li:nth-child(4) a span{transition-delay:.59s}
 </style>
 </head>
 <body>
@@ -702,6 +848,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="nav-panel">
       <ul class="nav-links">
         <li><a href="index.html#hero"><span>Home</span></a></li>
+        <li><a href="index.html#origin"><span>Origin</span></a></li>
         <li><a href="story1-case-study.html"><span>Story 1</span></a></li>
         <li><a href="story2-case-study.html"><span>Story 2</span></a></li>
         <li><a href="story3-case-study.html"><span>Story 3</span></a></li>
@@ -735,6 +882,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="stat"><b>6</b><i>Products unified</i></div>
       <div class="stat"><b>5</b><i>Markets</i></div>
       <div class="stat"><b>1</b><i>Shared design system</i></div>
+      <div class="stat"><b>Months</b><i>Of development saved</i></div>
     </div>
 
     <div class="hero-meta rv" data-d="3">
@@ -766,12 +914,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="two" style="margin-top:clamp(44px,6vw,86px)">
       <figure class="rv">
-        <img class="figimg" src="images/from on premise.png" alt="On-premise environment: separate products, each with its own entry point." loading="lazy" decoding="async">
-        <figcaption>On-premise · one environment per product</figcaption>
+        <img class="figimg" src="images/s1-onpremise.jpg" width="1536" height="866" loading="lazy" decoding="async"
+             alt="The on-premise product: a Windows desktop application with a document list, ribbon toolbar and a tax return open in a preview pane.">
+        <figcaption>On-premise</figcaption>
       </figure>
       <figure class="rv" data-d="1">
-        <img class="figimg" src="images/To the could.png" alt="Cloud environment: products gathered under a single connected experience." loading="lazy" decoding="async">
-        <figcaption>Cloud · one connected experience</figcaption>
+        <img class="figimg" src="images/s1-cloud.jpg" width="1280" height="810" loading="lazy" decoding="async"
+             alt="The cloud product: a single CCH iFirm dashboard gathering last returns, resource allocation, work in progress, documents and annual revenue.">
+        <figcaption>One environment</figcaption>
       </figure>
     </div>
   </div>
@@ -859,14 +1009,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="k">Risk</p>
       </div>
       <div class="modelos">
-        <p><strong>Client context</strong></p>
+        <p><strong>Client-context products</strong></p>
         <p>Select a client</p>
         <p>Select a product</p>
         <p>Work</p>
         <p class="mk">Systems only work with a client selected</p>
       </div>
       <div class="modelos">
-        <p><strong>Firm context</strong></p>
+        <p><strong>Firm-context products</strong></p>
         <p>Select a product</p>
         <p>Select a client</p>
         <p>Work</p>
@@ -883,6 +1033,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="two rv">
       <div>
         <h3>The risk of client-context</h3>
+        <figure class="rv rv--mask shot" style="margin:clamp(20px,2.4vw,30px) 0 clamp(24px,3vw,34px)">
+          <img class="figimg" src="images/s1-risk-client.jpg" width="1632" height="799" loading="lazy" decoding="async"
+               alt="The on-premise client list: a long alphabetical roster of every client in the firm, opened in full whenever the user needs to switch.">
+          <figcaption>CCH iFirm · the client switcher opens the full list</figcaption>
+        </figure>
         <ul class="p">
           <li><span class="i">01</span>On-premise and CCH iFirm compliance apps are client centric</li>
           <li><span class="i">02</span>Some applications only work with client context</li>
@@ -892,6 +1047,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div>
         <h3>The risk of firm-context</h3>
+        <figure class="rv rv--mask shot" style="margin:clamp(20px,2.4vw,30px) 0 clamp(24px,3vw,34px)">
+          <img class="figimg" src="images/s1-risk-firm.jpg" width="1632" height="901" loading="lazy" decoding="async"
+               alt="The returns list in firm context: corporate returns for the whole firm, none of them started, with no client selected to work within.">
+          <figcaption>CCH iFirm · the product opens at firm level</figcaption>
+        </figure>
         <ul class="p">
           <li><span class="i">01</span>Doesn't support a continuous workflow</li>
           <li><span class="i">02</span>Users have to go back and forward to select another client</li>
@@ -909,7 +1069,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="pivot" id="design-question">
   <div class="w">
     <span class="k rv">Design question</span>
-    <p class="stmt rv" data-d="1" style="font-size:var(--lb-display-l);line-height:var(--lb-lh-display-l);max-width:22ch">How can we make client context persistent across the experience without adding another layer of navigation or creating unnecessary development complexity?</p>
+    <p class="stmt rv" data-d="1" style="font-size:var(--lb-display-l);line-height:var(--lb-lh-display-l);max-width:30ch">How can we make client context persistent across the experience without adding another layer of navigation or creating unnecessary development complexity?</p>
   </div>
 </section>
 
@@ -1022,8 +1182,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
-<figure class="sec sec--tight rv" style="max-width:850px;margin-left:auto;margin-right:auto;padding-left:var(--lb-margin);padding-right:var(--lb-margin)">
-  <img class="figimg" src="images/10-three-proposals.png" alt="Exploration board comparing the three proposals: concept, how it works, positive impact, limitations and research findings for each." loading="lazy" decoding="async">
+<figure class="sec sec--tight tablero rv rv--mask">
+  <img class="figimg" src="images/s1-proposals.jpg" width="1846" height="2048" loading="lazy" decoding="async"
+       alt="The exploration board: each of the three proposals written out with its concept, how it works, positive impact, limitations, who it is best for, and what it leaves missing.">
   <figcaption>Solution exploration · the three proposals compared</figcaption>
 </figure>
 
@@ -1034,7 +1195,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h3 class="rv" data-d="1">Which solution gives the right value for the effort?</h3>
   </div>
   <div class="w"><figure class="rv drift" data-d="2" style="margin-top:clamp(30px,4vw,54px)">
-    <img class="figimg" src="images/s1-matrix.jpg" alt="Value against effort matrix plotting the three proposals." loading="lazy" decoding="async">
+    <img class="figimg" src="images/s1-matrix.jpg" width="2400" height="1029" loading="lazy" decoding="async"
+         alt="Value against effort: the three proposals plotted, with Proposal 1 marked as the one chosen.">
     <figcaption>User and product value against implementation effort</figcaption>
   </figure></div>
 </section>
@@ -1061,27 +1223,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
-<!-- 22 · FROM AN EMPTY STATE ................................................. -->
-<section class="sec sec--tight" id="from-empty">
-  <div class="w">
-    <span class="k rv">The strategic decision</span>
-    <h3 class="rv" data-d="1">From an empty state</h3>
+<!-- 22 + 23 · DEL VACIO A LO CONECTADO. El unico momento anclado de la
+     pagina. El scroll cambia el estado, no la posicion: el marco se queda
+     quieto y lo que cambia es la pantalla dentro, que es el argumento del
+     capitulo. Sin JS, sin anclaje y con movimiento reducido las dos se
+     apilan y se leen igual. -->
+<section class="sec pin-track" id="context-pin">
+  <div class="pin-stage">
+    <div class="w">
+      <span class="k">The strategic decision</span>
+      <ul class="pin-count" aria-hidden="true"><li class="on"></li><li></li></ul>
+      <div class="pin-frame">
+        <div class="pin-step on">
+          <h3 class="pin-t">From an empty state</h3>
+          <figure>
+            <img class="figimg" src="images/s1-empty-state.jpg" width="1327" height="743" loading="lazy" decoding="async"
+                 alt="CCH iFirm Personal Tax opening with no client selected: the workspace is greyed out behind a panel that says no client selected, and a contact list waiting to be searched.">
+            <figcaption>CCH iFirm Personal Tax · no client context</figcaption>
+          </figure>
+        </div>
+        <div class="pin-step">
+          <h3 class="pin-t">To a more connected experience</h3>
+          <figure>
+            <img class="figimg" src="images/s1-connected.jpg" width="2329" height="1071" loading="lazy" decoding="async"
+                 alt="The same product with the work already in front of the user: the returns list populated, each row carrying its status, its filing state and when it was last touched.">
+            <figcaption>CCH iFirm · the client context carried across</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
   </div>
-  <figure class="ph--wide rv" data-d="2" style="margin-top:clamp(26px,3vw,44px)">
-    <img class="figimg" src="images/s1-empty-state.jpg" alt="The product opening with no client selected and nothing to act on." loading="lazy" decoding="async">
-    <figcaption>CCH iFirm · no client context</figcaption>
-  </figure>
-</section>
-
-<!-- 23 · TO A MORE CONNECTED EXPERIENCE ...................................... -->
-<section class="sec sec--tight" id="to-connected">
-  <div class="w">
-    <h3 class="rv">To a more connected experience</h3>
-  </div>
-  <figure class="ph--wide rv" data-d="1" style="margin-top:clamp(26px,3vw,44px)">
-    <img class="figimg" src="images/s1-connected.jpg" alt="The same product with the client context carried across into the destination product." loading="lazy" decoding="async">
-    <figcaption>CCH iFirm · client context carried across</figcaption>
-  </figure>
 </section>
 
 <!-- 24 · THE OUTCOME ......................................................... -->
@@ -1109,8 +1280,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div>
         <span class="k">Business and delivery</span>
-        <h3>Lower implementation effort</h3>
-        <p>The team avoided the complexity of a more ambitious solution while still solving the core problem.</p>
+        <h3>Months of development saved</h3>
+        <p>Testing the direction with customers before it was built is what produced the saving. The evidence supported the simplest of the three proposals, so the team never spent the months the more ambitious options would have cost, and still solved the core problem.</p>
       </div>
     </div>
 
@@ -1141,39 +1312,52 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div><p class="ck">Consistency</p><p>Make the experience feel native to the receiving product.</p></div>
     </div>
 
-    <p class="principle rv" data-d="2" style="margin-top:clamp(50px,6vw,90px)">Improve the journey without creating a new interaction model.</p>
+    <div class="two-a rv" data-d="2" style="margin-top:clamp(50px,6vw,90px)">
+      <div>
+        <span class="k">Accessibility and design system adoption</span>
+        <h3>Auditing the old product was how we argued for the new one</h3>
+      </div>
+      <div>
+        <p>Alongside the interaction work I ran accessibility audits of the legacy software. The findings were not filed as a compliance report. They were the argument: most of what the audits surfaced was something the design system had already solved, so the audits stopped being a separate backlog competing for the same engineering time and became the case for adopting the system faster.</p>
+        <p>Before AI I ran them by hand, screen by screen. Since, I run them with tools like Figma Make and GitHub Copilot. That changed the pace, not the judgement. The tools surface candidates; deciding which are real barriers, which are noise, and which are worth the team's next sprint is still the design decision.</p>
+      </div>
+    </div>
+
+    <p class="principle rv" data-d="3" style="margin-top:clamp(50px,6vw,90px)">Improve the journey without creating a new interaction model.</p>
   </div>
 </section>
 
-<!-- 26 · THE EXPERIENCE ...................................................... -->
-<section class="sec sec--tight" id="experience">
+<!-- 26 · THE EXPERIENCE -->
+<section class="sec" id="experience">
   <div class="w">
     <span class="k rv">The experience</span>
     <h3 class="rv" data-d="1">Context follows the user</h3>
 
-    <div class="three rv" data-d="2" style="margin-top:clamp(30px,4vw,52px)">
-      <div>
-        <span class="num6">01</span>
-        <span class="k">Select a client</span>
-        <p>The client becomes the active context.</p>
-      </div>
-      <div>
-        <span class="num6">02</span>
-        <span class="k">Start an action</span>
-        <p>The user navigates to another product.</p>
-      </div>
-      <div>
-        <span class="num6">03</span>
-        <span class="k">Context is preserved</span>
-        <p>The destination opens within the same client context.</p>
+    <div class="two-b" style="margin-top:clamp(32px,4vw,58px);align-items:center">
+      <figure class="rv rv--mask shot">
+        <img class="figimg" src="images/s1-experience.jpg" width="1445" height="1037" loading="lazy" decoding="async"
+             alt="The returns list inside CCH iFirm with the firm and the active client carried in the header, and every return listed with its status.">
+        <figcaption>Final proposal · less repetition, more continuity</figcaption>
+      </figure>
+      <div class="rv" data-d="1">
+        <div class="paso">
+          <span class="num6">01</span>
+          <span class="k">Select a client</span>
+          <p>The client becomes the active context.</p>
+        </div>
+        <div class="paso">
+          <span class="num6">02</span>
+          <span class="k">Start an action</span>
+          <p>The user navigates to another product.</p>
+        </div>
+        <div class="paso">
+          <span class="num6">03</span>
+          <span class="k">Context is preserved</span>
+          <p>The destination opens within the same client context.</p>
+        </div>
       </div>
     </div>
   </div>
-
-  <figure class="ph--bleed rv drift" data-d="3" style="margin-top:clamp(34px,4.4vw,64px)">
-    <img class="figimg" src="images/s1-experience.jpg" alt="Final proposal: the returns list inside CCH iFirm with the active client carried in the header." loading="lazy" decoding="async">
-    <figcaption>Final proposal · less repetition, more continuity</figcaption>
-  </figure>
 </section>
 
 <!-- 27 · THE VALIDATION · WHY CODE ........................................... -->
@@ -1189,12 +1373,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
 
-    <div class="chain rv" data-d="1" style="margin-top:clamp(40px,5vw,72px)">
-      <div><p class="ck">Design</p><p>The proposed experience, drawn.</p></div>
-      <div><p class="ck">Coded prototype</p><p>The same experience, running.</p></div>
-      <div><p class="ck">Customer testing</p><p>Five customers, one real task.</p></div>
-      <div><p class="ck">Evidence</p><p>Confidence to proceed.</p></div>
-    </div>
+    <ol class="cadena rv" data-d="1">
+      <li>Design</li>
+      <li>Coded prototype</li>
+      <li>Customer testing</li>
+      <li>Evidence</li>
+      <li class="fin">Confidence to proceed</li>
+    </ol>
 
     <div class="two rv" data-d="2" style="margin-top:clamp(46px,6vw,84px)">
       <div>
@@ -1208,9 +1393,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div>
         <span class="k">Built with</span>
         <ul class="tags">
-          <li>HTML</li><li>CSS</li><li>JavaScript</li><li>TypeScript</li><li>GitHub Copilot</li>
+          <li>HTML</li><li>CSS</li><li>JavaScript</li><li>TypeScript</li><li>GitHub Copilot</li><li>Vibe coding</li>
         </ul>
-        <p style="margin-top:22px">I used GitHub Copilot as a development partner to translate the designed experience into a functional prototype while keeping the design system and interaction decisions consistent with the intended product.</p>
+        <p style="margin-top:22px">I built it by vibe coding with GitHub Copilot: describing the behaviour I wanted in plain language and steering the result, rather than writing every line myself. The judgement stayed mine. Which interaction to test, what the design system allowed, where the edge cases were, and when the prototype was faithful enough to put in front of a customer.</p>
       </div>
     </div>
   </div>
@@ -1320,6 +1505,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
   </div>
+
+  <figure class="tira rv drift" data-d="2">
+    <img class="figimg" src="images/s1-ai-changes.jpg" width="2400" height="615" loading="lazy" decoding="async"
+         alt="A detail of the handoff workflow: an assistant panel open over the returns list proposing changes to the screen, beside the inspector showing width, alignment and padding.">
+    <figcaption>Handoff review · an assistant reading the screen alongside the inspector</figcaption>
+  </figure>
 </section>
 
 <!-- 34 · FROM DESIGN TO IMPLEMENTATION ....................................... -->
@@ -1329,8 +1520,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h3 class="rv" data-d="1">From design to implementation</h3>
   </div>
   <div class="w"><figure class="rv" data-d="2" style="margin-top:clamp(26px,3vw,44px)">
-    <img class="figimg" src="images/13.Design-handoff.png" alt="Handoff documentation: components, states, spacing and behaviour specified for development." loading="lazy" decoding="async">
-    <figcaption>Design handoff · specification for development</figcaption>
+    <img class="figimg" src="images/s1-handoff-board.jpg" width="2400" height="992" loading="lazy" decoding="async"
+         alt="The handoff board for the select-a-return flow, marked ready for dev: every screen of the journey laid out in sequence, each state annotated and linked to the step before it.">
+    <figcaption>Design handoff · the select-a-return flow, ready for dev</figcaption>
   </figure></div>
 </section>
 
@@ -1362,6 +1554,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
   </div>
+  <figure class="ph--wide rv drift" data-d="2" style="margin-top:clamp(40px,5vw,76px)">
+    <img class="figimg" src="images/s1-ai-sidebar.jpg" width="1445" height="1020" loading="lazy" decoding="async"
+         alt="The contextual assistant open beside the returns list: asked which returns need attention first, it answers that eighteen of the hundred and forty two open across the firm need attention today, breaks that into deadline risk, rejected filings and waiting on client, and names the source it read.">
+    <figcaption>iFirm AI · contextual assistant, marked future concept</figcaption>
+  </figure>
 </section>
 
 <!-- 36 · THE CONCEPT, RUNNING ................................................ -->
@@ -1377,7 +1574,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="pivot" id="end-to-end">
   <div class="w">
     <span class="k rv">End to end</span>
-    <p class="stmt rv" data-d="1" style="font-size:var(--lb-display-l);line-height:var(--lb-lh-display-l);max-width:24ch">I stayed involved beyond the final screens, connecting design decisions to a working prototype, validating the experience with customers and translating the final solution into implementation-ready specifications.</p>
+    <p class="stmt rv" data-d="1" style="font-size:var(--lb-display-l);line-height:var(--lb-lh-display-l);max-width:34ch">I stayed involved beyond the final screens, connecting design decisions to a working prototype, validating the experience with customers and translating the final solution into implementation-ready specifications.</p>
   </div>
 </section>
 
