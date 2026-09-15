@@ -1098,3 +1098,22 @@ p,li,figcaption,.fsb-c,.ap-d,.about-sub,.hero-note .body,.after{text-wrap:pretty
 .nav-foot li:nth-child(2) a span{transition-delay:.51s}
 .nav-foot li:nth-child(3) a span{transition-delay:.55s}
 .nav-foot li:nth-child(4) a span{transition-delay:.59s}
+
+/* QUE ES EL LAB. Iba sin explicar: titulo, handle y video. Un reclutador no
+   sabia si es trabajo profesional, aficion o una cuenta muerta. El copy sale
+   del documento de estrategia, seccion 09. Va entre el titulo y el video,
+   porque hay que saber que se esta mirando antes de mirarlo. */
+.lab-que{max-width:60ch;margin:clamp(30px,4vw,52px) 0 clamp(34px,4.4vw,60px)}
+.lab-lead{font-family:var(--lb-font-display);font-weight:400;
+  font-size:var(--lb-display-m);line-height:var(--lb-lh-display-m);
+  letter-spacing:var(--lb-track-display);color:var(--lb-ink);
+  margin:0 0 clamp(16px,2vw,24px);text-wrap:balance}
+.lab-sub{font-size:var(--lb-body);line-height:var(--lb-lh-body);
+  color:var(--lb-ink-2);margin:0;max-width:56ch;text-wrap:pretty}
+
+/* El pie del lab: donde aparecen las cosas nuevas y como seguirlas. */
+.lab-pie{display:flex;align-items:center;gap:clamp(18px,2.4vw,32px);
+  flex-wrap:wrap;margin-top:clamp(30px,4vw,52px)}
+.lab-nota{font-family:var(--lb-font-mono);font-size:var(--lb-label);
+  letter-spacing:var(--lb-track-label);text-transform:uppercase;
+  color:var(--lb-mid);margin:0}
