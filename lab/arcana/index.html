@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arcana / One question</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<canvas id="field" aria-hidden="true"></canvas>
+<main class="experience">
+<header class="masthead"><a class="wordmark" id="home-link" href="index.html" aria-label="Arcana home">ARCANA<span>/</span></a><div class="masthead-tools"><div class="status"><i></i><span id="status"></span></div><div class="locale" role="group" aria-label="Language"><button class="locale-button is-active" data-locale="en">EN</button><span>/</span><button class="locale-button" data-locale="es">ES</button></div></div></header>
+<section class="hero" aria-labelledby="title"><div class="eyebrow" id="eyebrow">One question / one card</div><h1 id="title">What would<br><em>you like to know?</em></h1><form id="question-form"><label for="question" id="question-label">Your question</label><div class="input-row"><input id="question" maxlength="180" autocomplete="off" placeholder="Ask a question..." required><button class="button primary" id="draw" type="submit"><span>Draw a card</span><b aria-hidden="true">↗</b></button></div><div class="form-meta"><span id="count">0 / 180</span></div></form></section>
+<section id="reading" hidden aria-live="polite"><div class="reading-head"><div><div class="eyebrow" id="result-label">Your question</div><p id="echo"></p></div><button class="button secondary" id="again" type="button"><span id="again-label">Draw again</span><b aria-hidden="true">↗</b></button></div><div id="stage"></div></section>
+<footer><span id="footer-project">PROJECT 02 / HAVING FUN WITH AI</span><span id="footer-mission">SMALL EXPERIMENTS · SERIOUS QUESTIONS</span></footer>
+</main>
+<div class="veil" id="veil" hidden><div><span class="pulse"></span><strong id="process">Reading the signal...</strong><small id="process-sub">Looking beneath the surface...</small></div></div>
+<script src="cards-data.js"></script><script src="arcana-content.js"></script><script src="reading-engine.js"></script><script src="app.js"></script>
+</body></html>
