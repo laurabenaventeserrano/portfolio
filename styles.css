@@ -588,44 +588,36 @@ html:not(.js) .pf__box--full{aspect-ratio:var(--ar,16/9);min-height:0}
 /* Insignias. Cifra en serif, etiqueta en mono, separadas por filete vertical.
    Sin caja, sin radio y sin color: la escala tipografica hace el trabajo, igual
    que en los chips de resultado de los casos. */
-/* FORMACION. Tres pasos en fila, separados por filete vertical como las
-   insignias, pero por encima de ellas: primero que estudio, luego cuanto
-   lleva. El orden de los tres es el argumento del Design Engineer, asi que
-   se leen de izquierda a derecha y no se reordenan en movil, solo se apilan. */
-.about .estudios{display:flex;flex-wrap:wrap;list-style:none;
-  margin:clamp(30px,4vw,50px) 0 0;padding:0;
-  border-top:var(--lb-hairline) solid var(--lb-line);padding-top:clamp(22px,2.6vw,32px)}
-.about .estudios li{padding:0 clamp(24px,2.8vw,44px) 0 0;margin-right:clamp(24px,2.8vw,44px);
+/* CREDENCIALES. Cinco datos en una tira: los tres estudios y los dos hechos.
+   Antes eran dos listas con patrones opuestos, etiqueta arriba en una y cifra
+   arriba en la otra, cada una con sus filetes en posiciones distintas y la
+   mitad derecha vacia. Cinco columnas iguales: los filetes caen a la misma
+   distancia y la tira llega hasta el final de la medida. */
+.about .creds{display:grid;grid-template-columns:repeat(5,1fr);
+  list-style:none;margin:clamp(34px,4.4vw,60px) 0 0;
+  padding:clamp(24px,2.8vw,36px) 0 0;
+  border-top:var(--lb-hairline) solid var(--lb-line)}
+.about .creds li{padding-right:clamp(16px,1.8vw,28px);
   border-right:var(--lb-hairline) solid var(--lb-line)}
-.about .estudios li:last-child{border-right:0;margin-right:0;padding-right:0}
-.about .e-k{display:block;font-family:var(--lb-font-mono);font-size:var(--lb-label);
-  letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-mid);margin-bottom:8px}
-.about .e-v{display:block;font-family:var(--lb-font-display);font-weight:400;
-  font-size:var(--lb-display-s);line-height:1.15;color:var(--lb-ink)}
-@media(max-width:700px){
-  .about .estudios{display:block}
-  .about .estudios li{border-right:0;border-bottom:var(--lb-hairline) solid var(--lb-line);
-    margin-right:0;padding:0 0 14px;margin-bottom:14px}
-  .about .estudios li:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
+.about .creds li:last-child{border-right:0;padding-right:0}
+.about .c-k{display:block;font-family:var(--lb-font-mono);font-size:var(--lb-label);
+  letter-spacing:var(--lb-track-label);text-transform:uppercase;
+  color:var(--lb-mid);margin-bottom:12px}
+.about .c-v{display:block;font-family:var(--lb-font-display);font-weight:400;
+  font-size:var(--lb-display-s);line-height:1.2;letter-spacing:var(--lb-track-display);
+  color:var(--lb-ink);text-wrap:balance}
+@media(max-width:900px){
+  .about .creds{grid-template-columns:repeat(2,1fr);gap:22px 0}
+  .about .creds li:nth-child(2n){border-right:0;padding-right:0}
+  .about .creds li:last-child{grid-column:1/-1}
+}
+@media(max-width:520px){
+  .about .creds{grid-template-columns:1fr;gap:0}
+  .about .creds li{border-right:0;padding:0 0 16px;margin-bottom:16px;
+    border-bottom:var(--lb-hairline) solid var(--lb-line)}
+  .about .creds li:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
 }
 
-.about .badges{display:flex;flex-wrap:wrap;list-style:none;margin:clamp(34px,4.4vw,58px) 0 0;padding:0}
-.about .badges li{font-family:var(--lb-font-body);font-size:var(--lb-body);line-height:1.2;
-  padding:0 clamp(22px,2.4vw,36px) 0 0;margin-right:clamp(22px,2.4vw,36px);
-  border-right:var(--lb-hairline) solid var(--lb-line)}
-.about .badges li:last-child{border-right:0;margin-right:0;padding-right:0}
-.about .badges b{display:block;font-family:var(--lb-font-display);font-weight:400;
-  font-size:var(--lb-numeral);line-height:var(--lb-lh-display-m);
-  letter-spacing:var(--lb-track-display);color:var(--lb-ink)}
-.about .badges i{display:block;font-style:normal;font-family:var(--lb-font-mono);
-  font-size:var(--lb-label);letter-spacing:var(--lb-track-label);
-  text-transform:uppercase;color:var(--lb-mid);margin-top:9px}
-@media(max-width:600px){
-  .about .badges{display:block}
-  .about .badges li{border-right:0;border-bottom:var(--lb-hairline) solid var(--lb-line);
-    margin-right:0;padding:12px 0}
-  .about .badges li:last-child{border-bottom:0;padding-bottom:0}
-}
 
 .about{padding:0;border-top:var(--lb-hairline) solid var(--lb-line)}
 .about-track{position:relative}
