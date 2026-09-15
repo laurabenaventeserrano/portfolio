@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Postal · crea tu tarjeta de viaje</title>
+<meta name="description" content="Haz una postal de viaje con tu foto: filtro, plantilla, mensaje a mano y sello. Compártela con un link.">
+<meta name="theme-color" content="#F3ECDF">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Sacramento&family=Playball&family=Caveat:wght@600&family=Homemade+Apple&family=Special+Elite&family=Archivo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<div class="app">
+
+  <header class="topbar">
+    <button class="topbar__back" id="back" type="button" aria-label="Volver" hidden>&#8592;</button>
+    <span class="topbar__title">Postal</span>
+    <span class="topbar__step" id="step"></span>
+    <button class="topbar__link" id="toMine" type="button">Mis postales</button>
+  </header>
+
+  <!-- 01 · INICIO -->
+  <section class="screen home" data-screen="home">
+    <div class="home__logo">Postal</div>
+    <div class="home__tag">crea tu tarjeta de viaje</div>
+    <div class="home__stack">
+      <div class="home__card"></div>
+      <div class="home__card"></div>
+      <div class="home__card grain">Tarifa</div>
+    </div>
+    <div class="home__actions">
+      <button class="btn btn--primary" id="shoot" type="button">Hacer foto</button>
+      <button class="btn btn--ghost" id="pick" type="button">Subir foto</button>
+    </div>
+    <button class="home__mine" id="toMine2" type="button">Ver mis postales</button>
+    <input type="file" id="fileShoot" accept="image/*" capture="environment" hidden>
+    <input type="file" id="filePick" accept="image/*" hidden>
+  </section>
+
+  <!-- 02 · FILTRO -->
+  <section class="screen screen--pad" data-screen="filter">
+    <h1 class="h1">Elige un filtro</h1>
+    <p class="sub">Se hornea en la foto, no es solo un preview.</p>
+    <div class="stage"><canvas id="cvFilter" class="card-shadow"></canvas></div>
+    <div class="rail" id="filterRail"></div>
+    <div class="bar"><button class="btn btn--primary" data-go="template" type="button">Continuar</button></div>
+  </section>
+
+  <!-- 03 · PLANTILLA -->
+  <section class="screen screen--pad" data-screen="template">
+    <h1 class="h1">Elige una plantilla</h1>
+    <p class="sub">Desliza para ver las cinco.</p>
+    <div class="sheets" id="sheets"></div>
+    <div class="dots" id="sheetDots"></div>
+    <div class="bar"><button class="btn btn--primary" data-go="text" type="button">Continuar</button></div>
+  </section>
+
+  <!-- 04 · TEXTO -->
+  <section class="screen screen--pad" data-screen="text">
+    <h1 class="h1">Escribe tu mensaje</h1>
+    <p class="sub">Va en el reverso, con tu letra elegida.</p>
+
+    <div class="field">
+      <label class="label" for="title">Título del frente <span style="text-transform:none;letter-spacing:0">(opcional)</span></label>
+      <input class="input" id="title" maxlength="24" placeholder="Tarifa" autocomplete="off">
+    </div>
+
+    <div class="field">
+      <label class="label" for="message">Mensaje</label>
+      <textarea class="textarea" id="message" maxlength="420" placeholder="Wish you were here!"></textarea>
+      <div class="counter"><span id="msgCount">0</span> / 420</div>
+    </div>
+
+    <div class="field">
+      <label class="label" for="recipient">Para <span style="text-transform:none;letter-spacing:0">(opcional)</span></label>
+      <input class="input" id="recipient" maxlength="28" placeholder="Mamá" autocomplete="off">
+    </div>
+
+    <div class="field">
+      <span class="label">Tipografía</span>
+      <div class="fontlist" id="fontList"></div>
+    </div>
+
+    <div class="bar"><button class="btn btn--primary" data-go="stamp" type="button">Continuar</button></div>
+  </section>
+
+  <!-- 05 · SELLO -->
+  <section class="screen screen--pad" data-screen="stamp">
+    <h1 class="h1">Elige un sello</h1>
+    <p class="sub">Va pegado en la esquina del reverso.</p>
+    <div class="stamps" id="stampGrid"></div>
+    <div class="bar"><button class="btn btn--primary" data-go="preview" type="button">Continuar</button></div>
+  </section>
+
+  <!-- 06 · VISTA PREVIA -->
+  <section class="screen screen--pad" data-screen="preview">
+    <h1 class="h1">Tu postal</h1>
+    <p class="sub">Toca la tarjeta para girarla.</p>
+    <div class="stage" style="flex-direction:column">
+      <div class="flip" id="flip" style="max-width:340px">
+        <div class="flip__inner">
+          <canvas class="flip__face" id="cvFront"></canvas>
+          <canvas class="flip__face flip__face--back" id="cvBack"></canvas>
+        </div>
+      </div>
+      <p class="flip__hint">frente &nbsp;·&nbsp; reverso</p>
+    </div>
+    <div class="bar">
+      <button class="btn btn--ghost btn--sm" id="turn" type="button">Girar &#8635;</button>
+      <button class="btn btn--primary" id="save" type="button">Guardar postal</button>
+    </div>
+  </section>
+
+  <!-- 07 · COMPARTIR -->
+  <section class="screen screen--pad done" data-screen="share">
+    <div class="stage" style="flex-direction:column">
+      <div class="flip" id="flip2" style="max-width:300px">
+        <div class="flip__inner">
+          <canvas class="flip__face" id="cvFront2"></canvas>
+          <canvas class="flip__face flip__face--back" id="cvBack2"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="done__title">Tu postal está lista</div>
+    <p class="done__sub">Vive en su propio link. Compártelo con quien quieras.</p>
+    <div class="linkbox">
+      <span class="linkbox__url" id="shareUrl"></span>
+      <button class="linkbox__copy" id="copy" type="button">Copiar</button>
+    </div>
+    <div class="row" style="margin-bottom:10px">
+      <button class="btn btn--ghost btn--sm" id="dlFront" type="button">Descargar frente</button>
+      <button class="btn btn--ghost btn--sm" id="dlBack" type="button">Descargar reverso</button>
+    </div>
+    <button class="btn btn--primary" id="share" type="button">Compartir</button>
+    <div class="meta">PNG · 1800 × 1200 px</div>
+    <button class="home__mine" id="again" type="button">Hacer otra postal</button>
+  </section>
+
+  <!-- 08 · MIS POSTALES -->
+  <section class="screen screen--pad" data-screen="mine">
+    <h1 class="h1">Mis postales</h1>
+    <p class="sub">Guardadas en este dispositivo.</p>
+    <div id="mineBody"></div>
+  </section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="loading" id="loading">revelando…</div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

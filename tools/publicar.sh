@@ -24,5 +24,11 @@ find images -maxdepth 1 -type f ! -iname '*.mov' -exec cp {} _site/images/ \;
 cp video/*.mp4 _site/video/
 cp fonts/*.woff2 _site/fonts/
 
+# El laboratorio: la demo de las postales corre entera en el navegador, asi
+# que se publica tal cual. No hay servidor detras y ninguna foto sale del
+# dispositivo de quien la usa.
+mkdir -p _site/lab
+cp -R lab/. _site/lab/
+
 echo "_site listo:"
 du -sh _site
