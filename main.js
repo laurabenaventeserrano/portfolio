@@ -55,11 +55,38 @@ var escena = document.getElementById('lab-stage');
 if(!rueda || !escena || !LAB.length) return;
 
 var n = LAB.length, i = 0;
-/* La geometria del cilindro. Vive tambien en el CSS (translateZ, perspective
-   y el ancho de .lab-card); aqui hace falta para saber donde cae en pantalla
-   cada tarjeta y poder centrar el grupo. Si se cambia una, se cambian las
-   dos: son el mismo cilindro contado dos veces. */
-var PASO = 26, RADIO = 560, PERSP = 1400, ANCHO = 316;
+/* LA GEOMETRIA DEL CILINDRO, EN PROPORCIONES.
+   Ancho de tarjeta, radio y perspectiva se escalan con el ancho del carril,
+   asi que el cilindro se ve igual en cualquier ventana y el grupo llega
+   siempre a los dos margenes. Estas cuatro cifras son las unicas que a la
+   vez llenan el ancho y dejan las tres tarjetas justo sin tocarse: con 46
+   grados, la central mide .4965 del carril y las laterales quedan al 54% de
+   ella, escorzadas pero enteras.
+   Se escriben en el CSS como --cw, --r, --persp y --wh. */
+var PASO = 26;                 /* se recalcula en medirCilindro */
+/* Las tres proporciones salen de resolver dos condiciones a la vez: que el
+   grupo llene el carril de borde a borde y que las tres tarjetas queden
+   justo sin tocarse. El calculo analitico daba la forma pero se quedaba
+   corto un 12%: un plano girado bajo perspectiva es un trapecio, y su caja
+   real no es el ancho por el coseno. El factor final esta medido en pantalla.
+   Las tres escalan juntas, asi que el cilindro es identico a cualquier
+   tamano de ventana. */
+var F_ANCHO = 0.5574, F_RADIO = 0.6764, F_PERSP = 1.2204, PASO_3D = 46;
+var ANCHO = 0, RADIO = 0, PERSP = 0;
+
+function medirCilindro(){
+  var C = rueda.clientWidth || 1288;
+  ANCHO = C * F_ANCHO;
+  RADIO = C * F_RADIO;
+  PERSP = C * F_PERSP;
+  PASO  = PASO_3D;
+  var st = rueda.style;
+  st.setProperty('--cw', ANCHO.toFixed(1) + 'px');
+  st.setProperty('--r', RADIO.toFixed(1) + 'px');
+  st.setProperty('--persp', PERSP.toFixed(1) + 'px');
+  /* alto del carril: la figura 16/9 mas el pie */
+  st.setProperty('--wh', (ANCHO * 9 / 16 + 38).toFixed(1) + 'px');
+}
 var mqQuieto = matchMedia('(prefers-reduced-motion: reduce)');
 var mqAngosto = matchMedia('(max-width:720px)');
 
@@ -188,13 +215,16 @@ function pinta(){
       /* Solo el giro va en linea. La escala la decide el CSS a partir de
          .is-c, porque una custom property en linea gana siempre a la hoja de
          estilos y el :hover no habria podido subirla nunca. */
-      /* Hasta dos posiciones a cada lado se ven; a partir de ahi, nada.
+      /* Una posicion a cada lado, no dos. Con la tarjeta al doble de tamano
+         una cuarta no cabe sin montarse encima de su vecina, y eso es justo
+         lo que no puede pasar. Las piezas que no se ven siguen en la rueda:
+         se llega a ellas girando, y el contador las cuenta.
          La opacidad solo tiene dos valores, 1 y 0: o la tarjeta esta o no
          esta. Lo que distingue a la central de las laterales es el brillo,
          no la transparencia, para que ninguna se vea a traves de otra. */
       p.el.style.setProperty('--rot', (d * PASO) + 'deg');
-      p.el.style.opacity = a > 2 ? '0' : '1';
-      p.el.style.pointerEvents = a > 2 ? 'none' : 'auto';
+      p.el.style.opacity = a > 1 ? '0' : '1';
+      p.el.style.pointerEvents = a > 1 ? 'none' : 'auto';
       p.el.style.zIndex = String(10 - a);
     }
     p.el.classList.toggle('is-c', d === 0);
@@ -213,7 +243,7 @@ function pinta(){
     var izq = Infinity, der = -Infinity;
     LAB.forEach(function(q,j){
       var e = delta(j);
-      if(Math.abs(e) > 2) return;
+      if(Math.abs(e) > 1) return;
       var th = e * PASO * Math.PI / 180;
       var cos = Math.cos(th);
       /* z de la tarjeta una vez el escenario ha retrasado el anillo */
@@ -297,7 +327,7 @@ LAB.forEach(function(p,k){
      la placa vuelve a la central: la descripcion nunca va sobre la imagen. */
   p.el.addEventListener('mouseenter', function(){
     if(angosto()) return;              /* en tactil no hay hover que valga */
-    if(!plano() && Math.abs(delta(k)) > 2) return;
+    if(!plano() && Math.abs(delta(k)) > 1) return;
     corre(p, true);
     /* En fila no hay giro con el que chocar, asi que el hover mueve tambien
        la posicion y el contador dice la verdad. En rueda solo asoma la
@@ -338,9 +368,14 @@ if('IntersectionObserver' in window){
   },{rootMargin:'0px 0px -10% 0px'}).observe(sec);
 }
 
+medirCilindro();
 mqAngosto.addEventListener('change', pinta);
 mqQuieto.addEventListener('change', pinta);
-addEventListener('resize', function(){ rueda.classList.toggle('is-flat', plano()) }, {passive:true});
+addEventListener('resize', function(){
+  rueda.classList.toggle('is-flat', plano());
+  medirCilindro();
+  pinta();
+}, {passive:true});
 
 pinta();
 })();

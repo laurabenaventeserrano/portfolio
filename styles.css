@@ -1014,8 +1014,16 @@ section.lab h2{font-family:var(--lb-font-display);font-weight:400;
 
 .lab-rueda{margin-top:30px}
 
-/* 2 · LA RUEDA */
-.lab-wheel{position:relative;height:250px;perspective:1400px;
+/* 2 · LA RUEDA
+   La geometria es proporcional al ancho del carril, no fija. Ancho de
+   tarjeta, radio y perspectiva se escalan con el mismo factor, asi que el
+   cilindro es el mismo a cualquier tamano de ventana y el grupo llena
+   siempre el contenedor de borde a borde. Las proporciones (.4965 de ancho,
+   .6025 de radio, 1.087 de perspectiva, 46 grados de paso) son las unicas
+   que a la vez llenan el ancho y dejan las tarjetas justo sin tocarse.
+   Los valores los escribe main.js, que es quien mide el carril. */
+.lab-wheel{position:relative;height:var(--wh,398px);
+  perspective:var(--persp,1400px);
   touch-action:pan-y;user-select:none;cursor:grab;outline:none}
 .lab-wheel:focus-visible{outline:1px solid var(--lb-accent);outline-offset:3px}
 .lab-wheel.is-drag,.lab-wheel.is-drag .lab-card,
@@ -1034,7 +1042,7 @@ section.lab h2{font-family:var(--lb-font-display);font-weight:400;
    tarjeta central de medio lado y entonces nada parece estar elegido.
    Con 3 y con 5 la media es cero y esto no hace nada. */
 .lab-stage{position:absolute;inset:0;transform-style:preserve-3d;
-  transform:translateX(var(--shift,0px)) translateZ(-560px);
+  transform:translateX(var(--shift,0px)) translateZ(calc(-1 * var(--r,776px)));
   transition:transform .46s var(--lb-ease)}
 
 /* LAS LATERALES NO SON TRANSPARENTES.
@@ -1045,8 +1053,9 @@ section.lab h2{font-family:var(--lb-font-display);font-weight:400;
    la seccion sigue siendo el unico fondo. El brillo va en los hijos, que son
    planos: un filter sobre la tarjeta aplanaria su contexto 3D. */
 .lab-card{--sc:.88;--dim:.5;position:absolute;top:0;left:50%;
-  width:316px;margin-left:-158px;transform-style:preserve-3d;
-  transform:rotateY(var(--rot,0deg)) translateZ(560px) scale(var(--sc));
+  width:var(--cw,639px);margin-left:calc(var(--cw,639px) / -2);
+  transform-style:preserve-3d;
+  transform:rotateY(var(--rot,0deg)) translateZ(var(--r,776px)) scale(var(--sc));
   cursor:pointer;
   transition:transform .46s var(--lb-ease),opacity .36s ease}
 .lab-card.is-c{--sc:.97;--dim:1;cursor:grab}
@@ -1074,7 +1083,8 @@ section.lab h2{font-family:var(--lb-font-display);font-weight:400;
 .lab-card__t{position:relative;display:inline-flex;align-items:baseline;gap:12px;
   min-width:0;text-decoration:none;color:var(--lb-ink);cursor:pointer}
 .lab-card__t > span{font-family:var(--lb-font-display);font-weight:400;
-  font-size:21px;line-height:1.2;letter-spacing:var(--lb-track-display);
+  font-size:clamp(21px,2vw,30px);line-height:1.2;
+  letter-spacing:var(--lb-track-display);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   transition:color .2s ease}
 .lab-card__go{flex:none;font-family:var(--lb-font-mono);font-style:normal;
