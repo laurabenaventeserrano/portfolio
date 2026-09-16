@@ -757,32 +757,15 @@ section.lab h2{text-align:left;font-family:var(--lb-font-display);font-weight:40
   letter-spacing:var(--lb-track-label);text-transform:uppercase;color:var(--lb-cream-meta);
   transition:color .45s cubic-bezier(.16,1,.3,1)}
 
-/* La prueba, al pie. Recortada a una tira: es un adelanto del trabajo, no la
-   pieza entera, que ya vive dentro del caso. */
-.ap-fig{display:block;margin-top:26px;overflow:hidden;
-  aspect-ratio:5/2;background:var(--lb-paper-inset);
-  border:var(--lb-hairline) solid var(--lb-line-on-paper);
-  clip-path:inset(0 0 22% 0);
-  transition:clip-path .45s cubic-bezier(.16,1,.3,1)}
-.ap-fig img{display:block;width:100%;height:100%;object-fit:cover}
-/* Story 2 todavia no tiene ninguna captura publicable. En vez de rellenar el
-   hueco con algo prestado, el hueco lo dice. */
-.ap-fig--none{aspect-ratio:auto;clip-path:none;background:none;border:0;
-  border-top:var(--lb-hairline) solid var(--lb-line-on-paper);padding-top:16px;
-  font-family:var(--lb-font-mono);font-size:var(--lb-label);letter-spacing:var(--lb-track-label);
-  text-transform:uppercase;color:var(--lb-cream-meta);line-height:1.7;max-width:26ch}
-
 @media(hover:hover){
-  .ap:hover .ap-fig{clip-path:inset(0 0 0 0)}
   .ap:hover .ap-t{transform:translateX(6px)}
   .ap:hover .ap-k{color:var(--lb-ground)}
 }
 .ap:focus-visible{outline:2px solid var(--lb-ground);outline-offset:10px}
-.ap:focus-visible .ap-fig{clip-path:inset(0 0 0 0)}
 .ap:focus-visible .ap-t{transform:translateX(6px)}
 .ap:focus-visible .ap-k{color:var(--lb-ground)}
 @media (prefers-reduced-motion:reduce){
-  .ap-t,.ap-k,.ap-fig{transition:none}
+  .ap-t,.ap-k{transition:none}
   .ap:hover .ap-t{transform:none}
 }
 
@@ -797,8 +780,6 @@ section.lab h2{text-align:left;font-family:var(--lb-font-display);font-weight:40
   .ap{padding:clamp(30px,6vw,44px) 0;border-top:var(--lb-hairline) solid var(--lb-line-on-paper)}
   .ap-t{min-height:0}
   .ap-d{max-width:46ch;min-height:0}
-  .ap-fig{aspect-ratio:16/5;clip-path:none}
-  .ap-fig--none{aspect-ratio:auto;max-width:none}
 }
 
 /* connect: the single light punctuation moment, inverted from the rest of the page */
