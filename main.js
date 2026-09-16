@@ -33,12 +33,13 @@ var PASO = 26;   /* grados por peldano. La profundidad (560px) y su compensacion
 var mqQuieto = matchMedia('(prefers-reduced-motion: reduce)');
 var mqAngosto = matchMedia('(max-width:720px)');
 
-/* Sin cilindro: una sola pieza, pantalla estrecha o movimiento reducido.
-   La rueda pasa a ser una fila con anclaje de scroll.
-   El encargo decia "menos de tres". Con dos el cilindro ya se lee y la fila
-   no: dos tarjetas sueltas arriba a la izquierda dejaban medio modulo vacio
-   y parecia sin terminar. El umbral real es uno. */
-function plano(){ return n < 2 || mqAngosto.matches || mqQuieto.matches }
+/* Sin cilindro: menos de tres piezas, pantalla estrecha o movimiento
+   reducido. La rueda pasa a ser una fila con anclaje de scroll.
+   Tres no es un numero arbitrario. Con dos, el anillo no cierra: falta la
+   tercera que llene la izquierda, y a 26 grados las dos vecinas se solapan
+   53px, asi que la segunda queda medio escondida detras de la primera y los
+   dos pies bailan porque cada tarjeta escala distinto. Medido, no supuesto. */
+function plano(){ return n < 3 || mqAngosto.matches || mqQuieto.matches }
 /* Estrecho de verdad. No es lo mismo que plano: en escritorio con dos piezas
    la fila tambien es plana, pero ahi si hay raton y la placa la manda el
    hover, no la tarjeta que caiga en el centro. */
@@ -71,6 +72,11 @@ LAB.forEach(function(p,k){
   p.v  = c.querySelector('video');
   escena.appendChild(c);
 });
+
+/* La fila se mide a partir del numero de piezas: asi ocupa exactamente lo
+   que ocupan sus tarjetas y no deja un hueco donde deberia haber mas. */
+var caja = document.querySelector('.lab-rueda');
+if(caja) caja.style.setProperty('--lab-n', n);
 
 var contador = document.getElementById('lab-count');
 var barra    = document.getElementById('lab-bar-fill');

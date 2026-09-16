@@ -1149,14 +1149,18 @@ html.js .lab-plain{display:none}
 }
 
 @media(min-width:721px){
-  /* Con dos piezas la fila no necesita scroll: caben las dos. Y no se
-     estiran: con flex:1 la tarjeta se iba a 626px de ancho, la figura a 352
-     de alto y la seccion entera a 765, muy por encima de los 560 de
-     presupuesto. Ancho fijo, y el aire que sobra a la derecha se queda: el
-     lab es un descanso, no un climax. */
-  .lab-wheel.is-flat{overflow-x:visible;scroll-snap-type:none;
-    gap:clamp(20px,2.6vw,36px)}
-  .lab-wheel.is-flat .lab-card{width:340px;flex:0 0 340px;max-width:none}
+  /* LA FILA, EN ESCRITORIO.
+     El fallo no era que fuese fila: era que la fila no estaba compuesta. Las
+     tarjetas median 340 en un carril de 1288 y dejaban 490px de hueco a la
+     derecha, asi que el bloque parecia a medio hacer.
+     Ahora el modulo entero (carril, filete y placa) se mide a partir del
+     numero de piezas, y las tarjetas lo llenan exactamente. El aire que
+     sobra deja de ser un hueco dentro del bloque y pasa a ser margen de
+     pagina, que es lo que el resto de la portada ya hace. */
+  .lab-rueda:has(.lab-wheel.is-flat){
+    max-width:min(100%, calc(var(--lab-n,2) * 380px + (var(--lab-n,2) - 1) * 36px))}
+  .lab-wheel.is-flat .lab-stage{overflow-x:visible;scroll-snap-type:none;gap:36px}
+  .lab-wheel.is-flat .lab-card{width:auto;flex:1 1 0;max-width:none}
 }
 @media(max-width:720px){
   .lab-plaque{grid-template-columns:1fr;gap:22px}
