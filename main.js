@@ -126,7 +126,7 @@ function placa(k){
 /* -------------------------------------------------------------------- */
 function fuentes(){
   LAB.forEach(function(p,k){
-    var cerca = Math.abs(delta(k)) <= 1;
+    var cerca = Math.abs(delta(k)) <= 1;   /* solo central y vecinas cargan */
     if(cerca && !p.v.getAttribute('src')){
       p.v.setAttribute('src', p.video);
     }else if(!cerca && p.v.getAttribute('src')){
@@ -158,9 +158,12 @@ function pinta(){
       /* Solo el giro va en linea. La escala la decide el CSS a partir de
          .is-c, porque una custom property en linea gana siempre a la hoja de
          estilos y el :hover no habria podido subirla nunca. */
+      /* Hasta dos posiciones a cada lado se ven; a partir de ahi, nada.
+         El resumen del encargo decia "a partir de +-2, opacidad 0" y yo lo
+         lei como "solo +-1". La propuesta muestra cinco tarjetas. */
       p.el.style.setProperty('--rot', (d * PASO) + 'deg');
-      p.el.style.opacity = a > 1 ? '0' : (d === 0 ? '1' : '.5');
-      p.el.style.pointerEvents = a > 1 ? 'none' : 'auto';
+      p.el.style.opacity = a > 2 ? '0' : (d === 0 ? '1' : '.5');
+      p.el.style.pointerEvents = a > 2 ? 'none' : 'auto';
       p.el.style.zIndex = String(10 - a);
     }
     p.el.classList.toggle('is-c', d === 0);
@@ -176,7 +179,7 @@ function pinta(){
   if(!llano){
     var suma = 0, cuantas = 0;
     LAB.forEach(function(q,j){ var e = delta(j);
-      if(Math.abs(e) <= 1){ suma += e * PASO; cuantas++ } });
+      if(Math.abs(e) <= 2){ suma += e * PASO; cuantas++ } });
     escena.style.setProperty('--ring', (-(suma / cuantas)).toFixed(2) + 'deg');
   }else{
     escena.style.removeProperty('--ring');
@@ -224,6 +227,7 @@ rueda.addEventListener('pointercancel', suelta);
 var ultimo = 0;
 rueda.addEventListener('wheel', function(e){
   if(Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;   /* scroll vertical: suyo */
+  if(Math.abs(e.deltaX) < 12) return;                   /* ruido de trackpad */
   e.preventDefault();
   var t = Date.now();
   if(t - ultimo < 420) return;
@@ -247,7 +251,7 @@ LAB.forEach(function(p,k){
      la placa vuelve a la central: la descripcion nunca va sobre la imagen. */
   p.el.addEventListener('mouseenter', function(){
     if(angosto()) return;              /* en tactil no hay hover que valga */
-    if(!plano() && Math.abs(delta(k)) > 1) return;
+    if(!plano() && Math.abs(delta(k)) > 2) return;
     corre(p, true);
     /* En fila no hay giro con el que chocar, asi que el hover mueve tambien
        la posicion y el contador dice la verdad. En rueda solo asoma la
