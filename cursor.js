@@ -205,9 +205,9 @@ var FORMAS = {
     var s = c.children;
     s[0].style.cssText = s[2].style.cssText = 'width:'+ancho+'px;height:'+barra+'px';
     s[1].style.cssText = 'width:'+barra+'px;height:'+alto+'px';
-    var salida = [c];
-    if(xl) salida.push(etiqueta('H1 · 300%', Math.round(ancho/2)+12, Math.round(alto/2)-4));
-    return salida;
+    /* El cursor de texto no lleva etiqueta en ningun nivel, tampoco en H1:
+       el caret gigante ya dice por si solo donde estas. */
+    return [c];
   }
 };
 
