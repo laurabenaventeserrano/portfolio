@@ -20,7 +20,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <title>Laura Benavente · Senior Product Designer</title>
 <meta name="description" content="Senior Product Designer focused on complex B2B SaaS systems and AI-native experiences.">
 <link rel="stylesheet" href="tokens.css?v=74">
-<link rel="stylesheet" href="styles.css?v=103">
+<link rel="stylesheet" href="styles.css?v=104">
 <link rel="stylesheet" href="nav.css?v=78">
 <link rel="stylesheet" href="cursor.css?v=1">
 </head>
@@ -259,20 +259,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <!-- PRUEBA · BUILD
        de donde: Story 1. Izquierda, la pantalla disenada; derecha, la misma
        pantalla corriendo en el prototipo en codigo.
-       que prueba: cruzar de diseno a cosa que funciona. Dos marcos, no uno:
-       que sea la misma pantalla es todo el argumento. Sin codigo, sin
-       terminal, sin editor: eso convertiria a una disenadora en una
-       candidata a otro puesto. -->
-          <figure class="pf pf--pair">
-            <div class="pf__box pf__box--full" style="--ar:4/3">
-              <img src="images/fsb-05-design.jpg" width="1390" height="1043" loading="lazy" decoding="async"
-                   alt="The returns list as designed.">
+       que prueba: cruzar de diseno a cosa que funciona. Un solo marco: los
+       dos que habia estaban recortados por la mitad y no se veian ni los
+       estados ni el paginador. Este ensena la pantalla entera.
+       El recorte es de 5/3, el ratio real del archivo, para que object-fit
+       no se coma nada: a 16/9 se perdian 62px por abajo, que es justo la
+       fila del paginador. Sin codigo, sin terminal, sin editor: eso
+       convertiria a una disenadora en una candidata a otro puesto. -->
+          <figure class="pf">
+            <div class="pf__box pf__box--full" style="--ar:5/3">
+              <img src="images/fsb-05-returns.png" width="1600" height="962" loading="lazy" decoding="async"
+                   alt="The returns list: 142 returns with status, eFile state, last modified and tax year end, filtered to the eighteen that need attention.">
             </div>
-            <div class="pf__box pf__box--full" style="--ar:4/3">
-              <img src="images/fsb-05-running.jpg" width="1600" height="1200" loading="lazy" decoding="async"
-                   alt="The same returns list running in the coded prototype.">
-            </div>
-            <figcaption class="pf__cap" style="grid-column:1/-1">Story 1 · the design, and the same screen running</figcaption>
+            <figcaption class="pf__cap">Story 1 · the returns list</figcaption>
           </figure>
         </div>
         </div>
@@ -536,6 +535,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script src="nav.js?v=76" defer></script>
 <script src="cursor.js?v=5" defer></script>
-<script src="main.js?v=103"></script>
+<script src="main.js?v=104"></script>
 </body>
 </html>
