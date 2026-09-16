@@ -1,4 +1,270 @@
 (function(){
+/* =========================================================================
+   HAVING FUN WITH AI · la rueda
+   =========================================================================
+   TODO el contenido del lab vive aqui. Anadir un experimento es anadir una
+   entrada a LAB[]: la rueda recalcula sola el paso angular, el contador y el
+   progreso. No hay que duplicar markup, ni tocar CSS, ni hacer crecer la
+   seccion. Con menos de tres piezas no hay cilindro que leer, asi que
+   degrada a una fila.
+   ========================================================================= */
+var LAB = [
+  { n:'01', title:'Postcard maker', kind:'Vanilla JS · zero deps',
+    video:'video/lab-postal.mp4', poster:'images/lab-postal.jpg',
+    desc:'Take or upload a photo, filter it, pick a template, write the message in a handwritten face, add a stamp, and flip the card over. I wrote the brief, including the five template palettes and the type, and built it with Claude Code.',
+    note:'Runs entirely in your browser. No photo ever leaves your device.',
+    cta:'Play AI prototype', href:'lab/postal/' },
+
+  { n:'02', title:'Arcana', kind:'Written logic · no model call',
+    video:'video/lab-arcana.mp4', poster:'images/lab-arcana.jpg',
+    desc:'Ask one question, draw one card. The reading is composed from the card’s own meaning, the shape of your question and whether the card came up reversed, so the same card answers two questions differently. English and Spanish.',
+    note:'Runs in your browser. Your question is never sent anywhere.',
+    cta:'Play AI prototype', href:'lab/arcana/' }
+];
+
+(function(){
+var rueda = document.getElementById('lab-wheel');
+if(!rueda || !LAB.length) return;
+
+var n = LAB.length, i = 0;
+var PASO = 26, Z = 560;                 /* grados por peldano, profundidad */
+var mqQuieto = matchMedia('(prefers-reduced-motion: reduce)');
+var mqAngosto = matchMedia('(max-width:720px)');
+
+/* Sin cilindro: menos de tres piezas, pantalla estrecha o movimiento
+   reducido. La rueda pasa a ser una fila con anclaje de scroll. */
+function plano(){ return n < 3 || mqAngosto.matches || mqQuieto.matches }
+/* Estrecho de verdad. No es lo mismo que plano: en escritorio con dos piezas
+   la fila tambien es plana, pero ahi si hay raton y la placa la manda el
+   hover, no la tarjeta que caiga en el centro. */
+function angosto(){ return mqAngosto.matches }
+
+function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;') }
+function pad(k){ return k < 10 ? '0'+k : String(k) }
+
+/* -------------------------------------------------------------------- */
+/* Las tarjetas                                                          */
+/* -------------------------------------------------------------------- */
+LAB.forEach(function(p,k){
+  var c = document.createElement('div');
+  c.className = 'lab-card';
+  c.setAttribute('role','option');
+  c.innerHTML =
+    '<figure class="lab-card__f">'+
+      '<video muted loop playsinline preload="none" poster="'+esc(p.poster)+'"'+
+      ' aria-hidden="true" tabindex="-1"></video>'+
+    '</figure>'+
+    '<div class="lab-card__c">'+
+      '<span class="lab-card__n">'+esc(p.n)+'</span>'+
+      '<a class="lab-card__t" href="'+esc(p.href)+'" target="_blank" rel="noopener"'+
+      ' aria-label="'+esc(p.title)+'. '+esc(p.kind)+'. Opens in a new tab">'+
+        '<span>'+esc(p.title)+'</span>'+
+        '<i class="lab-card__go">Open &#8599;</i>'+
+      '</a>'+
+    '</div>';
+  p.el = c;
+  p.v  = c.querySelector('video');
+  rueda.appendChild(c);
+});
+
+var contador = document.getElementById('lab-count');
+var barra    = document.getElementById('lab-bar-fill');
+var tipo     = document.getElementById('lab-kind');
+var pTit     = document.getElementById('lab-pt');
+var pDes     = document.getElementById('lab-pd');
+var pNota    = document.getElementById('lab-pn');
+var pCta     = document.getElementById('lab-pcta');
+
+/* Distancia por el camino corto: de la ultima a la primera no hay tope. */
+function delta(k){
+  var d = ((k - i) % n + n) % n;
+  return d > n/2 ? d - n : d;
+}
+
+/* -------------------------------------------------------------------- */
+/* La placa. Nunca encima del video: el texto tiene su sitio.            */
+/* -------------------------------------------------------------------- */
+var placaK = -1;
+function placa(k){
+  if(k === placaK) return;
+  placaK = k;
+  var p = LAB[k];
+  var caja = document.getElementById('lab-plaque');
+  function escribe(){
+    pTit.textContent = p.title;
+    pDes.textContent = p.desc;
+    pNota.textContent = p.note;
+    pCta.href = p.href;
+    pCta.firstChild.textContent = p.cta;
+    pCta.setAttribute('aria-label', p.cta + ': ' + p.title + '. Opens in a new tab');
+    caja.classList.add('is-in');
+  }
+  /* Con el documento oculto rAF esta suspendido, y la placa se quedaria con
+     el texto de la pieza anterior hasta que alguien volviera a la pestana.
+     Ahi no hay transicion que proteger: se escribe y ya. */
+  if(document.hidden){ escribe(); return }
+  caja.classList.remove('is-in');
+  /* dos fotogramas: sin el segundo el estado de partida no llega a pintarse
+     y la transicion se salta entera. */
+  requestAnimationFrame(function(){ requestAnimationFrame(escribe) });
+}
+
+/* -------------------------------------------------------------------- */
+/* Los videos. preload="none" y poster siempre: solo la central y sus dos
+   vecinas reciben src, y lo sueltan al salir de ese rango.              */
+/* -------------------------------------------------------------------- */
+function fuentes(){
+  LAB.forEach(function(p,k){
+    var cerca = Math.abs(delta(k)) <= 1;
+    if(cerca && !p.v.getAttribute('src')){
+      p.v.setAttribute('src', p.video);
+    }else if(!cerca && p.v.getAttribute('src')){
+      p.v.pause(); p.v.removeAttribute('src'); p.v.load();
+    }
+  });
+}
+
+var enCuadro = false;
+function corre(p, si){
+  if(!si || !enCuadro || !p.v.getAttribute('src')){ p.v.pause(); return }
+  var pr = p.v.play(); if(pr && pr.catch) pr.catch(function(){});
+}
+
+/* -------------------------------------------------------------------- */
+/* Pintar                                                               */
+/* -------------------------------------------------------------------- */
+function pinta(){
+  var llano = plano();
+  rueda.classList.toggle('is-flat', llano);
+  LAB.forEach(function(p,k){
+    var d = delta(k), a = Math.abs(d);
+    if(llano){
+      p.el.style.transform = '';
+      p.el.style.opacity = '';
+      p.el.style.pointerEvents = '';
+      p.el.style.zIndex = '';
+    }else{
+      p.el.style.transform = 'rotateY('+(d*PASO)+'deg) translateZ('+Z+'px) scale('+(d===0?.97:.88)+')';
+      p.el.style.opacity = a > 1 ? '0' : (d === 0 ? '1' : '.5');
+      p.el.style.pointerEvents = a > 1 ? 'none' : 'auto';
+      p.el.style.zIndex = String(10 - a);
+    }
+    p.el.classList.toggle('is-c', d === 0);
+    p.el.setAttribute('aria-selected', d === 0 ? 'true' : 'false');
+  });
+  contador.textContent = pad(i+1) + ' / ' + pad(n);
+  barra.style.width = (((i+1)/n)*100) + '%';
+  tipo.textContent = LAB[i].kind;
+  placa(i);
+  fuentes();
+}
+
+function vaA(k){ i = ((k % n) + n) % n; pinta() }
+function gira(paso){ vaA(i + paso) }
+
+/* -------------------------------------------------------------------- */
+/* Girar: arrastre, trackpad, flechas y clic en una lateral              */
+/* -------------------------------------------------------------------- */
+var x0 = null, arrastrando = false;
+rueda.addEventListener('pointerdown', function(e){
+  if(e.target.closest('.lab-card__t')) return;   /* el titulo abre, no gira */
+  x0 = e.clientX; arrastrando = false;
+  rueda.setPointerCapture(e.pointerId);
+});
+rueda.addEventListener('pointermove', function(e){
+  if(x0 === null) return;
+  var dx = e.clientX - x0;
+  if(Math.abs(dx) > 8) rueda.classList.add('is-drag');
+  if(Math.abs(dx) >= 90){                        /* umbral: 90px */
+    gira(dx < 0 ? 1 : -1);
+    x0 = e.clientX; arrastrando = true;
+  }
+});
+function suelta(e){
+  if(x0 === null) return;
+  x0 = null; rueda.classList.remove('is-drag');
+  try{ rueda.releasePointerCapture(e.pointerId) }catch(err){}
+  setTimeout(function(){ arrastrando = false }, 0);
+}
+rueda.addEventListener('pointerup', suelta);
+rueda.addEventListener('pointercancel', suelta);
+
+/* Trackpad. Solo el eje horizontal, y con freno: un gesto de dos dedos
+   dispara decenas de eventos y la rueda se iria hasta el final. */
+var ultimo = 0;
+rueda.addEventListener('wheel', function(e){
+  if(Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;   /* scroll vertical: suyo */
+  e.preventDefault();
+  var t = Date.now();
+  if(t - ultimo < 420) return;
+  ultimo = t;
+  gira(e.deltaX > 0 ? 1 : -1);
+},{passive:false});
+
+rueda.addEventListener('keydown', function(e){
+  if(e.key === 'ArrowRight'){ e.preventDefault(); gira(1) }
+  else if(e.key === 'ArrowLeft'){ e.preventDefault(); gira(-1) }
+  else if(e.key === 'Enter'){ e.preventDefault(); window.open(LAB[i].href,'_blank','noopener') }
+});
+
+LAB.forEach(function(p,k){
+  p.el.addEventListener('click', function(e){
+    if(e.target.closest('.lab-card__t')) return;
+    if(arrastrando) return;
+    if(delta(k) !== 0) vaA(k);
+  });
+  /* Al pasar por encima corre su video y la placa cuenta esa pieza. Al salir,
+     la placa vuelve a la central: la descripcion nunca va sobre la imagen. */
+  p.el.addEventListener('mouseenter', function(){
+    if(angosto()) return;              /* en tactil no hay hover que valga */
+    if(!plano() && Math.abs(delta(k)) > 1) return;
+    corre(p, true);
+    /* En fila no hay giro con el que chocar, asi que el hover mueve tambien
+       la posicion y el contador dice la verdad. En rueda solo asoma la
+       descripcion: la posicion la manda el giro. */
+    if(plano()) vaA(k); else placa(k);
+  });
+  p.el.addEventListener('mouseleave', function(){
+    if(angosto()) return;
+    corre(p, false);
+    if(!plano()) placa(i);
+  });
+  p.v.addEventListener('loadeddata', function(){
+    if(p.el.matches(':hover') || (angosto() && delta(k) === 0)) corre(p, true);
+  });
+});
+
+/* -------------------------------------------------------------------- */
+/* En fila: la pieza que queda en el centro del viewport manda, y manda al
+   tocarla, no al pasar el raton, que en un telefono no existe.          */
+/* -------------------------------------------------------------------- */
+if('IntersectionObserver' in window){
+  var cio = new IntersectionObserver(function(es){
+    if(!angosto()) return;
+    es.forEach(function(en){
+      if(!en.isIntersecting) return;
+      var k = LAB.findIndex(function(p){ return p.el === en.target });
+      if(k > -1) vaA(k);
+    });
+  },{root:rueda, threshold:.6});
+  LAB.forEach(function(p){ cio.observe(p.el) });
+
+  /* Fuera de pantalla, todos parados. Son megabytes decodificandose para
+     nadie. */
+  var sec = document.getElementById('lab');
+  new IntersectionObserver(function(es){
+    enCuadro = es[0].isIntersecting;
+    LAB.forEach(function(p,k){ corre(p, enCuadro && angosto() && delta(k) === 0) });
+  },{rootMargin:'0px 0px -10% 0px'}).observe(sec);
+}
+
+mqAngosto.addEventListener('change', pinta);
+mqQuieto.addEventListener('change', pinta);
+addEventListener('resize', function(){ rueda.classList.toggle('is-flat', plano()) }, {passive:true});
+
+pinta();
+})();
+
 var docEl=document.documentElement;
 var sel='.rv, .shot';
 var aboutSel='.about li .ln';
