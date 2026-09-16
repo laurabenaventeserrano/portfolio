@@ -1,0 +1,114 @@
+/* =========================================================================
+   SISTEMA DE CURSOR · "The default cursors, wearing your identity"
+   =========================================================================
+   Implementa "Laura Benavente - Cursor System Proposal". Cada forma es la que
+   el sistema operativo ya enseno a la gente (flecha, cursor de texto, mano,
+   puno, lupa, copiar, esperar, prohibido, flechas) redibujada a 1.25px en
+   acento, con una etiqueta de una linea en mono blanco.
+
+   La flecha es el estado de reposo: no hay un pixel de la pagina sin cursor.
+
+   Las formas y las etiquetas las dibuja cursor.js. Aqui esta el suelo: el
+   apagado del cursor nativo, la escalera de subrayados y las salidas.
+   ========================================================================= */
+
+
+/* -------------------------------------------------------------------------
+   1 · CUANDO NO
+   Tres salidas, y las tres son la misma decision: si dudamos, gana el cursor
+   del sistema. Quien navega con el dedo no tiene puntero; quien ha pedido
+   menos movimiento no quiere una forma persiguiendole; y quien ha agrandado
+   o recoloreado su cursor en el sistema operativo lo ha hecho por una razon
+   que este sitio no puede conocer. El sistema propio solo se enciende cuando
+   hay raton fino y nadie ha pedido lo contrario, y lo enciende el JS
+   anadiendo .cur a <html>.
+   ------------------------------------------------------------------------- */
+html.cur,
+html.cur *{cursor:none}
+/* El nativo vuelve en cuanto el foco sale de la ventana. */
+html.cur.cur-off,
+html.cur.cur-off *{cursor:auto}
+html.cur.cur-off .cur-capa{opacity:0}
+
+.cur-capa{position:fixed;left:0;top:0;z-index:300;pointer-events:none;
+  will-change:transform;transition:opacity .12s linear}
+html:not(.cur) .cur-capa{display:none}
+
+
+/* -------------------------------------------------------------------------
+   2 · LA ETIQUETA
+   Mono 10px, .14em, mayusculas, una linea, abajo a la derecha del cursor.
+   Tinta blanca sobre el suelo oscuro con un filete de prisma encima, y no
+   cambia de color nunca: el color lo lleva la forma, la etiqueta solo dice
+   que va a pasar.
+   ------------------------------------------------------------------------- */
+.cur-lab{position:absolute;display:flex;flex-direction:column;
+  border:1px solid rgba(242,239,234,.24);border-radius:2px;overflow:hidden;
+  background:var(--lb-ground);white-space:nowrap;
+  animation:cur-slide .28s var(--lb-ease) both}
+.cur-lab i{display:block;height:1px;background:var(--lb-prism)}
+.cur-lab b{display:block;font-family:var(--lb-font-mono);font-weight:400;
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;line-height:1;
+  padding:6px 9px 5px;color:var(--lb-ink)}
+
+.cur-forma{position:absolute;left:0;top:0;overflow:visible;
+  animation:cur-pop .17s var(--lb-ease) both}
+
+/* El cursor de texto se dibuja con cajas, no con SVG: tiene que crecer con
+   el cuerpo de la linea que hay debajo. */
+.cur-caret{position:absolute;left:0;top:0;transform:translate(-50%,-50%);
+  display:flex;flex-direction:column;align-items:center;
+  animation:cur-pop .17s var(--lb-ease) both}
+.cur-caret span{display:block;background:var(--lb-accent)}
+.cur-caret span:nth-child(2){animation:cur-caret 1.1s steps(1,end) infinite}
+
+/* La espera es un cuadrado que gira en ocho pasos: el mismo giro de siempre,
+   sin la bola de playa. */
+.cur-spin{position:absolute;left:0;top:0;width:16px;height:16px;
+  transform:translate(-50%,-50%);
+  border:1.25px solid var(--lb-accent);
+  border-top-color:rgba(242,96,127,.2);border-right-color:rgba(242,96,127,.2);
+  animation:cur-spin .9s steps(8,end) infinite}
+
+@keyframes cur-pop{from{opacity:0;transform:scale(.72)}to{opacity:1;transform:scale(1)}}
+@keyframes cur-slide{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+@keyframes cur-caret{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes cur-spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+
+/* -------------------------------------------------------------------------
+   3 · LA ESCALERA DE SUBRAYADOS
+   Un solo cursor de texto, un color por nivel. El subrayado entra palabra a
+   palabra al pasar por encima y se queda mientras esa palabra este
+   seleccionada.
+       H1     prisma entero, 3px
+       H2     filete de prisma, 1px
+       H3     acento, 2px
+       cuerpo bloque de seleccion en acento (el ::selection de la casa)
+       letra pequena  filete de prisma, 1px
+   ------------------------------------------------------------------------- */
+.cur-w{background-repeat:no-repeat;background-position:left 94%;
+  background-size:0% var(--cur-h,1px);padding-bottom:.12em;
+  transition:background-size .24s var(--lb-ease)}
+.cur-w.on{background-size:100% var(--cur-h,1px)}
+
+[data-line="prism3"] .cur-w{--cur-h:3px;background-image:var(--lb-prism)}
+[data-line="prism1"] .cur-w{--cur-h:1px;background-image:var(--lb-prism)}
+[data-line="pink"]   .cur-w{--cur-h:2px;
+  background-image:linear-gradient(90deg,var(--lb-accent),var(--lb-accent))}
+
+/* Donde el subrayado es la senal, el bloque de seleccion sobra: se apaga el
+   fondo y se deja la tinta, para que se lea la palabra y su filete. */
+[data-line]::selection,[data-line] *::selection{background:transparent;color:var(--lb-ink)}
+.light [data-line]::selection,.light [data-line] *::selection{color:var(--lb-cream-ink)}
+
+
+/* -------------------------------------------------------------------------
+   4 · SIN JS
+   No pasa nada: el cursor nativo no se apaga hasta que cursor.js anade .cur,
+   y los subrayados no existen hasta que los envuelve en spans.
+   ------------------------------------------------------------------------- */
+@media (prefers-reduced-motion:reduce){
+  .cur-forma,.cur-caret,.cur-lab,.cur-spin{animation:none}
+  .cur-w{transition:none}
+}
