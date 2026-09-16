@@ -1067,8 +1067,12 @@ section.lab h2{font-family:var(--lb-font-display);font-weight:400;
   border:var(--lb-hairline) solid var(--lb-line);
   transition:border-color .24s ease}
 .lab-card__f video{display:block;width:100%;height:100%;object-fit:cover}
-/* Filete prisma de 1px en el canto de arriba. Nunca fondo. */
-.lab-card__f::after{content:'';position:absolute;top:0;left:0;height:1px;width:100%;
+/* Filete prisma en el canto de arriba. Nunca fondo.
+   2px, que es la altura que la identidad le da a .lb-prism-rule: a 1px, en
+   una tarjeta de 718px de ancho y con la perspectiva encogiendo las
+   laterales, el degradado no llegaba a leerse. Sigue dentro del maximo de la
+   norma, que son 2px. */
+.lab-card__f::after{content:'';position:absolute;top:0;left:0;height:2px;width:100%;
   background:var(--lb-prism);transform:scaleX(0);transform-origin:left;
   transition:transform .3s var(--lb-ease)}
 
