@@ -16,9 +16,17 @@ cp index.html story1-case-study.html story2-case-study.html story3-case-study.ht
 cp styles.css tokens.css nav.css cursor.css main.js nav.js cursor.js favicon.ico _site/
 cp Laura_Benavente_CV_En.pdf _site/
 
-# Medios. Los .mov de images/ son los originales sin recortar y se quedan
-# fuera: Code-proto-1.mov ensena a partir de 0:31 el entorno de autoria, el
-# selector de modelo y el prompt en pantalla. Lo que se publica son los .mp4.
+# Medios. Dos cosas se quedan fuera y las dos a proposito.
+#
+# Los .mov de images/ son los originales sin recortar: Code-proto-1.mov
+# ensena a partir de 0:31 el entorno de autoria, el selector de modelo y el
+# prompt en pantalla. Lo que se publica son los .mp4.
+#
+# Y originals/ guarda lo que ya no enlaza ninguna pagina: versiones
+# anteriores, recortes descartados y mockups que se quedaron por el camino.
+# Eran 45 archivos y 21MB viajando al dominio en cada despliegue, el 28% del
+# peso del sitio, para que no los pidiera nadie. No se borran porque son el
+# material de trabajo; simplemente no salen. Esta carpeta no se copia.
 mkdir -p _site/images _site/video _site/fonts
 find images -maxdepth 1 -type f ! -iname '*.mov' -exec cp {} _site/images/ \;
 cp video/*.mp4 _site/video/

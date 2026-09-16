@@ -44,6 +44,19 @@
    ------------------------------------------------------------------------- */
 .nav,.navbar{position:fixed;top:0;left:0;right:0;z-index:100;color:var(--nav-ink)}
 
+/* SIN JS LA BARRA SE PINTA EL SUELO.
+   El color de la barra lo decide data-ground, y data-ground lo escribe
+   nav.js mirando que hay debajo. Si el script no corre, el atributo no
+   existe, gana el valor por defecto (oscuro) y sobre el titular crema la
+   tinta clara se queda en 1.11:1: invisible.
+   Antes esto no pasaba porque la barra corria en mix-blend-mode:difference,
+   que se invierte sola. Ya no puede: el panel abierto es una hoja opaca a
+   pantalla completa, y dentro de un grupo de mezcla se invertiria entera.
+   Asi que sin JS la barra deja de ser transparente y se pone su propio
+   suelo. Se pierde la elegancia de la barra flotante; se gana que se lea
+   sobre cualquier seccion. Sin JS esa es la unica jerarquia que importa. */
+html:not(.js) .nav-bar{background:var(--nav-bg)}
+
 .nav-bar{position:relative;z-index:2;
   max-width:var(--lb-maxw);margin:0 auto;padding:20px var(--lb-margin);
   display:flex;justify-content:space-between;align-items:center;gap:20px;
