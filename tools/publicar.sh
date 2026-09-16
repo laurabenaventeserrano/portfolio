@@ -13,7 +13,7 @@ mkdir -p _site
 
 # Paginas y su sistema
 cp index.html story1-case-study.html story2-case-study.html story3-case-study.html _site/
-cp styles.css tokens.css main.js favicon.ico _site/
+cp styles.css tokens.css nav.css main.js nav.js favicon.ico _site/
 cp Laura_Benavente_CV_En.pdf _site/
 
 # Medios. Los .mov de images/ son los originales sin recortar y se quedan
