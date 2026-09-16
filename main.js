@@ -33,13 +33,13 @@ var PASO = 26;   /* grados por peldano. La profundidad (560px) y su compensacion
 var mqQuieto = matchMedia('(prefers-reduced-motion: reduce)');
 var mqAngosto = matchMedia('(max-width:720px)');
 
-/* Sin cilindro: menos de tres piezas, pantalla estrecha o movimiento
-   reducido. La rueda pasa a ser una fila con anclaje de scroll.
-   Tres no es un numero arbitrario. Con dos, el anillo no cierra: falta la
-   tercera que llene la izquierda, y a 26 grados las dos vecinas se solapan
-   53px, asi que la segunda queda medio escondida detras de la primera y los
-   dos pies bailan porque cada tarjeta escala distinto. Medido, no supuesto. */
-function plano(){ return n < 3 || mqAngosto.matches || mqQuieto.matches }
+/* Sin cilindro: una sola pieza, pantalla estrecha o movimiento reducido.
+   El encargo decia "menos de tres". Con dos piezas eso significa no ver
+   nunca el carrusel, y el carrusel es la pieza. Asi que el umbral es uno y
+   lo que compensa la falta de una tercera tarjeta es el giro del anillo, no
+   renunciar a el. La fila sigue siendo el camino de movil y de quien pide
+   menos movimiento, que es donde el encargo la necesita de verdad. */
+function plano(){ return n < 2 || mqAngosto.matches || mqQuieto.matches }
 /* Estrecho de verdad. No es lo mismo que plano: en escritorio con dos piezas
    la fila tambien es plana, pero ahi si hay raton y la placa la manda el
    hover, no la tarjeta que caiga en el centro. */
@@ -166,6 +166,22 @@ function pinta(){
     p.el.classList.toggle('is-c', d === 0);
     p.el.setAttribute('aria-selected', d === 0 ? 'true' : 'false');
   });
+  /* EL ANILLO SE CENTRA SOLO.
+     Con tres piezas o mas siempre hay una tarjeta a cada lado y el grupo
+     visible queda simetrico: el angulo medio es 0 y no hay nada que
+     corregir. Con dos no: las posiciones son 0 y +26, todo el peso se va a
+     la derecha y el carrusel se lee descuadrado. Girando el anillo entero
+     media zancada, las dos caen a -13 y +13 y el grupo vuelve al centro,
+     sin tocar cual es la central ni inventar una tarjeta que no existe. */
+  if(!llano){
+    var suma = 0, cuantas = 0;
+    LAB.forEach(function(q,j){ var e = delta(j);
+      if(Math.abs(e) <= 1){ suma += e * PASO; cuantas++ } });
+    escena.style.setProperty('--ring', (-(suma / cuantas)).toFixed(2) + 'deg');
+  }else{
+    escena.style.removeProperty('--ring');
+  }
+
   contador.textContent = pad(i+1) + ' / ' + pad(n);
   barra.style.width = (((i+1)/n)*100) + '%';
   tipo.textContent = LAB[i].kind;

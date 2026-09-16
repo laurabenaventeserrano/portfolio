@@ -1026,21 +1026,29 @@ p,li,figcaption,.fsb-c,.ap-d,.about-sub,.hero-note .body,.after{text-wrap:pretty
    caer en z=0 y la tarjeta mide lo que dice su CSS. Los laterales, que se van
    hacia atras, encogen solos: el tamano lo da la profundidad, no un truco. */
 .lab-stage{position:absolute;inset:0;transform-style:preserve-3d;
-  transform:translateZ(-560px)}
+  transform:translateZ(-560px) rotateY(var(--ring,0deg));
+  transition:transform .46s var(--lb-ease)}
 
 /* El giro y la escala son variables, no una cadena de transform escrita
    entera desde JS. Con la cadena, el hover tenia que reescribirla completa y
    se llevaba la rotacion por delante: una tarjeta lateral saltaba al centro y
    se plantaba encima de la central. Asi el hover toca --sc y nada mas. */
+/* 250px, no un ancho a ojo. Lo fija la geometria del encargo: a 26 grados
+   sobre un radio de 560 las vecinas se separan 560*sin(26) = 245px, y una
+   tarjeta de ancho w ocupa w/2 + (w*.88)/2 = .94w hacia el vecino. Con 340
+   el solape era de 74px y el titulo de la tarjeta de al lado quedaba debajo
+   de la anterior, que es justo lo que el encargo avisaba que no podia pasar.
+   Con 250 quedan 10px de aire. El contenido se centra en el carril de 250
+   de alto: la tarjeta flota en el anillo, no lo rellena. */
 .lab-card{--sc:.88;                    /* lateral */
-  position:absolute;top:0;left:50%;width:340px;margin-left:-170px;
-  height:100%;display:flex;flex-direction:column;gap:10px;
+  position:absolute;top:0;left:50%;width:250px;margin-left:-125px;
+  height:100%;display:flex;flex-direction:column;justify-content:center;gap:10px;
   transform:rotateY(var(--rot,0deg)) translateZ(560px) scale(var(--sc));
   cursor:pointer;                      /* lateral: el clic la trae al centro */
   transition:transform .46s var(--lb-ease),opacity .46s var(--lb-ease)}
 .lab-card.is-c{--sc:.97;cursor:grab}   /* la central ya esta donde toca */
 
-.lab-card__f{position:relative;margin:0;flex:none;
+.lab-card__f{position:relative;margin:0;flex:none;width:100%;
   aspect-ratio:16/9;overflow:hidden;
   background:var(--lb-raised);border-radius:var(--lb-radius);
   border:var(--lb-hairline) solid var(--lb-line);
@@ -1064,7 +1072,7 @@ p,li,figcaption,.fsb-c,.ap-d,.about-sub,.hero-note .body,.after{text-wrap:pretty
 .lab-card__t{display:flex;align-items:baseline;gap:10px;min-width:0;
   position:relative;text-decoration:none;color:var(--lb-ink);cursor:pointer}
 .lab-card__t > span{font-family:var(--lb-font-display);font-weight:400;
-  font-size:21px;line-height:1.2;letter-spacing:var(--lb-track-display);
+  font-size:19px;line-height:1.2;letter-spacing:var(--lb-track-display);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   transition:color .3s var(--lb-ease)}
 /* El unico aviso de que la tarjeta se abre. No hay boton por tarjeta. */
