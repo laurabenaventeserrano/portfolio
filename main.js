@@ -23,17 +23,22 @@ var LAB = [
 ];
 
 (function(){
-var rueda = document.getElementById('lab-wheel');
-if(!rueda || !LAB.length) return;
+var rueda  = document.getElementById('lab-wheel');
+var escena = document.getElementById('lab-stage');
+if(!rueda || !escena || !LAB.length) return;
 
 var n = LAB.length, i = 0;
-var PASO = 26, Z = 560;                 /* grados por peldano, profundidad */
+var PASO = 26;   /* grados por peldano. La profundidad (560px) y su compensacion
+                    en .lab-stage viven en el CSS: son geometria, no estado. */
 var mqQuieto = matchMedia('(prefers-reduced-motion: reduce)');
 var mqAngosto = matchMedia('(max-width:720px)');
 
-/* Sin cilindro: menos de tres piezas, pantalla estrecha o movimiento
-   reducido. La rueda pasa a ser una fila con anclaje de scroll. */
-function plano(){ return n < 3 || mqAngosto.matches || mqQuieto.matches }
+/* Sin cilindro: una sola pieza, pantalla estrecha o movimiento reducido.
+   La rueda pasa a ser una fila con anclaje de scroll.
+   El encargo decia "menos de tres". Con dos el cilindro ya se lee y la fila
+   no: dos tarjetas sueltas arriba a la izquierda dejaban medio modulo vacio
+   y parecia sin terminar. El umbral real es uno. */
+function plano(){ return n < 2 || mqAngosto.matches || mqQuieto.matches }
 /* Estrecho de verdad. No es lo mismo que plano: en escritorio con dos piezas
    la fila tambien es plana, pero ahi si hay raton y la placa la manda el
    hover, no la tarjeta que caiga en el centro. */
@@ -64,7 +69,7 @@ LAB.forEach(function(p,k){
     '</div>';
   p.el = c;
   p.v  = c.querySelector('video');
-  rueda.appendChild(c);
+  escena.appendChild(c);
 });
 
 var contador = document.getElementById('lab-count');
@@ -139,12 +144,15 @@ function pinta(){
   LAB.forEach(function(p,k){
     var d = delta(k), a = Math.abs(d);
     if(llano){
-      p.el.style.transform = '';
+      p.el.style.removeProperty('--rot');
       p.el.style.opacity = '';
       p.el.style.pointerEvents = '';
       p.el.style.zIndex = '';
     }else{
-      p.el.style.transform = 'rotateY('+(d*PASO)+'deg) translateZ('+Z+'px) scale('+(d===0?.97:.88)+')';
+      /* Solo el giro va en linea. La escala la decide el CSS a partir de
+         .is-c, porque una custom property en linea gana siempre a la hoja de
+         estilos y el :hover no habria podido subirla nunca. */
+      p.el.style.setProperty('--rot', (d * PASO) + 'deg');
       p.el.style.opacity = a > 1 ? '0' : (d === 0 ? '1' : '.5');
       p.el.style.pointerEvents = a > 1 ? 'none' : 'auto';
       p.el.style.zIndex = String(10 - a);
@@ -246,7 +254,7 @@ if('IntersectionObserver' in window){
       var k = LAB.findIndex(function(p){ return p.el === en.target });
       if(k > -1) vaA(k);
     });
-  },{root:rueda, threshold:.6});
+  },{root:escena, threshold:.6});
   LAB.forEach(function(p){ cio.observe(p.el) });
 
   /* Fuera de pantalla, todos parados. Son megabytes decodificandose para

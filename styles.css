@@ -1000,12 +1000,12 @@ p,li,figcaption,.fsb-c,.ap-d,.about-sub,.hero-note .body,.after{text-wrap:pretty
 .lab-kicker{display:inline-block;font-family:var(--lb-font-mono);
   font-size:var(--lb-kicker);letter-spacing:var(--lb-track-kicker);
   text-transform:uppercase;color:var(--lb-ink-2);text-decoration:none;
-  margin:0 0 10px;transition:color var(--lb-dur-ui) ease}
+  margin:0 0 8px;transition:color var(--lb-dur-ui) ease}
 .lab-kicker:hover{color:var(--lb-ink)}
 .lab-lead{font-size:var(--lb-body);line-height:var(--lb-lh-body);
   color:var(--lb-ink-2);margin:10px 0 0;max-width:56ch;text-wrap:pretty}
 
-.lab-rueda{margin-top:clamp(20px,2.4vw,26px)}
+.lab-rueda{margin-top:clamp(14px,1.8vw,18px)}
 
 /* 2 · LA RUEDA
    Un cilindro de verdad: cada tarjeta gira sobre el eje Y y se empuja hacia
@@ -1019,11 +1019,26 @@ p,li,figcaption,.fsb-c,.ap-d,.about-sub,.hero-note .body,.after{text-wrap:pretty
 .lab-wheel.is-drag,.lab-wheel.is-drag .lab-card,
 .lab-wheel.is-drag .lab-card__t{cursor:grabbing}
 
-.lab-card{position:absolute;top:0;left:50%;width:340px;margin-left:-170px;
+/* EL ESCENARIO. Sin el, la perspectiva amplia todo lo que se empuja hacia
+   delante: con perspective 1400 y translateZ 560 el aumento es 1400/(1400-560)
+   = 1.67, asi que la tarjeta central se dibujaba a 567x417 y se subia encima
+   del titular. Retrasando el anillo entero 560px, la cara de delante vuelve a
+   caer en z=0 y la tarjeta mide lo que dice su CSS. Los laterales, que se van
+   hacia atras, encogen solos: el tamano lo da la profundidad, no un truco. */
+.lab-stage{position:absolute;inset:0;transform-style:preserve-3d;
+  transform:translateZ(-560px)}
+
+/* El giro y la escala son variables, no una cadena de transform escrita
+   entera desde JS. Con la cadena, el hover tenia que reescribirla completa y
+   se llevaba la rotacion por delante: una tarjeta lateral saltaba al centro y
+   se plantaba encima de la central. Asi el hover toca --sc y nada mas. */
+.lab-card{--sc:.88;                    /* lateral */
+  position:absolute;top:0;left:50%;width:340px;margin-left:-170px;
   height:100%;display:flex;flex-direction:column;gap:10px;
+  transform:rotateY(var(--rot,0deg)) translateZ(560px) scale(var(--sc));
   cursor:pointer;                      /* lateral: el clic la trae al centro */
   transition:transform .46s var(--lb-ease),opacity .46s var(--lb-ease)}
-.lab-card.is-c{cursor:grab}            /* la central ya esta donde toca */
+.lab-card.is-c{--sc:.97;cursor:grab}   /* la central ya esta donde toca */
 
 .lab-card__f{position:relative;margin:0;flex:none;
   aspect-ratio:16/9;overflow:hidden;
@@ -1063,7 +1078,7 @@ p,li,figcaption,.fsb-c,.ap-d,.about-sub,.hero-note .body,.after{text-wrap:pretty
   transition:transform .3s var(--lb-ease)}
 
 @media(hover:hover){
-  .lab-wheel:not(.is-flat) .lab-card:hover{transform:rotateY(0) translateZ(560px) scale(1)!important}
+  .lab-wheel:not(.is-flat) .lab-card:hover{--sc:1}
   .lab-card:hover .lab-card__f{border-color:rgba(242,239,234,.42)}
   .lab-card:hover .lab-card__f::after{transform:scaleX(1)}
   .lab-card__t:hover > span{color:var(--lb-accent)}
@@ -1074,7 +1089,7 @@ p,li,figcaption,.fsb-c,.ap-d,.about-sub,.hero-note .body,.after{text-wrap:pretty
 .lab-card__t:focus-visible .lab-card__go{opacity:1;transform:none}
 
 /* 3 · EL FILETE CON EL CONTADOR */
-.lab-rule{display:flex;align-items:center;gap:16px;margin-top:16px}
+.lab-rule{display:flex;align-items:center;gap:16px;margin-top:12px}
 .lab-count{flex:none;font-family:var(--lb-font-mono);font-size:var(--lb-label);
   letter-spacing:var(--lb-track-label);color:var(--lb-accent)}
 .lab-bar{flex:1;position:relative;height:1px;background:var(--lb-line);
@@ -1088,7 +1103,7 @@ p,li,figcaption,.fsb-c,.ap-d,.about-sub,.hero-note .body,.after{text-wrap:pretty
 /* 4 · LA PLACA. Fija, debajo, nunca sobre el video. */
 .lab-plaque{display:grid;grid-template-columns:1.25fr 1fr;
   gap:clamp(24px,3.4vw,52px);align-items:start;
-  margin-top:16px;
+  margin-top:12px;
   opacity:0;transform:translateY(6px);
   transition:opacity .2s var(--lb-ease),transform .3s var(--lb-ease)}
 .lab-plaque.is-in{opacity:1;transform:none}
@@ -1118,8 +1133,9 @@ html.js .lab-plain{display:none}
 /* 6 · SIN CILINDRO. Menos de tres piezas, pantalla estrecha o movimiento
    reducido: una fila con anclaje. La placa la manda la tarjeta que queda en
    el centro, no el raton, que en un telefono no existe. */
-.lab-wheel.is-flat{height:auto;perspective:none;
-  display:flex;gap:20px;overflow-x:auto;cursor:default;
+.lab-wheel.is-flat{height:auto;perspective:none;cursor:default}
+.lab-wheel.is-flat .lab-stage{position:static;transform:none;transform-style:flat;
+  display:flex;gap:20px;overflow-x:auto;
   scroll-snap-type:x mandatory;
   padding-bottom:4px;-webkit-overflow-scrolling:touch}
 /* En fila la tarjeta sigue seleccionando su pieza, asi que sigue siendo
@@ -1127,8 +1143,10 @@ html.js .lab-plain{display:none}
    hay cilindro que arrastrar. */
 .lab-wheel.is-flat .lab-card{position:static;width:78%;max-width:420px;
   margin:0;flex:none;height:auto;scroll-snap-align:center;cursor:pointer;
-  transform:none!important;opacity:1!important}
-.lab-wheel.is-flat .lab-card__go{opacity:1;transform:none}
+  transform:none;opacity:1}
+@media(hover:none){
+  .lab-wheel.is-flat .lab-card__go{opacity:1;transform:none}
+}
 
 @media(min-width:721px){
   /* Con dos piezas la fila no necesita scroll: caben las dos. Y no se
