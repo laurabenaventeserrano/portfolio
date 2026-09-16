@@ -1024,16 +1024,34 @@ section.lab h2{font-family:var(--lb-font-display);font-weight:400;
 /* El escenario retrasa el anillo 560px para que la cara de delante caiga en
    z=0. Sin el, la perspectiva amplia la tarjeta central x1.67 y se sube
    encima del titular. */
+/* El escenario hace dos cosas.
+   translateZ(-560px) retrasa el anillo para que la cara de delante caiga en
+   z=0: sin eso, la perspectiva amplia la tarjeta central x1.67.
+   translateX centra el GRUPO visible, no la tarjeta de delante. Hace falta
+   cuando no hay el mismo numero de tarjetas a cada lado: con dos piezas las
+   posiciones son 0 y +26 y el carrusel se va entero a la derecha. Se desplaza
+   en horizontal y no girando el anillo a proposito, porque girarlo dejaria la
+   tarjeta central de medio lado y entonces nada parece estar elegido.
+   Con 3 y con 5 la media es cero y esto no hace nada. */
 .lab-stage{position:absolute;inset:0;transform-style:preserve-3d;
-  transform:translateZ(-560px) rotateY(var(--ring,0deg));
+  transform:translateX(var(--shift,0px)) translateZ(-560px);
   transition:transform .46s var(--lb-ease)}
 
-.lab-card{--sc:.88;position:absolute;top:0;left:50%;
+/* LAS LATERALES NO SON TRANSPARENTES.
+   La propuesta las pone a opacidad .5, y con tarjetas que se solapan eso
+   significa ver un video a traves de otro: dos capturas mezcladas donde
+   deberia haber una. Aqui la tarjeta se queda opaca y lo que baja es el
+   brillo, asi que la de delante tapa de verdad a la de detras y el fondo de
+   la seccion sigue siendo el unico fondo. El brillo va en los hijos, que son
+   planos: un filter sobre la tarjeta aplanaria su contexto 3D. */
+.lab-card{--sc:.88;--dim:.5;position:absolute;top:0;left:50%;
   width:316px;margin-left:-158px;transform-style:preserve-3d;
   transform:rotateY(var(--rot,0deg)) translateZ(560px) scale(var(--sc));
   cursor:pointer;
   transition:transform .46s var(--lb-ease),opacity .36s ease}
-.lab-card.is-c{--sc:.97;cursor:grab}
+.lab-card.is-c{--sc:.97;--dim:1;cursor:grab}
+.lab-card__f,.lab-card__c{filter:brightness(var(--dim));
+  transition:filter .36s ease}
 
 .lab-card__f{position:relative;margin:0;aspect-ratio:16/9;overflow:hidden;
   background:var(--lb-raised);
@@ -1068,7 +1086,7 @@ section.lab h2{font-family:var(--lb-font-display);font-weight:400;
   transition:transform .3s var(--lb-ease)}
 
 @media(hover:hover){
-  .lab-wheel:not(.is-flat) .lab-card:hover{--sc:1}
+  .lab-wheel:not(.is-flat) .lab-card:hover{--sc:1;--dim:1}
   .lab-card:hover .lab-card__f{border-color:rgba(242,239,234,.42)}
   .lab-card:hover .lab-card__f::after,
   .lab-card:hover .lab-card__t::after{transform:scaleX(1)}
@@ -1132,7 +1150,7 @@ html.js .lab-plain{display:none}
 .lab-wheel.is-flat .lab-stage{position:static;transform:none;transform-style:flat;
   display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;
   padding-bottom:4px;-webkit-overflow-scrolling:touch;transition:none}
-.lab-wheel.is-flat .lab-card{position:static;width:78%;max-width:420px;
+.lab-wheel.is-flat .lab-card{--dim:1;position:static;width:78%;max-width:420px;
   margin:0;flex:none;scroll-snap-align:center;cursor:pointer;
   transform:none;opacity:1}
 @media(hover:none){
@@ -1149,7 +1167,7 @@ html.js .lab-plain{display:none}
 
 @media(prefers-reduced-motion:reduce){
   .lab-card,.lab-stage,.lab-plaque__c,.lab-plaque__a,.lab-bar i,
-  .lab-card__f,.lab-card__f::after,.lab-card__t::after,
+  .lab-card__f,.lab-card__c,.lab-card__f::after,.lab-card__t::after,
   .lab-card__go,.lab-card__t > span{transition:none}
   .lab-plaque__c,.lab-plaque__a{opacity:1;transform:none}
 }

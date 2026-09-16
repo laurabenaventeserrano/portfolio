@@ -9,17 +9,44 @@
    degrada a una fila.
    ========================================================================= */
 var LAB = [
-  { n:'01', title:'Postcard maker', kind:'Vanilla JS · zero deps',
+  { n:'01', title:'Postcard maker', kind:'Vanilla JS \u00b7 zero deps',
     video:'video/lab-postal.mp4', poster:'images/lab-postal.jpg',
     desc:'Take or upload a photo, filter it, pick a template, write the message in a handwritten face, add a stamp, and flip the card over. I wrote the brief, including the five template palettes and the type, and built it with Claude Code.',
     note:'Runs entirely in your browser. No photo ever leaves your device.',
     cta:'Play AI prototype', href:'lab/postal/' },
 
-  { n:'02', title:'Arcana', kind:'Written logic · no model call',
+  { n:'02', title:'Arcana', kind:'Written logic \u00b7 no model call',
     video:'video/lab-arcana.mp4', poster:'images/lab-arcana.jpg',
-    desc:'Ask one question, draw one card. The reading is composed from the card’s own meaning, the shape of your question and whether the card came up reversed, so the same card answers two questions differently. English and Spanish.',
+    desc:'Ask one question, draw one card. The reading is composed from the card\u2019s own meaning, the shape of your question and whether the card came up reversed, so the same card answers two questions differently. English and Spanish.',
     note:'Runs in your browser. Your question is never sent anywhere.',
-    cta:'Play AI prototype', href:'lab/arcana/' }
+    cta:'Play AI prototype', href:'lab/arcana/' },
+
+  /* ---------------------------------------------------------------------
+     03 a 05 · HUECOS, NO PIEZAS.
+     Repiten el video y el enlace de las dos que existen para que el
+     cilindro se vea con las cinco tarjetas que ensena la propuesta. No hay
+     tres experimentos mas: hay dos, dos veces y media.
+     Cuando haya piezas de verdad, se sustituye la entrada entera y ya esta.
+     Si en algun momento hay que ensenar solo lo real, se borran estas tres
+     y la rueda se recoloca sola: con dos vuelve a centrar el par.
+     --------------------------------------------------------------------- */
+  { n:'03', title:'Postcard maker', kind:'Vanilla JS \u00b7 zero deps',
+    video:'video/lab-postal.mp4', poster:'images/lab-postal.jpg',
+    desc:'Take or upload a photo, filter it, pick a template, write the message in a handwritten face, add a stamp, and flip the card over. I wrote the brief, including the five template palettes and the type, and built it with Claude Code.',
+    note:'Runs entirely in your browser. No photo ever leaves your device.',
+    cta:'Play AI prototype', href:'lab/postal/' },
+
+  { n:'04', title:'Arcana', kind:'Written logic \u00b7 no model call',
+    video:'video/lab-arcana.mp4', poster:'images/lab-arcana.jpg',
+    desc:'Ask one question, draw one card. The reading is composed from the card\u2019s own meaning, the shape of your question and whether the card came up reversed, so the same card answers two questions differently. English and Spanish.',
+    note:'Runs in your browser. Your question is never sent anywhere.',
+    cta:'Play AI prototype', href:'lab/arcana/' },
+
+  { n:'05', title:'Postcard maker', kind:'Vanilla JS \u00b7 zero deps',
+    video:'video/lab-postal.mp4', poster:'images/lab-postal.jpg',
+    desc:'Take or upload a photo, filter it, pick a template, write the message in a handwritten face, add a stamp, and flip the card over. I wrote the brief, including the five template palettes and the type, and built it with Claude Code.',
+    note:'Runs entirely in your browser. No photo ever leaves your device.',
+    cta:'Play AI prototype', href:'lab/postal/' }
 ];
 
 (function(){
@@ -28,8 +55,11 @@ var escena = document.getElementById('lab-stage');
 if(!rueda || !escena || !LAB.length) return;
 
 var n = LAB.length, i = 0;
-var PASO = 26;   /* grados por peldano. La profundidad (560px) y su compensacion
-                    en .lab-stage viven en el CSS: son geometria, no estado. */
+/* La geometria del cilindro. Vive tambien en el CSS (translateZ, perspective
+   y el ancho de .lab-card); aqui hace falta para saber donde cae en pantalla
+   cada tarjeta y poder centrar el grupo. Si se cambia una, se cambian las
+   dos: son el mismo cilindro contado dos veces. */
+var PASO = 26, RADIO = 560, PERSP = 1400, ANCHO = 316;
 var mqQuieto = matchMedia('(prefers-reduced-motion: reduce)');
 var mqAngosto = matchMedia('(max-width:720px)');
 
@@ -159,30 +189,46 @@ function pinta(){
          .is-c, porque una custom property en linea gana siempre a la hoja de
          estilos y el :hover no habria podido subirla nunca. */
       /* Hasta dos posiciones a cada lado se ven; a partir de ahi, nada.
-         El resumen del encargo decia "a partir de +-2, opacidad 0" y yo lo
-         lei como "solo +-1". La propuesta muestra cinco tarjetas. */
+         La opacidad solo tiene dos valores, 1 y 0: o la tarjeta esta o no
+         esta. Lo que distingue a la central de las laterales es el brillo,
+         no la transparencia, para que ninguna se vea a traves de otra. */
       p.el.style.setProperty('--rot', (d * PASO) + 'deg');
-      p.el.style.opacity = a > 2 ? '0' : (d === 0 ? '1' : '.5');
+      p.el.style.opacity = a > 2 ? '0' : '1';
       p.el.style.pointerEvents = a > 2 ? 'none' : 'auto';
       p.el.style.zIndex = String(10 - a);
     }
     p.el.classList.toggle('is-c', d === 0);
     p.el.setAttribute('aria-selected', d === 0 ? 'true' : 'false');
   });
-  /* EL ANILLO SE CENTRA SOLO.
-     Con tres piezas o mas siempre hay una tarjeta a cada lado y el grupo
-     visible queda simetrico: el angulo medio es 0 y no hay nada que
-     corregir. Con dos no: las posiciones son 0 y +26, todo el peso se va a
-     la derecha y el carrusel se lee descuadrado. Girando el anillo entero
-     media zancada, las dos caen a -13 y +13 y el grupo vuelve al centro,
-     sin tocar cual es la central ni inventar una tarjeta que no existe. */
+  /* EL GRUPO SE CENTRA SOLO, PARA CUALQUIER NUMERO DE PIEZAS.
+     Con 3 y con 5 hay el mismo numero de tarjetas a cada lado y no hay nada
+     que corregir. Con 2 y con 4 no, y el carrusel se va de lado.
+     No vale con promediar donde cae el centro de cada tarjeta: las de mas
+     atras se proyectan mas estrechas, asi que el centro de la caja que
+     ocupan todas no coincide con la media de sus centros. Promediando se
+     quedaba a 24px del centro con dos piezas y a 53px con cuatro.
+     Asi que se calcula el borde real de cada una, con su escorzo y su
+     perspectiva, y se centra la caja que forman entre todas. */
   if(!llano){
-    var suma = 0, cuantas = 0;
-    LAB.forEach(function(q,j){ var e = delta(j);
-      if(Math.abs(e) <= 2){ suma += e * PASO; cuantas++ } });
-    escena.style.setProperty('--ring', (-(suma / cuantas)).toFixed(2) + 'deg');
+    var izq = Infinity, der = -Infinity;
+    LAB.forEach(function(q,j){
+      var e = delta(j);
+      if(Math.abs(e) > 2) return;
+      var th = e * PASO * Math.PI / 180;
+      var cos = Math.cos(th);
+      /* z de la tarjeta una vez el escenario ha retrasado el anillo */
+      var z = RADIO * cos - RADIO;
+      /* cuanto agranda o encoge la perspectiva a esa profundidad */
+      var p = PERSP / (PERSP - z);
+      var cx = RADIO * Math.sin(th) * p;
+      /* el ancho en pantalla lleva su escala y su escorzo */
+      var hw = (ANCHO * (e === 0 ? .97 : .88) * Math.abs(cos) / 2) * p;
+      if(cx - hw < izq) izq = cx - hw;
+      if(cx + hw > der) der = cx + hw;
+    });
+    escena.style.setProperty('--shift', (-((izq + der) / 2)).toFixed(1) + 'px');
   }else{
-    escena.style.removeProperty('--ring');
+    escena.style.removeProperty('--shift');
   }
 
   contador.textContent = pad(i+1) + ' / ' + pad(n);
