@@ -49,6 +49,13 @@
     var(--lb-p5) 70%, var(--lb-p6) 85%, var(--lb-p7) 100%);
   --lb-prism-sm:linear-gradient(90deg,
     var(--lb-p2), var(--lb-p4), var(--lb-p5), var(--lb-p7));
+  /* Las mismas siete paradas girando en vertical. No es un prisma nuevo: es
+     el de siempre para cuando lo que hay que recorrer es alto y no ancho,
+     como el cursor del titular. A 90deg, sobre una barra de 5px de ancho,
+     solo se veria una rodaja de color. */
+  --lb-prism-v:linear-gradient(180deg,
+    var(--lb-p1) 0%,  var(--lb-p2) 18%, var(--lb-p3) 36%, var(--lb-p4) 53%,
+    var(--lb-p5) 70%, var(--lb-p6) 85%, var(--lb-p7) 100%);
 
   --lb-radius: 2px;            /* el maximo. no hay radio mayor. */
 

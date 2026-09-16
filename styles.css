@@ -241,8 +241,12 @@ html.tw .tw-static{position:absolute;width:1px;height:1px;padding:0;margin:-1px;
    linea empieza a escribirse, y sigue cuadrando cuando el texto parte en dos
    lineas en pantallas estrechas. */
 .tw-l{display:block;min-height:1.06em}
+/* El cursor del titular va en prisma, no en tinta. Era lo unico de la primera
+   pantalla que se pintaba del color del texto, y siendo la barra que escribe
+   el titular es justo donde el espectro tiene algo que decir. Vertical,
+   porque la barra es alta: con el prisma horizontal se veria un solo color. */
 .tw-cursor{display:inline-block;width:.055em;height:.78em;margin-left:.06em;
-  vertical-align:-.04em;background:currentColor}
+  vertical-align:-.04em;background:var(--lb-prism-v)}
 html.tw .tw-cursor{animation:twblink 1.06s steps(1) infinite}
 @keyframes twblink{0%,49%{opacity:1}50%,100%{opacity:0}}
 

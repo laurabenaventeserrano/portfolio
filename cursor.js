@@ -151,10 +151,13 @@ var FORMAS = {
     return [svg(18,24,'0 0 18 24',
       [{d:'M1.5 1.2 L1.5 19.4 L6.2 14.9 L9.4 22 L12.6 20.5 L9.5 13.6 L15.8 13.4 Z'}])];
   },
-  open: function(){
-    return [svg(22,26,'0 0 22 26',
+  open: function(st){
+    var mano = svg(22,26,'0 0 22 26',
       [{d:'M7 13.5V4.2a2 2 0 0 1 4 0v8M11 12.2v-2a1.9 1.9 0 0 1 3.8 0v2M14.8 12.6v-1.4a1.9 1.9 0 0 1 3.8 0V17c0 4.2-2.6 7.8-6.9 7.8-4 0-6.6-2.4-7.4-5.6L3 15.1a1.9 1.9 0 0 1 3.3-1.8l.9 1.4'}],
-      'translate(-4px,-2px)'), etiqueta('Open ↗',22,22)];
+      'translate(-4px,-2px)');
+    if(st.abre === 'blank') return [mano, etiqueta('Open ↗',22,22)];
+    if(st.abre === 'mail')  return [mano, etiqueta('Write ↗',22,22)];
+    return [mano];
   },
   drag: function(st){
     return [svg(22,26,'0 0 22 26',[{d: st.pulsado ? MANO_PUNO : MANO_ABIERTA}],
@@ -218,17 +221,48 @@ var FORMAS = {
    se selecciona. Nada de adivinar interacciones que no existen.
    ---------------------------------------------------------------------- */
 var TIER = {H1:'xl',H2:'md',H3:'h3',H4:'h3'};
+/* Etiquetas de interfaz: numeros, contadores, tipos de pieza, notas de una
+   linea. Son mono de 10px en mayusculas y nadie las selecciona. Antes salia
+   caret sobre unas y flecha sobre otras, y la diferencia no la decidia el
+   diseno sino si alguien habia escrito <p> o <span>. */
+var ROTULOS = '.k,.lab-count,.lab-kind,.lab-plaque__n,.lab-nota,.lab-card__n,' +
+              '.story-hero__eyebrow,.story-hero__result,.nav-head,.lab-plain';
+/* El salto al contenido existe para quien navega con teclado, que no tiene
+   puntero. Dibujarle una mano encima es ruido sobre algo que nadie ve. */
+var SIN_CURSOR = '.skip-link';
+
 function zonaDe(el){
   if(!el || !el.closest) return {modo:'arrow'};
+  if(el.closest(SIN_CURSOR)) return {modo:'arrow'};
+
   var z = el.closest('[data-cursor]');
   var a = el.closest(ABRE);
   /* Gana el mas cercano al puntero, no el que se mire primero. La rueda
      entera se arrastra, pero el titulo de una tarjeta abre la pieza: si la
      zona gana siempre, el enlace de dentro nunca se anuncia. */
   if(z && a) { if(z.contains(a)) z = null; else a = null; }
+
+  /* La rueda en fila no gira. Prometer un puno que no arrastra nada es peor
+     que no prometer nada. */
+  if(z && z.dataset.cursor === 'drag' && z.classList.contains('is-flat'))
+    return {modo:'arrow'};
+
   if(z) return {modo: z.dataset.cursor, zona: z, nivel: z.dataset.tier || null};
-  if(a) return {modo:'open'};
+
+  if(a){
+    /* La flecha inclinada significa "pestana nueva" en toda la web. Solo la
+       lleva quien de verdad abre una. Lo que navega en la misma pestana, lo
+       que salta dentro de la pagina y el boton del menu se quedan con la
+       mano sola: ya dice "esto se pulsa", que es todo lo que hay que decir.
+       Antes los 29 enlaces de la portada decian "Open" y solo 10 abrian. */
+    var h = a.getAttribute('href') || '';
+    var abre = a.target === '_blank' ? 'blank'
+             : (h.indexOf('mailto:') === 0 ? 'mail' : null);
+    return {modo:'open', abre:abre};
+  }
+
   if(el.closest('.lab-wheel')) return {modo:'drag'};
+  if(el.closest(ROTULOS)) return {modo:'arrow'};
   var t = el.closest('h1,h2,h3,h4,p,li,figcaption,blockquote,dd,dt');
   if(t && t.textContent.trim())
     return {modo:'text', texto:t, nivel: TIER[t.tagName] || 'body'};
@@ -245,7 +279,8 @@ capa.className = 'cur-capa';
 capa.setAttribute('aria-hidden','true');
 document.body.appendChild(capa);
 
-var st = {modo:'', nivel:null, cuerpo:16, pulsado:false, copiado:false, lado:'right'};
+var st = {modo:'', nivel:null, cuerpo:16, pulsado:false, copiado:false,
+          lado:'right', abre:null};
 var x = -100, y = -100, pendiente = false;
 
 function dibuja(){
@@ -264,6 +299,7 @@ document.addEventListener('pointermove', function(e){
 
   var z = zonaDe(e.target);
   var nivel = z.nivel || null, cuerpo = st.cuerpo, lado = st.lado;
+  var abre = z.abre || null;
 
   if(z.modo === 'text' && z.texto)
     cuerpo = parseFloat(getComputedStyle(z.texto).fontSize) || 16;
@@ -274,8 +310,9 @@ document.addEventListener('pointermove', function(e){
   }
 
   if(z.modo !== st.modo || nivel !== st.nivel || lado !== st.lado ||
-     Math.abs(cuerpo - st.cuerpo) > .5){
-    st.modo = z.modo; st.nivel = nivel; st.lado = lado; st.cuerpo = cuerpo;
+     abre !== st.abre || Math.abs(cuerpo - st.cuerpo) > .5){
+    st.modo = z.modo; st.nivel = nivel; st.lado = lado;
+    st.cuerpo = cuerpo; st.abre = abre;
     dibuja();
   }
   sobrePalabra(e);
