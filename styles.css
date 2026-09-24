@@ -198,12 +198,16 @@ a{color:inherit}
 .lb-card__rule{height:var(--lb-hairline);background:var(--lb-prism-sm);
   margin:var(--lb-space-2) 0 0}
 
-/* hero: full viewport, headline only, pushed toward the display ceiling */
+/* hero: pantalla entera, solo el titular.
+   Cinco lineas con los cortes escritos en el HTML y el mismo cuerpo que el
+   saludo de la intro: 44px, 56px a partir de 1280, y la columna de 700px que
+   no crece nunca. Son las dos primeras frases de la pagina y suenan a la
+   misma voz porque estan a la misma altura. */
 .hero{min-height:100svh;display:flex;align-items:center;padding:140px 0 120px;position:relative}
 .hero .w{width:100%}
 .hero .hero-h{text-align:left;font-family:var(--lb-font-display);font-weight:400;
-  font-size:var(--lb-display-xl);line-height:.9;
-  letter-spacing:var(--lb-track-display);margin:0}
+  font-size:44px;line-height:1.1;
+  letter-spacing:var(--lb-track-display);margin:0;max-width:700px}
 .hero .hero-h .ln{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
 .hero .hero-h .ln i{display:block;font-style:normal;transform:translateY(104%);
   transition:transform 1.1s cubic-bezier(.16,1,.3,1)}
@@ -211,10 +215,10 @@ html:not(.js) .hero .hero-h .ln i{transform:none}
 .hero.lit .hero-h .ln i{transform:none}
 .hero.lit .hero-h .ln:nth-child(2) i{transition-delay:.09s}
 .hero.lit .hero-h .ln:nth-child(3) i{transition-delay:.18s}
-/* Cuarta linea. El titular ha necesitado cuatro dos veces ya, y sin este
-   retardo esa linea entraba a la vez que la primera mientras las otras dos
-   cascadeaban: se leia como un fallo. */
 .hero.lit .hero-h .ln:nth-child(4) i{transition-delay:.27s}
+/* Quinta linea. Sin su retardo entraba a la vez que la primera mientras las
+   otras tres cascadeaban, y eso se lee como un fallo, no como un ritmo. */
+.hero.lit .hero-h .ln:nth-child(5) i{transition-delay:.36s}
 /* INTRO. La unica pantalla en papel del arranque: fondo claro, tipografia y
    animacion en negro, y despues la pagina entra en su fondo oscuro y ya no
    vuelve. La barra de navegacion no necesita nada: usa mix-blend-mode
@@ -226,11 +230,61 @@ html:not(.js) .hero .hero-h .ln i{transform:none}
 .intro{min-height:100svh;display:flex;align-items:center;padding:140px 0 120px;
   background:var(--lb-cream);color:var(--lb-ground);position:relative;z-index:2}
 .intro .w{width:100%}
+/* EL TITULAR, AL MODELO DE LA REFERENCIA.
+   Medido en ocho anchos: no escala con vw en ningun punto. Son dos tamanos
+   fijos con un solo salto, y una columna de 700px que no crece nunca.
+
+     375 → 1024    44px
+     1280 → oo     56px
+     max-width     700px siempre
+
+   Lo que hacia yo era lo contrario: clamp(34px,7vw,96px) y ancho libre, asi
+   que a 1440 el titular medía 96px y cruzaba 1288px de pantalla. Un titular
+   que cruza la pantalla entera no se lee, se recorre.
+   La columna estrecha es lo que hace que el titular caiga en dos o tres
+   lineas a cualquier tamano, y eso es lo que da el ritmo de la referencia. */
 .intro-h{font-family:var(--lb-font-display);font-weight:400;
-  font-size:var(--lb-display-xl);line-height:.9;
-  letter-spacing:var(--lb-track-display);margin:0;color:var(--lb-cream-ink);max-width:none}
+  font-size:44px;line-height:1.1;
+  letter-spacing:var(--lb-track-display);margin:0;color:var(--lb-cream-ink);
+  max-width:700px}
 .intro .ln{display:block}
+/* Con la columna capada a 700px el titular envuelve a cualquier tamano, no
+   solo en movil. Las cajas de linea dejan de recortar en los dos sitios. */
+.intro-h .ln,.intro-h .tw-l{white-space:normal;overflow:visible}
 .intro .ln i{font-style:normal}
+
+/* EN ESCRITORIO, GRANDE OTRA VEZ.
+   El modelo de la referencia (44px fijos y columna de 700) arreglaba el movil,
+   que era donde el titular se desbordaba, pero de paso apagaba la primera
+   pantalla en un portatil: 44px en 1440 es un parrafo, no una presentacion.
+   Asi que el modelo fijo se queda hasta 1023 y de ahi arriba vuelve el
+   display-xl de siempre: 7vw con techo en 96, interlinea .9 y sin columna.
+
+   Hubo un momento en que el techo tuvo que bajar a 92, porque el saludo era de
+   dos lineas y "A product designer who engineers." medía 1327px a 96, contra
+   una columna de 1288. Con el saludo partido en tres, la linea mas larga de
+   los dos titulares pasa a ser "complex digital products", que mide 934px a
+   96: sobran 354. El techo vuelve a su sitio.
+
+   El corte esta en 1024 y no en 1280 porque un portatil de 1152 es escritorio
+   y se quedaba con el titular de parrafo.
+
+   Los dos titulares van con la misma regla: son las dos frases con las que se
+   abre la pagina y leerlas a dos cuerpos distintos las vuelve dos voces. */
+@media(min-width:1024px){
+  .intro-h,
+  .hero .hero-h{font-size:var(--lb-display-xl);line-height:.9;max-width:none}
+}
+/* Y un escalon abajo, por un pixel. "A product designer" mide 333px a 44, y la
+   columna de un telefono de 375 son 332: falla por uno, y al fallar parte la
+   frase en "A product / designer", que es partir por donde no se parte.
+   A 40px cabe desde 360 de ancho, que cubre el telefono mas estrecho que se
+   usa hoy. Sigue siendo el modelo de la referencia: pasos fijos, ni un vw. */
+@media(max-width:479px){
+  .intro-h,
+  .hero .hero-h{font-size:40px}
+}
+}
 
 .tw-live{display:none}
 html.tw .tw-live{display:block}
@@ -284,24 +338,22 @@ html:not(.js) .cue{opacity:1}
 /* §5: donde el suelo no cambia, la separacion la hace un filete de 1px, no
    el aire. Entre intro y hero, entre "tres maneras" y las historias o antes
    del cierre no hace falta: ahi cambia el suelo, y ese cambio ya separa. */
-.second-sec{min-height:112svh;display:flex;align-items:center;padding:60px 0;
-  border-top:var(--lb-hairline) solid var(--lb-line)}
-.second-sec .w{width:100%}
-.second{text-align:left;font-family:var(--lb-font-display);font-weight:400;
-  font-size:var(--lb-display-l);line-height:1.12;
-  letter-spacing:var(--lb-track-display);margin:0;max-width:20ch}
-
-/* La frase ocupa 670px de los 1400 del contenedor, asi que el retrato entra a
-   su derecha sin tocar el cuerpo de la tipografia. La seccion sube a 112svh
-   para dar recorrido de scroll a la mascara: con 82 la mitad del efecto pasaba
-   fuera de cuadro. De paso rompe el compas de la pagina, donde habia cinco
-   secciones midiendo exactamente una pantalla. */
-.second-row{display:grid;grid-template-columns:1fr clamp(240px,26vw,360px);
-  gap:clamp(30px,5vw,90px);align-items:center}
-@media(max-width:860px){
-  .second-row{grid-template-columns:1fr;gap:clamp(28px,6vw,52px)}
-  .second-sec{min-height:0;padding:clamp(70px,12vw,120px) 0}
+/* ABOUT EN DOS COLUMNAS. El retrato vivia en una seccion propia que ya no
+   existe: una foto sola no es una escena, y aqui ademas acompana al unico
+   texto personal de la pagina, que es donde una cara suma. */
+.about-row{display:grid;grid-template-columns:1fr clamp(220px,22vw,300px);
+  gap:clamp(30px,5vw,72px);align-items:start}
+/* Por debajo de 1000 el retrato se va abajo y el texto recupera la medida
+   entera. La rejilla de dos columnas solo existe donde caben las dos: con el
+   retrato al lado, la columna de texto son 916px a partir de 1400 de ancho, y
+   por debajo de 1000 bajaba de 600. Antes el corte estaba en 860 y ademas la
+   columna unica media min(70vw,300px), asi que el texto se metia en 300px: la
+   medida del retrato, no la suya. */
+@media(max-width:999px){
+  .about-row{grid-template-columns:1fr;gap:clamp(30px,6vw,48px)}
+  .about .portrait{max-width:min(70vw,300px)}
 }
+
 /* RETRATO CON MASCARA. Debajo va la misma foto en gris, encima la de color
    recortada por un circulo que crece con el scroll: el color llega segun se
    llega. Es movimiento ligado al scroll, asi que no lleva easing ni duracion,
@@ -406,8 +458,6 @@ html:not(.js) .prism-rule::before{transform:none}
 .fsb-t{font-family:var(--lb-font-display);font-weight:400;
   font-size:var(--lb-display-m);line-height:var(--lb-lh-display-m);
   letter-spacing:var(--lb-track-display);margin:0 0 var(--lb-space-2);color:var(--lb-ink)}
-.fsb-c{font-family:var(--lb-font-body);font-size:var(--lb-body-s);
-  line-height:var(--lb-lh-body-s);color:var(--lb-ink-2);max-width:42ch;margin:0}
 
 /* =========================================================
    SISTEMA DE HUECOS DE PRUEBA
@@ -489,11 +539,6 @@ html:not(.js) .pf__box--full{aspect-ratio:var(--ar,16/9);min-height:0}
   .fsb-panel .pf{margin-top:26px}
 }
 
-/* La linea de apoyo de About. Secundaria por tamano y por color: acompana a
-   las tres frases, no compite con ellas. */
-.about-sub{font-family:var(--lb-font-body);font-size:var(--lb-body);line-height:var(--lb-lh-body);
-  color:var(--lb-ink-2);margin:clamp(30px,4vw,52px) 0 0;max-width:74ch}
-
 /* Insignias. Cifra en serif, etiqueta en mono, separadas por filete vertical.
    Sin caja, sin radio y sin color: la escala tipografica hace el trabajo, igual
    que en los chips de resultado de los casos. */
@@ -546,9 +591,28 @@ html:not(.js) .about-sticky{position:static;height:auto;padding:clamp(70px,10vw,
   letter-spacing:var(--lb-track-label);text-transform:uppercase;
   color:var(--lb-mid);margin:0 0 clamp(40px,6vw,80px);text-align:left}
 .about ul{list-style:none;margin:0;padding:0}
+/* EL CUERPO SALE DE LA COLUMNA, NO DEL PELDANO.
+   Las tres lineas estan escritas como lineas, asi que el trabajo del cuerpo es
+   que quepan. Con el retrato al lado y el display-l de 56px no cabian: la mas
+   larga, "I like design, technology, nature, strange ideas and", pide 1110px
+   en una columna de 896, y cada frase caia en linea y media dejando huerfanas
+   de dos palabras.
+   Esa frase mide 19.8px de ancho por cada pixel de cuerpo, y la columna con el
+   retrato al lado es 0.78 del ancho de ventana menos 184. Dividiendo una cosa
+   por la otra sale 3.7vw menos 9px, con techo en 44: con 46 la holgura en la
+   linea larga bajaba a 9px, que es un 1% y lo barre cualquier diferencia de
+   redondeo entre navegadores. Con 44 son 43px, y el
+   cuerpo mas grande en el que las tres lineas siguen siendo tres lineas, a
+   cualquier ancho de escritorio.
+   Por debajo de 1000 el retrato ya no esta al lado, la medida es entera y el
+   peldano vuelve a mandar.
+   balance es la red: donde no quepa, que parta por la mitad y no deje una
+   huerfana. Donde no este soportado, no pasa nada. */
 .about li{text-align:left;font-family:var(--lb-font-display);
-  font-size:var(--lb-display-l);line-height:1.2;
-  letter-spacing:var(--lb-track-display);color:var(--lb-ink)}
+  font-size:clamp(26px,calc(3.7vw - 9px),44px);line-height:1.2;
+  letter-spacing:var(--lb-track-display);color:var(--lb-ink);
+  text-wrap:balance}
+@media(max-width:999px){ .about li{font-size:var(--lb-display-l)} }
 
 /* ── story hero: cuatro capas, la imagen aislada para poder animarla sola ── */
 /* width:100% es obligatorio: con aspect-ratio + min-height, el navegador deduce
@@ -718,8 +782,6 @@ section.lab h2{text-align:left;font-family:var(--lb-font-display);font-weight:40
 .approach h2{font-family:var(--lb-font-display);font-weight:400;
   font-size:var(--lb-display-l);line-height:var(--lb-lh-display-l);letter-spacing:var(--lb-track-display);
   margin:0 0 clamp(24px,3vw,40px);color:var(--lb-ground);text-align:left}
-.approach-intro{font-size:var(--lb-body);line-height:var(--lb-lh-body);
-  max-width:52ch;margin:0;color:var(--lb-cream-body)}
 
 /* Las tres columnas arrancan del mismo filete y a la misma altura. Probamos a
    escalonarlas 40px para insinuar la progresion 01 - 02 - 03, y no se leia como
@@ -870,17 +932,32 @@ html.js .shot[data-d="2"]{transition-delay:.22s}
    a 34px caen en 4 líneas. La entrada pasa de máscara por línea a una sola
    del conjunto, porque la máscara solo funciona con una línea por caja. */
 @media(max-width:600px){
-  .hero .hero-h .ln{display:inline;overflow:visible;padding-bottom:0;margin-bottom:0}
-  .hero .hero-h .ln i{display:inline;transform:none}
+  /* Las cinco lineas del hero se quedan: los cortes son suyos. Lo que se cae
+     aqui es la mascara por linea, porque a 44px cada linea envuelve dentro de
+     su caja y la mascara solo sabe tapar una. La entrada pasa a ser una sola
+     del conjunto. */
+  .hero .hero-h .ln{overflow:visible;padding-bottom:0;margin-bottom:0}
+  .hero .hero-h .ln i{transform:none}
+  html.js .hero .hero-h{opacity:0;transform:translateY(20px);
+    transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+  html.js .hero.lit .hero-h{opacity:1;transform:none}
   /* La intro tenia el mismo problema que el hero y no el mismo remedio: sus
      lineas siguen siendo cajas con white-space:nowrap y overflow:hidden, asi
      que en un movil "Hello, I'm Laura Benavente" no envolvia, se cortaba. Aqui
      cada linea vuelve a envolver dentro de su propia caja. */
-  .intro-h .ln{white-space:normal;overflow:visible}
-  .intro-h .tw-l{white-space:normal}
-  html.js .hero .hero-h{opacity:0;transform:translateY(20px);
-    transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
-  html.js .hero.lit .hero-h{opacity:1;transform:none}
+
+  /* EN MOVIL EL TITULAR LLENA LA PANTALLA.
+     El display-xl es un clamp con suelo de 34px, y en un telefono siempre
+     caia en el suelo: 34px, el 15% de la pantalla. Aqui manda el ancho de la
+     ventana, no el suelo.
+     22vw no es un numero redondo elegido a ojo. A 375px de ancho el titular
+     rompe la caja a los 88px, porque "Benavente" es la palabra mas larga y
+     no parte: 86/375 = 22.9vw. Con 22vw queda un punto por debajo del limite
+     en cualquier telefono, porque el limite escala con el ancho igual que la
+     letra. Medido a 320, 360, 375 y 414.
+     Y el relleno baja de 260px a 140: con el titular ocupando el 84% de la
+     pantalla, los 260 de antes lo empujaban fuera del primer visionado. */
+  .intro{padding:110px 0 70px}
   .spot{display:none}
 }
 
@@ -906,7 +983,7 @@ h1,h2,h3,h4,
 .stmt,.principle,.pull,.lead,.hero-sub,.pin-t,
 .fsb-t,.ap-t,.story-hero__title,.story-hero__standfirst,
 .fact .fv,.actor h3,.hstep h3{text-wrap:balance}
-p,li,figcaption,.fsb-c,.ap-d,.about-sub,.hero-note .body,.after{text-wrap:pretty}
+p,li,figcaption,.fsb-c,.ap-d,.hero-note .body,.after{text-wrap:pretty}
 
 /* 2 · 17ch a 96px es demasiado estrecho para palabras largas: obliga a partir
    en sitios malos por mucho que se equilibre. Con mas medida hay donde elegir. */
@@ -934,28 +1011,6 @@ p,li,figcaption,.fsb-c,.ap-d,.about-sub,.hero-note .body,.after{text-wrap:pretty
    frase de cierre a escala de titular: la frase es el argumento, el resto es
    el contexto que la sostiene.
    ========================================================= */
-.origen{background:var(--lb-cream);color:var(--lb-cream-ink);
-  padding:clamp(90px,13vw,180px) 0;
-  --lb-ink:var(--lb-cream-ink);--lb-ink-2:var(--lb-cream-body);
-  --lb-mid:var(--lb-cream-meta);--lb-line:var(--lb-line-on-paper);
-  --lb-accent:var(--lb-accent-deep)}
-.origen .k{color:var(--lb-cream-meta)}
-.origen-h{font-family:var(--lb-font-display);font-weight:400;
-  font-size:var(--lb-display-l);line-height:var(--lb-lh-display-l);
-  letter-spacing:var(--lb-track-display);color:var(--lb-cream-ink);
-  max-width:20ch;margin:0 0 clamp(40px,5vw,72px);text-wrap:balance}
-.origen-cuerpo{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);
-  padding-top:clamp(28px,3.4vw,44px);border-top:var(--lb-hairline) solid var(--lb-line-on-paper)}
-.origen-cuerpo p{color:var(--lb-cream-body);font-size:var(--lb-body);
-  line-height:var(--lb-lh-body);max-width:52ch;margin:0 0 20px;text-wrap:pretty}
-.origen-cuerpo p:last-child{margin-bottom:0}
-.origen-cierre{font-family:var(--lb-font-display);font-weight:400;
-  font-size:var(--lb-display-m);line-height:var(--lb-lh-display-m);
-  letter-spacing:var(--lb-track-display);color:var(--lb-cream-ink);
-  max-width:24ch;margin:clamp(44px,6vw,80px) 0 0;
-  padding-left:26px;border-left:var(--lb-hairline) solid var(--lb-accent-deep);
-  text-wrap:balance}
-@media(max-width:860px){.origen-cuerpo{grid-template-columns:1fr;gap:22px}}
 
 /* Resultado en la portada de cada historia. Las tres tienen desenlace y en la
    home no se veia ninguno: quien escanea sin entrar no sabia que salio de

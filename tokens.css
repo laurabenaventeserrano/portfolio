@@ -20,7 +20,7 @@
 
   --lb-ground:      #0A0A0C;   /* suelo oscuro. nunca #000 */
   --lb-raised:      #141416;   /* pieza elevada sobre oscuro */
-  --lb-cream:       #FDFBF6;   /* suelo papel, "blanco roto" */
+  --lb-cream:       #FFFFFF;   /* PRUEBA: blanco puro. Antes #FDFBF6, "blanco roto" */
   --lb-paper-inset: #F2EFEA;   /* encaje sobre papel */
 
   /* Tinta sobre oscuro */

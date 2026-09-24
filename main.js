@@ -519,7 +519,7 @@ if(twL.length&&twLive&&twStat){
     clearTimeout(rt); rt=setTimeout(reserva,180);
   });
 
-  var lineas=['Hello, I\u2019m Laura Benavente','A Senior Product Designer','building AI-native experiences'];
+  var lineas=['Hello! I\u2019m Laura','A product designer','who engineers.'];
   var cursor=document.createElement('span');
   cursor.className='tw-cursor';
   var iL=0, iC=0;
