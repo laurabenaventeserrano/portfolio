@@ -446,8 +446,35 @@ html:not(.js) .prism-rule::before{transform:none}
   color:var(--lb-mid);margin:10px 0 0}
 
 /* La tira. Cinco paneles al 20%, desplazamiento maximo 80%. */
-.fsb-strip{display:flex;width:500%;margin-top:70px;align-items:center;
+.fsb-strip{display:flex;width:500%;margin-top:clamp(28px,5vh,70px);align-items:center;
   transform:translate3d(calc(var(--lb-progress,0) * -80%),0,0)}
+
+/* CINCO PRUEBAS, UN SOLO MARCO.
+   Dos fallos con la misma raiz, medidos a 1728x720: las cinco cajas median
+   266, 310, 349, 349 y 372 de alto, y cuatro de ellas se comian la fila de
+   etiquetas, que empieza a 191 cuando la caja mas alta arranca a 188.
+   La raiz: la altura de cada caja la decidia su proporcion (21/9, 2/1, 16/9,
+   5/3) y no habia nada que la limitara, asi que cinco pruebas de la misma
+   familia entraban a cinco tamanos y la mas alta invadia la cabecera.
+
+   Aqui la cabecera deja de flotar y ocupa su sitio en la columna: con ella en
+   el flujo, la tira recibe lo que sobra y taparla es imposible, no
+   improbable. Y las cinco cajas pasan a tener el mismo marco: 2/1, que es el
+   centro de las proporciones de las cinco pruebas, con tope de altura para
+   las pantallas bajas.
+
+   object-fit pasa a contain, no cover. Las cinco imagenes vienen recortadas
+   cada una a su proporcion, asi que meterlas a cover en un marco comun les
+   cortaria entre un 5 y un 17%: a la lista de devoluciones le quitaria la
+   cabecera de la tabla, y al wireflow media rama. Contain deja bandas de 22 a
+   53px contra un fondo casi del color del suelo, que es un precio mucho mas
+   barato que perder prueba. */
+.fsb-stage > .w{justify-content:flex-start}
+.fsb-head{position:static;left:auto;right:auto}
+.fsb-strip{flex:1 1 auto;min-height:0}
+.fsb-panel .pf__box--full{aspect-ratio:2/1;max-height:min(44vh,420px);
+  width:100%;margin-inline:auto}
+.fsb-panel .pf__box--full img{object-fit:contain;object-position:center}
 .fsb-panel{width:20%;padding-right:clamp(40px,6vw,110px);display:grid;
   grid-template-columns:1fr 1.25fr;gap:clamp(30px,4vw,70px);align-items:center}
 .fsb-n{display:block;font-family:var(--lb-font-display);font-weight:400;
