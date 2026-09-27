@@ -141,7 +141,7 @@ button { font: inherit; color: inherit; }
 /* Logo "Gelatina": cada letra se estira desde abajo (ver JellyLogo.tsx) */
 .jelly {
   display: inline-flex; align-items: flex-end; white-space: nowrap;
-  font-family: var(--display); font-weight: 800; font-size: 25px; line-height: 0.8; letter-spacing: -0.04em;
+  font-family: var(--display); font-weight: 800; font-size: 26px; line-height: 0.85; letter-spacing: -0.035em;
   font-variation-settings: 'wdth' 75, 'opsz' 96;
 }
 .jelly__l { display: inline-block; transform-origin: 50% 100%; will-change: transform; }

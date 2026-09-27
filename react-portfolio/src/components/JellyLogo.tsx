@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { usePrefersReducedMotion } from '../lib/hooks';
 
 /*
-  Logo "Gelatina": LAURA BENAVENTE en Bricolage Grotesque estrecha, sin punto.
+  Logo "Gelatina": "Laura Benavente" en Bricolage Grotesque estrecha, sin punto.
   Cada letra es un bloque de gelatina con su propio muelle vertical:
     · Ratón: las letras cercanas al cursor se estiran hacia arriba (y se estrechan, conservan el volumen).
     · Salir: vuelven a su sitio temblando.
@@ -13,7 +13,7 @@ import { usePrefersReducedMotion } from '../lib/hooks';
 */
 interface Props { text?: string; className?: string }
 
-export default function JellyLogo({ text = 'LAURA BENAVENTE', className }: Props) {
+export default function JellyLogo({ text = 'Laura Benavente', className }: Props) {
   const ref = useRef<HTMLSpanElement>(null);
   const reduced = usePrefersReducedMotion();
 
