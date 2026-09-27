@@ -51,6 +51,14 @@ export function useScrollStory(routeKey: string) {
     const all = <T extends Element = HTMLElement>(sel: string) =>
       roots.flatMap((r) => Array.from(r.querySelectorAll<T>(sel))).filter((el) => !skip(el));
 
+    // Tablas: cada celda recuerda su columna, para que en móvil se lean como fichas (ver global.css)
+    all<HTMLTableElement>('.table').forEach((table) => {
+      const heads = Array.from(table.querySelectorAll('thead th')).map((th) => th.textContent ?? '');
+      table.querySelectorAll('tbody tr').forEach((tr) => tr.querySelectorAll('td, th').forEach((td, i) => {
+        if (heads[i]) td.setAttribute('data-label', heads[i]);
+      }));
+    });
+
     const mm = gsap.matchMedia();
     mm.add(MQ.any, () => {
       // 1. Titulares: línea a línea desde una máscara
