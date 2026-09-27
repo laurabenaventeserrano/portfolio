@@ -149,11 +149,19 @@ button { font: inherit; color: inherit; }
 .nav { display: flex; align-items: center; gap: 28px; }
 .nav__link { font-size: 16px; font-weight: 500; text-decoration: none; }
 .nav__link:hover, .nav__link[aria-current='page'] { text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 2px; }
-.menu-btn { display: none; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid var(--ink); background: transparent; font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; }
+.menu-btn { display: none; width: 44px; height: 44px; margin-right: -10px; padding: 0; border: 0; background: transparent; color: var(--ink); cursor: pointer; place-items: center; }
+.menu-btn__bars { position: relative; display: block; width: 24px; height: 12px; }
+.menu-btn__bars i { position: absolute; left: 0; right: 0; height: 2px; border-radius: 2px; background: currentColor; transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), top 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.menu-btn__bars i:first-child { top: 0; }
+.menu-btn__bars i:last-child { top: 10px; }
+.menu-btn[aria-expanded='true'] .menu-btn__bars i:first-child { top: 5px; transform: rotate(45deg); }
+.menu-btn[aria-expanded='true'] .menu-btn__bars i:last-child { top: 5px; transform: rotate(-45deg); }
+.menu-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 8px; }
+@media (prefers-reduced-motion: reduce) { .menu-btn__bars i { transition: none; } }
 .mobile-menu { display: none; }
 @media (max-width: 860px) {
   .nav { display: none; }
-  .menu-btn { display: inline-flex; align-items: center; }
+  .menu-btn { display: inline-grid; }
   .mobile-menu[data-open='true'] {
     display: flex; flex-direction: column; gap: 4px; position: absolute; left: 0; right: 0; top: var(--header-h);
     padding: 16px 20px 24px; background: var(--paper); border-bottom: 1px solid var(--line);

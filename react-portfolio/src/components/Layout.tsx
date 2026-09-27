@@ -43,9 +43,11 @@ function Header() {
           className="menu-btn"
           aria-expanded={open}
           aria-controls="mobile-menu"
+          aria-label={open ? 'Close menu' : 'Open menu'}
           onClick={() => setOpen((o) => !o)}
         >
-          {open ? 'Close' : 'Menu'}
+          {/* Hamburguesa: dos líneas que se cruzan en una X al abrir */}
+          <span className="menu-btn__bars" aria-hidden="true"><i /><i /></span>
         </button>
       </div>
       <nav id="mobile-menu" className="mobile-menu" data-open={open} aria-label="Main mobile">
