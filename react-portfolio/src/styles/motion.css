@@ -1,0 +1,82 @@
+/* =========================================================
+   Movimiento al hacer scroll
+   Solo estilos que el movimiento necesita. Sin JavaScript (o con
+   "reducir movimiento"), todo se ve como siempre.
+   ========================================================= */
+
+/* ---------- Three ways: tarjetas apiladas (elespacio.net) ---------- */
+.ways--stack {
+  --stack-top: var(--header-h);   /* la tarjeta se fija justo debajo de la cabecera */
+  background: var(--ink);         /* lo que asoma por los lados cuando una tarjeta se aleja */
+}
+.ways--stack .way {
+  position: sticky;               /* `top` lo calcula useStackedCards según el alto de cada tarjeta */
+  min-height: calc(100svh - var(--stack-top));
+  display: flex; align-items: center;
+  transform-origin: 50% 0%;
+  --shade: 0;
+}
+.ways--stack .way > .container { width: 100%; }
+/* Cada tarjeta necesita fondo propio para tapar a la anterior */
+.ways--stack .way:not(.section--dark):not(.section--accent) { background: var(--paper); }
+/* Las que llegan por encima tienen esquinas redondeadas y una sombra suave hacia arriba */
+.ways--stack .way + .way {
+  border-radius: 28px 28px 0 0;
+  box-shadow: 0 -30px 60px rgba(14, 14, 12, 0.18);
+}
+/* Velo que oscurece la tarjeta que queda debajo */
+.ways--stack .way::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: var(--ink); opacity: var(--shade); border-radius: inherit;
+}
+.ways--stack .way.section--dark::after { background: #000; }
+
+/* ---------- The lab: abanico de pases (toolkit de guillaumezhu.com) ---------- */
+/* En modo reparto la sección es más compacta para que título y abanico quepan juntos en pantalla */
+.section.lab--deal { padding-block: clamp(48px, 5vw, 72px); }
+.lab--deal .lab { gap: 32px; }
+/* useFanLayout calcula el sitio de cada carta (--fx, --fr, --fy) y el alto del abanico. */
+.passes--fan { position: relative; display: block; perspective: 1800px; }
+.passes--fan .deal {
+  position: absolute; top: 0; left: 50%;
+  transform: translateX(-50%) translate(var(--fx, 0px), var(--fy, 0px)) rotate(var(--fr, 0deg));
+  transform-origin: 50% 100%;
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+/* Al pasar el ratón o llegar con el teclado, la carta sube, se endereza y se pone delante */
+.passes--fan .deal:hover, .passes--fan .deal:focus-within {
+  z-index: 50;
+  transform: translateX(-50%) translate(var(--fx, 0px), calc(var(--fy, 0px) - 28px)) rotate(0deg);
+}
+.deal { position: relative; }
+.deal__flip { position: relative; transform-style: preserve-3d; will-change: transform; }
+.deal__flip .pass { position: relative; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.deal__back { display: none; }
+
+.lab--deal .deal__back {
+  position: absolute; inset: 0; z-index: 1;
+  display: flex; flex-direction: column; justify-content: space-between; align-items: center;
+  padding: 22px; border-radius: 18px; border: 2px solid var(--ink);
+  background-color: var(--ink); color: var(--accent);
+  /* Trama de puntos lila: el mismo lenguaje que el retrato del hero */
+  background-image: radial-gradient(circle, rgba(231, 191, 255, 0.32) 1.3px, transparent 1.8px);
+  background-size: 14px 14px; background-position: 7px 7px;
+  transform: rotateY(180deg);
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+}
+.lab--deal .deal__back .mono-s { background: var(--ink); padding: 4px 10px; border-radius: 999px; }
+.deal__num {
+  font-family: var(--display); font-weight: 800; letter-spacing: -0.06em; line-height: 0.8;
+  font-size: clamp(120px, 12vw, 180px);
+  background: var(--ink); padding: 0 12px 12px; border-radius: 12px;
+}
+
+@media (max-width: 760px) {
+  .passes { flex-direction: column; align-items: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ways--stack .way { position: relative; top: auto !important; min-height: 0; }
+  .ways--stack .way + .way { border-radius: 0; box-shadow: none; }
+  .lab--deal .deal__back { display: none; }
+  .passes--fan .deal { transition: none; }
+}

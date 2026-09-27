@@ -1,0 +1,7 @@
+node_modules
+dist
+*.tsbuildinfo
+.DS_Store
+public/mediapipe/
+# Originales de video sin recortar: se publican los .mp4 de public/video
+public/images/*.mov
