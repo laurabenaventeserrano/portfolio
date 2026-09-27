@@ -137,10 +137,15 @@ button { font: inherit; color: inherit; }
   background: var(--paper); border-bottom: 1px solid var(--line);
 }
 .header__inner { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 24px; max-width: 1440px; margin: 0 auto; padding-inline: clamp(20px, 2.2vw, 32px); }
-.logo { display: inline-flex; align-items: center; gap: 2px; text-decoration: none; color: var(--ink); }
-.logo__word { font-size: 26px; font-weight: 800; letter-spacing: -0.045em; line-height: 1; }
-.logo__dot { width: 10px; height: 10px; margin-top: 12px; border: 2px solid var(--ink); border-radius: 50%; background: var(--accent); }
-.is-dark .logo__dot { border-color: var(--accent); }
+.logo { display: inline-flex; align-items: center; text-decoration: none; color: var(--ink); padding-block: 6px; }
+/* Logo "Gelatina": cada letra se estira desde abajo (ver JellyLogo.tsx) */
+.jelly {
+  display: inline-flex; align-items: flex-end; white-space: nowrap;
+  font-family: var(--display); font-weight: 800; font-size: 25px; line-height: 0.8; letter-spacing: -0.04em;
+  font-variation-settings: 'wdth' 75, 'opsz' 96;
+}
+.jelly__l { display: inline-block; transform-origin: 50% 100%; will-change: transform; }
+.jelly__sp { display: inline-block; width: 0.26em; }
 .nav { display: flex; align-items: center; gap: 28px; }
 .nav__link { font-size: 16px; font-weight: 500; text-decoration: none; }
 .nav__link:hover, .nav__link[aria-current='page'] { text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 2px; }

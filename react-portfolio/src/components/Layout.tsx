@@ -2,14 +2,15 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { LINKS, ROUTES } from '../content/site';
 import { useScrollProgress } from '../lib/hooks';
+import JellyLogo from './JellyLogo';
+import { useLiveFavicon } from '../motion/useLiveFavicon';
 import { scrollToEl, scrollToTop, useSmoothScroll } from '../motion/useSmoothScroll';
 import { useScrollStory } from '../motion/useScrollStory';
 
 function Logo() {
   return (
     <Link to={ROUTES.home} className="logo" aria-label="Laura Benavente, home">
-      <span className="logo__word">Laura</span>
-      <span className="logo__dot" aria-hidden="true" />
+      <JellyLogo />
     </Link>
   );
 }
@@ -108,6 +109,7 @@ export default function Layout() {
   const isStory = pathname.startsWith('/story');
   useSmoothScroll();          // scroll suave en todo el sitio
   useScrollStory(pathname);   // apariciones y movimiento al hacer scroll, página a página
+  useLiveFavicon();           // el favicon de puntos se dispersa y vuelve de vez en cuando
   return (
     <>
       <a href="#main" className="skip-link">Skip to content</a>
