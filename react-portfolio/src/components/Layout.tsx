@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { LINKS, ROUTES } from '../content/site';
 import { useScrollProgress } from '../lib/hooks';
+import { scrollToEl, scrollToTop, useSmoothScroll } from '../motion/useSmoothScroll';
+import { useScrollStory } from '../motion/useScrollStory';
 
 function Logo() {
   return (
@@ -94,9 +96,9 @@ function ScrollManager() {
   useEffect(() => {
     if (hash) {
       const el = document.getElementById(hash.slice(1));
-      if (el) { requestAnimationFrame(() => el.scrollIntoView()); return; }
+      if (el) { requestAnimationFrame(() => scrollToEl(el)); return; }
     }
-    window.scrollTo(0, 0);
+    scrollToTop();
   }, [pathname, hash]);
   return null;
 }
@@ -104,6 +106,8 @@ function ScrollManager() {
 export default function Layout() {
   const { pathname } = useLocation();
   const isStory = pathname.startsWith('/story');
+  useSmoothScroll();          // scroll suave en todo el sitio
+  useScrollStory(pathname);   // apariciones y movimiento al hacer scroll, página a página
   return (
     <>
       <a href="#main" className="skip-link">Skip to content</a>

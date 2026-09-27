@@ -5,22 +5,11 @@ import { LINKS } from '../../content/site';
 import { useDealDeck } from '../../motion/useDealDeck';
 import { useFanLayout } from '../../motion/useFanLayout';
 
-/* Reverso de un pase del lab: negro, con el número grande y la firma del proyecto. */
-function DealBack({ n }: { n: string }) {
-  return (
-      <div className="deal__back" aria-hidden="true">
-        <span className="mono-s">Having fun with AI</span>
-        <span className="deal__num">{n}</span>
-        <span className="mono-s">Lab pass · @havingfunwithai_</span>
-      </div>
-  );
-}
-
 /*
   The lab · Having fun with AI.
-  Los pases se colocan en abanico, sea cual sea su número (useFanLayout).
-  Con `deal`, la sección se queda fija y todas las cartas se reparten y se dan la vuelta a la vez
-  (referencia: toolkit de guillaumezhu.com).
+  Los pases se colocan en abanico, como el toolkit de guillaumezhu.com, sea cual sea su número (useFanLayout).
+  Con `deal`, la sección se queda fija y las cartas entran una a una al hacer scroll (useDealDeck).
+  Para añadir un pase nuevo, copia un bloque .deal entero: el abanico y el reparto se ajustan solos.
 */
 export default function LabSection({ deal = false }: { deal?: boolean }) {
   const ref = useRef<HTMLElement>(null);
@@ -29,20 +18,17 @@ export default function LabSection({ deal = false }: { deal?: boolean }) {
   useDealDeck(ref, deal);
 
   return (
-    <section id="lab" ref={ref} className={`section section--accent${deal ? ' lab--deal' : ''}`} aria-labelledby="lab-title">
+    <section id="lab" ref={ref} className={`section section--accent${deal ? ' lab--deal' : ''}`} data-motion="custom" aria-labelledby="lab-title">
       <div className="container lab">
         <div className="lab__head">
-          <div className="stack gap-16">
-            <Kicker>The lab · @havingfunwithai_</Kicker>
-            <h2 id="lab-title" className="h-xl">Having fun with AI</h2>
-          </div>
+          <Kicker>The lab · @havingfunwithai_</Kicker>
+          <h2 id="lab-title" className="h-xl">Having fun with AI</h2>
           <a href={LINKS.instagram} className="pill pill--line">@havingfunwithai_ ↗</a>
         </div>
         <div className="passes" ref={fanRef}>
           {/* Para añadir un pase nuevo, copia un bloque .deal entero. El abanico se recoloca solo. */}
           <div className="deal">
-            <div className="deal__flip">
-              <DealBack n="01" />
+            <div className="deal__card">
               <article className="pass" aria-labelledby="pass-1">
                 <div className="pass__head mono-s"><span>Laura · Lab pass · 01</span><span className="pass__dot" aria-hidden="true" /></div>
                 <div className="media"><img src="/images/lab-postal.jpg" alt="Postcard maker" loading="lazy" /></div>
@@ -60,8 +46,7 @@ export default function LabSection({ deal = false }: { deal?: boolean }) {
             </div>
           </div>
           <div className="deal">
-            <div className="deal__flip">
-              <DealBack n="02" />
+            <div className="deal__card">
               <article className="pass" aria-labelledby="pass-2">
                 <div className="pass__head mono-s"><span>Laura · Lab pass · 02</span><span className="pass__dot" aria-hidden="true" /></div>
                 <div className="media"><img src="/images/lab-arcana.jpg" alt="Arcana" loading="lazy" /></div>

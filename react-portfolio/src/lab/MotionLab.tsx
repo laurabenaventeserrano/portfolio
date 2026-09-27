@@ -9,7 +9,7 @@ import '../styles/global.css';
 /*
   Página de pruebas del movimiento (solo en desarrollo).
   Las dos secciones son las reales de la portada, con el movimiento encendido.
-  Cuando lo apruebes, en Home.tsx basta con <WaysSection stacked /> y <LabSection deal />.
+  La portada ya las usa con el movimiento encendido: <WaysSection stacked /> y <LabSection deal />.
   Para probar el abanico con más pases, copia un bloque .deal en LabSection.tsx.
 */
 function Lab() {
@@ -20,7 +20,7 @@ function Lab() {
         <div className="container stack gap-24" style={{ minHeight: '70svh', justifyContent: 'center' }}>
           <p className="kicker">( Motion lab · two pieces to test the rhythm )</p>
           <h1 className="h-hero">Scroll slowly<span className="accent">.</span></h1>
-          <p className="lead">First, the three ways stack on top of each other. Then all the lab passes open into a fan together and flip over together. Scroll back up and everything rewinds.</p>
+          <p className="lead">First, the three ways stack on top of each other. Then the lab passes are dealt one by one into a fan. Scroll back up and everything rewinds.</p>
           <p className="mono-s muted">↓</p>
         </div>
       </section>

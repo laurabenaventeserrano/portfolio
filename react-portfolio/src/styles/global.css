@@ -273,7 +273,7 @@ button { font: inherit; color: inherit; }
 
 /* ---------- Home: lab passes ---------- */
 .lab { display: flex; flex-direction: column; gap: 48px; }
-.lab__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; }
+.lab__head { display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
 .passes { display: flex; flex-wrap: wrap; justify-content: center; gap: 28px; } /* sin JS; con JS es un abanico (motion.css) */
 .pass { width: 360px; max-width: 100%; padding: 20px; border: 2px solid var(--ink); border-radius: 18px; background: var(--paper); display: flex; flex-direction: column; gap: 14px; }
 .pass__head { display: flex; justify-content: space-between; align-items: center; color: var(--muted); }

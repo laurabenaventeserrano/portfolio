@@ -14,7 +14,7 @@ export default function WaysSection({ stacked = false }: { stacked?: boolean }) 
   useStackedCards(ref, stacked);
 
   return (
-    <section id="ways" ref={ref} className={stacked ? 'ways ways--stack' : 'ways'} aria-labelledby="ways-title">
+    <section id="ways" ref={ref} className={stacked ? 'ways ways--stack' : 'ways'} data-motion={stacked ? 'custom' : undefined} aria-labelledby="ways-title">
       <h2 id="ways-title" className="sr-only">Three ways I approach product problems</h2>
       {WAYS.map((w, i) => {
         const dark = w.tone === 'dark';

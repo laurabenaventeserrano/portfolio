@@ -6,10 +6,11 @@
 */
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SplitText } from 'gsap/SplitText';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
-export { gsap, ScrollTrigger };
+export { gsap, ScrollTrigger, SplitText };
 
 export const reducedMotion = () =>
   typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -18,4 +19,5 @@ export const reducedMotion = () =>
 export const MQ = {
   desktop: '(min-width: 761px) and (prefers-reduced-motion: no-preference)',
   mobile: '(max-width: 760px) and (prefers-reduced-motion: no-preference)',
+  any: '(prefers-reduced-motion: no-preference)',
 } as const;

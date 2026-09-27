@@ -7,6 +7,7 @@ import WaysSection from '../components/home/WaysSection';
 import LabSection from '../components/home/LabSection';
 import { FACTS, LINKS, STEPS, STORIES, TICKER } from '../content/site';
 import { useActiveSection, useTitle } from '../lib/hooks';
+import { useHomeStory } from '../motion/useHomeStory';
 import type { FieldOptions } from '../lib/particles';
 
 const LAB_FIELD: FieldOptions = { count: 420, theme: 'dark', seed: 61, fade: 0.5 };
@@ -36,6 +37,7 @@ function SectionDots() {
 
 export default function Home() {
   useTitle('Laura Benavente · Senior Product Designer');
+  useHomeStory();
   const [s1, s2, s3] = STORIES;
 
   return (
@@ -43,8 +45,8 @@ export default function Home() {
       <SectionDots />
 
       {/* HERO: tu retrato en puntos. El ratón lo dispersa, la quietud lo recompone */}
-      <section id="hero" className="hero" aria-labelledby="hero-title">
-        <DotLoopPortrait className="hero__portrait" src={PORTRAIT.src} poster={PORTRAIT.poster} label={PORTRAIT.label} settings={PORTRAIT_SETTINGS} />
+      <section id="hero" className="hero" data-motion="custom" aria-labelledby="hero-title">
+        <DotLoopPortrait className="hero__portrait" src={PORTRAIT.src} poster={PORTRAIT.poster} label={PORTRAIT.label} settings={PORTRAIT_SETTINGS} scrollOut />
         <div className="container hero__inner">
           <Kicker>Senior Product Designer · B2B SaaS · AI</Kicker>
           <div className="hero__content">
@@ -72,11 +74,13 @@ export default function Home() {
       {/* FROM STRATEGY TO BUILD */}
       <section id="how" className="section" aria-labelledby="how-title">
         <div className="container stack gap-56">
-          <div className="sec-head__main">
-            <Kicker>How I work</Kicker>
-            <h2 id="how-title" className="h-xl">From strategy<br />to build.</h2>
+          <div className="sec-head">
+            <div className="sec-head__main">
+              <Kicker>How I work</Kicker>
+              <h2 id="how-title" className="h-xl">From strategy<br />to build.</h2>
+            </div>
           </div>
-          <ol className="steps">
+          <ol className="steps" data-motion="custom">
             {STEPS.map((s) => (
               <li key={s.num} className="step">
                 <span className="mono-s">{s.num}</span>
@@ -87,10 +91,11 @@ export default function Home() {
             ))}
           </ol>
         </div>
+
       </section>
 
       {/* THREE WAYS I APPROACH PRODUCT PROBLEMS */}
-      <WaysSection />
+      <WaysSection stacked />
 
       {/* STORIES */}
       <section id="stories" className="section" aria-labelledby="stories-title">
@@ -171,7 +176,7 @@ export default function Home() {
       </section>
 
       {/* STATEMENT */}
-      <section className="statement section section--dark is-dark" aria-label="The lab">
+      <section className="statement section section--dark is-dark" data-motion="custom" aria-label="The lab">
         <ParticleCanvas className="statement__field" options={LAB_FIELD} mode="disperso" />
         <div className="container stack gap-24" style={{ position: 'relative' }}>
           <Kicker tone="accent">The lab</Kicker>
@@ -180,7 +185,7 @@ export default function Home() {
       </section>
 
       {/* LAB */}
-      <LabSection />
+      <LabSection deal />
     </>
   );
 }

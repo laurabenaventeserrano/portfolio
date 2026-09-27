@@ -14,6 +14,8 @@ interface Props {
   className?: string;
   /** Alineación horizontal del retrato dentro de su caja: 0 izquierda, 0,5 centro, 1 derecha. */
   anchorX?: number;
+  /** Al bajar por la página, los puntos se dispersan y el retrato se desvanece (scrollytelling del hero). */
+  scrollOut?: boolean;
 }
 
 /*
@@ -22,7 +24,7 @@ interface Props {
   Escucha el ratón en toda la sección que lo contiene (en la portada, todo el hero).
   Un solo requestAnimationFrame y ningún estado de React por fotograma.
 */
-export default function DotLoopPortrait({ src, poster, label, settings, className, anchorX = 0.5 }: Props) {
+export default function DotLoopPortrait({ src, poster, label, settings, className, anchorX = 0.5, scrollOut = false }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const rendererRef = useRef<DotLoopRenderer | null>(null);
@@ -79,8 +81,16 @@ export default function DotLoopPortrait({ src, poster, label, settings, classNam
       if (!visible || document.hidden) return;
       if (now - lastMove > 600) energy = Math.max(0, energy - dt / (renderer.opts.recover * 1000));
       ptr.s = Math.max(0, ptr.s - dt / 250);
-      if (!reduced && video.readyState >= 2) renderer.render(video, video.videoWidth, video.videoHeight, now / 1000, dt, energy, ptr, false);
-      else if (img.complete && img.naturalWidth) renderer.render(img, img.naturalWidth, img.naturalHeight, now / 1000, dt, energy, ptr, reduced);
+      // Scroll: cuanto más has bajado por la sección, más se dispersan los puntos y más se desvanecen
+      let e = energy;
+      if (scrollOut && !reduced) {
+        const r = target.getBoundingClientRect();
+        const p = Math.min(1, Math.max(0, -r.top / (r.height * 0.75)));
+        e = Math.max(energy, p * 5);
+        canvas.style.opacity = String(1 - p * 0.85);
+      }
+      if (!reduced && video.readyState >= 2) renderer.render(video, video.videoWidth, video.videoHeight, now / 1000, dt, e, ptr, false);
+      else if (img.complete && img.naturalWidth) renderer.render(img, img.naturalWidth, img.naturalHeight, now / 1000, dt, e, ptr, reduced);
     };
     raf = requestAnimationFrame(frame);
 
@@ -91,7 +101,7 @@ export default function DotLoopPortrait({ src, poster, label, settings, classNam
       target.removeEventListener('pointermove', onMove);
       target.removeEventListener('pointerleave', onLeave);
     };
-  }, [poster, reduced]);
+  }, [poster, reduced, scrollOut]);
 
   return (
     <div className={`portrait ${className ?? ''}`}>
