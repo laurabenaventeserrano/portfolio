@@ -136,7 +136,7 @@ export function NextStory({ to, label, title }: { to: string; label: string; tit
   return (
     <section className="section section--line">
       <div className="container">
-        <Link to={to} className="next">
+        <Link to={to} className="next" data-cursor="Explore">
           <div className="stack gap-12">
             <span className="kicker">Next · {label}</span>
             <span className="h-l">{title}</span>

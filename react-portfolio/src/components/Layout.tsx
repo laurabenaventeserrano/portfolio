@@ -3,6 +3,7 @@ import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { LINKS, ROUTES } from '../content/site';
 import { useScrollProgress } from '../lib/hooks';
 import JellyLogo from './JellyLogo';
+import CursorLabel from './CursorLabel';
 import { useLiveFavicon } from '../motion/useLiveFavicon';
 import { scrollToEl, scrollToTop, useSmoothScroll } from '../motion/useSmoothScroll';
 import { useScrollStory } from '../motion/useScrollStory';
@@ -118,6 +119,7 @@ export default function Layout() {
       <ScrollManager />
       <Header />
       {isStory && <ReadingProgress />}
+      <CursorLabel />
       <main id="main">
         <Outlet />
       </main>

@@ -108,7 +108,7 @@ export default function Home() {
             <p className="mono-s muted">Wolters Kluwer · Movistar</p>
           </div>
 
-          <Link to={s1.to} className="tile tile--wide">
+          <Link to={s1.to} className="tile tile--wide" data-cursor="Explore">
             <div className="tile__media"><Video src={s1.video!} poster={s1.poster} label={s1.alt} /></div>
             <div className="tile__body">
               <div className="stack gap-16">
@@ -129,7 +129,7 @@ export default function Home() {
 
           <div className="tiles">
             {[s2, s3].map((s) => (
-              <Link key={s.label} to={s.to} className="tile">
+              <Link key={s.label} to={s.to} className="tile" data-cursor="Explore">
                 <div className="tile__media">
                   {s.video ? <Video src={s.video} poster={s.poster} label={s.alt} /> : <img src={s.img} alt={s.alt} loading="lazy" />}
                 </div>

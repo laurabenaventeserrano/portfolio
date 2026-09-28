@@ -1,9 +1,16 @@
 import '../../styles/motion.css';
-import { useRef } from 'react';
+import { useRef, type MouseEvent } from 'react';
 import { Kicker } from '../ui';
 import { LINKS } from '../../content/site';
 import { useDealDeck } from '../../motion/useDealDeck';
 import { useFanLayout } from '../../motion/useFanLayout';
+
+/* Toda la tarjeta abre el prototipo (el cursor dice "Play prototype").
+   El botón sigue siendo el enlace real, para teclado y lectores de pantalla. */
+function openPass(e: MouseEvent<HTMLElement>) {
+  if ((e.target as HTMLElement).closest('a')) return;
+  e.currentTarget.querySelector<HTMLAnchorElement>('a.pill')?.click();
+}
 
 /*
   The lab · Having fun with AI.
@@ -29,7 +36,7 @@ export default function LabSection({ deal = false }: { deal?: boolean }) {
           {/* Para añadir un pase nuevo, copia un bloque .deal entero. El abanico se recoloca solo. */}
           <div className="deal">
             <div className="deal__card">
-              <article className="pass" aria-labelledby="pass-1">
+              <article className="pass" aria-labelledby="pass-1" data-cursor="Play prototype" onClick={openPass}>
                 <div className="pass__head mono-s"><span>Laura · Lab pass · 01</span><span className="pass__dot" aria-hidden="true" /></div>
                 <div className="media"><img src="/images/lab-postal.jpg" alt="Postcard maker" loading="lazy" /></div>
                 <div className="stack gap-12" style={{ gap: 4 }}>
@@ -47,7 +54,7 @@ export default function LabSection({ deal = false }: { deal?: boolean }) {
           </div>
           <div className="deal">
             <div className="deal__card">
-              <article className="pass" aria-labelledby="pass-2">
+              <article className="pass" aria-labelledby="pass-2" data-cursor="Play prototype" onClick={openPass}>
                 <div className="pass__head mono-s"><span>Laura · Lab pass · 02</span><span className="pass__dot" aria-hidden="true" /></div>
                 <div className="media"><img src="/images/lab-arcana.jpg" alt="Arcana" loading="lazy" /></div>
                 <div className="stack gap-12" style={{ gap: 4 }}>
