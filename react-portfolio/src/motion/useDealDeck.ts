@@ -30,7 +30,7 @@ export function useDealDeck(ref: RefObject<HTMLElement | null>, enabled: boolean
     const mm = gsap.matchMedia();
 
     mm.add(MQ.any, () => {
-      gsap.from(intro, { y: 40, autoAlpha: 0, duration: 0.9, stagger: 0.08, ease: 'power3.out', scrollTrigger: { trigger: section, start: 'top 70%' } });
+      gsap.from(intro, { autoAlpha: 0, duration: 0.6, ease: 'none', scrollTrigger: { trigger: section, start: 'top 70%' } });
     });
 
     mm.add(MQ.desktop, () => {

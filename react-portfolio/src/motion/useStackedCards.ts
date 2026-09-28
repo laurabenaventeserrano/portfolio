@@ -38,21 +38,18 @@ export function useStackedCards(ref: RefObject<HTMLElement | null>, enabled: boo
             scrollTrigger: { trigger: next, start: 'top bottom', end: () => `top ${stackTop()}px`, scrub: true, invalidateOnRefresh: true },
           });
         }
-        // El número fantasma sube un poco más lento que la tarjeta
-        const ghost = card.querySelector('.way__ghost');
-        if (ghost) gsap.fromTo(ghost, { yPercent: 35 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: card, start: 'top bottom', end: 'top top', scrub: true } });
-        // Entrada del contenido: texto en escalera, panel desde la derecha
+        // Entrada del contenido: el texto solo aparece (no se mueve), el panel entra desde la derecha
         const text = card.querySelectorAll('.way__grid > .stack > *');
         const panel = card.querySelector('.panel');
         const tl = gsap.timeline({ scrollTrigger: { trigger: card, start: 'top 65%', toggleActions: 'play none none reverse' } });
-        tl.from(text, { y: 36, autoAlpha: 0, duration: 0.8, stagger: 0.07, ease: 'power3.out' })
+        tl.from(text, { autoAlpha: 0, duration: 0.6, ease: 'none' })
           .from(panel, { x: 80, rotation: 2, autoAlpha: 0, duration: 1, ease: 'power3.out' }, 0.1);
       });
     });
     mm.add(MQ.mobile, () => {
       cards.forEach((card) => {
         gsap.from(card.querySelectorAll('.way__grid > .stack > *, .panel'), {
-          y: 28, autoAlpha: 0, duration: 0.7, stagger: 0.06, ease: 'power3.out',
+          autoAlpha: 0, duration: 0.6, ease: 'none',
           scrollTrigger: { trigger: card, start: 'top 75%' },
         });
       });

@@ -1,17 +1,19 @@
 import { useLayoutEffect } from 'react';
-import { gsap, ScrollTrigger, SplitText, MQ } from './gsap';
+import { gsap, ScrollTrigger, MQ } from './gsap';
 
 /*
   Coreografía propia de la portada. Cada sección tiene un solo gesto protagonista.
 
-  Hero        Al cargar, el titular sube línea a línea. Al bajar, el texto se va hacia arriba
-              y los puntos del retrato se dispersan (eso lo hace DotLoopPortrait con scrollOut).
+  Hero        Al cargar, el texto aparece sin moverse. Al bajar, los puntos del retrato
+              se dispersan (eso lo hace DotLoopPortrait con scrollOut).
   Cinta       Se acelera con el scroll y cambia de sentido si subes. La banda lila ondula como
               gelatina, salta con el scroll y rebota hasta calmarse.            (altshift + guillaumezhu)
   Pasos       Las tarjetas se van colocando en la fila una detrás de otra al hacer scroll.
   Stories     Cada tarjeta crece hasta su tamaño al entrar, como las imágenes de noth.in.
   About       La foto se destapa de abajo arriba y se desplaza más lenta que la página.
-  Statement   El fondo pasa de blanco a negro y la frase se enciende palabra a palabra.  (noth.in + altshift)
+  Statement   El fondo pasa de blanco a negro. La frase está quieta.
+
+  Feedback: los textos no se mueven. Solo se mueven elementos (tarjetas, fondos, imágenes).
 
   Three ways y el lab tienen sus propios hooks (useStackedCards, useDealDeck).
 */
@@ -27,21 +29,8 @@ export function useHomeStory() {
       const hero = $('#hero');
       const title = $('#hero-title');
       if (hero && title) {
-        const intro = gsap.timeline({ defaults: { ease: 'expo.out' }, delay: 0.15 });
-        const split = SplitText.create(title, { type: 'lines', mask: 'lines' });
-        intro
-          .from(hero.querySelector('.kicker'), { y: 20, autoAlpha: 0, duration: 0.8 })
-          .from(split.lines, { yPercent: 110, duration: 1.3, stagger: 0.12 }, 0.1)
-          .from(hero.querySelectorAll('.hero__content > p, .hero__content > div'), { y: 30, autoAlpha: 0, duration: 1, stagger: 0.1 }, 0.55);
-
-        gsap.to(hero.querySelector('.hero__content'), {
-          y: -140, autoAlpha: 0, ease: 'none',
-          scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom 20%', scrub: true },
-        });
-        gsap.to(hero.querySelector('.hero__inner > .kicker'), {
-          y: -60, autoAlpha: 0, ease: 'none',
-          scrollTrigger: { trigger: hero, start: 'top top', end: '40% top', scrub: true },
-        });
+        // Al cargar, el texto solo aparece. No se mueve.
+        gsap.from(hero.querySelectorAll('.kicker, #hero-title, .hero__content > p, .hero__content > div'), { autoAlpha: 0, duration: 0.8, ease: 'none', delay: 0.15 });
       }
 
       /* ---------- Cinta ---------- */
@@ -61,7 +50,7 @@ export function useHomeStory() {
           },
         });
         // Gelatina (guillaumezhu.com): la banda lila entera ondula como una cinta de gelatina.
-        // La ola recorre la banda; el texto va encima, subiendo y bajando con ella, sin girar, para que se lea.
+        // La ola recorre la banda; el texto va encima, recto y quieto en vertical, para que se lea.
         // En reposo la ola es suave; al hacer scroll crece de golpe y rebota como un muelle hasta calmarse.
         const PAD = 22;              // margen por arriba y por abajo para que la ola quepa, px
         const WAVE = 520;            // largo de la ola, px
@@ -72,12 +61,8 @@ export function useHomeStory() {
         const path = document.createElementNS(NS, 'path');
         svg.appendChild(path); ticker.prepend(svg);
 
-        const split = SplitText.create(track, { type: 'chars', charsClass: 'ticker__ch' });
-        const chars = split.chars as HTMLElement[];
-        let offsets: number[] = [], trackW = 1, W = 0, H = 0;
+        let W = 0, H = 0;
         const measure = () => {
-          trackW = track.scrollWidth || 1;
-          offsets = chars.map((c) => c.offsetLeft + c.offsetWidth / 2);
           W = ticker.clientWidth; H = ticker.clientHeight;
           svg.setAttribute('viewBox', `0 0 ${W} ${H + PAD * 2}`);
         };
@@ -108,14 +93,6 @@ export function useHomeStory() {
           }
           path.setAttribute('d', `${top}${bottom}Z`);
 
-          // El texto sube y baja con la banda, recto
-          const x0 = ((gsap.getProperty(track, 'xPercent') as number) / 100) * trackW;
-          const vw = window.innerWidth;
-          for (let i = 0; i < chars.length; i++) {
-            const sx = offsets[i] + x0;
-            if (sx < -60 || sx > vw + 60) continue;
-            chars[i].style.transform = `translateY(${wave(sx).toFixed(2)}px)`;
-          }
         };
         // Un toque al pasar el ratón por la cinta: salta
         const poke = () => { kick = 7; };
@@ -123,7 +100,7 @@ export function useHomeStory() {
         gsap.ticker.add(ease);
         cleanups.push(() => {
           gsap.ticker.remove(ease); ticker.removeEventListener('pointerenter', poke);
-          window.removeEventListener('resize', measure); split.revert(); svg.remove(); ticker.classList.remove('ticker--js');
+          window.removeEventListener('resize', measure); svg.remove(); ticker.classList.remove('ticker--js');
         });
       }
 
@@ -160,12 +137,6 @@ export function useHomeStory() {
         gsap.from(statement.querySelector('.statement__field'), {
           autoAlpha: 0, ease: 'none',
           scrollTrigger: { trigger: statement, start: 'top 50%', end: 'top 10%', scrub: true },
-        });
-        gsap.from(statement.querySelector('.kicker'), { y: 20, autoAlpha: 0, duration: 0.8, scrollTrigger: { trigger: statement, start: 'top 55%' } });
-        const words = SplitText.create(text, { type: 'words' });
-        gsap.fromTo(words.words, { opacity: 0.1 }, {
-          opacity: 1, ease: 'none', stagger: 0.3,
-          scrollTrigger: { trigger: statement, start: 'top 55%', end: 'bottom 75%', scrub: true },
         });
       }
       return () => cleanups.forEach((f) => f());
