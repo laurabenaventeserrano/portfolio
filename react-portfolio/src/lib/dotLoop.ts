@@ -11,6 +11,10 @@
 
 const TAU = Math.PI * 2;
 const INK = '#0E0E0C';
+/* Un 3 % de los puntos va en lila: al dispersarse, el retrato suelta algo de color.
+   Un lila algo más intenso que el del sitio (#E7BFFF), para que un punto pequeño se vea sobre blanco. */
+const ACCENT = '#C58CF2';
+const ACCENT_SHARE = 0.03;
 
 export interface DotLoopOptions {
   spacing: number;              // separación entre puntos, px CSS
@@ -45,6 +49,7 @@ export class DotLoopRenderer {
   private px = new Float32Array(0); private py = new Float32Array(0);
   private vx = new Float32Array(0); private vy = new Float32Array(0);
   private val = new Float32Array(0); private ph = new Float32Array(0);
+  private lilac = new Uint8Array(0); // 1 = este punto va en lila
 
   /** Dónde se coloca la imagen dentro del lienzo: 0 izquierda, 0,5 centro, 1 derecha. */
   anchorX = 0.5;
@@ -74,13 +79,15 @@ export class DotLoopRenderer {
     this.hx = new Float32Array(n); this.hy = new Float32Array(n);
     this.px = new Float32Array(n); this.py = new Float32Array(n);
     this.vx = new Float32Array(n); this.vy = new Float32Array(n);
-    this.val = new Float32Array(n); this.ph = new Float32Array(n);
+    this.val = new Float32Array(n); this.ph = new Float32Array(n); this.lilac = new Uint8Array(n);
     const ox = fx + (fw - (this.cols - 1) * s) / 2, oy = fy + (fh - (this.rows - 1) * rowH) / 2;
     for (let j = 0; j < this.rows; j++) for (let i = 0; i < this.cols; i++) {
       const q = j * this.cols + i, shift = grid === 'hex' && (j & 1) ? s / 2 : 0;
       this.hx[q] = this.px[q] = ox + i * s + shift;
       this.hy[q] = this.py[q] = oy + j * rowH;
       this.ph[q] = (Math.sin(q * 12.9898) * 43758.5453) % TAU; // fase pseudoaleatoria estable
+      const h = Math.abs(Math.sin(q * 78.233 + 1.7) * 12345.6789) % 1;  // otro azar estable, para el color
+      this.lilac[q] = h < ACCENT_SHARE ? 1 : 0;
     }
     return true;
   }
@@ -114,6 +121,7 @@ export class DotLoopRenderer {
     ctx.clearRect(0, 0, W, H);
     ctx.fillStyle = INK;
     ctx.beginPath();
+    const accent = new Path2D(); // los puntos lila se dibujan aparte, encima
     for (let q = 0; q < n; q++) {
       const l = (0.299 * d[q * 4] + 0.587 * d[q * 4 + 1] + 0.114 * d[q * 4 + 2]) / 255;
       const v = Math.pow(Math.max(0, 1 - l), o.contrast);
@@ -137,9 +145,12 @@ export class DotLoopRenderer {
       const vq = this.val[q];
       if (vq < o.threshold) continue;
       const r = maxR * vq, x = this.px[q], y = this.py[q];
-      if (square) ctx.rect(x - r, y - r, r * 2, r * 2);
-      else { ctx.moveTo(x + r, y); ctx.arc(x, y, r, 0, TAU); }
+      const target = this.lilac[q] ? accent : ctx;
+      if (square) target.rect(x - r, y - r, r * 2, r * 2);
+      else { target.moveTo(x + r, y); target.arc(x, y, r, 0, TAU); }
     }
     ctx.fill();
+    ctx.fillStyle = ACCENT;
+    ctx.fill(accent);
   }
 }
