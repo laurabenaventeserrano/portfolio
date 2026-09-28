@@ -80,7 +80,7 @@ export default function Story2() {
         <div className="grid-3">
           <Item n="User" title="A faster way to get started">No empty page, and no leaving the product to draft elsewhere.</Item>
           <Item n="Product" title="AI-assisted document creation inside CCH iFirm">With human review built into the flow, not bolted on.</Item>
-          <Item n="Business and delivery" title={<span className="accent">A validated MVP released in Canada</span>}>3 of 3 customers validated the concept.</Item>
+          <Item n="Business and delivery" title="A validated MVP released in Canada">3 of 3 customers validated the concept.</Item>
         </div>
         <Flow label="Delivery" steps={['Concept', 'Validation', 'Roadmap', 'MVP', 'Canadian release']} />
         <Figure src="/images/s2-documents.jpg" caption="CCH iFirm · One reminder written once and sent to twelve clients" alt="The Documents list in CCH iFirm: letters, forms and agreements shared with clients, each with its client, type, date sent and status. One row, an RRSP contribution reminder, went to 12 clients and has been seen by 9 of them." />

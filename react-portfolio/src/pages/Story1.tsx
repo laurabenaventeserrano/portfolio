@@ -70,11 +70,11 @@ export default function Story1() {
       </Chapter>
 
       <Chapter num="06" kicker="Future direction" tone="dark" title="From preserving context to understanding context"
-        intro={<p className="lead"><strong className="accent">An AI-powered contextual sidebar.</strong> The future opportunity was to make client context dynamic and helpful, rather than something the user has to manually maintain.</p>}>
+        intro={<p className="lead"><strong>An AI-powered contextual sidebar.</strong> The future opportunity was to make client context dynamic and helpful, rather than something the user has to manually maintain.</p>}>
         <div className="grid-3">
           <Item title="Workflow patterns">How the user typically works across products and tasks.</Item>
           <Item title="Assigned jobs">What work is currently assigned to them and which clients or jobs require attention.</Item>
-          <Item title={<span className="accent">Result</span>}>The product understands what the user is working on and helps them stay within that context.</Item>
+          <Item title="Result">The product understands what the user is working on and helps them stay within that context.</Item>
         </div>
         <Figure src="/images/s1-ai-sidebar.jpg" caption="iFirm AI · Contextual assistant, future concept" alt="The contextual assistant open beside the returns list: asked which returns need attention first, it answers that eighteen of the hundred and forty two open across the firm need attention today, breaks that into deadline risk, rejected filings and waiting on client, and names the source it read." />
       </Chapter>
