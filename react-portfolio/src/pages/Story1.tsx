@@ -55,7 +55,21 @@ export default function Story1() {
         <p className="body">Testing before building let us ship an S instead of an L.</p>
       </Chapter>
 
-      <Chapter num="05" kicker="Future direction" tone="dark" title="From preserving context to understanding context"
+      <Chapter num="05" kicker="Implementation and handoff" title="From design system to implementation-ready product">
+        <div className="grid-4">
+          <Item n="01" title="Design system">Components and variants. Reusable components.</Item>
+          <Item n="02" title="Interaction and behaviour">States, interactions and edge cases.</Item>
+          <Item n="03" title="Implementation specs">Layout and spacing, visual properties, responsive behaviour.</Item>
+          <Item n="04" title="Developer handoff">Ready for development. Design to development.</Item>
+        </div>
+        <Figure src="/images/s1-ai-changes.jpg" caption="Handoff review · An assistant reading the screen alongside the inspector" alt="A detail of the handoff workflow: an assistant panel open over the returns list proposing changes to the screen, beside the inspector showing width, alignment and padding." />
+        <div className="stack gap-24">
+          <h3 className="h-m">From design to implementation</h3>
+          <Figure src="/images/s1-handoff-board.jpg" caption="Design handoff · The select-a-return flow, ready for dev" alt="The handoff board for the select-a-return flow, marked ready for dev: every screen of the journey laid out in sequence, each state annotated and linked to the step before it." />
+        </div>
+      </Chapter>
+
+      <Chapter num="06" kicker="Future direction" tone="dark" title="From preserving context to understanding context"
         intro={<p className="lead"><strong className="accent">An AI-powered contextual sidebar.</strong> The future opportunity was to make client context dynamic and helpful, rather than something the user has to manually maintain.</p>}>
         <div className="grid-3">
           <Item title="Workflow patterns">How the user typically works across products and tasks.</Item>
