@@ -33,8 +33,8 @@ export default function Story1() {
       <Chapter num="02" kicker="What I did" tone="soft" title="Research, three options, a coded prototype and a test.">
         <div className="grid-4">
           <Item n="01" title="Listened">5 sessions with customers and 2 with subject matter experts.</Item>
-          <Item n="02" title="Explored">Three options, from a simple deep link to an AI assistant, compared on value against effort.</Item>
-          <Item n="03" title="Prototyped">I built a coded prototype with GitHub Copilot to test the real interaction.</Item>
+          <Item n="02" title="Explored">Three ways to solve the problem. <strong>03 · Context assistance: Deep linking, switcher and AI.</strong> Highest potential, highest complexity.</Item>
+          <Item n="03" title="Build with AI">I used GitHub Copilot as a development partner to translate the designed experience into a functional prototype while keeping the design system and interaction decisions consistent with the intended product.</Item>
           <Item n="04" title="Tested">With 5 customers moving from the on-premise product.</Item>
         </div>
         <Figure src="/images/s1-matrix.jpg" caption="Value against effort · Proposal 1 was the one chosen" alt="Value against effort: the three proposals plotted, with Proposal 1 marked as the one chosen." />
@@ -52,7 +52,17 @@ export default function Story1() {
           { value: '~10 sec', label: 'To reach the information' },
           { value: 'L → S', label: 'Development effort' },
         ]} />
-        <p className="body">Testing before building let us ship an S instead of an L. It also left the door open for an AI sidebar that understands what you are working on.</p>
+        <p className="body">Testing before building let us ship an S instead of an L.</p>
+      </Chapter>
+
+      <Chapter num="05" kicker="Future direction" tone="dark" title="From preserving context to understanding context"
+        intro={<p className="lead"><strong className="accent">An AI-powered contextual sidebar.</strong> The future opportunity was to make client context dynamic and helpful, rather than something the user has to manually maintain.</p>}>
+        <div className="grid-3">
+          <Item title="Workflow patterns">How the user typically works across products and tasks.</Item>
+          <Item title="Assigned jobs">What work is currently assigned to them and which clients or jobs require attention.</Item>
+          <Item title={<span className="accent">Result</span>}>The product understands what the user is working on and helps them stay within that context.</Item>
+        </div>
+        <Figure src="/images/s1-ai-sidebar.jpg" caption="iFirm AI · Contextual assistant, future concept" alt="The contextual assistant open beside the returns list: asked which returns need attention first, it answers that eighteen of the hundred and forty two open across the firm need attention today, breaks that into deadline risk, rejected filings and waiting on client, and names the source it read." />
       </Chapter>
 
       <NextStory to={ROUTES.story2} label="Story 2" title="AI-Assisted Drafting for CCH iFirm" />

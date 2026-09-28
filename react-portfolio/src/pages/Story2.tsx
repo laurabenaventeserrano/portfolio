@@ -23,6 +23,12 @@ export default function Story2() {
         posterAlt="AI-Assisted Drafting for CCH iFirm"
       />
 
+      <section className="section section--line" aria-label="Summary">
+        <div className="container">
+          <p className="big-line">I helped turn an AI opportunity into a product decision and a shippable MVP.</p>
+        </div>
+      </section>
+
       <Chapter num="01" kicker="The problem" title="Engagement letters, regulatory updates and other communications are created once and sent manually to many clients."
         intro={<p className="lead">Creating a communication meant switching between tools. The original requirement was to improve the document editing experience.</p>}>
         <div className="grid-4">
@@ -40,9 +46,13 @@ export default function Story2() {
           <Item n="Business goal" title="Make document creation faster and keep the workflow inside the product." />
         </div>
         <Callout label="What I saw" variant="accent">The opportunity to design an AI-based product.</Callout>
-        <div className="grid-5">
+        <h3 className="h-m">From strategic proposal to shipped AI feature</h3>
+        <div className="card card--chosen">
+          <span className="mono-s">AI product design</span>
+          <p className="h-s">Proposed AI-assisted drafting and the human review model.</p>
+        </div>
+        <div className="grid-4">
           <Item n="Product strategy">Reframed the brief from editing to starting.</Item>
-          <Item n="AI product design">Proposed AI-assisted drafting and the human review model.</Item>
           <Item n="UX">Designed the end-to-end flow, from wireframes to validation concepts.</Item>
           <Item n="MVP">Defined what shipped and what was deferred.</Item>
           <Item n="Stakeholders">Defended the direction. Scope was expanded and phased into the roadmap.</Item>
@@ -74,7 +84,6 @@ export default function Story2() {
         </div>
         <Flow label="Delivery" steps={['Concept', 'Validation', 'Roadmap', 'MVP', 'Canadian release']} />
         <Figure src="/images/s2-documents.jpg" caption="CCH iFirm · One reminder written once and sent to twelve clients" alt="The Documents list in CCH iFirm: letters, forms and agreements shared with clients, each with its client, type, date sent and status. One row, an RRSP contribution reminder, went to 12 clients and has been seen by 9 of them." />
-        <p className="big-line">I helped turn an AI opportunity into a product decision and a shippable MVP.</p>
       </Chapter>
 
       <NextStory to={ROUTES.story3} label="Story 3" title="Designing across connected consumer experiences" />
