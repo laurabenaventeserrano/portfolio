@@ -9,7 +9,7 @@ import { gsap, ScrollTrigger, MQ } from './gsap';
   Cinta       Se acelera con el scroll y cambia de sentido si subes. La banda lila ondula como
               gelatina, salta con el scroll y rebota hasta calmarse.            (altshift + guillaumezhu)
   Pasos       Las tarjetas se van colocando en la fila una detrás de otra al hacer scroll.
-  Stories     Cada tarjeta crece hasta su tamaño al entrar, como las imágenes de noth.in.
+  Stories     Estáticas, sin animación.
   About       La foto se destapa de abajo arriba y se desplaza más lenta que la página.
   Statement   El fondo pasa de blanco a negro. La frase está quieta.
 
@@ -102,14 +102,6 @@ export function useHomeStory() {
           window.removeEventListener('resize', measure); svg.remove(); ticker.classList.remove('ticker--js');
         });
       }
-
-      /* ---------- Stories: las tarjetas crecen al entrar ---------- */
-      $$('#stories .tile').forEach((tile) => {
-        gsap.fromTo(tile, { scale: 0.86, borderRadius: 48 }, {
-          scale: 1, borderRadius: 16, ease: 'none',
-          scrollTrigger: { trigger: tile, start: 'top bottom', end: 'top 45%', scrub: 0.6 },
-        });
-      });
 
       /* ---------- About: foto ---------- */
       const photo = $('.about__photo');
