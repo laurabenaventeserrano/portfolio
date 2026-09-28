@@ -26,7 +26,7 @@ export default function Story2() {
       <Chapter num="01" kicker="The problem" title="Our users wrote their letters outside the product."
         intro={<p className="lead">Accountants send the same letter to many clients: engagement letters, regulatory updates. They wrote it somewhere else, often in ChatGPT, pasted it in and picked the clients one by one. The brief asked me to improve the editor.</p>}>
         <Figure src="/images/s2-blank-page.jpg" caption="Before · A new letter starts from an empty page" alt="A new engagement letter open in CCH iFirm with nothing in it: a blank document, an empty editor, and the words nothing here yet above the choice between inserting a template and drafting with AI." />
-        <Callout label="What I saw" variant="accent">The problem wasn't editing. It was the blank page.</Callout>
+        <Callout label="What I saw" variant="accent">The opportunity to design an AI-based product.</Callout>
       </Chapter>
 
       <Chapter num="02" kicker="What I did" tone="soft" title="I changed the brief from editing to drafting with AI.">
