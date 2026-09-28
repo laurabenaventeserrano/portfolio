@@ -3,21 +3,14 @@ import { gsap, ScrollTrigger, MQ } from './gsap';
 
 /*
   Scroll común a todas las páginas (portada, stories, 404) y al pie de contacto.
-  Feedback: la animación de los textos distrae. Los textos NO se mueven: solo aparecen
-  con un fundido corto al entrar. Las imágenes y vídeos se destapan con el scroll.
+  Feedback: la animación de los textos distrae. Los textos no tienen ninguna animación:
+  están quietos y visibles desde el principio. Solo las imágenes y vídeos se destapan con el scroll.
 
   Lo que tiene coreografía propia se marca con data-motion="custom" y aquí se salta
   (hero, pasos, Three ways, statement, lab).
   Con "reducir movimiento" no se ejecuta nada: todo está en su sitio desde el principio.
 */
 
-const REVEAL = [
-  '.h-xl', '.h-l', '.h-giant', '.kicker', '.lead', '.chip', '.tags', '.disclaimer', '.sec-head .mono-s',
-  '.figure figcaption', '.callout', '.item', '.stat', '.fact', '.quote',
-  '.table tbody tr', '.measure__row', '.measure__bar', '.contact__grid > *', '.contact__bottom',
-  '.next .pill', '.story-hero__meta', '.pill--lg', '.text-link', '.chapter__body > p', '.h-s',
-  '.flow', '.table thead',
-].join(', ');
 
 const skip = (el: Element) => !!el.closest('[data-motion="custom"], .header, .dots');
 
@@ -37,15 +30,7 @@ export function useScrollStory(routeKey: string) {
 
     const mm = gsap.matchMedia();
     mm.add(MQ.any, () => {
-      // 1. Textos: sin movimiento. Solo aparecen (fundido corto), en grupos que entran juntos
-      const reveal = all(REVEAL);
-      gsap.set(reveal, { autoAlpha: 0 });
-      ScrollTrigger.batch(reveal, {
-        start: 'top 92%',
-        onEnter: (batch) => gsap.to(batch, { autoAlpha: 1, duration: 0.6, ease: 'none', overwrite: true }),
-      });
-
-      // 2. Imágenes y vídeos: se destapan desde el centro y se acercan
+      // Imágenes y vídeos: se destapan desde el centro y se acercan
       all('.media').forEach((media) => {
         if (media.closest('.pass, .hero')) return;
         const inner = media.querySelector('img, video');

@@ -38,17 +38,15 @@ export function useStackedCards(ref: RefObject<HTMLElement | null>, enabled: boo
             scrollTrigger: { trigger: next, start: 'top bottom', end: () => `top ${stackTop()}px`, scrub: true, invalidateOnRefresh: true },
           });
         }
-        // Entrada del contenido: el texto solo aparece (no se mueve), el panel entra desde la derecha
-        const text = card.querySelectorAll('.way__grid > .stack > *');
+        // Entrada del contenido: el texto está quieto, solo el panel entra desde la derecha
         const panel = card.querySelector('.panel');
         const tl = gsap.timeline({ scrollTrigger: { trigger: card, start: 'top 65%', toggleActions: 'play none none reverse' } });
-        tl.from(text, { autoAlpha: 0, duration: 0.6, ease: 'none' })
-          .from(panel, { x: 80, rotation: 2, autoAlpha: 0, duration: 1, ease: 'power3.out' }, 0.1);
+        tl.from(panel, { x: 80, rotation: 2, autoAlpha: 0, duration: 1, ease: 'power3.out' });
       });
     });
     mm.add(MQ.mobile, () => {
       cards.forEach((card) => {
-        gsap.from(card.querySelectorAll('.way__grid > .stack > *, .panel'), {
+        gsap.from(card.querySelectorAll('.panel'), {
           autoAlpha: 0, duration: 0.6, ease: 'none',
           scrollTrigger: { trigger: card, start: 'top 75%' },
         });

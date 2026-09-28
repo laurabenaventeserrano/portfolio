@@ -23,15 +23,10 @@ export function useDealDeck(ref: RefObject<HTMLElement | null>, enabled: boolean
     const fan = section.querySelector<HTMLElement>('.passes');
     const decks = Array.from(section.querySelectorAll<HTMLElement>('.deal'));
     const cards = decks.map((d) => d.querySelector<HTMLElement>('.deal__card')!).filter(Boolean);
-    const intro = section.querySelectorAll('.lab__head > *');
     if (!fan || !cards.length) return;
     const n = cards.length;
 
     const mm = gsap.matchMedia();
-
-    mm.add(MQ.any, () => {
-      gsap.from(intro, { autoAlpha: 0, duration: 0.6, ease: 'none', scrollTrigger: { trigger: section, start: 'top 70%' } });
-    });
 
     mm.add(MQ.desktop, () => {
       const headerH = () => parseFloat(getComputedStyle(section).getPropertyValue('--header-h')) || 0;

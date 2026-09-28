@@ -4,7 +4,7 @@ import { gsap, ScrollTrigger, MQ } from './gsap';
 /*
   Coreografía propia de la portada. Cada sección tiene un solo gesto protagonista.
 
-  Hero        Al cargar, el texto aparece sin moverse. Al bajar, los puntos del retrato
+  Hero        Los textos están quietos. Al bajar, los puntos del retrato
               se dispersan (eso lo hace DotLoopPortrait con scrollOut).
   Cinta       Se acelera con el scroll y cambia de sentido si subes. La banda lila ondula como
               gelatina, salta con el scroll y rebota hasta calmarse.            (altshift + guillaumezhu)
@@ -29,8 +29,7 @@ export function useHomeStory() {
       const hero = $('#hero');
       const title = $('#hero-title');
       if (hero && title) {
-        // Al cargar, el texto solo aparece. No se mueve.
-        gsap.from(hero.querySelectorAll('.kicker, #hero-title, .hero__content > p, .hero__content > div'), { autoAlpha: 0, duration: 0.8, ease: 'none', delay: 0.15 });
+        // Los textos del hero no tienen animación.
       }
 
       /* ---------- Cinta ---------- */
