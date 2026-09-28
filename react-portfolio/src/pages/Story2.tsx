@@ -11,7 +11,7 @@ export default function Story2() {
         label="Story 2"
         company="Wolters Kluwer · AI product design"
         title="AI-Assisted Drafting for CCH iFirm"
-        subtitle="Removing the blank page from client documents"
+        subtitle="Bulk customer communications using AI"
         stats={[
           { value: '3/3', label: 'Customers validated the concept', accent: true },
           { value: 'Shipped', label: 'Canadian market' },
@@ -36,8 +36,18 @@ export default function Story2() {
         </div>
       </Chapter>
 
-      <Chapter num="02" kicker="The problem" tone="soft" title="From template to AI assistant"
+      <Chapter num="02" kicker="The problem" tone="soft" title="Engagement letters, regulatory updates and other communications are created once and sent manually to many clients."
         intro={<p className="lead">Accounting and tax professionals regularly create documents that clients need to review and sign. The original requirement was to improve the document editing experience.</p>}>
+        <div className="stack gap-24">
+          <p className="kicker">The existing workflow</p>
+          <h3 className="h-m">Creating a communication meant switching between tools</h3>
+          <div className="grid-4">
+            <Item n="01" title="Create or write the letter">Normally, outside the software.</Item>
+            <Item n="02" title="Paste and review">The grammar and structure.</Item>
+            <Item n="03" title="Select the clients">One by one.</Item>
+            <Item n="04" title="Review and send">And potentially save for later.</Item>
+          </div>
+        </div>
         <div className="table-wrap">
           <table className="table">
             <caption className="sr-only">The three routes professionals had to create a document</caption>
@@ -51,7 +61,7 @@ export default function Story2() {
         </div>
         <div className="grid-2">
           <Item n="Business goal" title="Make document creation faster and keep the workflow inside the product." />
-          <Item n="Friction" title="Every route was slow." />
+          <Item n="User goal" title="Users needed to accelerate their workflow with AI." />
         </div>
         <Callout label="The problem" variant="accent">The product handed professionals an empty page at the exact moment they needed to start writing.</Callout>
         <Figure src="/images/s2-blank-page.jpg" caption="CCH iFirm · The blank page the requirement was written about" alt="A new engagement letter open in CCH iFirm with nothing in it: a blank document, an empty editor, and the words nothing here yet above the choice between inserting a template and drafting with AI." />
@@ -69,7 +79,17 @@ export default function Story2() {
         <Callout label="Main principle" variant="accent">Don't optimise the blank page. Remove the blank page.</Callout>
       </Chapter>
 
-      <Chapter num="05" kicker="The system" tone="soft" title="AI had to fit a professional workflow, not replace it">
+      <Chapter num="05" kicker="The solution" tone="dark" title="From blank template to AI assistant"
+        intro={<p className="lead">The AI writes the letter, adds the tags and suggests the group of clients. The same four steps, now inside the product.</p>}>
+        <div className="grid-4">
+          <Item n="01" title="Create or write the letter">Now inside the software.</Item>
+          <Item n="02" title="Insert application tags">So the letter can be customised for each client.</Item>
+          <Item n="03" title="Select a group of clients">For example individuals, or new clients.</Item>
+          <Item n="04" title="Review and send">Users want to review what the AI did.</Item>
+        </div>
+      </Chapter>
+
+      <Chapter num="06" kicker="The system" tone="soft" title="AI had to fit a professional workflow, not replace it">
         <div className="grid-3">
           <div className="card">
             <span className="mono-s">AI</span>
@@ -100,7 +120,7 @@ export default function Story2() {
         </Callout>
       </Chapter>
 
-      <Chapter num="06" kicker="The experience" title="The AI creates a starting point. The professional stays responsible for the final document."
+      <Chapter num="07" kicker="The experience" title="The AI creates a starting point. The professional stays responsible for the final document."
         intro={<p className="h-s">Generate → Review → Decide</p>}>
         <div className="grid-6">
           <Item n="01" title="Start">A document is needed for a client.</Item>
@@ -118,7 +138,7 @@ export default function Story2() {
         </div>
       </Chapter>
 
-      <Chapter num="07" kicker="Accessibility, written into the spec" tone="dark" title="Three of the notes the specification carries, so they are built rather than retrofitted.">
+      <Chapter num="08" kicker="Accessibility, written into the spec" tone="dark" title="Three of the notes the specification carries, so they are built rather than retrofitted.">
         <div className="grid-3">
           <Item n="01">The panel is a <strong className="accent">labelled region, not a dialog</strong>. It does not trap focus, and the document stays readable and editable behind it.</Item>
           <Item n="02">Generation progress is <strong className="accent">announced politely</strong>, so a screen reader hears that work is happening without the draft interrupting whatever is being read.</Item>
@@ -127,7 +147,7 @@ export default function Story2() {
         <Figure src="/images/s2-spec-sheet.jpg" caption="Every state, with the notes development needed to build it" alt="The full interaction specification: entry point, instruction, review and edit, approve and send, each state drawn and annotated, with developer notes covering that generation is never terminal, that nothing persists before approval, that markers are paragraph-scoped, that failure is not a dead end, that the panel is a labelled region announced politely and colour is never the only signal, and what was left out of the MVP." />
       </Chapter>
 
-      <Chapter num="08" kicker="MVP definition" title="Not everything useful belongs in the first release">
+      <Chapter num="09" kicker="MVP definition" title="Not everything useful belongs in the first release">
         <div className="grid-3">
           <div className="card card--chosen"><span className="mono-s">Shipped</span><p className="h-s">Instruction-based AI drafting</p></div>
           <div className="card card--chosen"><span className="mono-s">Shipped</span><p className="h-s">Full human review before saving or sending</p></div>
@@ -137,7 +157,7 @@ export default function Story2() {
         <Callout label="Decision">Validate the core drafting behaviour first. A smaller MVP gave us a safer way to validate the core behaviour before introducing lifecycle complexity.</Callout>
       </Chapter>
 
-      <Chapter num="09" kicker="The validation" tone="soft" title="Test small. Release for real.">
+      <Chapter num="10" kicker="The validation" tone="soft" title="Test small. Release for real.">
         <div className="stack gap-20">
           <p className="kicker kicker--muted">What we needed to know</p>
           <div className="grid-3">
@@ -154,7 +174,7 @@ export default function Story2() {
         </Callout>
       </Chapter>
 
-      <Chapter num="10" kicker="The build" title="From strategic proposal to shipped AI feature">
+      <Chapter num="11" kicker="The build" title="From strategic proposal to shipped AI feature">
         <div className="grid-5">
           <Item n="Product strategy">Reframed the brief from editing to starting.</Item>
           <Item n="AI product design">Proposed AI-assisted drafting and the human review model.</Item>
@@ -166,7 +186,7 @@ export default function Story2() {
         <Callout label="Build">I helped turn an AI opportunity into a product decision and a shippable MVP.</Callout>
       </Chapter>
 
-      <Chapter num="11" kicker="How I would measure it" tone="soft" title="Are people reading what the AI wrote?"
+      <Chapter num="12" kicker="How I would measure it" tone="soft" title="Are people reading what the AI wrote?"
         intro={<p className="lead">No product analytics were available to me on this work, so this is the plan rather than the result. Written as it would go to the team.</p>}>
         <MeasurePlan rows={[
           ['Target behaviour', 'Starting a document from a draft instead of an empty page, and editing it before approving'],
@@ -176,12 +196,13 @@ export default function Story2() {
         ]} />
       </Chapter>
 
-      <Chapter num="12" kicker="The outcome" tone="dark" title="AI moved from an external workaround into the product">
+      <Chapter num="13" kicker="The outcome" tone="dark" title="AI moved from an external workaround into the product">
         <div className="grid-3">
           <Item n="User" title="A faster way to get started">No empty page, and no leaving the product to draft elsewhere.</Item>
           <Item n="Product" title="AI-assisted document creation inside CCH iFirm">With human review built into the flow, not bolted on.</Item>
           <Item n="Business and delivery" title={<span className="accent">A validated MVP released in Canada</span>}>3 of 3 customers validated the concept. Users needed to accelerate their workflow with AI.</Item>
         </div>
+        <Figure src="/images/s2-documents.jpg" caption="CCH iFirm · Documents. One reminder written once and sent to twelve clients" alt="The Documents list in CCH iFirm: letters, forms and agreements shared with clients, each with its client, type, date sent and status. One row, an RRSP contribution reminder, went to 12 clients and has been seen by 9 of them." />
         <div className="callout">
           <p className="callout__label">After release</p>
           <div className="stack gap-20">

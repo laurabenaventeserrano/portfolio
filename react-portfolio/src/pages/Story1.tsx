@@ -24,7 +24,7 @@ export default function Story1() {
         posterAlt="CCH iFirm by Wolters Kluwer"
       />
 
-      <Chapter num="01" kicker="The context" title="From on-premise to cloud"
+      <Chapter num="01" kicker="The context" title="From segmented, on-premise products to one connected cloud experience"
         intro={<p className="lead">Global iFirm was evolving from a collection of products into a more connected cloud experience.</p>}>
         <div className="figure-row">
           <Figure src="/images/s1-onpremise.jpg" caption="On-premise" alt="The on-premise product: a Windows desktop application with a document list, ribbon toolbar and a tax return open in a preview pane." />
