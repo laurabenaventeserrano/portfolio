@@ -6,8 +6,8 @@ import { gsap, ScrollTrigger, SplitText, MQ } from './gsap';
 
   Hero        Al cargar, el titular sube línea a línea. Al bajar, el texto se va hacia arriba
               y los puntos del retrato se dispersan (eso lo hace DotLoopPortrait con scrollOut).
-  Cinta       Se acelera con el scroll y cambia de sentido si subes. Las letras van sobre una
-              ola de gelatina que salta con el scroll y rebota hasta calmarse. (altshift + guillaumezhu)
+  Cinta       Se acelera con el scroll y cambia de sentido si subes. La banda lila ondula como
+              gelatina, salta con el scroll y rebota hasta calmarse.            (altshift + guillaumezhu)
   Pasos       Las tarjetas se van colocando en la fila una detrás de otra al hacer scroll.
   Stories     Cada tarjeta crece hasta su tamaño al entrar, como las imágenes de noth.in.
   About       La foto se destapa de abajo arriba y se desplaza más lenta que la página.
@@ -60,17 +60,31 @@ export function useHomeStory() {
             target = dir * (1 + Math.min(6, Math.abs(self.getVelocity()) / 350));
           },
         });
-        // Gelatina (guillaumezhu.com): las letras van sobre una ola que recorre la cinta.
+        // Gelatina (guillaumezhu.com): la banda lila entera ondula como una cinta de gelatina.
+        // La ola recorre la banda; el texto va encima, subiendo y bajando con ella, sin girar, para que se lea.
         // En reposo la ola es suave; al hacer scroll crece de golpe y rebota como un muelle hasta calmarse.
+        const PAD = 22;              // margen por arriba y por abajo para que la ola quepa, px
+        const WAVE = 520;            // largo de la ola, px
+        const REST = 4, MAX = 16;    // alto de la ola en reposo y como mucho, px
+        const NS = 'http://www.w3.org/2000/svg';
+        const svg = document.createElementNS(NS, 'svg');
+        svg.setAttribute('class', 'ticker__ribbon'); svg.setAttribute('aria-hidden', 'true'); svg.setAttribute('preserveAspectRatio', 'none');
+        const path = document.createElementNS(NS, 'path');
+        svg.appendChild(path); ticker.prepend(svg);
+
         const split = SplitText.create(track, { type: 'chars', charsClass: 'ticker__ch' });
         const chars = split.chars as HTMLElement[];
-        let offsets: number[] = [], trackW = 1;
-        const measure = () => { trackW = track.scrollWidth || 1; offsets = chars.map((c) => c.offsetLeft + c.offsetWidth / 2); };
+        let offsets: number[] = [], trackW = 1, W = 0, H = 0;
+        const measure = () => {
+          trackW = track.scrollWidth || 1;
+          offsets = chars.map((c) => c.offsetLeft + c.offsetWidth / 2);
+          W = ticker.clientWidth; H = ticker.clientHeight;
+          svg.setAttribute('viewBox', `0 0 ${W} ${H + PAD * 2}`);
+        };
         measure();
         window.addEventListener('resize', measure);
-        let amp = 3, ampV = 0, t = 0, kick = 0;
-        const WAVE = 340;            // largo de la ola, px
-        const REST = 3, MAX = 15;    // alto de la ola en reposo y como mucho, px
+        let amp = REST, ampV = 0, t = 0, kick = 0;
+        const wave = (x: number) => Math.sin((x / WAVE) * Math.PI * 2 + t * 2.2) * amp;
 
         const ease = () => {
           speed += (target - speed) * 0.1;
@@ -78,22 +92,29 @@ export function useHomeStory() {
           loop.timeScale(speed);
 
           // Muelle poco amortiguado: la ola sube con la velocidad del scroll y rebota al bajar
-          const want = Math.min(MAX, REST + (Math.abs(speed) - 1) * 3.2) + kick;
+          const want = Math.min(MAX, REST + (Math.abs(speed) - 1) * 3.4) + kick;
           ampV = (ampV + (want - amp) * 0.09) * 0.84;
           amp += ampV;
           kick *= 0.9;
           t += gsap.ticker.deltaRatio() / 60;
 
+          // La banda: borde de arriba y de abajo siguen la misma ola
+          let top = '', bottom = '';
+          const step = 24;
+          for (let x = 0; x <= W + step; x += step) {
+            const y = wave(x);
+            top += `${x === 0 ? 'M' : 'L'}${x},${(PAD + y).toFixed(1)} `;
+            bottom = `L${x},${(PAD + H + y).toFixed(1)} ` + bottom;
+          }
+          path.setAttribute('d', `${top}${bottom}Z`);
+
+          // El texto sube y baja con la banda, recto
           const x0 = ((gsap.getProperty(track, 'xPercent') as number) / 100) * trackW;
           const vw = window.innerWidth;
           for (let i = 0; i < chars.length; i++) {
             const sx = offsets[i] + x0;
-            if (sx < -60 || sx > vw + 60) continue;       // solo las letras a la vista
-            const ph = (sx / WAVE) * Math.PI * 2 + t * 2.4;
-            const y = Math.sin(ph) * amp;
-            const r = Math.cos(ph) * amp * 0.9;           // la letra se inclina siguiendo la pendiente
-            const sy = 1 + Math.cos(ph * 2) * amp * 0.012; // y se estira un poco, como gelatina
-            chars[i].style.transform = `translateY(${y.toFixed(2)}px) rotate(${r.toFixed(2)}deg) scaleY(${sy.toFixed(3)})`;
+            if (sx < -60 || sx > vw + 60) continue;
+            chars[i].style.transform = `translateY(${wave(sx).toFixed(2)}px)`;
           }
         };
         // Un toque al pasar el ratón por la cinta: salta
@@ -102,7 +123,7 @@ export function useHomeStory() {
         gsap.ticker.add(ease);
         cleanups.push(() => {
           gsap.ticker.remove(ease); ticker.removeEventListener('pointerenter', poke);
-          window.removeEventListener('resize', measure); split.revert(); ticker.classList.remove('ticker--js');
+          window.removeEventListener('resize', measure); split.revert(); svg.remove(); ticker.classList.remove('ticker--js');
         });
       }
 

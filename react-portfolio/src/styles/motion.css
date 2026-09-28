@@ -64,7 +64,11 @@
 
 /* ---------- Cinta: la mueve GSAP (velocidad y sentido según el scroll) ---------- */
 .ticker--js .ticker__track { animation: none; }
-.ticker__ch { display: inline-block; transform-origin: 50% 60%; will-change: transform; }
+.ticker__ch { display: inline-block; will-change: transform; }
+/* La banda la dibuja un SVG que ondula; el fondo liso se quita y la banda puede salirse un poco por arriba y por abajo */
+.ticker.ticker--js { position: relative; background: transparent; overflow-x: clip; overflow-y: visible; z-index: 2; }
+.ticker__ribbon { position: absolute; left: 0; top: -22px; width: 100%; height: calc(100% + 44px); fill: var(--accent); pointer-events: none; }
+.ticker--js .ticker__track { position: relative; }
 
 /* ---------- Titulares partidos en líneas: la máscara no debe cortar descendentes ---------- */
 .h-xl [class*="-mask"], .h-l [class*="-mask"], .h-hero [class*="-mask"] { padding-bottom: 0.06em; margin-bottom: -0.06em; }
