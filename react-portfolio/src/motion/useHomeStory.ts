@@ -6,7 +6,8 @@ import { gsap, ScrollTrigger, SplitText, MQ } from './gsap';
 
   Hero        Al cargar, el titular sube línea a línea. Al bajar, el texto se va hacia arriba
               y los puntos del retrato se dispersan (eso lo hace DotLoopPortrait con scrollOut).
-  Cinta       Se acelera con la velocidad del scroll y cambia de sentido si subes.       (altshift)
+  Cinta       Se acelera con el scroll y cambia de sentido si subes. Las letras van sobre una
+              ola de gelatina que salta con el scroll y rebota hasta calmarse. (altshift + guillaumezhu)
   Pasos       Las tarjetas se van colocando en la fila una detrás de otra al hacer scroll.
   Stories     Cada tarjeta crece hasta su tamaño al entrar, como las imágenes de noth.in.
   About       La foto se destapa de abajo arriba y se desplaza más lenta que la página.
@@ -59,13 +60,50 @@ export function useHomeStory() {
             target = dir * (1 + Math.min(6, Math.abs(self.getVelocity()) / 350));
           },
         });
+        // Gelatina (guillaumezhu.com): las letras van sobre una ola que recorre la cinta.
+        // En reposo la ola es suave; al hacer scroll crece de golpe y rebota como un muelle hasta calmarse.
+        const split = SplitText.create(track, { type: 'chars', charsClass: 'ticker__ch' });
+        const chars = split.chars as HTMLElement[];
+        let offsets: number[] = [], trackW = 1;
+        const measure = () => { trackW = track.scrollWidth || 1; offsets = chars.map((c) => c.offsetLeft + c.offsetWidth / 2); };
+        measure();
+        window.addEventListener('resize', measure);
+        let amp = 3, ampV = 0, t = 0, kick = 0;
+        const WAVE = 340;            // largo de la ola, px
+        const REST = 3, MAX = 15;    // alto de la ola en reposo y como mucho, px
+
         const ease = () => {
           speed += (target - speed) * 0.1;
           target += (dir - target) * 0.04;
           loop.timeScale(speed);
+
+          // Muelle poco amortiguado: la ola sube con la velocidad del scroll y rebota al bajar
+          const want = Math.min(MAX, REST + (Math.abs(speed) - 1) * 3.2) + kick;
+          ampV = (ampV + (want - amp) * 0.09) * 0.84;
+          amp += ampV;
+          kick *= 0.9;
+          t += gsap.ticker.deltaRatio() / 60;
+
+          const x0 = ((gsap.getProperty(track, 'xPercent') as number) / 100) * trackW;
+          const vw = window.innerWidth;
+          for (let i = 0; i < chars.length; i++) {
+            const sx = offsets[i] + x0;
+            if (sx < -60 || sx > vw + 60) continue;       // solo las letras a la vista
+            const ph = (sx / WAVE) * Math.PI * 2 + t * 2.4;
+            const y = Math.sin(ph) * amp;
+            const r = Math.cos(ph) * amp * 0.9;           // la letra se inclina siguiendo la pendiente
+            const sy = 1 + Math.cos(ph * 2) * amp * 0.012; // y se estira un poco, como gelatina
+            chars[i].style.transform = `translateY(${y.toFixed(2)}px) rotate(${r.toFixed(2)}deg) scaleY(${sy.toFixed(3)})`;
+          }
         };
+        // Un toque al pasar el ratón por la cinta: salta
+        const poke = () => { kick = 7; };
+        ticker.addEventListener('pointerenter', poke);
         gsap.ticker.add(ease);
-        cleanups.push(() => { gsap.ticker.remove(ease); ticker.classList.remove('ticker--js'); });
+        cleanups.push(() => {
+          gsap.ticker.remove(ease); ticker.removeEventListener('pointerenter', poke);
+          window.removeEventListener('resize', measure); split.revert(); ticker.classList.remove('ticker--js');
+        });
       }
 
       /* ---------- Stories: las tarjetas crecen al entrar ---------- */
