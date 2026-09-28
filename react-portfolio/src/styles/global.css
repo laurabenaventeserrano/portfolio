@@ -339,6 +339,11 @@ button { font: inherit; color: inherit; }
 .chapter__ghost { position: absolute; right: 2%; top: calc(var(--sec-y) - 0.18em); font-size: clamp(160px, 22vw, 320px); font-weight: 800; line-height: 1; letter-spacing: -0.06em; color: var(--soft); pointer-events: none; user-select: none; }
 .section--soft .chapter__ghost { color: var(--soft-2); }
 .section--dark .chapter__ghost { color: #1a1a18; }
+/* Capítulos en lila: lo que ya era lila pasa a blanco para seguir distinguiéndose */
+.chapter--accent .chapter__ghost { color: rgba(14, 14, 12, 0.06); }
+.chapter--accent .callout--accent, .chapter--accent .card--chosen { background: var(--paper); }
+.chapter--accent .card:not(.card--chosen) { background: transparent; }
+.chapter--accent .table td.risk { background: var(--paper); }
 .chapter__body { position: relative; margin-top: clamp(40px, 3.9vw, 56px); display: flex; flex-direction: column; gap: clamp(40px, 3.9vw, 56px); }
 
 /* Llamada: etiqueta mono a la izquierda, texto a la derecha */

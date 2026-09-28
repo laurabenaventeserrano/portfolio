@@ -70,7 +70,8 @@ export function Stats({ items }: { items: Stat[] }) {
 export function Chapter({ id, num, kicker, title, tone, children, intro }: {
   id?: string; num: string; kicker: string; title: ReactNode; tone?: 'soft' | 'dark'; intro?: ReactNode; children?: ReactNode;
 }) {
-  const cls = tone === 'dark' ? 'section section--dark is-dark' : tone === 'soft' ? 'section section--soft' : 'section section--line';
+  // tone "soft": los bloques que antes eran gris claro ahora van en lila
+  const cls = tone === 'dark' ? 'section section--dark is-dark' : tone === 'soft' ? 'section section--accent chapter--accent' : 'section section--line';
   return (
     <section id={id} className={`chapter ${cls}`} aria-labelledby={`${id ?? num}-title`}>
       <span className="chapter__ghost" aria-hidden="true">{num}</span>
