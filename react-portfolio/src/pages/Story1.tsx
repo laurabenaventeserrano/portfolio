@@ -24,8 +24,8 @@ export default function Story1() {
         posterAlt="CCH iFirm by Wolters Kluwer"
       />
 
-      <Chapter num="01" kicker="The problem" title="Users lost their client every time they changed product."
-        intro={<p className="lead">We were bringing six products into one cloud experience. People think in their work: “I'm working on a tax return”. But the products made them pick the client again every time they moved from one to another.</p>}>
+      <Chapter num="01" kicker="The problem" title="There is a mismatch between the user mental model and the product model."
+        intro={<p className="lead">We were bringing six products into one cloud experience. Users think in the work they need to do: “I'm working on a tax return”. The products were built around the client or the product. So every time users moved from one product to another, they had to pick the client again.</p>}>
         <Figure src="/images/s1-empty-state.jpg" caption="Before · You arrive in a new product with no client selected" alt="CCH iFirm Personal Tax opening with no client selected: the workspace is greyed out behind a panel that says no client selected, and a contact list waiting to be searched." />
         <Callout label="The question" variant="accent">How do we keep the client across products without adding more navigation?</Callout>
       </Chapter>
