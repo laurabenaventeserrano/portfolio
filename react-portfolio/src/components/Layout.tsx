@@ -4,7 +4,7 @@ import { LINKS, ROUTES } from '../content/site';
 import { useScrollProgress } from '../lib/hooks';
 import JellyLogo from './JellyLogo';
 import CursorLabel from './CursorLabel';
-import AskLaura, { ASK_LAURA_ENABLED, openAskLaura } from './AskLaura';
+import AskLaura from './AskLaura';
 import { useLiveFavicon } from '../motion/useLiveFavicon';
 import { scrollToEl, scrollToTop, useSmoothScroll } from '../motion/useSmoothScroll';
 import { useScrollStory } from '../motion/useScrollStory';
@@ -17,47 +17,55 @@ function Logo() {
   );
 }
 
+/* Menú del portfolio del prisma (Identity V1), sobre blanco.
+   Cerrado: la marca a la izquierda y la hamburguesa a la derecha, alineados al margen del contenido.
+   Abierto: una hoja blanca a pantalla completa con el índice numerado en Libertinus,
+   la meta de cada destino en mono y una línea de prisma que se dibuja al pasar por encima. */
+const MENU = [
+  { label: 'Home', meta: 'Start', hash: '#hero' },
+  { label: 'Selected work', meta: '04 cases', hash: '#work' },
+  { label: 'Experience', meta: 'Wolters Kluwer · frog', hash: '#experience' },
+  { label: 'About', meta: 'Laura', hash: '#about' },
+  { label: 'Having fun with AI', meta: 'The lab', hash: '#lab' },
+];
+
 function Header() {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
   useEffect(() => setOpen(false), [pathname]);
-
-  const links = (
-    <>
-      <Link to={{ pathname: ROUTES.home, hash: '#work' }} className="nav__link" aria-current={pathname.startsWith('/work') ? 'page' : undefined}>Work</Link>
-      <Link to={{ pathname: ROUTES.home, hash: '#lab' }} className="nav__link">Playground</Link>
-      <Link to={{ pathname: ROUTES.home, hash: '#about' }} className="nav__link">About</Link>
-      <a href={LINKS.cv} className="nav__link">CV</a>
-    </>
-  );
+  useEffect(() => {
+    if (!open) return;
+    const esc = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
+    window.addEventListener('keydown', esc);
+    return () => window.removeEventListener('keydown', esc);
+  }, [open]);
 
   return (
-    <header className="header">
+    <header className={`header menu${open ? ' is-open' : ''}`}>
       <div className="header__inner">
         <Logo />
-        <nav className="nav" aria-label="Main">
-          {links}
-          {ASK_LAURA_ENABLED && <button type="button" className="nav__link nav__ask" onClick={openAskLaura} aria-haspopup="dialog" aria-controls="ask-laura">
-            <span className="ask-dot" aria-hidden="true" />Ask Laura
-          </button>}
-          <a href={LINKS.email} className="pill pill--dark pill--sm">Contact me →</a>
-        </nav>
-        <button
-          type="button"
-          className="menu-btn"
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          onClick={() => setOpen((o) => !o)}
-        >
+        <button type="button" className="menu__toggle" aria-expanded={open} aria-controls="menu-panel" aria-label={open ? 'Close menu' : 'Open menu'} onClick={() => setOpen((o) => !o)}>
           {/* Hamburguesa: dos líneas que se cruzan en una X al abrir */}
-          <span className="menu-btn__bars" aria-hidden="true"><i /><i /></span>
+          <span className="menu__bars" aria-hidden="true"><i /><i /></span>
         </button>
       </div>
-      <nav id="mobile-menu" className="mobile-menu" data-open={open} aria-label="Main mobile">
-        {links}
-        <a href={LINKS.email}>Contact me →</a>
-      </nav>
+      <div id="menu-panel" className="menu__panel" hidden={!open}>
+        <div className="menu__head" aria-hidden="true"><span>Index</span><span className="menu__rule" /><span>{MENU.length + 1} destinations</span></div>
+        <ol className="menu__links">
+          {MENU.map((m) => (
+            <li key={m.hash}>
+              <Link to={{ pathname: ROUTES.home, hash: m.hash }} data-meta={m.meta} onClick={() => setOpen(false)}><span>{m.label}</span></Link>
+            </li>
+          ))}
+          <li><a href={LINKS.cv} data-meta="PDF ↗" onClick={() => setOpen(false)}><span>CV</span></a></li>
+        </ol>
+        <ul className="menu__foot">
+          <li><a href={LINKS.email}>Contact me</a></li>
+          <li><a href={LINKS.linkedin}>LinkedIn</a></li>
+          <li><a href={LINKS.instagram}>Instagram</a></li>
+          <li><a href={LINKS.github}>GitHub</a></li>
+        </ul>
+      </div>
     </header>
   );
 }

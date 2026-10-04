@@ -4,7 +4,7 @@ import DotLoopPortrait from '../components/DotLoopPortrait';
 import { PORTRAIT, PORTRAIT_SETTINGS } from '../content/portrait';
 import { Kicker, Tags, Video } from '../components/ui';
 import LabSection from '../components/home/LabSection';
-import { ABOUT_ROWS, EXPERIENCE, FACTS, LINKS, STEPS, TICKER, WORK } from '../content/site';
+import { ABOUT_ROWS, EXPERIENCE, FACTS, LINKS, STEPS, WORK } from '../content/site';
 import { useActiveSection, useTitle } from '../lib/hooks';
 import { useHomeStory } from '../motion/useHomeStory';
 import type { FieldOptions } from '../lib/particles';
@@ -59,15 +59,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* CINTA */}
-      <div className="ticker" aria-hidden="true">
-        <div className="ticker__track">
-          {[...TICKER, ...TICKER, ...TICKER, ...TICKER].map((w, i) => (
-            <span key={i} className="ticker__item">{w}<span>✦</span></span>
-          ))}
-        </div>
-      </div>
 
       {/* FROM STRATEGY TO BUILD */}
       <section id="how" className="section" aria-labelledby="how-title">
@@ -133,23 +124,16 @@ export default function Home() {
           <div className="tiles">
             {WORK.map((w) => (
               <Link key={w.num} to={w.to} className="tile" data-cursor="Explore">
-                <div className="tile__media">{w.video ? <Video src={w.video} poster={w.img} label={w.alt} /> : <img src={w.img} alt={w.alt} loading="lazy" />}</div>
+                <div className="tile__media">
+                  {w.video ? <Video src={w.video} poster={w.img} label={w.alt} /> : <img src={w.img} alt={w.alt} loading="lazy" />}
+                  <span className="status tile__status">Shipped</span>
+                </div>
                 <div className="tile__body">
-                  <div className="stack gap-12">
-                    <div className="tile__meta">
-                      <span className="kicker" style={{ color: 'var(--muted-d)' }}>{w.num} · {w.company}</span>
-                      <span className="status status--dark">Shipped</span>
-                    </div>
-                    <h3 className="h-m">{w.title}</h3>
-                    <p style={{ color: 'var(--body-d)', fontSize: 16 }}>{w.text}</p>
+                  <div className="stack gap-16">
+                    <h3 className="tile__title">{w.title}</h3>
+                    <span className="kicker" style={{ color: 'var(--muted-d)' }}>{w.num} · {w.company}</span>
+                    <p style={{ color: 'var(--body-d)', fontSize: 17 }}>{w.text}</p>
                     <div className="is-dark"><Tags items={w.tags} /></div>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 16, flexWrap: 'wrap' }}>
-                    <div className="stack gap-12">
-                      <span className="tile__metric">{w.metric}</span>
-                      <span className="mono-s" style={{ color: 'var(--muted-d)' }}>{w.metricLabel}</span>
-                    </div>
-                    <span className="tile__cta">Read case →</span>
                   </div>
                 </div>
               </Link>
@@ -192,7 +176,7 @@ export default function Home() {
         <ParticleCanvas className="statement__field" options={LAB_FIELD} mode="disperso" />
         <div className="container stack gap-24" style={{ position: 'relative' }}>
           <Kicker tone="accent">The lab</Kicker>
-          <p className="statement__text">Small experiments.<br />Working prototypes.<br />Serious questions.</p>
+          <p className="statement__text">From systems thinking<br />to interaction,<br />from prototype<br />to code</p>
         </div>
       </section>
 

@@ -40,7 +40,7 @@ export const STEPS = [
 export const EXPERIENCE = [
   {
     company: 'Wolters Kluwer', role: 'Senior Product Designer', years: '2021–2026',
-    text: 'Led product design for complex B2B SaaS workflows across accounting and professional services, connecting fragmented journeys, systems and user needs across international markets.',
+    text: 'Led product design for complex B2B SaaS workflows across accounting and professional services, connecting fragmented journeys, systems and user needs across international markets. Evolving product and design systems through AI, automation and code.',
     tags: ['B2B SaaS', 'Tax & accounting', 'Cloud', 'AI', 'Design systems', 'Complex workflows'],
   },
   {

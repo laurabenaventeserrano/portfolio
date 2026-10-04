@@ -32,7 +32,7 @@ export const KNOWLEDGE = `
 ## Experience
 
 ### Wolters Kluwer — Senior Product Designer (June 2021 – July 2026, international, remote)
-- Led product design for complex B2B SaaS workflows across accounting and professional services, connecting fragmented journeys, systems and user needs across international markets.
+- Led product design for complex B2B SaaS workflows across accounting and professional services, connecting fragmented journeys, systems and user needs across international markets. Evolving product and design systems through AI, automation and code.
 - Designed and shipped complex B2B SaaS products for accounting and professional-services firms, translating business logic, regulatory requirements and technical constraints into scalable product experiences across international markets.
 - Owned end-to-end product design: discovery, customer research and problem definition, through interaction design, prototyping, validation, design delivery and implementation.
 - Designed and shipped AI-powered product experiences, including an AI agent integrated into the product ecosystem to support users within their existing workflows.
@@ -116,7 +116,6 @@ export const KNOWLEDGE = `
 - Outcome: −12% call centre calls. Released in 2019 in the Movistar Smart WiFi app.
 
 ## Playground (the lab · "Having fun with AI")
-- Small experiments. Working prototypes. Serious questions.
 - Postcard maker: an AI prototype in vanilla JS with zero dependencies. Take or upload a photo, filter it, pick a template, write the message in a handwritten face, add a stamp and flip the card over. I wrote the brief, including the five template palettes and the type, and built it with Claude Code. It runs entirely in the browser; no photo leaves the device.
 - Arcana: one question, one card. It asks "What would you like to know?"
 - This portfolio itself is built in React and TypeScript, with AI-assisted development.

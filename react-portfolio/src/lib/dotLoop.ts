@@ -11,9 +11,9 @@
 
 const TAU = Math.PI * 2;
 const INK = '#0E0E0C';
-/* Un 3 % de los puntos va en lila: al dispersarse, el retrato suelta algo de color.
-   Un lila algo más intenso que el del sitio (#E7BFFF), para que un punto pequeño se vea sobre blanco. */
-const ACCENT = '#C58CF2';
+/* Un 3 % de los puntos va en gris: al dispersarse, el retrato suelta algunos puntos más claros.
+   Cada punto tiene un gris fijo. */
+const PRISM = ['#5C5C5C', '#7A7A7A', '#9A9A9A', '#B8B8B8'];
 const ACCENT_SHARE = 0.03;
 
 export interface DotLoopOptions {
@@ -49,7 +49,7 @@ export class DotLoopRenderer {
   private px = new Float32Array(0); private py = new Float32Array(0);
   private vx = new Float32Array(0); private vy = new Float32Array(0);
   private val = new Float32Array(0); private ph = new Float32Array(0);
-  private lilac = new Uint8Array(0); // 1 = este punto va en lila
+  private lilac = new Uint8Array(0); // 0 = tinta; 1..n = uno de los grises
 
   /** Dónde se coloca la imagen dentro del lienzo: 0 izquierda, 0,5 centro, 1 derecha. */
   anchorX = 0.5;
@@ -87,7 +87,8 @@ export class DotLoopRenderer {
       this.hy[q] = this.py[q] = oy + j * rowH;
       this.ph[q] = (Math.sin(q * 12.9898) * 43758.5453) % TAU; // fase pseudoaleatoria estable
       const h = Math.abs(Math.sin(q * 78.233 + 1.7) * 12345.6789) % 1;  // otro azar estable, para el color
-      this.lilac[q] = h < ACCENT_SHARE ? 1 : 0;
+      // 0 = tinta; 1..n = uno de los grises
+      this.lilac[q] = h < ACCENT_SHARE ? 1 + Math.floor((h / ACCENT_SHARE) * PRISM.length) % PRISM.length : 0;
     }
     return true;
   }
@@ -121,7 +122,7 @@ export class DotLoopRenderer {
     ctx.clearRect(0, 0, W, H);
     ctx.fillStyle = INK;
     ctx.beginPath();
-    const accent = new Path2D(); // los puntos lila se dibujan aparte, encima
+    const accent = PRISM.map(() => new Path2D()); // los puntos de color se dibujan aparte, encima
     for (let q = 0; q < n; q++) {
       const l = (0.299 * d[q * 4] + 0.587 * d[q * 4 + 1] + 0.114 * d[q * 4 + 2]) / 255;
       const v = Math.pow(Math.max(0, 1 - l), o.contrast);
@@ -145,12 +146,11 @@ export class DotLoopRenderer {
       const vq = this.val[q];
       if (vq < o.threshold) continue;
       const r = maxR * vq, x = this.px[q], y = this.py[q];
-      const target = this.lilac[q] ? accent : ctx;
+      const target = this.lilac[q] ? accent[this.lilac[q] - 1] : ctx;
       if (square) target.rect(x - r, y - r, r * 2, r * 2);
       else { target.moveTo(x + r, y); target.arc(x, y, r, 0, TAU); }
     }
     ctx.fill();
-    ctx.fillStyle = ACCENT;
-    ctx.fill(accent);
+    PRISM.forEach((c, i) => { ctx.fillStyle = c; ctx.fill(accent[i]); });
   }
 }

@@ -136,13 +136,13 @@ button { font: inherit; color: inherit; }
   position: sticky; top: 0; z-index: 50; height: var(--header-h);
   background: var(--paper); border-bottom: 1px solid var(--line);
 }
-.header__inner { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 24px; max-width: 1440px; margin: 0 auto; padding-inline: clamp(20px, 2.2vw, 32px); }
+.header__inner { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 24px; max-width: 1440px; margin: 0 auto; padding-inline: var(--pad); } /* mismo margen que el contenido: el logo alinea con los textos */
 .logo { display: inline-flex; align-items: center; text-decoration: none; color: var(--ink); padding-block: 6px; }
 /* Logo "Gelatina": cada letra se estira desde abajo (ver JellyLogo.tsx) */
 .jelly {
   display: inline-flex; align-items: flex-end; white-space: nowrap;
-  font-family: var(--display); font-weight: 800; font-size: 26px; line-height: 0.85; letter-spacing: -0.035em;
-  font-variation-settings: 'wdth' 75, 'opsz' 96;
+  /* Libertinus, como los titulares (bw.css define --serif) */
+  font-family: var(--serif); font-weight: 400; font-size: 28px; line-height: 0.85; letter-spacing: -0.015em;
 }
 .jelly__l { display: inline-block; transform-origin: 50% 100%; will-change: transform; }
 .jelly__sp { display: inline-block; width: 0.26em; }

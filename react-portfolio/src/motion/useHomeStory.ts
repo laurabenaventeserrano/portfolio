@@ -107,8 +107,8 @@ export function useHomeStory() {
       const photo = $('.about__photo');
       if (photo) {
         const img = photo.querySelector('img');
-        gsap.fromTo(photo, { clipPath: 'inset(100% 0% 0% 0% round 16px)' }, {
-          clipPath: 'inset(0% 0% 0% 0% round 16px)', ease: 'none',
+        gsap.fromTo(photo, { clipPath: 'inset(100% 0% 0% 0% round 2px)' }, {
+          clipPath: 'inset(0% 0% 0% 0% round 2px)', ease: 'none',
           scrollTrigger: { trigger: photo, start: 'top 95%', end: 'top 35%', scrub: 0.6 },
         });
         if (img) gsap.fromTo(img, { yPercent: -8, scale: 1.2 }, {

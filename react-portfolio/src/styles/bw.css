@@ -1,0 +1,344 @@
+/* =========================================================
+   Blanco y negro + Libertinus
+   Una sola capa encima de global.css: colores en blanco y negro,
+   Libertinus Serif como fuente principal y Geist Mono para etiquetas.
+   El lila queda solo en el cursor y en los estados hover.
+   ========================================================= */
+
+:root {
+  --ink: #111111;
+  --paper: #ffffff;
+  --soft: #f2f2f2;
+  --soft-2: #e6e6e6;
+  --accent: #E7BFFF;        /* solo cursor y hover */
+  --muted: #5c5c5c;
+  --body: #3d3d3d;
+  --muted-d: #a3a3a3;
+  --body-d: #d6d6d6;
+  --line: rgba(17, 17, 17, 0.12);
+  --line-strong: rgba(17, 17, 17, 0.24);
+  /* Tipografía de la identidad de Laura: Libertinus solo en titulares, Roboto para leer, Roboto Mono para etiquetas */
+  --serif: 'Libertinus Serif', Georgia, 'Times New Roman', serif;
+  --display: 'Roboto', system-ui, -apple-system, sans-serif;
+  --mono: 'Roboto Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --radius: 2px;
+  --radius-s: 2px;
+}
+
+body { font-size: 17px; line-height: 1.6; }
+
+/* Titulares: Libertinus en regular, sin el apretado de la grotesca */
+.h-hero, .h-xl, .h-l, .h-m, .h-s, .h-giant, .tile__metric, .stat__value, .statement__text,
+.big-line, .quote, .quote-card blockquote, .chapter__ghost, h1, h2, h3, .logo {
+  font-family: var(--serif); font-weight: 400; letter-spacing: -0.015em;
+}
+.h-hero, .h-giant { letter-spacing: -0.025em; }
+.item__title, .steps-list__t, .platform__name { font-weight: 500; letter-spacing: -0.01em; }
+.h-hero { line-height: 0.95; }
+.statement__text { text-transform: none; }
+.fact dd, .about__rows dd, .case-meta dd, .callout__text, .table td:first-child, .table td:last-child,
+.text-link, .job__role, .case-hero__hook, .flow__step, .mobile-menu a { font-weight: 500; letter-spacing: 0; }
+.lead { color: var(--body); }
+.is-dark, .section--dark { color: var(--paper); }
+
+/* Sin píldoras: radio de 2px en botones, tags y estados, como en la identidad */
+.pill, .tag, .status, .flow__step, .skip-link { border-radius: 2px; }
+
+/* Botones: misma forma, tipografía de etiqueta */
+.pill { font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* Fuera el lila de fondos y marcas: blanco, gris claro y negro */
+.section--accent { background: var(--soft); }
+.section--accent .kicker--muted, .section--accent .muted, .section--accent .lead,
+.section--accent .fact dt, .section--accent .about__rows dt { color: var(--muted); }
+.pill--accent { background: transparent; color: inherit; border-color: currentColor; }
+.pill--accent:hover { background: var(--accent); color: var(--ink); border-color: var(--accent); }
+.dots a[aria-current='true'] .dots__dot { background: var(--ink); border-color: var(--ink); }
+.ticker { background: var(--soft); }
+.ticker__ribbon { fill: var(--soft); }
+.pass__dot, .status::before { background: var(--ink); }
+.status--dark::before { background: var(--paper); border-color: var(--paper); }
+.callout--accent, .quote-card, .card--chosen, .next { background: var(--soft); }
+.flow__step:last-child { background: var(--ink); color: var(--paper); }
+.table td.risk { background: var(--soft-2); }
+.ask-dot { background: var(--ink); }
+.ask__msg--user { background: var(--soft); }
+.accent { color: inherit; }
+
+/* ---------- Cursor: bolita lila, tag que cambia con el contenido y barra de texto ---------- */
+.has-cursor-label, .has-cursor-label * { cursor: none !important; }
+.cursor-label { display: none; }
+.lb-cursor { position: fixed; left: 0; top: 0; z-index: 1000; pointer-events: none; will-change: transform; }
+.lb-cursor__dot {
+  position: absolute; left: 0; top: 0; transform: translate(-50%, -50%);
+  display: flex; align-items: center; justify-content: center; gap: 8px; overflow: hidden; white-space: nowrap;
+  box-sizing: border-box; height: 16px; padding: 0; border: 0 solid #242424; border-radius: 999px;
+  background: #C58CF2; color: #242424;
+  font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+  opacity: 0;
+  transition: width .2s ease-out, height .2s ease-out, background-color .2s ease-out, border-width .2s ease-out, opacity .2s ease-out, box-shadow .2s ease-out;
+}
+.lb-cursor__dot.is-vis { opacity: 1; }
+.lb-cursor__dot.is-on { height: 40px; padding: 0 16px; border-width: 1.5px; background: #E7BFFF; box-shadow: 0 10px 24px rgba(36, 36, 36, 0.16); }
+.lb-cursor__t { opacity: 0; transition: opacity .15s; }
+.lb-cursor__arrow { font-size: 14px; letter-spacing: 0; }
+.lb-cursor__dot.is-on .lb-cursor__t { opacity: 1; transition-delay: .08s; }
+.lb-cursor__caret {
+  position: absolute; left: 0; top: 0; transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; opacity: 0; transition: opacity .12s;
+}
+.lb-cursor__caret.is-on { opacity: 1; }
+.lb-cursor__caret > span { display: block; background: #C58CF2; }
+@media (prefers-reduced-motion: reduce) { .lb-cursor__dot, .lb-cursor__t, .lb-cursor__caret { transition: none; } }
+
+/* ---------- Cards de Selected work: primero el vídeo, después el título ---------- */
+.tiles .tile__media { aspect-ratio: 16 / 10; }
+.tile__title { font-family: var(--serif); font-weight: 400; font-size: 56px; line-height: 1; letter-spacing: -0.02em; color: var(--paper); text-wrap: balance; }
+.tiles .tile__body { justify-content: flex-start; padding-top: 28px; padding-bottom: 32px; }
+@media (max-width: 860px) { .tile__title { font-size: 40px; } }
+/* El vídeo y la imagen se ven enteros, sin recortar */
+.tiles .tile__media { position: relative; aspect-ratio: 16 / 9; background: #111111; }
+.tiles .tile__media img, .tiles .tile__media video,
+.tiles .tile__media .media video, .tiles .tile__media .media img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
+/* "Shipped" flotando dentro de la card, sobre la imagen */
+.tile__status { position: absolute; top: 14px; right: 14px; z-index: 2; background: #111111; color: #ffffff; border-color: #111111; }
+.tile__status::before { background: #ffffff; border-color: #ffffff; }
+
+/* ---------- Auditoría: un solo radio (2px) y contenedores más ligeros ---------- */
+/* Radio: 2px en todo lo rectangular; los únicos círculos que quedan son marcas pequeñas (puntos) y el cursor */
+.pass, .chip, .dots ol, .dots__label, .ask-fab, .ask__icon, .ask__form textarea, .ask__msg--user,
+.tile__cta, .menu-btn:focus-visible, :focus-visible { border-radius: 2px; }
+.pass__dot { border-radius: 0; width: 8px; height: 8px; }
+/* El contenido manda: bordes de 1px en lugar de 2px y sin sombras en los contenedores */
+.step, .pass, .card, .callout--box, .callout--accent, .quote-card, .table-wrap, .next { border-width: 1px; }
+.fact, .stat, .callout, .item, .job, .case-meta > div { border-top-width: 1px; }
+.pass, .passes--fan .pass { box-shadow: none; }
+.dots ol { background: transparent; box-shadow: none; }
+
+/* ---------- Prueba: las líneas en prisma (Visual Identity V1) ----------
+   Las siete paradas solo como línea fina: separadores, reglas y filas. Nunca como relleno. */
+:root {
+  --p1: #1E2A78; --p2: #2F5FD0; --p3: #2FA7C4; --p4: #63BE6E; --p5: #E3C64B; --p6: #E8834B; --p7: #E2436B;
+  --prism: linear-gradient(90deg, var(--p1) 0%, var(--p2) 18%, var(--p3) 36%, var(--p4) 53%, var(--p5) 70%, var(--p6) 85%, var(--p7) 100%);
+}
+/* Línea arriba */
+.section--line, .job, .fact, .about__rows > div, .contact__grid, .contact__bottom, .pass__row,
+.stat, .callout, .item, .case-meta > div, .case-sec, .steps-list li {
+  border-top: 0 !important;
+  background-image: var(--prism);
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: top left;
+}
+/* Línea arriba y abajo */
+.job:last-child, .pass__row:last-child, .steps-list li:last-child {
+  border-bottom: 0 !important;
+  background-image: var(--prism), var(--prism);
+  background-size: 100% 1px, 100% 1px;
+  background-position: top left, bottom left;
+}
+/* Línea abajo, conservando el fondo */
+.header { border-bottom: 0; background: var(--prism) bottom left / 100% 1px no-repeat, var(--paper); }
+.case-hero { border-bottom: 0; background: var(--prism) bottom left / 100% 1px no-repeat; }
+
+/* =========================================================
+   Visual Identity V1: colores, prisma y botones
+   (tipografía, estructura, cards y cursor se quedan como están; el lila sigue en cursor y hovers)
+   ========================================================= */
+:root {
+  --lb-ground: #0A0A0C;      /* fondo oscuro, nunca #000 */
+  --lb-raised: #141416;
+  --lb-cream: #FFFFFF;       /* fondo: blanco puro */
+  --lb-paper-inset: #F4F4F5; /* panel: gris neutro, sin tono cálido */
+  --lb-ink: #F4F4F5;         /* texto sobre oscuro, neutro */
+  --lb-ink-2: #BDB9B3;
+  --lb-mid: #8C8A87;
+  --lb-cream-ink: #111111;   /* texto sobre papel */
+  --lb-cream-body: #3A3835;
+  --lb-cream-meta: #6B6863;
+
+  --paper: var(--lb-cream);
+  --ink: var(--lb-cream-ink);
+  --soft: var(--lb-paper-inset);
+  --soft-2: #E7E7E9;
+  --body: var(--lb-cream-body);
+  --muted: var(--lb-cream-meta);
+  --body-d: var(--lb-ink-2);
+  --muted-d: var(--lb-mid);
+  --line: rgba(20, 20, 22, 0.16);
+  --line-strong: rgba(20, 20, 22, 0.28);
+  --line-d: rgba(244, 244, 245, 0.14);
+}
+body { background: var(--lb-cream); color: var(--lb-cream-ink); }
+/* Fondos oscuros: #0A0A0C con tinta #F2EFEA */
+.section--dark, .is-dark, .tile, .contact { background-color: var(--lb-ground); color: var(--lb-ink); }
+.tile__title { color: var(--lb-ink); }
+.tiles .tile__media, .tile__status { background-color: var(--lb-ground); border-color: var(--lb-ground); }
+.tile__status { color: var(--lb-ink); }
+.tile__status::before { background: var(--lb-ink); border-color: var(--lb-ink); }
+.pass, .step { background-color: var(--lb-cream); }
+.header { background: var(--prism) bottom left / 100% 1px no-repeat, var(--lb-cream); }
+
+/* ---------- Botones: el borde es una línea de prisma de 1px; el interior decide el nivel ----------
+   Sin border-image y sin degradado detrás del texto: el prisma solo asoma en el borde (background por capas). */
+.pill {
+  min-height: 0; width: auto; gap: 8px;
+  padding: 11px 20px;
+  border: 1px solid transparent; border-radius: 2px;
+  font-family: var(--display); font-size: 12px; font-weight: 500; line-height: 1;
+  letter-spacing: 0.02em; text-transform: none;
+  transition: background .18s, color .18s, padding .18s, border-width .18s;
+}
+.pill--lg { padding: 14px 24px; font-size: 13px; }
+.pill--sm { padding: 11px 18px; }
+/* Primario sobre papel: interior blanco roto, texto negro. Hover: se invierte y el borde pasa a 1,5px */
+.pill--dark, .pill--dark:hover {
+  background: linear-gradient(var(--lb-cream), var(--lb-cream)) padding-box, var(--prism) border-box;
+  color: var(--lb-cream-ink);
+}
+.pill--dark:hover {
+  border-width: 1.5px; padding: 10.5px 19.5px;
+  background: linear-gradient(var(--lb-cream-ink), var(--lb-cream-ink)) padding-box, var(--prism) border-box;
+  color: var(--lb-cream);
+}
+.pill--dark.pill--lg:hover { padding: 13.5px 23.5px; }
+.pill--dark.pill--sm:hover { padding: 10.5px 17.5px; }
+/* Secundario sobre papel: interior del panel, solo se ve el contorno */
+.pill--line, .pill--line:hover {
+  border-color: transparent;
+  background: linear-gradient(var(--lb-paper-inset), var(--lb-paper-inset)) padding-box, var(--prism) border-box;
+  color: var(--lb-cream-ink);
+}
+.section--accent .pill--line, .section--accent .pill--line:hover {
+  background: linear-gradient(var(--lb-cream), var(--lb-cream)) padding-box, var(--prism) border-box;
+}
+/* Sobre oscuro los interiores se invierten */
+.is-dark .pill--accent, .is-dark .pill--accent:hover {
+  border-color: transparent;
+  background: linear-gradient(var(--lb-ink), var(--lb-ink)) padding-box, var(--prism) border-box;
+  color: var(--lb-ground);
+}
+.is-dark .pill--accent:hover {
+  border-width: 1.5px; padding: 13.5px 23.5px;
+  background: linear-gradient(var(--lb-ground), var(--lb-ground)) padding-box, var(--prism) border-box;
+  color: var(--lb-ink);
+}
+.is-dark .pill--line, .is-dark .pill--line:hover {
+  border-color: transparent;
+  background: linear-gradient(var(--lb-ground), var(--lb-ground)) padding-box, var(--prism) border-box;
+  color: var(--lb-ink);
+}
+/* Terciario (enlace): sin borde ni fondo; al pasar, una línea corta de prisma debajo */
+.text-link { padding-bottom: 2px; text-decoration: none !important; background: none; }
+.text-link:hover { background: var(--prism-sm) bottom left / 100% 1px no-repeat; }
+:root { --prism-sm: linear-gradient(90deg, var(--p2), var(--p4), var(--p5), var(--p7)); }
+
+/* Menú de puntos legible también sobre las secciones oscuras */
+.dots ol { background: var(--lb-cream); border: 1px solid var(--line); }
+
+/* ---------- Cursor en prisma: blanco por dentro, borde de prisma; se transforma con el contenido ---------- */
+:root { --prism-v: linear-gradient(180deg, var(--p1) 0%, var(--p2) 18%, var(--p3) 36%, var(--p4) 53%, var(--p5) 70%, var(--p6) 85%, var(--p7) 100%); }
+.lb-cursor__dot, .lb-cursor__dot.is-on {
+  border: 1.5px solid transparent;
+  background: linear-gradient(#FFFFFF, #FFFFFF) padding-box, var(--prism) border-box;
+  color: var(--lb-cream-ink);
+  box-shadow: none;
+}
+.lb-cursor__dot { height: 16px; }
+.lb-cursor__dot.is-on { height: 40px; padding: 0 16px; }
+/* La barra de texto: la vertical en prisma de arriba abajo, los remates en prisma horizontal */
+.lb-cursor__caret > span { background: var(--prism); }
+.lb-cursor__caret > span:nth-child(2) { background: var(--prism-v); }
+
+/* ---------- Bordes de las cards: 1px de prisma ---------- */
+.tile { border: 1px solid transparent; background: linear-gradient(var(--lb-ground), var(--lb-ground)) padding-box, var(--prism) border-box; }
+.step, .pass { border: 1px solid transparent !important; background: linear-gradient(var(--lb-cream), var(--lb-cream)) padding-box, var(--prism) border-box !important; }
+
+/* El punto del cursor: negro sobre blanco y blanco sobre negro (se invierte con lo que tiene debajo).
+   La tag, al abrirse, vuelve a ser blanca con borde de prisma. */
+.lb-cursor__dot:not(.is-on) { background: #FFFFFF; border: 0; mix-blend-mode: difference; }
+/* La mezcla tiene que ir en el contenedor (el transform lo aísla); solo mientras es punto */
+.lb-cursor:has(.lb-cursor__dot.is-vis:not(.is-on)) { mix-blend-mode: difference; }
+.lb-cursor__dot:not(.is-on) { mix-blend-mode: normal; }
+
+/* =========================================================
+   Menú del portfolio del prisma, sobre blanco
+   ========================================================= */
+.header__inner { max-width: 1440px; padding-inline: var(--pad); }           /* mismo margen que el contenido */
+.menu__toggle {
+  position: relative; padding: 8px 0; border: 0; background: none; cursor: pointer;
+  font-family: var(--mono); font-size: 11px; font-weight: 400; line-height: 1;
+  letter-spacing: 0.24em; text-transform: uppercase; color: var(--lb-cream-ink);
+  margin-right: -0.24em;                                                       /* el tracking de la última letra no empuja el margen */
+}
+.menu__toggle::after {
+  content: ''; position: absolute; left: 0; right: 0.24em; bottom: 1px; height: 1px;
+  background: var(--prism-sm); transform: scaleX(0); transform-origin: left; transition: transform .32s cubic-bezier(.16, 1, .3, 1);
+}
+.menu__toggle:hover::after, .menu__toggle:focus-visible::after, .menu.is-open .menu__toggle::after { transform: scaleX(1); }
+.menu.is-open .header__inner { position: relative; z-index: 2; }
+
+/* La hoja: blanca, a pantalla completa, con el contenido en la misma caja que la barra */
+.menu__panel {
+  position: fixed; inset: 0; z-index: 1; display: flex; flex-direction: column;
+  padding: calc(var(--header-h) + 8px) 0 34px; background: var(--lb-cream); color: var(--lb-cream-ink);
+}
+.menu__panel[hidden] { display: none; }
+.menu__head, .menu__links, .menu__foot { width: 100%; max-width: 1440px; margin-inline: auto; padding-inline: var(--pad); box-sizing: border-box; }
+.menu__head {
+  display: flex; align-items: center; gap: 20px; height: 52px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--lb-cream-meta);
+}
+.menu__rule { flex: 1; height: 1px; background: var(--prism); }
+.menu__links { margin-block: auto; list-style: none; counter-reset: menu; }
+.menu__links li { position: relative; counter-increment: menu; }
+.menu__links li::after {
+  content: ''; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--prism);
+  transform: scaleX(0); transform-origin: left; transition: transform .3s cubic-bezier(.16, 1, .3, 1);
+}
+.menu__links li:hover::after, .menu__links li:has(a:focus-visible)::after { transform: scaleX(1); }
+.menu__links a {
+  display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; align-items: baseline; gap: 18px;
+  padding: 14px 0; border-top: 1px solid var(--line); text-decoration: none; color: var(--lb-cream-ink);
+}
+.menu__links li:last-child a { border-bottom: 1px solid var(--line); }
+.menu__links a::before { content: counter(menu, decimal-leading-zero); font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; color: var(--lb-cream-meta); }
+.menu__links a span {
+  display: block; font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 4.4vw, 56px); line-height: 1.1; letter-spacing: -0.015em;
+  transition: transform .3s cubic-bezier(.16, 1, .3, 1);
+}
+.menu__links a::after { content: attr(data-meta); justify-self: end; text-align: right; font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--lb-cream-meta); }
+.menu__links li:hover a span, .menu__links a:focus-visible span { transform: translateX(10px); }
+.menu__foot { display: flex; gap: 28px; flex-wrap: wrap; padding-top: 18px; list-style: none; }
+.menu__foot a {
+  display: block; padding: 7px 0; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
+  text-decoration: none; color: var(--lb-cream-body); background: none;
+}
+.menu__foot a:hover { background: var(--prism-sm) bottom 4px left / 100% 1px no-repeat; color: var(--lb-cream-ink); }
+@media (max-width: 520px) { .menu__links a { grid-template-columns: 40px minmax(0, 1fr); gap: 14px; } .menu__links a::after { display: none; } }
+/* La barra cerrada no lleva menú de escritorio ni hamburguesa */
+.nav, .menu-btn, .mobile-menu { display: none !important; }
+
+/* ---------- Ajustes: hamburguesa alineada con el logo y barra de texto sin colores ---------- */
+.header__inner { align-items: center; }
+.menu__toggle { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; margin-right: -10px; letter-spacing: 0; }
+.menu__toggle::after { display: none; }
+.menu__bars { position: relative; display: block; width: 24px; height: 10px; }
+.menu__bars i { position: absolute; left: 0; width: 100%; height: 1.5px; background: var(--lb-cream-ink); transition: transform .3s cubic-bezier(.16, 1, .3, 1), top .3s cubic-bezier(.16, 1, .3, 1); }
+.menu__bars i:first-child { top: 0; }
+.menu__bars i:last-child { top: calc(100% - 1.5px); }
+.menu.is-open .menu__bars i:first-child { top: calc(50% - 0.75px); transform: rotate(45deg); }
+.menu.is-open .menu__bars i:last-child { top: calc(50% - 0.75px); transform: rotate(-45deg); }
+
+/* La barra de texto del cursor: un solo tono que se invierte con el fondo (negra sobre blanco, blanca sobre negro) */
+.lb-cursor__caret > span, .lb-cursor__caret > span:nth-child(2) { background: #FFFFFF; }
+.lb-cursor:has(.lb-cursor__caret.is-on) { mix-blend-mode: difference; }
+
+/* ---------- Prueba: cards de Selected work sin fondo negro, solo la línea de prisma ---------- */
+.tiles .tile { background: linear-gradient(var(--lb-cream), var(--lb-cream)) padding-box, var(--prism) border-box; color: var(--lb-cream-ink); }
+.tiles .tile__media { background-color: var(--lb-paper-inset); }
+.tiles .tile__title { color: var(--lb-cream-ink); }
+.tiles .tile .kicker { color: var(--lb-cream-meta) !important; }
+.tiles .tile p { color: var(--lb-cream-body) !important; }
+.tiles .tile .is-dark { background: transparent; color: inherit; }
+.tiles .tile .is-dark .tag { border-color: var(--line-strong); color: var(--lb-cream-body); }

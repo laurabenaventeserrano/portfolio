@@ -10,6 +10,7 @@ import Case4 from './pages/Case4';
 import NotFound from './pages/NotFound';
 import { LEGACY_ROUTES, ROUTES } from './content/site';
 import './styles/global.css';
+import './styles/bw.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

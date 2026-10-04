@@ -45,10 +45,8 @@ export default function LabSection({ deal = false }: { deal?: boolean }) {
                 </div>
                 <dl className="pass__rows">
                   <div className="pass__row"><dt className="mono-s">Stack</dt><dd style={{ fontWeight: 700 }}>Vanilla JS · zero deps</dd></div>
-                  <div className="pass__row"><dt className="mono-s">What it does</dt><dd>Take or upload a photo, filter it, pick a template, write the message in a handwritten face, add a stamp, and flip the card over. I wrote the brief, including the five template palettes and the type, and built it with Claude Code.</dd></div>
-                  <div className="pass__row"><dt className="mono-s">Privacy</dt><dd>Runs entirely in your browser. No photo ever leaves your device.</dd></div>
                 </dl>
-                <a href={LINKS.postcard} className="pill pill--dark">Play AI prototype ↗</a>
+                <a href={LINKS.postcard} className="pill sr-only">Play AI prototype ↗</a>
               </article>
             </div>
           </div>
@@ -63,10 +61,8 @@ export default function LabSection({ deal = false }: { deal?: boolean }) {
                 </div>
                 <dl className="pass__rows">
                   <div className="pass__row"><dt className="mono-s">Format</dt><dd style={{ fontWeight: 700 }}>One question · one card</dd></div>
-                  <div className="pass__row"><dt className="mono-s">It asks</dt><dd style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-0.02em' }}>What would you like to know?</dd></div>
-                  <div className="pass__row"><dt className="mono-s">Series</dt><dd>Small experiments · serious questions</dd></div>
                 </dl>
-                <a href={LINKS.arcana} className="pill pill--dark">Draw a card ↗</a>
+                <a href={LINKS.arcana} className="pill sr-only">Draw a card ↗</a>
               </article>
             </div>
           </div>
