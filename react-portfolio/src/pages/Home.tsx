@@ -49,7 +49,7 @@ export default function Home() {
           <Kicker>Senior Product Designer · Design engineer · B2B SaaS · AI</Kicker>
           <div className="hero__content">
             <h1 id="hero-title" className="h-hero">
-              Hello! I’m Laura.<br />A product designer who builds<span className="accent">.</span>
+              Hello! I’m Laura.<br />A product designer<br />who engineers<span className="accent">.</span>
             </h1>
             <p className="lead" style={{ maxWidth: 560 }}>8+ years designing complex digital products across B2B SaaS, financial software and consumer technology.</p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
