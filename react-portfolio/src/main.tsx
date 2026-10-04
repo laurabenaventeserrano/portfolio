@@ -11,6 +11,7 @@ import NotFound from './pages/NotFound';
 import { LEGACY_ROUTES, ROUTES } from './content/site';
 import './styles/global.css';
 import './styles/bw.css';
+import './styles/case.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

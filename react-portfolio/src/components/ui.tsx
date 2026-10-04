@@ -80,22 +80,60 @@ export function Stats({ items }: { items: Stat[] }) {
   );
 }
 
-/* Sección de un caso: etiqueta mono a la izquierda, contenido a la derecha. Sin fondos ni números fantasma:
-   en los casos manda el contenido. `tone="dark"` solo para la frase que lo merece (el problema o la decisión). */
-export function CaseSection({ num, label, title, tone, children }: {
-  num: string; label: string; title?: ReactNode; tone?: 'dark'; children?: ReactNode;
+/* Sección de un caso con la firma de la identidad: etiqueta mono a la izquierda, línea de prisma en medio,
+   dato mono a la derecha; debajo, el titular en Libertinus y el contenido a todo el ancho.
+   `tone="dark"` solo para los momentos que lo merecen (el problema, la voz del cliente, el resultado). */
+export function CaseSection({ num, label, meta, title, tone, children }: {
+  num: string; label: string; meta?: string; title?: ReactNode; tone?: 'dark'; children?: ReactNode;
 }) {
   const id = `sec-${num}`;
   return (
     <section className={`case-sec${tone === 'dark' ? ' section--dark is-dark' : ''}`} aria-labelledby={id}>
-      <div className="container case-sec__grid">
-        <p className="case-sec__label" id={title ? undefined : id}><span>{num}</span> {label}</p>
-        <div className="case-sec__body">
-          {title && <h2 id={id} className="h-m balance">{title}</h2>}
-          {children}
-        </div>
+      <div className="container">
+        <p className="sig" id={title ? undefined : id}>
+          <span>{num} · {label}</span><i className="sig__rule" aria-hidden="true" />{meta && <span>{meta}</span>}
+        </p>
+        {title && <h2 id={id} className="case-sec__title balance">{title}</h2>}
+        {children && <div className="case-sec__body">{children}</div>}
       </div>
     </section>
+  );
+}
+
+/* Bloque numerado de la identidad: numeral en Libertinus, regla corta de tinta, etiqueta mono, descripción */
+export function NumberedBlocks({ items, label }: { items: [string, ReactNode][]; label: string }) {
+  return (
+    <ol className="nblocks" aria-label={label}>
+      {items.map(([t, d], i) => (
+        <li key={t} className="nblock">
+          <span className="nblock__n">{String(i + 1).padStart(2, '0')}</span>
+          <i className="nblock__rule" aria-hidden="true" />
+          <span className="nblock__t">{t}</span>
+          <span className="nblock__d">{d}</span>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+/* Columnas separadas por una línea fina, como en las láminas */
+export function Cols({ items }: { items: { k: string; t?: ReactNode; d?: ReactNode }[] }) {
+  return (
+    <dl className="cols">
+      {items.map((c) => (
+        <div key={c.k} className="cols__c">
+          <dt>{c.k}</dt>
+          <dd>{c.t && <span className="cols__t">{c.t}</span>}{c.d && <span className="cols__d">{c.d}</span>}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+/* Frase clave: etiqueta mono a la izquierda, la idea en Libertinus a la derecha */
+export function KeyLine({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <p className="keyline"><span className="keyline__l">{label}</span><span className="keyline__t">{children}</span></p>
   );
 }
 
@@ -117,7 +155,7 @@ export function Steps({ items, label }: { items: [string, ReactNode][]; label: s
 /* Antes y después, una sola figura */
 export function Pair({ before, after }: { before: { src: string; alt: string; caption: string }; after: { src: string; alt: string; caption: string } }) {
   return (
-    <div className="figure-row">
+    <div className="figure-row pair">
       <Figure {...before} />
       <Figure {...after} />
     </div>
@@ -167,14 +205,12 @@ export function CaseNote({ children }: { children: ReactNode }) {
 
 export function NextCase({ to, label, title }: { to: string; label: string; title: string }) {
   return (
-    <section className="section section--line">
+    <section className="case-next" aria-label={`Next: ${title}`}>
       <div className="container">
-        <Link to={to} className="next" data-cursor="Explore">
-          <div className="stack gap-12">
-            <span className="kicker">Next · {label}</span>
-            <span className="h-l">{title}</span>
-          </div>
-          <span className="pill pill--dark pill--lg">Read case →</span>
+        <p className="sig"><span>Next · {label}</span><i className="sig__rule" aria-hidden="true" /><span>Selected work</span></p>
+        <Link to={to} className="case-next__link" data-cursor="Explore">
+          <span className="case-next__title">{title}</span>
+          <span className="pill pill--dark">Read {label.toLowerCase()} →</span>
         </Link>
       </div>
     </section>

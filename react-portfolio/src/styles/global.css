@@ -507,6 +507,8 @@ button { font: inherit; color: inherit; }
 .case-sec__body { display: flex; flex-direction: column; gap: clamp(24px, 2.8vw, 40px); min-width: 0; max-width: 1040px; }
 .case-sec__body > .h-m { max-width: 900px; }
 @media (max-width: 860px) { .case-sec__grid { grid-template-columns: 1fr; } .case-sec__label { padding-top: 0; } }
+/* Sin titular, la etiqueta alinea con el borde superior de lo que acompaña (imagen, lista) */
+.case-sec--plain .case-sec__label { padding-top: 0; line-height: 1; }
 .case-sec .stats { max-width: 900px; }
 
 /* Pasos numerados */

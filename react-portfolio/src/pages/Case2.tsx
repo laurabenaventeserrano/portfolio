@@ -41,7 +41,7 @@ export default function Case2() {
 
       <CaseSection num="04" label="The experience" title="From blank template to AI assistant.">
         <p className="lead">The AI writes the letter, adds the tags and suggests the group of clients. The professional reviews and decides.</p>
-        <Video src="/video/s2-draft-with-ai.mp4" poster="/images/story-2-poster.jpg" label="The instruction step inside the product: the professional picks the document type and the client, then writes in plain sentences what the letter should cover, with a note that nothing is sent to the client." caption="CCH iFirm · Generate, review, decide" />
+        <Video src="/video/s2-template-ai.mp4" poster="/images/story-2-poster.jpg" label="Creating a communication inside CCH iFirm: write from scratch, select a template or draft with AI, then the instruction step where the professional picks the document type and the client and writes what the letter should cover." caption="CCH iFirm · Write from scratch, select a template or draft with AI" />
         <Steps label="The workflow after" items={[
           ['Create or write the letter', 'Now inside the software.'],
           ['Insert application tags', 'So the letter can be customised.'],
@@ -55,17 +55,7 @@ export default function Case2() {
         <Figure src="/images/s2-wireflow.jpg" caption="Wireflow · Blank page → approved document, used to argue the scope change" alt="Lo-fi wireflow in six frames: blank document, instruction, generating, draft in place, review and edit, approve and send. Below, three principles: the AI never finishes the document, no state is hidden, nothing stored before a human says so." />
       </CaseSection>
 
-      <CaseSection num="06" label="How I work">
-        <Steps label="How I worked on this case" items={[
-          ['Opportunity', 'A past research insight: professionals already drafted with ChatGPT.'],
-          ['AI model', 'AI drafts, the professional reviews and approves.'],
-          ['Workflow', ''],
-          ['MVP', ''],
-          ['Shipped', 'Canadian release.'],
-        ]} />
-      </CaseSection>
-
-      <CaseSection num="07" label="Shipped · Outcome" title="AI moved from an external workaround into the product.">
+      <CaseSection num="06" label="Shipped · Outcome" title="AI moved from an external workaround into the product.">
         <Stats items={[
           { value: '3/3', label: 'Customers validated the concept' },
           { value: 'Shipped', label: 'Canadian market' },
@@ -77,17 +67,17 @@ export default function Case2() {
         </div>
       </CaseSection>
 
-      <CaseSection num="08" label="Future direction" title="From preserving context to understanding context.">
+      <CaseSection num="07" label="Future direction" title="From preserving context to understanding context.">
         <p className="lead"><strong>An AI-powered contextual sidebar.</strong> The future opportunity was to make client context dynamic and helpful, rather than something the user has to manually maintain.</p>
         <div className="grid-3">
           <Item title="Workflow patterns">How the user typically works across products and tasks.</Item>
           <Item title="Assigned jobs">What work is currently assigned to them and which clients or jobs require attention.</Item>
           <Item title="Result">The product understands what the user is working on and helps them stay within that context.</Item>
         </div>
-        <Figure src="/images/s1-ai-sidebar.jpg" caption="iFirm AI · Contextual assistant, future concept" alt="The contextual assistant open beside the returns list: asked which returns need attention first, it answers that eighteen of the hundred and forty two open across the firm need attention today, breaks that into deadline risk, rejected filings and waiting on client, and names the source it read." />
+        <Figure src="/images/s1-hd-ai-sidebar.jpg" caption="iFirm AI · The sidebar reading the returns list, future concept" alt="The contextual assistant open beside the returns list: asked which returns need attention first, it answers that eighteen of the hundred and forty two open across the firm need attention today, breaks that into deadline risk, rejected filings and waiting on client, and names the source it read." />
       </CaseSection>
 
-      <CaseSection num="09" label="My contribution">
+      <CaseSection num="08" label="My contribution">
         <div className="grid-4">
           <Item n="Product strategy">Reframed the brief from editing to starting.</Item>
           <Item n="UX">Designed the end-to-end flow, from wireframes to validation concepts.</Item>

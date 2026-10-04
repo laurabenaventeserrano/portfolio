@@ -1,0 +1,184 @@
+/* =========================================================
+   Casos con la Visual Identity V1 (IDENTITY-V1-CLAUDE-CODE.md)
+   Va después de bw.css y usa sus tokens (--prism, --prism-sm, --lb-*).
+   · La firma de sección: etiqueta mono, línea de prisma de 1px, dato mono.
+   · Libertinus para pensar (titulares, numerales, citas), Roboto para explicar, Mono para etiquetar.
+   · El acento (#C22A50 sobre papel, #F2607F sobre negro) solo marca dónde se rompe la experiencia:
+     como mucho dos veces por caso.
+   ========================================================= */
+
+:root { --lb-accent: #F2607F; --lb-accent-deep: #C22A50; }
+
+/* ---------- La firma: etiqueta — prisma — dato ---------- */
+.sig {
+  display: flex; align-items: center; gap: 20px;
+  font-family: var(--mono); font-size: 11px; font-weight: 400; line-height: 1.4; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--lb-cream-meta);
+}
+.sig > span:first-child { color: var(--lb-cream-ink); }
+.sig__rule { flex: 1; min-width: 40px; height: 1px; background: var(--prism); }
+.is-dark .sig { color: var(--lb-mid); }
+.is-dark .sig > span:first-child { color: var(--lb-ink); }
+@media (max-width: 620px) { .sig { gap: 12px; font-size: 10px; letter-spacing: 0.16em; } }
+
+/* ---------- Cabecera del caso ---------- */
+.case-hero { padding-block: clamp(48px, 5.5vw, 80px) clamp(48px, 5vw, 72px); background: none; }
+.case-hero .sig { margin-bottom: clamp(36px, 4.4vw, 64px); }
+.case-hero__title { font-family: var(--serif); font-weight: 400; font-size: clamp(48px, 6.7vw, 96px); line-height: 0.92; letter-spacing: -0.02em; max-width: 1100px; }
+.case-hero__hook { margin-top: 24px; max-width: 760px; font-family: var(--display); font-size: clamp(19px, 1.6vw, 22px); font-weight: 400; line-height: 1.45; color: var(--lb-cream-body); }
+.case-hero .case-meta { margin-top: clamp(36px, 4vw, 56px); max-width: none; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.case-meta dt { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; }
+.case-meta dd { font-family: var(--display); font-size: 16px; font-weight: 500; }
+.case-hero .tags { margin-top: 24px; }
+.case-hero__media { margin-top: clamp(40px, 4.4vw, 64px); }
+.case-hero__media .media { border: 1px solid var(--line); }
+
+/* ---------- Secciones ---------- */
+.case-sec { padding-block: clamp(64px, 7vw, 112px); border-top: 0 !important; background-image: none; }
+.case-sec.section--dark { background-color: var(--lb-ground); }
+.case-sec__title {
+  margin-top: clamp(28px, 3vw, 40px); max-width: 1040px;
+  font-family: var(--serif); font-weight: 400; font-size: clamp(32px, 3.9vw, 56px); line-height: 1.04; letter-spacing: -0.015em;
+}
+.case-sec__body { margin-top: clamp(36px, 3.6vw, 52px); display: flex; flex-direction: column; gap: clamp(36px, 3.6vw, 52px); min-width: 0; }
+.case-sec__body > .lead, .case-sec__body > .body { max-width: 720px; }
+.case-sec .lead { font-size: clamp(18px, 1.4vw, 20px); line-height: 1.6; }
+.is-dark .lead, .is-dark .body { color: var(--lb-ink-2); }
+
+/* Dos columnas: texto y evidencia */
+.split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 4.4vw, 64px); align-items: start; }
+.split--even { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 900px) { .split, .split--even { grid-template-columns: 1fr; } }
+
+/* ---------- Bloque numerado: numeral, regla corta, etiqueta, descripción ---------- */
+.nblocks { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 40px 32px; }
+.nblock { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.nblock__n { font-family: var(--serif); font-size: 34px; line-height: 1; color: var(--lb-cream-ink); }
+.nblock__rule { display: block; width: 26px; height: 1px; background: var(--lb-cream-ink); }
+.nblock__t { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--lb-cream-ink); }
+.nblock__d { font-family: var(--display); font-size: 15px; line-height: 1.6; color: var(--lb-cream-body); }
+.is-dark .nblock__n, .is-dark .nblock__t { color: var(--lb-ink); }
+.is-dark .nblock__rule { background: var(--lb-ink); }
+.is-dark .nblock__d { color: var(--lb-ink-2); }
+
+/* ---------- Columnas con línea fina entre ellas ---------- */
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.cols__c { display: flex; flex-direction: column; gap: 14px; padding: 4px 24px 4px; border-left: 1px solid var(--line); }
+.cols__c:first-child { padding-left: 0; border-left: 0; }
+.cols dt { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--lb-cream-meta); }
+.cols dd { display: flex; flex-direction: column; gap: 8px; }
+.cols__t { font-family: var(--serif); font-size: 22px; line-height: 1.2; color: var(--lb-cream-ink); }
+.cols__d { font-family: var(--display); font-size: 15px; line-height: 1.6; color: var(--lb-cream-body); }
+.is-dark .cols__c { border-left-color: var(--lb-line, rgba(242, 239, 234, 0.14)); }
+.is-dark .cols dt { color: var(--lb-mid); }
+.is-dark .cols__t { color: var(--lb-ink); }
+.is-dark .cols__d { color: var(--lb-ink-2); }
+@media (max-width: 900px) {
+  .cols { grid-template-columns: 1fr; gap: 24px; }
+  .cols__c { padding: 18px 0 0; border-left: 0; background: var(--prism) top left / 100% 1px no-repeat; }
+  .cols__c:first-child { padding-top: 18px; }
+}
+
+/* ---------- Frase clave ---------- */
+.keyline { display: grid; grid-template-columns: minmax(0, 200px) minmax(0, 1fr); gap: 12px 40px; padding-top: 22px; background: var(--prism) top left / 100% 1px no-repeat; }
+.keyline__l { font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--lb-cream-meta); padding-top: 8px; }
+.keyline__t { font-family: var(--serif); font-size: clamp(24px, 2.4vw, 34px); line-height: 1.2; letter-spacing: -0.01em; color: var(--lb-cream-ink); max-width: 900px; }
+.is-dark .keyline__l { color: var(--lb-mid); }
+.is-dark .keyline__t { color: var(--lb-ink); }
+@media (max-width: 700px) { .keyline { grid-template-columns: 1fr; } }
+
+/* ---------- Diagrama del problema: dos modelos, tres pasos, un riesgo ---------- */
+.models { display: grid; grid-template-columns: minmax(0, 1.2fr) repeat(3, minmax(0, 1fr)) minmax(0, 1.4fr); }
+.models > * { padding: 18px 20px 18px 0; border-top: 1px solid var(--line); }
+.models__row { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--lb-cream-ink); }
+.models__step span, .models__risk span { display: block; margin-bottom: 6px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--lb-cream-meta); }
+.models__step { font-size: 16px; color: var(--lb-cream-body); }
+.models__risk { font-size: 16px; color: var(--lb-cream-ink); }
+.models__risk span { color: var(--lb-accent-deep); }      /* el acento: donde se rompe */
+@media (max-width: 900px) {
+  .models { grid-template-columns: 1fr 1fr; }
+  .models__row { grid-column: 1 / -1; padding-top: 28px; }
+  .models__risk { grid-column: 1 / -1; }
+}
+
+/* ---------- Cita del cliente ---------- */
+.quotes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px; }
+.quote-mark { margin: 0; font-family: var(--serif); font-size: clamp(30px, 3.3vw, 48px); line-height: 1.12; letter-spacing: -0.015em; color: var(--lb-ink); }
+.quote-mark::before { content: '“'; display: block; margin-bottom: 4px; font-size: 1.6em; line-height: 0.6; color: var(--lb-mid); }
+@media (max-width: 760px) { .quotes { grid-template-columns: 1fr; } }
+
+/* ---------- La matriz valor / esfuerzo ---------- */
+.matrix { width: 100%; max-width: 560px; height: auto; overflow: visible; }
+.matrix text { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; fill: var(--lb-cream-meta); text-transform: uppercase; }
+.matrix .matrix__p { font-size: 12px; letter-spacing: 0.1em; fill: var(--lb-cream-ink); }
+.matrix line { stroke: var(--lb-cream-ink); stroke-width: 1; }
+.matrix .matrix__grid { stroke: var(--line); }
+.options { display: flex; flex-direction: column; }
+.options li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 4px 12px; padding: 16px 0; border-top: 1px solid var(--line); }
+.options li:last-child { border-bottom: 1px solid var(--line); }
+.options b { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.14em; color: var(--lb-cream-ink); padding-top: 3px; }
+.options span { font-family: var(--display); font-size: 15px; color: var(--lb-cream-body); }
+.options strong { display: block; font-family: var(--serif); font-weight: 400; font-size: 20px; color: var(--lb-cream-ink); }
+.options li[data-chosen] strong::after { content: 'Chosen'; margin-left: 10px; padding: 3px 7px; vertical-align: 3px; font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; border: 1px solid var(--lb-cream-ink); border-radius: 2px; }
+
+/* ---------- Pasos de la experiencia ---------- */
+.flowlist { display: flex; flex-direction: column; }
+.flowlist li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 6px 12px; padding: 18px 0; border-top: 1px solid var(--line); }
+.flowlist li:last-child { border-bottom: 1px solid var(--line); }
+.flowlist b { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.14em; color: var(--lb-cream-meta); padding-top: 4px; }
+.flowlist strong { display: block; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--lb-cream-ink); }
+.flowlist span { display: block; margin-top: 6px; font-family: var(--serif); font-size: 21px; line-height: 1.25; color: var(--lb-cream-ink); }
+
+/* ---------- Cifras ---------- */
+.case-sec .stat__value { font-family: var(--serif); font-weight: 400; font-size: clamp(44px, 4.4vw, 64px); }
+.case-sec .stat__label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; }
+.is-dark .stat { background-image: var(--prism); }
+
+/* ---------- Flujo (de diseño a confianza) ---------- */
+.flow { gap: 8px; }
+.flow__step { padding: 9px 12px; border: 1px solid var(--line-strong); border-radius: 2px; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; }
+.flow__step:last-child { background: var(--lb-cream-ink); color: var(--lb-cream); border-color: var(--lb-cream-ink); }
+.is-dark .flow__step { border-color: var(--lb-line-strong, rgba(242, 239, 234, 0.28)); }
+.is-dark .flow__step:last-child { background: var(--lb-ink); color: var(--lb-ground); }
+
+/* ---------- Figuras ---------- */
+.case-sec .figure figcaption { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; }
+.case-sec .media { border: 1px solid var(--line); }
+.is-dark .media { border-color: rgba(242, 239, 234, 0.14); }
+
+/* ---------- Cierre ---------- */
+.closing { font-family: var(--serif); font-size: clamp(30px, 3.6vw, 52px); line-height: 1.14; letter-spacing: -0.015em; max-width: 1100px; color: var(--lb-ink); }
+
+/* ---------- Siguiente caso ---------- */
+.case-next { padding-block: clamp(56px, 6vw, 96px); }
+.case-next__link { margin-top: 28px; display: flex; justify-content: space-between; align-items: flex-end; gap: 24px 40px; flex-wrap: wrap; text-decoration: none; color: var(--lb-cream-ink); }
+.case-next__title { font-family: var(--serif); font-size: clamp(34px, 4.4vw, 64px); line-height: 1.02; letter-spacing: -0.015em; max-width: 900px; }
+.case-next__link:hover .pill--dark {
+  border-width: 1.5px; padding: 0 21.5px;
+  background: linear-gradient(var(--lb-cream-ink), var(--lb-cream-ink)) padding-box, var(--prism) border-box; color: var(--lb-cream);
+}
+
+/* Nota de confidencialidad, discreta */
+.case-note { padding-block: 0 8px; }
+
+/* ---------- Parejas de imágenes: misma caja, mismas líneas, la imagen entera dentro ---------- */
+.pair .media { aspect-ratio: 16 / 10; background: var(--lb-paper-inset); display: flex; align-items: center; justify-content: center; }
+.pair .media img { width: 100%; height: 100%; object-fit: contain; }
+.is-dark .pair .media { background: var(--lb-raised, #141416); }
+
+/* ---------- Imagen a todo lo ancho (el handoff, el prototipo) ---------- */
+.figure--wide .media { background: var(--lb-ground); }
+.split .figure .media { background: var(--lb-paper-inset); }
+
+/* El contenido de los casos usa todo el ancho de la caja: las imágenes grandes (el handoff, el prototipo) no se recortan a 1040px */
+.case-sec__body { max-width: none; }
+
+/* ---------- Las tres propuestas: boceto, etiqueta, idea, coste ---------- */
+.options3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+.options3 li { display: flex; flex-direction: column; gap: 10px; }
+.options3 .media { margin-bottom: 8px; aspect-ratio: 318 / 170; background: #FFFFFF; display: flex; align-items: center; justify-content: center; }
+.options3 .media img { width: 100%; height: 100%; object-fit: contain; }
+.options3__k { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--lb-cream-meta); }
+.options3__t { font-family: var(--serif); font-size: 22px; line-height: 1.2; color: var(--lb-cream-ink); }
+.options3__d { font-family: var(--display); font-size: 15px; line-height: 1.6; color: var(--lb-cream-body); }
+@media (max-width: 860px) { .options3 { grid-template-columns: 1fr; } }
