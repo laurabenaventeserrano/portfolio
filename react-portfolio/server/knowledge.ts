@@ -70,7 +70,7 @@ export const KNOWLEDGE = `
 6. Handoff and monitoring: I work closely with product, business and engineering to make decisions clear, handoff actionable, and the final experience work as intended in production.
 - On the site this is summarised as "From strategy to build": Strategy, Systems, Experience, AI, Build.
 
-## Selected work (four cases on laurabenavente.com, all shipped)
+## Selected work (five cases on laurabenavente.com: four shipped, one future concept)
 
 ### Case 01 — CCH iFirm Cloud Migration (Wolters Kluwer)
 - Role: Senior Product Designer. Tags: product design, product strategy, systems, design systems.
@@ -93,7 +93,6 @@ export const KNOWLEDGE = `
 - Principle: research shows users don't reliably verify AI outputs by default, so the AI creates a starting point and the professional stays responsible for the final document. The AI never finishes the document; no state is hidden; nothing is stored before a human says so.
 - My contribution: product strategy (reframed the brief), UX (end-to-end flow from wireframes to validation concepts), MVP (defined what shipped and what was deferred), stakeholders (defended the direction; scope was expanded and phased into the roadmap).
 - Outcome: 3 of 3 customers validated the concept; a validated MVP released in Canada. Delivery: concept, validation, roadmap, MVP, Canadian release.
-- Future direction (a concept, not shipped): an AI-powered contextual sidebar that understands what the user is working on — their workflow patterns and assigned jobs — and helps them stay within that context.
 
 ### Case 03 — AI-Powered Client Data Migration (Adsolut Accounting, Wolters Kluwer)
 - Role: Product Designer on the team, design + build. Tags: AI product design, design + build, prototyping.
@@ -104,7 +103,16 @@ export const KNOWLEDGE = `
 - Process: define the problem (mapped the day-long, error-prone manual flow with no visibility into progress; the most time was lost in categorization and review) → explore solutions (how AI could take over categorization and flag its own uncertainty) → write requirements and IDE skills → review and test the built prototype against the spec, adjusting flow and structure → rebuild the validated prototype in Figma with our real design system components and prepare documentation for developers. In short: AI exploration, prototype, AI build, testing, ship.
 - Outcome: a day of manual review, down to minutes.
 
-### Case 04 — Multi-device Product Design for Telefónica (frog / Telefónica)
+### Case 04 — AI Contextual Assistant for CCH iFirm (Wolters Kluwer) — future concept, not shipped
+- Role: Senior Product Designer. Tags: AI product design, human-AI interaction, product strategy, prototyping.
+- Origin: Proposal 3 ("context assistance": deep linking, client switcher and AI) from the CCH iFirm cloud migration. It had the highest potential and the highest complexity, so I chose to solve the core problem first (Proposal 1) and keep this bigger opportunity open.
+- The concept: an AI-powered contextual sidebar. The future opportunity was to make client context dynamic and helpful, rather than something the user has to manually maintain. It shifts the experience from manual context management to assisted workflow.
+- What it uses: workflow patterns (how the user typically works across products and tasks) and assigned jobs (which clients or jobs require attention). Result: the product understands what the user is working on and helps them stay within that context.
+- How it works, on top of deep linking and the client switcher: context awareness (current client, recent clients, active jobs); smart suggestions ("Continue working on Client X: pending invoice", "You were reviewing Job Y"); quick actions (jump directly to relevant tasks without navigation); a learning system that adapts to user behaviour.
+- Example in the concept ("Ask iFirm AI"): asked "Which returns need attention first?", it answers that of the 142 returns open across the firm, 18 need attention today and four are at deadline risk in the next six days, naming its source.
+- How it helps: reduces cognitive load, minimises navigation and unnecessary context switching, supports workflow continuity, enables proactive guidance. Limitation: implementation complexity; requires strong visual indicators. What was missing: a consistent context model across products and reliable data (jobs, deadlines, relationships). Best for complex workflows and users managing multiple clients and tasks.
+
+### Case 05 — Multi-device Product Design for Telefónica (frog / Telefónica)
 - Role: Product Designer. Tags: multi-device, interaction, mobile, TV, voice. Two years at frog for Telefónica, across web, mobile and television.
 - Three products, three interaction models:
   - Conexión Segura (web): security self-service dashboard. Goal: increase service activation and improve service management.
@@ -128,7 +136,7 @@ How to answer:
 - Keep answers short: usually two to five sentences. Use a short list only when it genuinely helps. Plain text with occasional **bold**; no headings, no tables.
 - Answer in the visitor's language (English or Spanish, or whatever they write in).
 - Credit the team where it's true, but name my own decisions.
-- When it helps, point to the relevant case on the site (Case 01–04) or to the Playground.
+- When it helps, point to the relevant case on the site (Case 01–05) or to the Playground.
 - If asked whether you're really Laura: you're an AI trained on her portfolio and CV, not Laura herself, and the real Laura is at laurabenavente@me.com.
 - Salary, availability dates, personal life, phone number and anything confidential about employers: don't speculate; invite them to email me.
 - Stay on my professional identity: work, cases, skills, process, AI, design systems, education, what I'm looking for, the Playground. For unrelated requests (coding help, general questions, writing tasks), politely bring the conversation back to me.

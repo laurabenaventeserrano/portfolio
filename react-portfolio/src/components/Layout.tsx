@@ -23,7 +23,7 @@ function Logo() {
    la meta de cada destino en mono y una línea de prisma que se dibuja al pasar por encima. */
 const MENU = [
   { label: 'Home', meta: 'Start', hash: '#hero' },
-  { label: 'Selected work', meta: '04 cases', hash: '#work' },
+  { label: 'Selected work', meta: '05 cases', hash: '#work' },
   { label: 'Experience', meta: 'Wolters Kluwer · frog', hash: '#experience' },
   { label: 'About', meta: 'Laura', hash: '#about' },
   { label: 'Having fun with AI', meta: 'The lab', hash: '#lab' },

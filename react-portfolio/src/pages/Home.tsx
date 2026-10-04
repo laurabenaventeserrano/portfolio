@@ -46,10 +46,10 @@ export default function Home() {
       <section id="hero" className="hero" data-motion="custom" aria-labelledby="hero-title">
         <DotLoopPortrait className="hero__portrait" src={PORTRAIT.src} poster={PORTRAIT.poster} label={PORTRAIT.label} settings={PORTRAIT_SETTINGS} scrollOut />
         <div className="container hero__inner">
-          <Kicker>Senior Product Designer · B2B SaaS · AI</Kicker>
+          <Kicker>Senior Product Designer · Design engineer · B2B SaaS · AI</Kicker>
           <div className="hero__content">
             <h1 id="hero-title" className="h-hero">
-              Hello! I’m Laura.<br />A Senior product<br />designer who engineers<span className="accent">.</span>
+              Hello! I’m Laura.<br />A product designer who builds<span className="accent">.</span>
             </h1>
             <p className="lead" style={{ maxWidth: 560 }}>8+ years designing complex digital products across B2B SaaS, financial software and consumer technology.</p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
@@ -115,7 +115,7 @@ export default function Home() {
         <div className="container stack gap-48">
           <div className="sec-head">
             <div className="sec-head__main">
-              <Kicker>Work · 04 cases</Kicker>
+              <Kicker>Work · 05 cases</Kicker>
               <h2 id="work-title" className="h-xl">Selected work</h2>
             </div>
             <p className="mono-s muted">Wolters Kluwer · Adsolut · frog / Telefónica</p>
@@ -126,7 +126,7 @@ export default function Home() {
               <Link key={w.num} to={w.to} className="tile" data-cursor="Explore">
                 <div className="tile__media">
                   {w.video ? <Video src={w.video} poster={w.img} label={w.alt} /> : <img src={w.img} alt={w.alt} loading="lazy" />}
-                  <span className="status tile__status">Shipped</span>
+                  <span className="status tile__status">{w.status}</span>
                 </div>
                 <div className="tile__body">
                   <div className="stack gap-16">
@@ -175,7 +175,7 @@ export default function Home() {
         <ParticleCanvas className="statement__field" options={LAB_FIELD} mode="disperso" />
         <div className="container stack gap-24" style={{ position: 'relative' }}>
           <Kicker tone="accent">The lab</Kicker>
-          <p className="statement__text">From systems thinking<br />to interaction,<br />from prototype<br />to code</p>
+          <p className="statement__text">I think in systems, design experiences, work with AI and build with code</p>
         </div>
       </section>
 

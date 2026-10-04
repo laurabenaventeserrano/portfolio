@@ -7,6 +7,7 @@ import Case1 from './pages/Case1';
 import Case2 from './pages/Case2';
 import Case3 from './pages/Case3';
 import Case4 from './pages/Case4';
+import Case5 from './pages/Case5';
 import NotFound from './pages/NotFound';
 import { LEGACY_ROUTES, ROUTES } from './content/site';
 import './styles/global.css';
@@ -23,6 +24,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path={ROUTES.case2} element={<Case2 />} />
           <Route path={ROUTES.case3} element={<Case3 />} />
           <Route path={ROUTES.case4} element={<Case4 />} />
+          <Route path={ROUTES.case5} element={<Case5 />} />
           {LEGACY_ROUTES.map(([from, to]) => <Route key={from} path={from} element={<Navigate to={to} replace />} />)}
           <Route path="*" element={<NotFound />} />
         </Route>

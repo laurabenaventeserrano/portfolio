@@ -19,7 +19,8 @@ npm run preview   # sirve dist/ en local
 | `/work/cch-ifirm-cloud-migration` | `src/pages/Case1.tsx` · CCH iFirm Cloud Migration |
 | `/work/ai-customer-communications` | `src/pages/Case2.tsx` · AI-Powered Customer Communications |
 | `/work/ai-client-data-migration` | `src/pages/Case3.tsx` · AI-Powered Client Data Migration |
-| `/work/telefonica-multi-device` | `src/pages/Case4.tsx` · Multi-device Product Design for Telefónica |
+| `/work/ifirm-ai-contextual-assistant` | `src/pages/Case4.tsx` · AI Contextual Assistant for CCH iFirm (concept) |
+| `/work/telefonica-multi-device` | `src/pages/Case5.tsx` · Multi-device Product Design for Telefónica |
 | cualquier otra | `src/pages/NotFound.tsx` |
 
 Las rutas antiguas (`/story1-case-study`, etc.) redirigen al caso nuevo, así que los enlaces que ya circulan siguen funcionando.

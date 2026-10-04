@@ -67,17 +67,7 @@ export default function Case2() {
         </div>
       </CaseSection>
 
-      <CaseSection num="07" label="Future direction" title="From preserving context to understanding context.">
-        <p className="lead"><strong>An AI-powered contextual sidebar.</strong> The future opportunity was to make client context dynamic and helpful, rather than something the user has to manually maintain.</p>
-        <div className="grid-3">
-          <Item title="Workflow patterns">How the user typically works across products and tasks.</Item>
-          <Item title="Assigned jobs">What work is currently assigned to them and which clients or jobs require attention.</Item>
-          <Item title="Result">The product understands what the user is working on and helps them stay within that context.</Item>
-        </div>
-        <Figure src="/images/s1-hd-ai-sidebar.jpg" caption="iFirm AI · The sidebar reading the returns list, future concept" alt="The contextual assistant open beside the returns list: asked which returns need attention first, it answers that eighteen of the hundred and forty two open across the firm need attention today, breaks that into deadline risk, rejected filings and waiting on client, and names the source it read." />
-      </CaseSection>
-
-      <CaseSection num="08" label="My contribution">
+      <CaseSection num="07" label="My contribution">
         <div className="grid-4">
           <Item n="Product strategy">Reframed the brief from editing to starting.</Item>
           <Item n="UX">Designed the end-to-end flow, from wireframes to validation concepts.</Item>

@@ -182,3 +182,6 @@
 .options3__t { font-family: var(--serif); font-size: 22px; line-height: 1.2; color: var(--lb-cream-ink); }
 .options3__d { font-family: var(--display); font-size: 15px; line-height: 1.6; color: var(--lb-cream-body); }
 @media (max-width: 860px) { .options3 { grid-template-columns: 1fr; } }
+.options3__solo { display: flex; flex-direction: column; gap: 10px; }
+.options3__solo .media { margin-bottom: 8px; aspect-ratio: 318 / 170; background: #FFFFFF; }
+.options3__solo .media img { width: 100%; height: 100%; object-fit: contain; }

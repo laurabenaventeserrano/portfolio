@@ -1,36 +1,15 @@
+import { Link } from 'react-router-dom';
 import CaseHero from '../components/CaseHero';
 import { CaseSection, CaseNote, Cols, Figure, Flow, KeyLine, NextCase, NumberedBlocks, Pair, Stats, Video } from '../components/ui';
 import { ROUTES } from '../content/site';
 import { useTitle } from '../lib/hooks';
+import ValueEffortMatrix from '../components/ValueEffortMatrix';
 
 /*
   Case 01 · CCH iFirm Cloud Migration.
   Sigue la presentación de Laura (Laura-Deck.pdf, Story 1). Imágenes a resolución original, textos suyos y cortos:
   la evidencia manda.
 */
-
-/* Matriz valor / esfuerzo de la lámina "The matrix": posiciones tal como Laura las dibujó */
-function Matrix() {
-  const x = (v: number) => 40 + (v - 1) * 110;
-  const y = (v: number) => 250 - (v - 1) * 55;
-  const pts: [string, number, number, string][] = [['P1', 1, 2.9, 'Immediate opportunity'], ['P2', 2.4, 3.9, 'More complete workflow'], ['P3', 4.9, 5, 'Future contextual experience']];
-  return (
-    <svg className="matrix" viewBox="0 0 560 300" role="img" aria-label="Value against effort: Proposal 1 sits at the lowest implementation effort with solid value, Proposal 2 in the middle, Proposal 3 at the highest value and the highest effort.">
-      {[1, 2, 3, 4, 5].map((v) => <line key={`g${v}`} className="matrix__grid" x1={x(1)} x2={x(5)} y1={y(v)} y2={y(v)} />)}
-      <line x1={x(1)} x2={x(1)} y1={y(5) - 10} y2={y(1)} />
-      <line x1={x(1)} x2={x(5) + 10} y1={y(1)} y2={y(1)} />
-      {[1, 2, 3, 4, 5].map((v) => <text key={`x${v}`} x={x(v)} y={y(1) + 22} textAnchor="middle">{v}</text>)}
-      <text x={x(3)} y={y(1) + 46} textAnchor="middle">Implementation effort</text>
-      <text transform={`translate(${x(1) - 22} ${y(3)}) rotate(-90)`} textAnchor="middle">User and product value</text>
-      {pts.map(([n, ex, va, t]) => (
-        <g key={n}>
-          <circle cx={x(ex)} cy={y(va)} r={n === 'P1' ? 9 : 7} fill={n === 'P1' ? '#FFFFFF' : '#111111'} stroke="#111111" strokeWidth={n === 'P1' ? 2 : 0} />
-          <text className="matrix__p" x={x(ex) + (n === 'P3' ? -14 : 16)} y={y(va) + 4} textAnchor={n === 'P3' ? 'end' : 'start'}>{n} · {t}</text>
-        </g>
-      ))}
-    </svg>
-  );
-}
 
 export default function Case1() {
   useTitle('CCH iFirm Cloud Migration · Laura Benavente');
@@ -116,7 +95,7 @@ export default function Case1() {
             </li>
           ))}
         </ol>
-        <Matrix />
+        <ValueEffortMatrix highlight="P1" />
       </CaseSection>
 
       <CaseSection num="07" label="The strategic decision" meta="Proposal 1" title="Solve the core problem now. Keep the bigger opportunity open.">
@@ -124,7 +103,7 @@ export default function Case1() {
           before={{ src: '/images/s1-before.jpg', caption: 'From an empty state', alt: 'CCH iFirm Personal Tax opening on an empty state, asking the user to select a contact before anything else.' }}
           after={{ src: '/images/s1-hd-returns.jpg', caption: 'To a more connected experience', alt: 'The returns list inside CCH iFirm: 142 returns, 18 needing attention, each with its client, business number, return status, eFile state, last change and tax year end.' }}
         />
-        <KeyLine label="Chose not to build yet">Context assistance with AI: the highest potential and the highest complexity. The next step, not the first one.</KeyLine>
+        <KeyLine label="Chose not to build yet">Context assistance with AI: the highest potential and the highest complexity. The next step, not the first one. <Link to={ROUTES.case4} className="text-link">It became Case 04 →</Link></KeyLine>
       </CaseSection>
 
       <CaseSection num="08" label="The system" meta="Global iFirm · design system" title="The solution had to feel like part of the product.">

@@ -34,7 +34,8 @@ Nav: **Work · Playground · About · CV · Contact.** Home, Playground and Abou
 | `/work/cch-ifirm-cloud-migration` | `Case1.tsx` | CCH iFirm Cloud Migration · Wolters Kluwer |
 | `/work/ai-customer-communications` | `Case2.tsx` | AI-Powered Customer Communications · Wolters Kluwer / CCH iFirm |
 | `/work/ai-client-data-migration` | `Case3.tsx` | AI-Powered Client Data Migration · Adsolut Accounting |
-| `/work/telefonica-multi-device` | `Case4.tsx` | Multi-device Product Design for Telefónica · frog / Telefónica |
+| `/work/ifirm-ai-contextual-assistant` | `Case4.tsx` | AI Contextual Assistant for CCH iFirm · Wolters Kluwer · **Concept** (Proposal 3 of Case 01, told as its own story) |
+| `/work/telefonica-multi-device` | `Case5.tsx` | Multi-device Product Design for Telefónica · frog / Telefónica |
 
 Old URLs (`/story1-case-study` etc., with or without `.html`) redirect to the new cases, in `main.tsx` (`LEGACY_ROUTES`) and `public/_redirects`. Shared content (experience, work tiles, about rows, links) lives in `src/content/site.ts`.
 

@@ -66,7 +66,7 @@ export default function Case3() {
 
       <CaseNote>Screens are from the prototype and the client data is fictional.</CaseNote>
 
-      <NextCase to={ROUTES.case4} label="Case 04" title="Multi-device Product Design for Telefónica" />
+      <NextCase to={ROUTES.case4} label="Case 04" title="AI Contextual Assistant for CCH iFirm" />
     </article>
   );
 }
