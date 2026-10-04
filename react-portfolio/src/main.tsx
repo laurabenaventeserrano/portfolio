@@ -1,13 +1,14 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
-import Story1 from './pages/Story1';
-import Story2 from './pages/Story2';
-import Story3 from './pages/Story3';
+import Case1 from './pages/Case1';
+import Case2 from './pages/Case2';
+import Case3 from './pages/Case3';
+import Case4 from './pages/Case4';
 import NotFound from './pages/NotFound';
-import { ROUTES } from './content/site';
+import { LEGACY_ROUTES, ROUTES } from './content/site';
 import './styles/global.css';
 
 createRoot(document.getElementById('root')!).render(
@@ -16,9 +17,11 @@ createRoot(document.getElementById('root')!).render(
       <Routes>
         <Route element={<Layout />}>
           <Route path={ROUTES.home} element={<Home />} />
-          <Route path={ROUTES.story1} element={<Story1 />} />
-          <Route path={ROUTES.story2} element={<Story2 />} />
-          <Route path={ROUTES.story3} element={<Story3 />} />
+          <Route path={ROUTES.case1} element={<Case1 />} />
+          <Route path={ROUTES.case2} element={<Case2 />} />
+          <Route path={ROUTES.case3} element={<Case3 />} />
+          <Route path={ROUTES.case4} element={<Case4 />} />
+          {LEGACY_ROUTES.map(([from, to]) => <Route key={from} path={from} element={<Navigate to={to} replace />} />)}
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

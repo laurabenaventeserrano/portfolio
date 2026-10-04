@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import { LINKS, ROUTES } from '../content/site';
 import { useScrollProgress } from '../lib/hooks';
 import JellyLogo from './JellyLogo';
 import CursorLabel from './CursorLabel';
+import AskLaura, { ASK_LAURA_ENABLED, openAskLaura } from './AskLaura';
 import { useLiveFavicon } from '../motion/useLiveFavicon';
 import { scrollToEl, scrollToTop, useSmoothScroll } from '../motion/useSmoothScroll';
 import { useScrollStory } from '../motion/useScrollStory';
@@ -23,10 +24,9 @@ function Header() {
 
   const links = (
     <>
-      <NavLink to={ROUTES.story1} className="nav__link">Story 1</NavLink>
-      <NavLink to={ROUTES.story2} className="nav__link">Story 2</NavLink>
-      <NavLink to={ROUTES.story3} className="nav__link">Story 3</NavLink>
-      <Link to={{ pathname: ROUTES.home, hash: '#lab' }} className="nav__link">Having fun with AI</Link>
+      <Link to={{ pathname: ROUTES.home, hash: '#work' }} className="nav__link" aria-current={pathname.startsWith('/work') ? 'page' : undefined}>Work</Link>
+      <Link to={{ pathname: ROUTES.home, hash: '#lab' }} className="nav__link">Playground</Link>
+      <Link to={{ pathname: ROUTES.home, hash: '#about' }} className="nav__link">About</Link>
       <a href={LINKS.cv} className="nav__link">CV</a>
     </>
   );
@@ -37,6 +37,9 @@ function Header() {
         <Logo />
         <nav className="nav" aria-label="Main">
           {links}
+          {ASK_LAURA_ENABLED && <button type="button" className="nav__link nav__ask" onClick={openAskLaura} aria-haspopup="dialog" aria-controls="ask-laura">
+            <span className="ask-dot" aria-hidden="true" />Ask Laura
+          </button>}
           <a href={LINKS.email} className="pill pill--dark pill--sm">Contact me →</a>
         </nav>
         <button
@@ -77,7 +80,7 @@ function Contact() {
           </div>
           <div className="contact__bottom">
             <Logo />
-            <span className="mono-s muted">Laura Benavente · Senior Product Designer</span>
+            <span className="mono-s muted">Laura Benavente · Design Engineer</span>
           </div>
         </footer>
       </div>
@@ -109,7 +112,7 @@ function ScrollManager() {
 
 export default function Layout() {
   const { pathname } = useLocation();
-  const isStory = pathname.startsWith('/story');
+  const isCase = pathname.startsWith('/work');
   useSmoothScroll();          // scroll suave en todo el sitio
   useScrollStory(pathname);   // apariciones y movimiento al hacer scroll, página a página
   useLiveFavicon();           // el favicon de puntos se dispersa y vuelve de vez en cuando
@@ -118,12 +121,13 @@ export default function Layout() {
       <a href="#main" className="skip-link">Skip to content</a>
       <ScrollManager />
       <Header />
-      {isStory && <ReadingProgress />}
+      {isCase && <ReadingProgress />}
       <CursorLabel />
       <main id="main">
         <Outlet />
       </main>
       <Contact />
+      <AskLaura />
     </>
   );
 }

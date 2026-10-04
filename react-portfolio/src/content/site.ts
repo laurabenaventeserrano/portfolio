@@ -1,4 +1,4 @@
-/* Contenido compartido. Textos tal cual aparecen en laurabenavente.com. */
+/* Contenido compartido. Textos de laurabenavente.com y de la presentación de Laura. */
 
 export const LINKS = {
   email: 'mailto:laurabenavente@me.com',
@@ -14,73 +14,88 @@ export const LINKS = {
 
 export const ROUTES = {
   home: '/',
-  story1: '/story1-case-study',
-  story2: '/story2-case-study',
-  story3: '/story3-case-study',
+  case1: '/work/cch-ifirm-cloud-migration',
+  case2: '/work/ai-customer-communications',
+  case3: '/work/ai-client-data-migration',
+  case4: '/work/telefonica-multi-device',
 };
 
-export const TICKER = ['Strategy', 'Systems', 'Experience', 'AI', 'Build', 'B2B SaaS', 'Financial software', 'Consumer technology'];
+/* URLs de la versión anterior: siguen funcionando y llevan al caso nuevo (ver main.tsx y public/_redirects) */
+export const LEGACY_ROUTES: [string, string][] = [
+  ['/story1-case-study', ROUTES.case1],
+  ['/story2-case-study', ROUTES.case2],
+  ['/story3-case-study', ROUTES.case4],
+];
+
+export const TICKER = ['Product design', 'AI', 'Systems', 'Code', 'Design systems', 'B2B SaaS', 'Tax & accounting', 'Telecommunications'];
 
 export const STEPS = [
-  { num: '01', name: 'Strategy', caption: 'Story 1 · Value against effort', img: '/images/fsb-01-strategy.jpg', alt: 'Value against effort matrix with the three proposals plotted, and the chosen one marked.' },
-  { num: '02', name: 'Systems', caption: 'Story 1 · The flow across products', img: '/images/fsb-02-systems.jpg', alt: 'Concept board: problem statement, cross journey issues and the flow across products.' },
-  { num: '03', name: 'Experience', caption: 'Story 3 · Smart WiFi wireflow', img: '/images/fsb-03-experience.jpg', alt: 'Wireflow of the Smart WiFi journey: screens, decision points, error states and recovery paths.' },
-  { num: '04', name: 'AI', caption: 'Story 2 · Drafting with AI in the product', img: '/images/fsb-04-ai.jpg', alt: 'Draft with AI inside the product: document type, client, the instruction the user writes, and the review step before anything is saved.' },
-  { num: '05', name: 'Build', caption: 'Story 1 · The returns list', img: '/images/fsb-05-returns.png', alt: 'The returns list: 142 returns with status, eFile state, last modified and tax year end, filtered to the eighteen that need attention.' },
+  { num: '01', name: 'Strategy', caption: 'Case 01 · Value against effort', img: '/images/fsb-01-strategy.jpg', alt: 'Value against effort matrix with the three proposals plotted, and the chosen one marked.' },
+  { num: '02', name: 'Systems', caption: 'Case 01 · The flow across products', img: '/images/fsb-02-systems.jpg', alt: 'Concept board: problem statement, cross journey issues and the flow across products.' },
+  { num: '03', name: 'Experience', caption: 'Case 04 · Smart WiFi wireflow', img: '/images/fsb-03-experience.jpg', alt: 'Wireflow of the Smart WiFi journey: screens, decision points, error states and recovery paths.' },
+  { num: '04', name: 'AI', caption: 'Case 02 · Drafting with AI in the product', img: '/images/fsb-04-ai.jpg', alt: 'Draft with AI inside the product: document type, client, the instruction the user writes, and the review step before anything is saved.' },
+  { num: '05', name: 'Build', caption: 'Case 01 · The returns list', img: '/images/fsb-05-returns.png', alt: 'The returns list: 142 returns with status, eFile state, last modified and tax year end, filtered to the eighteen that need attention.' },
 ];
 
-export const WAYS = [
+export const EXPERIENCE = [
   {
-    num: '01', title: 'See the system', company: 'Wolters Kluwer ecosystem', tags: 'Systems · Complexity · Scale',
-    text: 'Understanding how products, workflows and people connect across a complex ecosystem.',
-    to: ROUTES.story1, cta: 'Story 1', panel: 'story 1 · the flow across products', tone: 'dark' as const,
-    img: '/images/fsb-02-systems.jpg', alt: 'Concept board: problem statement, cross journey issues and the flow across products.',
+    company: 'Wolters Kluwer', role: 'Senior Product Designer', years: '2021–2026',
+    text: 'Led product design for complex B2B SaaS workflows across accounting and professional services, connecting fragmented journeys, systems and user needs across international markets.',
+    tags: ['B2B SaaS', 'Tax & accounting', 'Cloud', 'AI', 'Design systems', 'Complex workflows'],
   },
   {
-    num: '02', title: 'Find the opportunity', company: 'Wolters Kluwer strategy', tags: 'Product thinking · AI · Ambiguity',
-    text: 'Looking beyond the original requirement to identify where technology can genuinely change the product.',
-    to: ROUTES.story2, cta: 'Story 2', panel: 'story 2 · drafting with ai in the product', tone: 'light' as const,
-    img: '/images/fsb-04-ai.jpg', alt: 'Draft with AI inside the product: document type, client, the instruction the user writes, and the review step before anything is saved.',
-  },
-  {
-    num: '03', title: 'Make the experience work end to end', company: 'Movistar', tags: 'Interaction · Engineering · Execution',
-    text: 'Taking product experiences end to end, designing interactions inside real technical constraints alongside the people building them',
-    to: ROUTES.story3, cta: 'Story 3', panel: 'story 3 · smart wifi wireflow', tone: 'accent' as const,
-    img: '/images/fsb-03-experience.jpg', alt: 'Wireflow of the Smart WiFi journey: screens, decision points, error states and recovery paths.',
+    company: 'frog / Telefónica', role: 'Product Designer', years: '2019–2021',
+    text: 'Designed multi-device experiences across mobile, TV and voice, including tools used by partners to build and manage interactive Living Apps.',
+    tags: ['Mobile', 'Web', 'TV', 'Voice', 'Multi-device', 'Product design'],
   },
 ];
 
-export const STORIES = [
+/* Los cuatro casos de Selected work. El orden es el de la portada. */
+export const WORK = [
   {
-    label: 'Story 1', title: 'Wolters Kluwer ecosystem', to: ROUTES.story1,
-    text: 'Designing a cloud ecosystem for tax professionals',
-    metric: 'L → S', metricLabel: 'Development effort: from an L to an S',
-    tags: ['Product design', 'B2B SaaS', 'AI-assisted build', 'Complex workflows', 'Multi-market', 'Cloud migration'],
-    video: '/video/s1-coded-prototype.mp4', poster: '/images/story-1-poster.jpg',
+    num: '01', title: 'CCH iFirm Cloud Migration', company: 'Wolters Kluwer', to: ROUTES.case1,
+    text: 'Designing continuity across a fragmented SaaS ecosystem.',
+    metric: 'L → S', metricLabel: 'Development effort',
+    tags: ['Product design', 'Product strategy', 'Systems', 'Design systems'],
+    video: '/video/s1-coded-prototype.mp4', img: '/images/story-1-poster.jpg',
     alt: 'The coded prototype running: selecting a client, moving to another product and arriving with the context intact.',
   },
   {
-    label: 'Story 2', title: 'Wolters Kluwer strategy', to: ROUTES.story2,
-    text: 'Bringing AI-Assisted drafting inside the product, so professionals never start a client from an empty page.',
-    metric: '3/3', metricLabel: 'Validated 3/3 · shipped in Canada',
-    tags: ['Product design', 'B2B SaaS', 'AI-native', 'Human review', 'MVP definition'],
-    video: '/video/s2-template-ai.mp4', poster: '/images/story-2-poster.jpg',
+    num: '02', title: 'AI-Powered Customer Communications', company: 'Wolters Kluwer / CCH iFirm', to: ROUTES.case2,
+    text: 'Bringing AI inside the product, so professionals never start a client communication from an empty page.',
+    metric: '3/3', metricLabel: 'Validated · shipped in Canada',
+    tags: ['AI product design', 'Product strategy', 'Human-AI interaction'],
+    video: '/video/s2-template-ai.mp4', img: '/images/story-2-poster.jpg',
     alt: 'The instruction step inside the product: the professional picks the document type and the client, then writes in plain sentences what the letter should cover.',
   },
   {
-    label: 'Story 3', title: 'Movistar', to: ROUTES.story3,
-    text: 'Designing a self-diagnosis experience for home connectivity, where the test could not be made faster and the wait had to be made understandable.',
+    num: '03', title: 'AI-Powered Client Data Migration', company: 'Adsolut Accounting', to: ROUTES.case3,
+    text: 'An AI powered flow to migrate client data from competitor software.',
+    metric: 'Day → min', metricLabel: 'Manual review time',
+    tags: ['AI product design', 'Design + build', 'Prototyping'],
+    img: '/images/s4-dashboard.jpg',
+    alt: 'The Data Migration dashboard in Adsolut: migrations from Exact and Yuki listed by client, with connected, pending and failed counts.',
+  },
+  {
+    num: '04', title: 'Multi-device Product Design for Telefónica', company: 'frog / Telefónica', to: ROUTES.case4,
+    text: 'Three products. Three interaction models. Web, mobile and TV.',
     metric: '−12%', metricLabel: 'Call centre calls',
-    tags: ['Interaction design', 'Consumer', 'Self-service', 'Motion', 'Design system'],
+    tags: ['Multi-device', 'Interaction', 'Mobile', 'TV', 'Voice'],
     img: '/images/story-3-movistar.png',
     alt: 'The Smart WiFi self-diagnosis flow: the app screens laid out as a grid, from the autodiagnostic entry point through the speed test to the help and interference advice.',
   },
 ];
 
 export const FACTS: [string, string][] = [
+  ['Experience', '8+ years'],
   ['Degree', 'Digital Design'],
   ['Bootcamp', 'UX / UI Design'],
   ['Master’s', 'Front-End Development'],
-  ['Experience', '8+ years'],
   ['Languages', 'Spanish and English'],
+];
+
+export const ABOUT_ROWS: [string, string][] = [
+  ['Sectors', 'Financial products · Tax & accounting · Telecommunications'],
+  ['Experience', 'Wolters Kluwer · frog / Telefónica'],
+  ['Builds with', 'Figma · HTML · CSS · TypeScript · React · Git · GitHub Copilot · Claude Code'],
 ];

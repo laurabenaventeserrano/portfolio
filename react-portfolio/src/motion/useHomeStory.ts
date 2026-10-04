@@ -9,13 +9,13 @@ import { gsap, ScrollTrigger, MQ } from './gsap';
   Cinta       Se acelera con el scroll y cambia de sentido si subes. La banda lila ondula como
               gelatina, salta con el scroll y rebota hasta calmarse.            (altshift + guillaumezhu)
   Pasos       Las tarjetas se van colocando en la fila una detrás de otra al hacer scroll.
-  Stories     Estáticas, sin animación.
+  Experience, Work  Estáticas, sin animación.
   About       La foto se destapa de abajo arriba y se desplaza más lenta que la página.
   Statement   El fondo pasa de blanco a negro. La frase está quieta.
 
   Feedback: los textos no se mueven. Solo se mueven elementos (tarjetas, fondos, imágenes).
 
-  Three ways y el lab tienen sus propios hooks (useStackedCards, useDealDeck).
+  El lab tiene su propio hook (useDealDeck).
 */
 export function useHomeStory() {
   useLayoutEffect(() => {

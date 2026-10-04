@@ -3,9 +3,8 @@ import ParticleCanvas from '../components/ParticleCanvas';
 import DotLoopPortrait from '../components/DotLoopPortrait';
 import { PORTRAIT, PORTRAIT_SETTINGS } from '../content/portrait';
 import { Kicker, Tags, Video } from '../components/ui';
-import WaysSection from '../components/home/WaysSection';
 import LabSection from '../components/home/LabSection';
-import { FACTS, LINKS, STEPS, STORIES, TICKER } from '../content/site';
+import { ABOUT_ROWS, EXPERIENCE, FACTS, LINKS, STEPS, TICKER, WORK } from '../content/site';
 import { useActiveSection, useTitle } from '../lib/hooks';
 import { useHomeStory } from '../motion/useHomeStory';
 import type { FieldOptions } from '../lib/particles';
@@ -13,8 +12,8 @@ import type { FieldOptions } from '../lib/particles';
 const LAB_FIELD: FieldOptions = { count: 420, theme: 'dark', seed: 61, fade: 0.5 };
 
 const DOTS = [
-  ['hero', 'Hero'], ['how', 'How I work'], ['ways', 'Approach'], ['stories', 'Stories'],
-  ['about', 'About'], ['lab', 'Lab'], ['contact', 'Contact'],
+  ['hero', 'Hero'], ['how', 'How I work'], ['experience', 'Experience'], ['work', 'Work'],
+  ['about', 'About'], ['lab', 'Playground'], ['contact', 'Contact'],
 ] as const;
 
 function SectionDots() {
@@ -36,9 +35,8 @@ function SectionDots() {
 }
 
 export default function Home() {
-  useTitle('Laura Benavente · Senior Product Designer');
+  useTitle('Laura Benavente · Design Engineer');
   useHomeStory();
-  const [s1, s2, s3] = STORIES;
 
   return (
     <>
@@ -51,11 +49,11 @@ export default function Home() {
           <Kicker>Senior Product Designer · B2B SaaS · AI</Kicker>
           <div className="hero__content">
             <h1 id="hero-title" className="h-hero">
-              Hello! I’m Laura.<br />A product designer<br />who engineers<span className="accent">.</span>
+              Hello! I’m Laura.<br />A Senior product<br />designer who engineers<span className="accent">.</span>
             </h1>
             <p className="lead" style={{ maxWidth: 560 }}>8+ years designing complex digital products across B2B SaaS, financial software and consumer technology.</p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
-              <a href="#stories" className="pill pill--dark pill--lg">See the stories ↓</a>
+              <a href="#work" className="pill pill--dark pill--lg">See the work ↓</a>
               <a href={LINKS.cv} className="text-link">Download CV ↗</a>
             </div>
           </div>
@@ -91,61 +89,67 @@ export default function Home() {
             ))}
           </ol>
         </div>
-
       </section>
 
-      {/* THREE WAYS I APPROACH PRODUCT PROBLEMS */}
-      <WaysSection stacked />
-
-      {/* STORIES */}
-      <section id="stories" className="section" aria-labelledby="stories-title">
+      {/* EXPERIENCE */}
+      <section id="experience" className="section section--line" aria-labelledby="experience-title">
         <div className="container stack gap-48">
           <div className="sec-head">
             <div className="sec-head__main">
-              <Kicker>Stories</Kicker>
-              <h2 id="stories-title" className="h-xl">Selected stories</h2>
+              <Kicker>Experience</Kicker>
+              <h2 id="experience-title" className="h-l balance">8+ years designing complex digital products.</h2>
             </div>
-            <p className="mono-s muted">Wolters Kluwer · Movistar</p>
+            <p className="mono-s muted">B2B SaaS · Financial software · Consumer technology</p>
+          </div>
+          <ol className="experience">
+            {EXPERIENCE.map((e) => (
+              <li key={e.company} className="job">
+                <span className="job__years mono-s">{e.years}</span>
+                <div className="job__head">
+                  <h3 className="h-m">{e.company}</h3>
+                  <p className="job__role">{e.role}</p>
+                </div>
+                <div className="stack gap-16">
+                  <p className="body">{e.text}</p>
+                  <Tags items={e.tags} />
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* SELECTED WORK: cuatro casos, cada uno con su estado */}
+      <section id="work" className="section section--line" aria-labelledby="work-title">
+        <div className="container stack gap-48">
+          <div className="sec-head">
+            <div className="sec-head__main">
+              <Kicker>Work · 04 cases</Kicker>
+              <h2 id="work-title" className="h-xl">Selected work</h2>
+            </div>
+            <p className="mono-s muted">Wolters Kluwer · Adsolut · frog / Telefónica</p>
           </div>
 
-          <Link to={s1.to} className="tile tile--wide" data-cursor="Explore">
-            <div className="tile__media"><Video src={s1.video!} poster={s1.poster} label={s1.alt} /></div>
-            <div className="tile__body">
-              <div className="stack gap-16">
-                <span className="kicker kicker--muted" style={{ color: 'var(--muted-d)' }}>{s1.label}</span>
-                <h3 className="h-m">{s1.title}</h3>
-                <p style={{ color: 'var(--body-d)', fontSize: 18 }}>{s1.text}</p>
-                <div className="is-dark"><Tags items={s1.tags} /></div>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 20, flexWrap: 'wrap' }}>
-                <div className="stack gap-12">
-                  <span className="tile__metric">{s1.metric}</span>
-                  <span className="mono-s" style={{ color: 'var(--muted-d)' }}>{s1.metricLabel}</span>
-                </div>
-                <span className="tile__cta">Read story →</span>
-              </div>
-            </div>
-          </Link>
-
           <div className="tiles">
-            {[s2, s3].map((s) => (
-              <Link key={s.label} to={s.to} className="tile" data-cursor="Explore">
-                <div className="tile__media">
-                  {s.video ? <Video src={s.video} poster={s.poster} label={s.alt} /> : <img src={s.img} alt={s.alt} loading="lazy" />}
-                </div>
+            {WORK.map((w) => (
+              <Link key={w.num} to={w.to} className="tile" data-cursor="Explore">
+                <div className="tile__media">{w.video ? <Video src={w.video} poster={w.img} label={w.alt} /> : <img src={w.img} alt={w.alt} loading="lazy" />}</div>
                 <div className="tile__body">
                   <div className="stack gap-12">
-                    <span className="kicker" style={{ color: 'var(--muted-d)' }}>{s.label}</span>
-                    <h3 className="h-m">{s.title}</h3>
-                    <p style={{ color: 'var(--body-d)', fontSize: 16 }}>{s.text}</p>
-                    <div className="is-dark"><Tags items={s.tags} /></div>
+                    <div className="tile__meta">
+                      <span className="kicker" style={{ color: 'var(--muted-d)' }}>{w.num} · {w.company}</span>
+                      <span className="status status--dark">Shipped</span>
+                    </div>
+                    <h3 className="h-m">{w.title}</h3>
+                    <p style={{ color: 'var(--body-d)', fontSize: 16 }}>{w.text}</p>
+                    <div className="is-dark"><Tags items={w.tags} /></div>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 16, flexWrap: 'wrap' }}>
                     <div className="stack gap-12">
-                      <span className="tile__metric">{s.metric}</span>
-                      <span className="mono-s" style={{ color: 'var(--muted-d)' }}>{s.metricLabel}</span>
+                      <span className="tile__metric">{w.metric}</span>
+                      <span className="mono-s" style={{ color: 'var(--muted-d)' }}>{w.metricLabel}</span>
                     </div>
-                    <span className="tile__cta">Read story →</span>
+                    <span className="tile__cta">Read case →</span>
                   </div>
                 </div>
               </Link>
@@ -165,12 +169,20 @@ export default function Home() {
               <Kicker>About me</Kicker>
               <h2 id="about-title" className="h-l balance">I’m endlessly curious about the world around me.</h2>
               <p className="lead">I like design, technology, nature, strange ideas and the little connections between them.</p>
+              <p className="lead">I’m a Design Engineer and Senior Product Designer with 8+ years of experience designing complex digital products. I combine UX strategy, systems thinking, AI and code to create and build better product experiences.</p>
             </div>
-            <dl className="facts">
-              {FACTS.map(([k, v]) => (
-                <div key={k} className="fact"><dt>{k}</dt><dd>{v}</dd></div>
-              ))}
-            </dl>
+            <div className="stack gap-32">
+              <dl className="about__rows">
+                {ABOUT_ROWS.map(([k, v]) => (
+                  <div key={k}><dt>{k}</dt><dd>{v}</dd></div>
+                ))}
+              </dl>
+              <dl className="facts">
+                {FACTS.map(([k, v]) => (
+                  <div key={k} className="fact"><dt>{k}</dt><dd>{v}</dd></div>
+                ))}
+              </dl>
+            </div>
           </div>
         </div>
       </section>
@@ -184,7 +196,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* LAB */}
+      {/* PLAYGROUND (the lab): sin cambios */}
       <LabSection deal />
     </>
   );

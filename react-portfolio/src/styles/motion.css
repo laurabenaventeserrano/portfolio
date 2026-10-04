@@ -4,33 +4,6 @@
    "reducir movimiento"), todo se ve como siempre.
    ========================================================= */
 
-/* ---------- Three ways: tarjetas apiladas (elespacio.net) ---------- */
-.ways--stack {
-  --stack-top: var(--header-h);   /* la tarjeta se fija justo debajo de la cabecera */
-  background: var(--ink);         /* lo que asoma por los lados cuando una tarjeta se aleja */
-}
-.ways--stack .way {
-  position: sticky;               /* `top` lo calcula useStackedCards según el alto de cada tarjeta */
-  min-height: calc(100svh - var(--stack-top));
-  display: flex; align-items: center;
-  transform-origin: 50% 0%;
-  --shade: 0;
-}
-.ways--stack .way > .container { width: 100%; }
-/* Cada tarjeta necesita fondo propio para tapar a la anterior */
-.ways--stack .way:not(.section--dark):not(.section--accent) { background: var(--paper); }
-/* Las que llegan por encima tienen esquinas redondeadas y una sombra suave hacia arriba */
-.ways--stack .way + .way {
-  border-radius: 28px 28px 0 0;
-  box-shadow: 0 -30px 60px rgba(14, 14, 12, 0.18);
-}
-/* Velo que oscurece la tarjeta que queda debajo */
-.ways--stack .way::after {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: var(--ink); opacity: var(--shade); border-radius: inherit;
-}
-.ways--stack .way.section--dark::after { background: #000; }
-
 /* ---------- The lab: abanico de pases (toolkit de guillaumezhu.com) ---------- */
 /* En modo reparto la sección es más compacta para que título y abanico quepan juntos en pantalla,
    y recorta las cartas que esperan fuera, por debajo. */
@@ -57,8 +30,6 @@
   .passes { flex-direction: column; align-items: center; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ways--stack .way { position: relative; top: auto !important; min-height: 0; }
-  .ways--stack .way + .way { border-radius: 0; box-shadow: none; }
   .passes--fan .deal { transition: none; }
 }
 

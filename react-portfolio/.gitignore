@@ -5,3 +5,7 @@ dist
 public/mediapipe/
 # Originales de video sin recortar: se publican los .mp4 de public/video
 public/images/*.mov
+
+# Claves locales (Ask Laura en desarrollo)
+.env
+.env*.local

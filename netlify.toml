@@ -1,8 +1,12 @@
-# El sitio es HTML estatico en la raiz del repositorio. No hay npm, ni
-# bundler, ni paso de compilacion: el comando solo reune en _site la lista
-# de archivos que se publican, para que el material de trabajo de la raiz
-# (prompts, guia de identidad, referencia, originales de video) no se sirva
-# desde el dominio.
+# El sitio publicado es la app React de react-portfolio/. tools/publicar-react.sh
+# la compila y reune en _site lo que se sirve (app, lab y CV), para que el
+# material de trabajo de la raiz no se publique desde el dominio.
 [build]
   command = "bash tools/publicar-react.sh"
   publish = "_site"
+
+# Ask Laura: la función del chat vive con la app React (react-portfolio/netlify/functions)
+# y lee la clave de la variable de entorno ANTHROPIC_API_KEY, que se configura en Netlify.
+[functions]
+  directory = "react-portfolio/netlify/functions"
+  node_bundler = "esbuild"

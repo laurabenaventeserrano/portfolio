@@ -15,13 +15,14 @@ npm run preview   # sirve dist/ en local
 
 | Ruta | Archivo |
 |---|---|
-| `/` | `src/pages/Home.tsx` |
-| `/story1-case-study` | `src/pages/Story1.tsx` · CCH iFirm by Wolters Kluwer |
-| `/story2-case-study` | `src/pages/Story2.tsx` · AI-Assisted Drafting for CCH iFirm |
-| `/story3-case-study` | `src/pages/Story3.tsx` · Movistar |
+| `/` | `src/pages/Home.tsx` · hero, experience, selected work, about, playground |
+| `/work/cch-ifirm-cloud-migration` | `src/pages/Case1.tsx` · CCH iFirm Cloud Migration |
+| `/work/ai-customer-communications` | `src/pages/Case2.tsx` · AI-Powered Customer Communications |
+| `/work/ai-client-data-migration` | `src/pages/Case3.tsx` · AI-Powered Client Data Migration |
+| `/work/telefonica-multi-device` | `src/pages/Case4.tsx` · Multi-device Product Design for Telefónica |
 | cualquier otra | `src/pages/NotFound.tsx` |
 
-Las rutas son las mismas que en la web actual, así que los enlaces que ya circulan siguen funcionando.
+Las rutas antiguas (`/story1-case-study`, etc.) redirigen al caso nuevo, así que los enlaces que ya circulan siguen funcionando.
 
 ## Estructura
 
@@ -35,8 +36,8 @@ src/
   components/
     Layout.tsx           cabecera, menú móvil, contacto y pie, barra de progreso
     ParticleCanvas.tsx   campo de partículas; en modo interactive el ratón lo dispersa y la quietud lo recoge
-    StoryHero.tsx        cabecera común de las stories
-    ui.tsx               Chapter, Callout, Item, Figure, Video, Stats, Tags, Flow, MeasurePlan, NextStory, Ellipse, Kicker
+    CaseHero.tsx         cabecera común de los casos (empresa, rol, estado, tags, confidencial)
+    ui.tsx               CaseSection, Steps, Pair, Callout, Item, Figure, Video, Stats, Tags, Flow, NextCase, Kicker
 public/
   images/                imágenes de la web actual
   video/                 vídeos convertidos a mp4 (H.264, sin audio)

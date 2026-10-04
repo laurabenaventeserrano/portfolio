@@ -1,7 +1,10 @@
-# URLs de la version anterior, que pueden estar en el CV, LinkedIn o buscadores
-/story1-case-study.html  /story1-case-study   301
-/story2-case-study.html  /story2-case-study   301
-/story3-case-study.html  /story3-case-study   301
+# URLs de versiones anteriores, que pueden estar en el CV, LinkedIn o buscadores
+/story1-case-study.html  /work/cch-ifirm-cloud-migration   301
+/story2-case-study.html  /work/ai-customer-communications  301
+/story3-case-study.html  /work/telefonica-multi-device     301
+/story1-case-study       /work/cch-ifirm-cloud-migration   301
+/story2-case-study       /work/ai-customer-communications  301
+/story3-case-study       /work/telefonica-multi-device     301
 
 # Rutas de la app: cualquier otra cosa la resuelve React
 /*    /index.html   200

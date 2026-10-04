@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { usePrefersReducedMotion } from '../lib/hooks';
 
@@ -17,18 +17,32 @@ export function Figure({ src, alt, caption, className, cover }: { src: string; a
   );
 }
 
-/* Vídeo en bucle, silenciado. Con movimiento reducido no se reproduce solo y muestra controles. */
+/* Vídeo en bucle, silenciado. Arranca al entrar en pantalla y se para al salir.
+   React no escribe `muted` como atributo y algunos navegadores bloquean entonces el autoplay:
+   por eso se silencia y se lanza a mano. Con movimiento reducido no se reproduce solo y muestra controles. */
 export function Video({ src, poster, label, caption }: { src: string; poster?: string; label: string; caption?: string }) {
   const reduced = usePrefersReducedMotion();
+  const ref = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || reduced) return;
+    el.muted = true;
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) el.play().catch(() => {});
+      else el.pause();
+    }, { threshold: 0.15 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [reduced, src]);
   const video = (
     <div className="media">
       <video
+        ref={ref}
         src={src}
         poster={poster}
         muted
         loop
         playsInline
-        autoPlay={!reduced}
         controls={reduced}
         preload="metadata"
         aria-label={label}
@@ -66,24 +80,47 @@ export function Stats({ items }: { items: Stat[] }) {
   );
 }
 
-/* Capítulo numerado de una story */
-export function Chapter({ id, num, kicker, title, tone, children, intro }: {
-  id?: string; num: string; kicker: string; title: ReactNode; tone?: 'soft' | 'dark'; intro?: ReactNode; children?: ReactNode;
+/* Sección de un caso: etiqueta mono a la izquierda, contenido a la derecha. Sin fondos ni números fantasma:
+   en los casos manda el contenido. `tone="dark"` solo para la frase que lo merece (el problema o la decisión). */
+export function CaseSection({ num, label, title, tone, children }: {
+  num: string; label: string; title?: ReactNode; tone?: 'dark'; children?: ReactNode;
 }) {
-  // tone "soft": los bloques que antes eran gris claro ahora van en lila
-  const cls = tone === 'dark' ? 'section section--dark is-dark' : tone === 'soft' ? 'section section--accent chapter--accent' : 'section section--line';
+  const id = `sec-${num}`;
   return (
-    <section id={id} className={`chapter ${cls}`} aria-labelledby={`${id ?? num}-title`}>
-      <span className="chapter__ghost" aria-hidden="true">{num}</span>
-      <div className="container">
-        <header className="chapter__head">
-          <p className="chapter__num"><span>{num}</span><i aria-hidden="true" /><span className="kicker">{kicker}</span></p>
-          <h2 id={`${id ?? num}-title`} className="h-l balance">{title}</h2>
-          {intro}
-        </header>
-        {children && <div className="chapter__body">{children}</div>}
+    <section className={`case-sec${tone === 'dark' ? ' section--dark is-dark' : ''}`} aria-labelledby={id}>
+      <div className="container case-sec__grid">
+        <p className="case-sec__label" id={title ? undefined : id}><span>{num}</span> {label}</p>
+        <div className="case-sec__body">
+          {title && <h2 id={id} className="h-m balance">{title}</h2>}
+          {children}
+        </div>
       </div>
     </section>
+  );
+}
+
+/* Pasos numerados: cómo trabajé en este caso, contado con los pasos reales */
+export function Steps({ items, label }: { items: [string, ReactNode][]; label: string }) {
+  return (
+    <ol className="steps-list" aria-label={label}>
+      {items.map(([t, d], i) => (
+        <li key={t}>
+          <span className="steps-list__n">{String(i + 1).padStart(2, '0')}</span>
+          <span className="steps-list__t">{t}</span>
+          {d && <span className="steps-list__d">{d}</span>}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+/* Antes y después, una sola figura */
+export function Pair({ before, after }: { before: { src: string; alt: string; caption: string }; after: { src: string; alt: string; caption: string } }) {
+  return (
+    <div className="figure-row">
+      <Figure {...before} />
+      <Figure {...after} />
+    </div>
   );
 }
 
@@ -119,20 +156,16 @@ export function Flow({ steps, label }: { steps: string[]; label: string }) {
   );
 }
 
-export function MeasurePlan({ rows }: { rows: [string, string][] }) {
+/* Nota de confidencialidad: discreta, al final del caso. Está para ser honesta, no para llamar la atención. */
+export function CaseNote({ children }: { children: ReactNode }) {
   return (
-    <div className="measure">
-      <div className="measure__bar"><span>measurement plan</span><span>no analytics available · plan, not result</span></div>
-      <dl>
-        {rows.map(([k, v]) => (
-          <div key={k} className="measure__row"><dt>{k}</dt><dd>{v}</dd></div>
-        ))}
-      </dl>
-    </div>
+    <aside className="case-note container" aria-label="About these screens">
+      <p><span>Confidential · representative reconstruction.</span> {children}</p>
+    </aside>
   );
 }
 
-export function NextStory({ to, label, title }: { to: string; label: string; title: string }) {
+export function NextCase({ to, label, title }: { to: string; label: string; title: string }) {
   return (
     <section className="section section--line">
       <div className="container">
@@ -141,7 +174,7 @@ export function NextStory({ to, label, title }: { to: string; label: string; tit
             <span className="kicker">Next · {label}</span>
             <span className="h-l">{title}</span>
           </div>
-          <span className="pill pill--dark pill--lg">Read {label.toLowerCase()} →</span>
+          <span className="pill pill--dark pill--lg">Read case →</span>
         </Link>
       </div>
     </section>
