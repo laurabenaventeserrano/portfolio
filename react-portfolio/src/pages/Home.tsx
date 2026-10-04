@@ -153,7 +153,6 @@ export default function Home() {
               <Kicker>About me</Kicker>
               <h2 id="about-title" className="h-l balance">I’m endlessly curious about the world around me.</h2>
               <p className="lead">I like design, technology, nature, strange ideas and the little connections between them.</p>
-              <p className="lead">I’m a Design Engineer and Senior Product Designer with 8+ years of experience designing complex digital products. I combine UX strategy, systems thinking, AI and code to create and build better product experiences.</p>
             </div>
             <div className="stack gap-32">
               <dl className="about__rows">

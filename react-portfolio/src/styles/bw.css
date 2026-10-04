@@ -342,3 +342,51 @@ body { background: var(--lb-cream); color: var(--lb-cream-ink); }
 .tiles .tile p { color: var(--lb-cream-body) !important; }
 .tiles .tile .is-dark { background: transparent; color: inherit; }
 .tiles .tile .is-dark .tag { border-color: var(--line-strong); color: var(--lb-cream-body); }
+
+/* =========================================================
+   Ajustes de diseño (tercera tanda)
+   ========================================================= */
+
+/* 1 · Logo más contenido: Libertinus a 20px (display-s de la identidad) */
+.header .jelly { font-size: 20px; line-height: 1; letter-spacing: 0.01em; }
+
+/* 2 · Selección de texto en negativo: negro sobre blanco, blanco sobre negro */
+::selection { background: var(--lb-cream-ink); color: #FFFFFF; }
+.is-dark ::selection, .section--dark ::selection, .contact ::selection { background: #FFFFFF; color: var(--lb-ground); }
+
+/* 3 · Botones: un solo tamaño y una sola altura para los tres niveles.
+   Roboto 13px/500, 44px de alto, 2px de radio. Primario y secundario con borde de prisma;
+   el terciario (enlace) comparte tamaño, altura y línea base, sin borde. */
+.pill, .pill--lg, .pill--sm {
+  min-height: 44px; padding: 0 22px; display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--display); font-size: 13px; font-weight: 500; line-height: 1; letter-spacing: 0.01em; text-transform: none;
+}
+.pill--dark:hover, .pill--dark.pill--lg:hover, .pill--dark.pill--sm:hover,
+.is-dark .pill--accent:hover { padding: 0 21.5px; }
+.text-link {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0;
+  font-family: var(--display); font-size: 13px; font-weight: 500; line-height: 1; letter-spacing: 0.01em;
+  color: var(--lb-cream-ink);
+}
+.text-link:hover { background: var(--prism-sm) left calc(50% + 10px) / 100% 1px no-repeat; }
+
+/* 4 · El atajo de secciones de la derecha, al estilo del prisma:
+   sin caja; una línea vertical de prisma de 1px y marcas cuadradas; la activa, negra y mayor;
+   la etiqueta en mono, sin píldora, con una línea corta de prisma debajo. */
+.dots ol { position: relative; padding: 0; background: none; border: 0; }
+.dots ol::before { content: ''; position: absolute; left: 50%; top: 17px; bottom: 17px; width: 1px; transform: translateX(-50%); background: var(--prism-v); }
+.dots a { width: 32px; height: 34px; }
+.dots__dot, .dots a[aria-current=true] .dots__dot {
+  position: relative; width: 7px; height: 7px; border-radius: 0; border: 1px solid var(--lb-cream-ink); background: #FFFFFF; transition: width .2s, height .2s, background-color .2s;
+}
+.dots a[aria-current=true] .dots__dot { width: 11px; height: 11px; background: var(--lb-cream-ink); }
+.dots a:hover .dots__dot { background: var(--lb-cream-ink); }
+.dots__label {
+  right: 40px; top: 10px; padding: 3px 0 5px; border-radius: 0; background: #FFFFFF;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--lb-cream-ink);
+  background-image: var(--prism-sm); background-size: 100% 1px; background-position: bottom left; background-repeat: no-repeat;
+  background-color: transparent;
+}
+/* Legible también sobre las secciones negras: la etiqueta lleva su papel y las marcas un margen blanco */
+.dots__label { padding: 3px 6px 5px; background: var(--prism-sm) bottom left / 100% 1px no-repeat, #FFFFFF; }
+.dots__dot, .dots a[aria-current=true] .dots__dot { box-shadow: 0 0 0 2px #FFFFFF; }
