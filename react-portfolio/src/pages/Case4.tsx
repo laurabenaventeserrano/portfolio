@@ -2,7 +2,6 @@ import CaseHero from '../components/CaseHero';
 import ValueEffortMatrix from '../components/ValueEffortMatrix';
 import { CaseSection, CaseNote, Cols, KeyLine, NextCase, NumberedBlocks, Pair, Video } from '../components/ui';
 import { ROUTES } from '../content/site';
-import { useTitle } from '../lib/hooks';
 
 /*
   Case 04 · AI Contextual Assistant for CCH iFirm.
@@ -11,7 +10,6 @@ import { useTitle } from '../lib/hooks';
   Es un concepto, no se lanzó: el estado lo dice.
 */
 export default function Case4() {
-  useTitle('AI Contextual Assistant for CCH iFirm · Laura Benavente');
   return (
     <article>
       <CaseHero

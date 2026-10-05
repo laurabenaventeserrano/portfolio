@@ -1,7 +1,6 @@
 import CaseHero from '../components/CaseHero';
 import { CaseSection, Callout, Figure, Item, CaseNote, NextCase, Stats, Steps } from '../components/ui';
 import { ROUTES } from '../content/site';
-import { useTitle } from '../lib/hooks';
 
 const PRODUCTS = [
   { platform: 'Web', name: 'Conexión Segura', desc: 'Security self-service dashboard.', goal: 'Increase service activation and improve service management.', img: '/images/s3-conexion-segura.jpg', alt: 'Conexión Segura: a security dashboard listing threats blocked this month, devices covered, trusted pages and permission requests.' },
@@ -10,7 +9,6 @@ const PRODUCTS = [
 ];
 
 export default function Case5() {
-  useTitle('Multi-device Product Design for Telefónica · Laura Benavente');
   return (
     <article>
       <CaseHero

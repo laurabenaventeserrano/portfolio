@@ -1,10 +1,8 @@
 import CaseHero from '../components/CaseHero';
 import { CaseSection, Callout, Figure, Item, CaseNote, NextCase, Stats, Steps, Video } from '../components/ui';
 import { ROUTES } from '../content/site';
-import { useTitle } from '../lib/hooks';
 
 export default function Case2() {
-  useTitle('AI-Powered Customer Communications · Laura Benavente');
   return (
     <article>
       <CaseHero

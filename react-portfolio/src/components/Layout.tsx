@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { LINKS, ROUTES } from '../content/site';
-import { useScrollProgress } from '../lib/hooks';
+import { useScrollProgress, useSeo } from '../lib/hooks';
 import JellyLogo from './JellyLogo';
 import CursorLabel from './CursorLabel';
 import AskLaura from './AskLaura';
@@ -50,8 +50,9 @@ function Header({ short, onShort, sound, onSound }: HeaderProps) {
         <div className="header__tools">
           {/* Versión: completa o resumen de una pantalla */}
           <div className="switch" role="group" aria-label="Version">
-            <button type="button" className="switch__opt" aria-pressed={!short} onClick={() => onShort(false)}>Full</button>
-            <button type="button" className="switch__opt" aria-pressed={short} onClick={() => onShort(true)}>Short</button>
+            {/* En escritorio "Full story / In brief"; en móvil, sin la segunda palabra: "Full / Brief" */}
+            <button type="button" className="switch__opt" data-opt="full" aria-pressed={!short} onClick={() => onShort(false)}>Full<span className="switch__more"> story</span></button>
+            <button type="button" className="switch__opt" data-opt="brief" aria-pressed={short} onClick={() => onShort(true)}><span className="switch__more">In </span>Brief</button>
           </div>
           {/* Sonido: órgano ambiente, apagado por defecto */}
           <button type="button" className="sound" aria-pressed={sound} onClick={onSound} aria-label={sound ? 'Turn sound off' : 'Turn sound on'}>
@@ -138,6 +139,7 @@ export default function Layout() {
   const isCase = pathname.startsWith('/work');
   useSmoothScroll();          // scroll suave en todo el sitio
   useScrollStory(pathname);   // apariciones y movimiento al hacer scroll, página a página
+  useSeo(pathname);           // título, descripción y canónica de cada página (src/content/seo.json)
   // Favicon provisional: un rectángulo negro fijo. El favicon vivo de puntos (useLiveFavicon) queda apagado.
   // Por defecto: versión completa y sonido apagado, en cada visita (no se guarda la elección)
   const [short, setShortState] = useState(false);

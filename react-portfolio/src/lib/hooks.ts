@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import seo from '../content/seo.json';
 
 export function usePrefersReducedMotion() {
   const query = '(prefers-reduced-motion: reduce)';
@@ -47,4 +48,33 @@ export function useScrollProgress() {
 
 export function useTitle(title: string) {
   useEffect(() => { document.title = title; }, [title]);
+}
+
+/* Título, descripción y canónica de la página actual, desde src/content/seo.json:
+   los mismos que el HTML estático de cada página (scripts/seo-pages.mjs), también al navegar dentro de la app. */
+function setMeta(selector: string, attr: string, value: string) {
+  document.querySelectorAll(selector).forEach((el) => el.setAttribute(attr, value));
+}
+export function useSeo(pathname: string) {
+  useEffect(() => {
+    const path = pathname.length > 1 ? pathname.replace(/\/$/, '') : pathname;
+    const page = (seo.pages as Record<string, { title: string; description: string }>)[path];
+    if (!page) return;
+    const url = seo.site + path;
+    document.title = page.title;
+    setMeta('meta[name="description"], meta[property="og:description"], meta[name="twitter:description"]', 'content', page.description);
+    setMeta('meta[property="og:title"], meta[name="twitter:title"]', 'content', page.title);
+    setMeta('meta[property="og:url"]', 'content', url);
+    setMeta('link[rel="canonical"]', 'href', url);
+  }, [pathname]);
+}
+
+/* Páginas que no existen: que no se indexen */
+export function useNoIndex() {
+  useEffect(() => {
+    const m = document.createElement('meta');
+    m.name = 'robots'; m.content = 'noindex';
+    document.head.appendChild(m);
+    return () => m.remove();
+  }, []);
 }

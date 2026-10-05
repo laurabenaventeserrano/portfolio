@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import CaseHero from '../components/CaseHero';
 import { CaseSection, CaseNote, Cols, Figure, Flow, KeyLine, NextCase, NumberedBlocks, Pair, Stats, Video } from '../components/ui';
 import { ROUTES } from '../content/site';
-import { useTitle } from '../lib/hooks';
 import ValueEffortMatrix from '../components/ValueEffortMatrix';
 
 /*
@@ -12,7 +11,6 @@ import ValueEffortMatrix from '../components/ValueEffortMatrix';
 */
 
 export default function Case1() {
-  useTitle('CCH iFirm Cloud Migration · Laura Benavente');
   return (
     <article>
       <CaseHero

@@ -9,7 +9,7 @@ import { EXPERIENCE, LINKS, WORK } from '../content/site';
 */
 export default function ShortView() {
   return (
-    <section className="short" aria-label="Short version">
+    <section className="short" aria-label="Brief version">
       <div className="short__inner">
         <div className="short__intro">
           <p className="kicker">Senior Product Designer · Design engineer · B2B SaaS · AI</p>

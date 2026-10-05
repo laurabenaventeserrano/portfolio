@@ -5,7 +5,7 @@ import { PORTRAIT, PORTRAIT_SETTINGS } from '../content/portrait';
 import { Kicker, Tags, Video } from '../components/ui';
 import LabSection from '../components/home/LabSection';
 import { ABOUT_ROWS, EXPERIENCE, FACTS, LINKS, STEPS, WORK } from '../content/site';
-import { useActiveSection, useTitle } from '../lib/hooks';
+import { useActiveSection } from '../lib/hooks';
 import { useHomeStory } from '../motion/useHomeStory';
 import type { FieldOptions } from '../lib/particles';
 
@@ -35,7 +35,6 @@ function SectionDots() {
 }
 
 export default function Home() {
-  useTitle('Laura Benavente · Design Engineer');
   useHomeStory();
 
   return (
@@ -146,7 +145,7 @@ export default function Home() {
       <section id="about" className="section section--accent" aria-labelledby="about-title">
         <div className="container about">
           <div className="about__photo">
-            <img src="/images/laurabenavente.jpeg" alt="Laura Benavente, de chaqueta de cuero y auriculares al cuello, delante de un muro vegetal." loading="lazy" />
+            <img src="/images/laurabenavente.jpeg" alt="Laura Benavente in a leather jacket with headphones around the neck, in front of a plant wall." loading="lazy" />
           </div>
           <div className="stack gap-48" style={{ justifyContent: 'space-between' }}>
             <div className="stack gap-20">

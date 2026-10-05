@@ -1,0 +1,32 @@
+{
+  "_comment": "Título, descripción y URL canónica de cada página. Lo usan la app (useSeo) y el build (scripts/seo-pages.mjs), para que el HTML estático y la página ya pintada digan lo mismo. Solo hechos que ya están en la web.",
+  "site": "https://laurabenavente.com",
+  "image": "https://laurabenavente.com/images/og-laura-benavente.png",
+  "imageAlt": "Laura Benavente. Senior Product Designer · AI · Design Engineering.",
+  "pages": {
+    "/": {
+      "title": "Laura Benavente | Senior Product Designer · AI · Design Engineering",
+      "description": "Laura Benavente, Senior Product Designer. 8+ years designing complex digital products across B2B SaaS, financial software and consumer technology, with AI and design engineering."
+    },
+    "/work/cch-ifirm-cloud-migration": {
+      "title": "CCH iFirm Cloud Migration | Laura Benavente, Senior Product Designer",
+      "description": "Case study by Laura Benavente, Senior Product Designer at Wolters Kluwer: designing continuity across a fragmented SaaS ecosystem."
+    },
+    "/work/ai-customer-communications": {
+      "title": "AI-Powered Customer Communications | Laura Benavente, Senior Product Designer",
+      "description": "Case study by Laura Benavente, Senior Product Designer at Wolters Kluwer / CCH iFirm: turning an AI opportunity into a product decision and a shippable MVP."
+    },
+    "/work/ai-client-data-migration": {
+      "title": "AI-Powered Client Data Migration | Laura Benavente, Senior Product Designer",
+      "description": "Case study by Laura Benavente for Adsolut Accounting: an AI powered flow to migrate client data from competitor software."
+    },
+    "/work/ifirm-ai-contextual-assistant": {
+      "title": "AI Contextual Assistant for CCH iFirm | Laura Benavente, Senior Product Designer",
+      "description": "Concept by Laura Benavente, Senior Product Designer at Wolters Kluwer: an AI-powered contextual sidebar for CCH iFirm, from preserving context to understanding context."
+    },
+    "/work/telefonica-multi-device": {
+      "title": "Multi-device Product Design for Telefónica | Laura Benavente, Senior Product Designer",
+      "description": "Case study by Laura Benavente, Product Designer at frog for Telefónica: three products and three interaction models across web, mobile and television."
+    }
+  }
+}

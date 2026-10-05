@@ -1,11 +1,9 @@
 import CaseHero from '../components/CaseHero';
 import { CaseSection, Callout, Figure, Flow, CaseNote, NextCase, Stats, Steps } from '../components/ui';
 import { ROUTES } from '../content/site';
-import { useTitle } from '../lib/hooks';
 
 /* Textos de la presentación de Laura (Story 3 · Adsolut Accounting). */
 export default function Case3() {
-  useTitle('AI-Powered Client Data Migration · Laura Benavente');
   return (
     <article>
       <CaseHero

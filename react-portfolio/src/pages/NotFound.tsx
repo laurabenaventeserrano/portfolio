@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { Kicker } from '../components/ui';
 import { ROUTES } from '../content/site';
-import { useTitle } from '../lib/hooks';
+import { useNoIndex, useTitle } from '../lib/hooks';
 
 export default function NotFound() {
   useTitle('Page not found · Laura Benavente');
+  useNoIndex();
   return (
     <section className="section notfound">
       <div className="container stack gap-32">

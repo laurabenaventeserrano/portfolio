@@ -421,6 +421,7 @@ body { background: var(--lb-cream); color: var(--lb-cream-ink); }
   .header__inner { gap: 12px; }
   .header__tools { gap: 12px; }
   .switch__opt { padding: 0 8px; letter-spacing: 0.1em; }
+  .switch__more { display: none; }
 }
 
 /* =========================================================
