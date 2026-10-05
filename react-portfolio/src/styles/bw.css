@@ -468,3 +468,20 @@ main.is-short ~ .dots, .is-short + .dots { display: none; }
   .short__jobs li { grid-template-columns: 90px minmax(0, 1fr); row-gap: 4px; }
   .short__role { grid-column: 2; }
 }
+
+/* =========================================================
+   Cursor en reposo (referencia: sarahkadlecek.com)
+   Punto negro relleno de 7px y anillo de 40px con línea de prisma de 1px.
+   Solo en reposo: sobre enlaces y textos sigue la tag y la barra de texto de siempre.
+   ========================================================= */
+.lb-rest { position: fixed; inset: 0; z-index: 1000; pointer-events: none; opacity: 0; transition: opacity .4s; }
+.lb-rest.is-on { opacity: 1; }
+.lb-rest__ring, .lb-rest__dot { position: fixed; left: 0; top: 0; transform: translate(-200px, -200px); will-change: transform; }
+.lb-rest__ring {
+  width: 42px; height: 42px; border-radius: 50%; background: var(--prism);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 1px), #000 calc(100% - 1px));
+          mask: radial-gradient(farthest-side, transparent calc(100% - 1px), #000 calc(100% - 1px));
+}
+.lb-rest__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--lb-cream-ink); }
+.lb-rest.is-inv .lb-rest__dot { background: #FFFFFF; }
+@media (prefers-reduced-motion: reduce) { .lb-rest { transition: none; } }

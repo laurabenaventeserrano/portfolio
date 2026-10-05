@@ -3,7 +3,9 @@ import { usePrefersReducedMotion } from '../lib/hooks';
 
 /*
   Cursor de Laura (el del canvas):
-  · Una bolita lila que sigue al ratón por toda la página.
+  · En reposo: un punto negro relleno y un anillo de prisma de 1px alrededor (como sarahkadlecek.com).
+    El punto sigue al ratón casi pegado (0,55 por fotograma) y el anillo, con un pelín de retraso (0,35).
+    Sobre las secciones negras el punto se vuelve blanco.
   · Sobre cualquier cosa que se pueda abrir, la bolita se abre en una tag lila con un texto
     que cambia con el contenido ("Untangle it", "Say hi", "Go check!"…), nunca repite el botón.
   · Sobre texto, la bolita se convierte en una barra de texto lila: gigante, a la medida de la letra,
@@ -44,6 +46,9 @@ type Caret = { h: number; w: number; bar: number } | null;
 
 export default function CursorLabel() {
   const ref = useRef<HTMLDivElement>(null);
+  const restRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLSpanElement>(null);
+  const pointRef = useRef<HTMLSpanElement>(null);
   const [label, setLabel] = useState<string | null>(null);
   const [text, setText] = useState('Take me there');
   const [arrow, setArrow] = useState('↗');
@@ -60,19 +65,22 @@ export default function CursorLabel() {
   }, []);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!enabled || !el) return;
+    const el = ref.current, rest = restRef.current, ring = ringRef.current, point = pointRef.current;
+    if (!enabled || !el || !rest || !ring || !point) return;
     document.documentElement.classList.add('has-cursor-label');
     let tx = -200, ty = -200, x = tx, y = ty, raf = 0, cur: string | null = null, ck = '';
+    let dx = tx, dy = ty, rx = tx, ry = ty, dark = false;
 
     const move = (e: PointerEvent) => {
-      if (x < -100) { x = e.clientX; y = e.clientY; }
+      if (x < -100) { x = dx = rx = e.clientX; y = dy = ry = e.clientY; }
       tx = e.clientX; ty = e.clientY;
       setVis(true);
       // Se mira todo lo que hay bajo el ratón, no solo la capa de arriba: así un retrato, una máscara
       // o una capa decorativa encima no tapan la card ni el texto
       const stack = document.elementsFromPoint(e.clientX, e.clientY);
       let hit: HTMLElement | null = null, textEl: HTMLElement | null = null;
+      const onDark = !!stack[0]?.closest('.is-dark');
+      if (onDark !== dark) { dark = onDark; rest.classList.toggle('is-inv', dark); }
       for (const n of stack) {
         if (!hit) hit = n.closest<HTMLElement>(CLICK);
         if (!textEl) textEl = n.closest<HTMLElement>(TEXT);
@@ -117,6 +125,12 @@ export default function CursorLabel() {
       const k = reduced ? 1 : 0.45;
       x += (tx - x) * k; y += (ty - y) * k;
       el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      // Reposo: el punto como la referencia; el anillo, con menos retraso que en ella (0,16), para que se use bien
+      const kd = reduced ? 1 : 0.55, kr = reduced ? 1 : 0.35;
+      dx += (tx - dx) * kd; dy += (ty - dy) * kd;
+      rx += (tx - rx) * kr; ry += (ty - ry) * kr;
+      point.style.transform = `translate3d(${dx - 3.5}px, ${dy - 3.5}px, 0)`;
+      ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
     };
     raf = requestAnimationFrame(frame);
 
@@ -130,9 +144,13 @@ export default function CursorLabel() {
 
   if (!enabled) return null;
   const width = label ? Math.round(text.length * 8.4 + 60) : 16;
-  return (
+  return (<>
+    <div ref={restRef} className={`lb-rest${vis && !label && !caret ? ' is-on' : ''}`} aria-hidden="true">
+      <span ref={ringRef} className="lb-rest__ring" />
+      <span ref={pointRef} className="lb-rest__dot" />
+    </div>
     <div ref={ref} className="lb-cursor" aria-hidden="true">
-      <span className={`lb-cursor__dot${vis && !caret ? ' is-vis' : ''}${label ? ' is-on' : ''}`} style={{ width }}>
+      <span className={`lb-cursor__dot${vis && !caret && label ? ' is-vis' : ''}${label ? ' is-on' : ''}`} style={{ width }}>
         <span className="lb-cursor__t">{text}</span><span className="lb-cursor__t lb-cursor__arrow">{arrow}</span>
       </span>
       <span className={`lb-cursor__caret${vis && caret ? ' is-on' : ''}`}>
@@ -143,5 +161,5 @@ export default function CursorLabel() {
         </>)}
       </span>
     </div>
-  );
+  </>);
 }
