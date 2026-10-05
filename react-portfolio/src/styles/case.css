@@ -185,3 +185,29 @@
 .options3__solo { display: flex; flex-direction: column; gap: 10px; }
 .options3__solo .media { margin-bottom: 8px; aspect-ratio: 318 / 170; background: #FFFFFF; }
 .options3__solo .media img { width: 100%; height: 100%; object-fit: contain; }
+
+/* =========================================================
+   Rejillas de tarjetas: con un número impar, la última ocupa el espacio de dos
+   ========================================================= */
+.tiles > .tile:last-child:nth-child(odd) { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+.tiles > .tile:last-child:nth-child(odd) .tile__media { margin: 16px; }
+.tiles > .tile:last-child:nth-child(odd) .tile__body { padding-top: 32px; }
+@media (max-width: 900px) { .tiles > .tile:last-child:nth-child(odd) { grid-template-columns: minmax(0, 1fr); } .tiles > .tile:last-child:nth-child(odd) .tile__media { margin: 16px 16px 0; } }
+
+/* ---------- Having fun with AI: tarjetas en la rejilla, el vídeo manda ---------- */
+.lab { gap: clamp(36px, 4vw, 56px); }
+.lab__head { align-items: flex-start; text-align: left; }
+.lab-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 2.2vw, 32px); }
+.lab-grid > .pass:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.lab-grid .pass { width: auto; max-width: none; padding: 16px; gap: 0; cursor: pointer; }
+.lab-grid .pass .media { aspect-ratio: 1280 / 740; border: 1px solid var(--line); background: var(--lb-paper-inset); }
+.lab-grid .pass .media video { width: 100%; height: 100%; object-fit: cover; }
+.pass__body { display: flex; flex-direction: column; gap: 6px; padding: 22px 8px 6px; }
+.pass__title { font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 2.6vw, 38px); line-height: 1.05; letter-spacing: -0.015em; color: var(--lb-cream-ink); }
+.pass__sub { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--lb-cream-meta); }
+.lab-grid .pass__rows { margin-top: 18px; }
+.lab-grid .pass__row dt { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--lb-cream-meta); }
+.lab-grid .pass__row dd { font-family: var(--display); font-size: 15px; font-weight: 500; line-height: 1.5; color: var(--lb-cream-ink); }
+@media (max-width: 760px) { .lab-grid { grid-template-columns: 1fr; } }
+/* La última fila de la tarjeta no lleva línea debajo: la tarjeta ya cierra con su borde */
+.lab-grid .pass__row:last-child { background-image: var(--prism); background-size: 100% 1px; background-position: top left; }

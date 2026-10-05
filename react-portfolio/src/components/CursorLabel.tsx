@@ -17,6 +17,9 @@ const CLICK = 'a[href],button,[role="button"],[data-cursor],.pass';
 function labelFor(el: HTMLElement): string {
   const href = el.getAttribute('href') || '';
   const id = el.getAttribute('aria-labelledby') || '';
+  if (el.classList.contains('switch__opt')) return el.textContent === 'Short' ? 'Quick look' : 'The full story';
+  if (el.classList.contains('sound')) return el.getAttribute('aria-pressed') === 'true' ? 'Silence' : 'Press play';
+  if (el.classList.contains('menu__toggle')) return el.getAttribute('aria-expanded') === 'true' ? 'Close it' : 'Open it';
   if (id === 'pass-1' || href.includes('/lab/postal')) return 'Make a postcard';
   if (id === 'pass-2' || href.includes('/lab/arcana')) return 'Ask the cards';
   if (href.includes('cch-ifirm')) return 'Untangle it';

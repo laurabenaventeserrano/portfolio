@@ -7,8 +7,7 @@ import '../styles/global.css';
 
 /*
   Página de pruebas del movimiento (solo en desarrollo).
-  La sección es la real de la portada, con el movimiento encendido: <LabSection deal />.
-  Para probar el abanico con más pases, copia un bloque .deal en LabSection.tsx.
+  La sección es la real de la portada, con el movimiento encendido: <LabSection />.
 */
 function Lab() {
   useSmoothScroll();
@@ -18,7 +17,7 @@ function Lab() {
         <div className="container stack gap-24" style={{ minHeight: '70svh', justifyContent: 'center' }}>
           <p className="kicker">( Motion lab · test the rhythm )</p>
           <h1 className="h-hero">Scroll slowly<span className="accent">.</span></h1>
-          <p className="lead">The lab passes are dealt one by one into a fan. Scroll back up and everything rewinds.</p>
+          <p className="lead">The lab cards sit on the grid; their videos play when they come into view.</p>
           <p className="mono-s muted">↓</p>
         </div>
       </section>
@@ -29,7 +28,7 @@ function Lab() {
         </div>
       </section>
 
-      <LabSection deal />
+      <LabSection />
 
       <section className="section section--dark is-dark">
         <div className="container stack gap-16" style={{ minHeight: '60svh', justifyContent: 'center' }}>

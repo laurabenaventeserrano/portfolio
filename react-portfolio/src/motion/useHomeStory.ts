@@ -15,7 +15,7 @@ import { gsap, ScrollTrigger, MQ } from './gsap';
 
   Feedback: los textos no se mueven. Solo se mueven elementos (tarjetas, fondos, imágenes).
 
-  El lab tiene su propio hook (useDealDeck).
+  El lab ya no tiene movimiento propio: sus vídeos se reproducen al entrar en pantalla.
 */
 export function useHomeStory() {
   useLayoutEffect(() => {

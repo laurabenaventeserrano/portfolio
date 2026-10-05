@@ -83,7 +83,7 @@ export default function Home() {
       </section>
 
       {/* EXPERIENCE */}
-      <section id="experience" className="section section--line" aria-labelledby="experience-title">
+      <section id="experience" className="section" aria-labelledby="experience-title">
         <div className="container stack gap-48">
           <div className="sec-head">
             <div className="sec-head__main">
@@ -111,7 +111,7 @@ export default function Home() {
       </section>
 
       {/* SELECTED WORK: cuatro casos, cada uno con su estado */}
-      <section id="work" className="section section--line" aria-labelledby="work-title">
+      <section id="work" className="section" aria-labelledby="work-title">
         <div className="container stack gap-48">
           <div className="sec-head">
             <div className="sec-head__main">
@@ -174,13 +174,12 @@ export default function Home() {
       <section className="statement section section--dark is-dark" data-motion="custom" aria-label="The lab">
         <ParticleCanvas className="statement__field" options={LAB_FIELD} mode="disperso" />
         <div className="container stack gap-24" style={{ position: 'relative' }}>
-          <Kicker tone="accent">The lab</Kicker>
           <p className="statement__text">I think in systems, design experiences, work with AI and build with code</p>
         </div>
       </section>
 
       {/* PLAYGROUND (the lab): sin cambios */}
-      <LabSection deal />
+      <LabSection />
     </>
   );
 }
