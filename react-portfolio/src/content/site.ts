@@ -10,6 +10,7 @@ export const LINKS = {
   // Los prototipos del lab son apps independientes que ya viven en el dominio.
   postcard: 'https://laurabenavente.com/lab/postal/',
   arcana: 'https://laurabenavente.com/lab/arcana/',
+  golosina: 'https://laurabenaventeserrano.github.io/Golosina/',
 };
 
 export const ROUTES = {

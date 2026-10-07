@@ -10,8 +10,16 @@ function openPass(e: MouseEvent<HTMLElement>) {
 }
 
 /* Los proyectos del lab. Para añadir uno, añade una entrada: la rejilla se ajusta sola
-   (con un número impar de tarjetas, la última ocupa el espacio de dos). */
-const PASSES = [
+   (todas las tarjetas tienen el mismo tamaño, tres por fila). */
+type Pass = { id: string; title: string; sub: string; stack?: string; video: string; poster: string; href?: string; cta?: string; cursor?: string; label: string };
+
+const PASSES: Pass[] = [
+  {
+    id: 'pass-0', title: 'Golosina', sub: 'Hand tracking experiment', stack: 'JavaScript · WebGL · MediaPipe',
+    href: LINKS.golosina, cta: 'Stretch the gum ↗',
+    cursor: 'Stretch the gum', video: '/video/lab-hand-tracking.mp4', poster: '/images/lab-hand-tracking.jpg',
+    label: 'A hand tracked by the webcam pinches and stretches a glossy red 3D shape over the words “Having fun with AI”.',
+  },
   {
     id: 'pass-1', title: 'Postcard maker', sub: 'AI prototype', stack: 'Vanilla JS · Canvas 2D · zero deps · built with Claude Code',
     video: '/video/lab-postal.mp4', poster: '/images/lab-postal.jpg', href: LINKS.postcard, cta: 'Play AI prototype ↗',
@@ -35,16 +43,18 @@ export default function LabSection() {
         </div>
         <div className="lab-grid">
           {PASSES.map((p) => (
-            <article key={p.id} className="pass" aria-labelledby={p.id} data-cursor="Play prototype" onClick={openPass}>
+            <article key={p.id} className="pass" aria-labelledby={p.id} data-cursor={p.cursor ?? 'Play prototype'} onClick={p.href ? openPass : undefined}>
               <Video src={p.video} poster={p.poster} label={p.label} />
               <div className="pass__body">
                 <h3 id={p.id} className="pass__title">{p.title}</h3>
                 <span className="pass__sub">{p.sub}</span>
-                <dl className="pass__rows">
-                  <div className="pass__row"><dt>Stack</dt><dd>{p.stack}</dd></div>
-                </dl>
+                {p.stack && (
+                  <dl className="pass__rows">
+                    <div className="pass__row"><dt>Stack</dt><dd>{p.stack}</dd></div>
+                  </dl>
+                )}
               </div>
-              <a href={p.href} className="pass__link sr-only">{p.cta}</a>
+              {p.href && <a href={p.href} className="pass__link sr-only">{p.cta}</a>}
             </article>
           ))}
         </div>
