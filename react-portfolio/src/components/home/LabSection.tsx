@@ -30,6 +30,8 @@ export default function LabSection() {
       <div className="container lab">
         <div className="lab__head">
           <h2 id="lab-title" className="h-xl">Having fun with AI</h2>
+          <p className="lead">Small experiments. Working prototypes.</p>
+          <a href={LINKS.instagram} className="text-link">@havingfunwithai_ ↗</a>
         </div>
         <div className="lab-grid">
           {PASSES.map((p) => (
