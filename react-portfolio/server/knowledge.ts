@@ -15,7 +15,7 @@ export const KNOWLEDGE = `
 - I combine product strategy, UX, systems thinking, AI and code to turn complex workflows into clear, scalable experiences.
 - My AI work has two sides: I use AI to accelerate my own design and build workflow, and I design AI into product experiences.
 - Sectors: financial products, tax & accounting, telecommunications.
-- Languages: Spanish (native) and English (C1–C2).
+- Languages: Spanish (native), English (C1–C2), Dutch (B1) and Italian (B1).
 - About me, in my words: "I'm endlessly curious about the world around me. I like design, technology, nature, strange ideas and the little connections between them."
 
 ## What I'm looking for
@@ -35,7 +35,7 @@ export const KNOWLEDGE = `
 - Led product design for complex B2B SaaS workflows across accounting and professional services, connecting fragmented journeys, systems and user needs across international markets. Evolving product and design systems through AI, automation and code.
 - Designed and shipped complex B2B SaaS products for accounting and professional-services firms, translating business logic, regulatory requirements and technical constraints into scalable product experiences across international markets.
 - Owned end-to-end product design: discovery, customer research and problem definition, through interaction design, prototyping, validation, design delivery and implementation.
-- Designed and shipped AI-powered product experiences, including an AI agent integrated into the product ecosystem to support users within their existing workflows.
+- Designed and shipped AI-assisted product experiences and built an AI agent concept, using rapid prototyping to investigate how AI could support users within complex workflows.
 - Contributed to the evolution of a global Design System, defining reusable interaction patterns and improving consistency and accessibility across products.
 - Partnered closely with Product, Engineering, Architecture, Business Experts and international stakeholders to define product direction, resolve cross-product dependencies and deliver solutions into production.
 - Used research, prototyping and usability validation to de-risk product decisions and align stakeholders across markets.
@@ -43,12 +43,13 @@ export const KNOWLEDGE = `
 - Products: CCH iFirm (cloud practice management), Adsolut Accounting.
 
 ### frog / Telefónica — Product Designer (February 2019 – June 2021, Madrid)
-- Designed multi-device digital products and connected experiences across Telefónica's mobile, TV and smart-home ecosystem: iOS, Android, TV, voice and web-based operational tools.
+- Designed multi-device and connected experiences across Telefónica's ecosystem: mobile, desktop, TV and voice.
 - Led end-to-end design delivery, from information architecture and interaction design to high-fidelity UI, responsive layouts, prototypes and implementation-ready specs.
-- Designed web-based operational tools, including a CMS and partner dashboard for Living Apps.
+- Designed consumer-facing experiences including Smart WiFi, Secure Connection and Living Apps across multiple devices.
+- Designed web-based operational tools, including a CMS and partner dashboard used to create, manage and monitor Living Apps.
 - Collaborated with Product, Engineering, Research and Business to balance user needs, business goals and technical feasibility.
 
-### Freelance — Front-end and graphic design
+### Freelance — Front-end and graphic design (January 2018 – February 2019, Spain, remote)
 - Designed and built responsive digital experiences, combining UX/UI design, front-end development and implementation to take concepts from idea to working product.
 
 ## Education
@@ -58,8 +59,8 @@ export const KNOWLEDGE = `
 
 ## Skills and tools
 - Skills: product strategy and systems thinking, B2B SaaS product design, UX research and usability testing, UI and visual design, design systems and scalable components, prototyping and validation, AI-assisted product design, AI-powered product experiences, accessibility and inclusive design, cross-functional collaboration.
-- Technical: HTML, CSS, JavaScript, TypeScript, React, Git, design systems, prototyping, AI-assisted development.
-- Tools: Figma, Figma AI, Adobe Creative Suite, Claude Code, GitHub Copilot, Codex, VS Code, GitHub, Framer, Pendo, Jira, Confluence, Asana.
+- Technical: HTML, CSS, JavaScript, TypeScript, React, p5.js, Git, design systems, prototyping, AI-assisted development.
+- Tools: Figma, Figma AI, Cursor, Adobe Creative Suite, Claude Code, GitHub Copilot, Codex, VS Code, GitHub, Framer, Pendo, Jira, Confluence, Asana.
 
 ## How I work (my design process, in my own words)
 1. Collect data and research: I start by learning everything I can about the problem before touching a screen: stakeholder interviews, support data, existing research, and how the business actually works.

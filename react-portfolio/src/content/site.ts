@@ -3,7 +3,7 @@
 export const LINKS = {
   email: 'mailto:laurabenavente@me.com',
   emailText: 'laurabenavente@me.com',
-  cv: 'https://laurabenavente.com/Laura_Benavente_CV_En.pdf?v=4',
+  cv: 'https://laurabenavente.com/Laura_Benavente_CV_En.pdf?v=6',
   linkedin: 'https://www.linkedin.com/in/laura-benavente-serrano/',
   instagram: 'https://www.instagram.com/havingfunwithai_/',
   github: 'https://github.com/laurabenaventeserrano',

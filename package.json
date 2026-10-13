@@ -1,0 +1,10 @@
+{
+  "name": "laura-portfolio-root",
+  "private": true,
+  "description": "La web publicada es la app de react-portfolio/. Estos scripts la llaman desde la raíz.",
+  "scripts": {
+    "dev": "npm --prefix react-portfolio run dev",
+    "build": "npm --prefix react-portfolio run build",
+    "test": "npm --prefix react-portfolio test"
+  }
+}
