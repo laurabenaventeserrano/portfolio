@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Línea Directa · el juego</title>
+<meta name="description" content="El juego del teléfono de los 90: llama a los chicos, escucha sus pistas y adivina a quién le gustas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Titan+One&family=VT323&display=swap" rel="stylesheet">
+<style>
+  /* Cuatro colores. Nada más. */
+  :root{
+    --pink:#FF2E9A;
+    --yellow:#FFE14D;
+    --ink:#2A0F45;
+    --paper:#FFF6EC;
+    --px:'Silkscreen', ui-monospace, monospace;
+    --lcd:'VT323', ui-monospace, monospace;
+    --logo:'Titan One', 'Arial Black', sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{height:100%}
+  body{
+    min-height:100%;
+    background-color:var(--ink);
+    background-image:radial-gradient(var(--pink) 1.1px, transparent 1.6px);
+    background-size:9px 9px;
+    color:var(--ink);
+    font-family:var(--px);
+    padding:16px;
+    -webkit-tap-highlight-color:transparent;
+    overflow-x:hidden;
+  }
+  button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+  [hidden]{display:none !important}
+
+  /* ---------- Pantalla de inicio ---------- */
+  #title{
+    min-height:calc(100dvh - 32px);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+    text-align:center;
+  }
+  .logo{display:flex;flex-direction:column;align-items:center;gap:2px;user-select:none}
+  .logo span{
+    display:inline-block;font-family:var(--logo);
+    font-size:clamp(40px, 11vw, 64px);line-height:1;
+    padding:6px 16px 10px;color:var(--pink);background:var(--yellow);
+    border:4px solid var(--ink);
+    box-shadow:6px 6px 0 var(--pink), 6px 6px 0 4px var(--ink);
+    -webkit-text-stroke:3px var(--ink);paint-order:stroke fill;
+  }
+  .logo .w1{transform:rotate(-5deg) translateX(-22px)}
+  .logo .w2{transform:rotate(3deg) translateX(18px);background:var(--paper)}
+  .logo .heart{position:relative;z-index:2;margin:-14px 0;width:38px;height:34px}
+  .title-phone{position:relative;width:min(220px, 52vw);touch-action:none;cursor:grab}
+  .title-phone svg{display:block;width:100%;height:auto}
+  .title-phone .phone{position:relative;z-index:2;width:62%;margin:0 auto -18%;transform-origin:50% 90%;animation:wiggle 2.6s ease-in-out infinite}
+  .title-phone.held .phone{animation:none}
+  @keyframes wiggle{0%,70%,100%{transform:rotate(0)}74%{transform:rotate(-4deg)}78%{transform:rotate(4deg)}82%{transform:rotate(-3deg)}86%{transform:rotate(2deg)}}
+  .hint{font-size:11px;color:var(--paper);max-width:340px;line-height:1.5}
+
+  .btn{
+    font-family:var(--px);font-weight:700;
+    background:var(--paper);border:3px solid var(--ink);
+    box-shadow:4px 4px 0 var(--ink);
+    padding:9px 12px;font-size:12px;border-radius:10px;
+    transition:transform .05s;
+  }
+  .btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+  .btn:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
+  .btn.y{background:var(--yellow)}
+  .btn.on{background:var(--pink);color:var(--paper)}
+  .btn-big{
+    font-size:clamp(16px, 4.6vw, 22px);padding:14px 26px;background:var(--yellow);border-width:4px;
+    box-shadow:6px 6px 0 var(--pink), 6px 6px 0 4px var(--ink);
+  }
+  .btn-big:active{transform:translate(4px,4px);box-shadow:2px 2px 0 var(--pink), 2px 2px 0 4px var(--ink)}
+
+  /* ---------- Ventanas (piel Winamp) ---------- */
+  #game{max-width:1180px;margin:0 auto}
+  .layout{display:grid;grid-template-columns:minmax(300px, 360px) 1fr;gap:18px;align-items:start}
+  .col{display:flex;flex-direction:column;gap:18px;min-width:0}
+  .win{
+    background:var(--paper);border:3px solid var(--ink);border-radius:14px;
+    box-shadow:7px 7px 0 var(--pink), 7px 7px 0 3px var(--ink);
+    overflow:hidden;min-width:0;
+  }
+  .bar{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    background:var(--pink);border-bottom:3px solid var(--ink);
+    padding:5px 10px;font-size:11px;font-weight:700;color:var(--paper);
+  }
+  .bar .t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:2px 2px 0 var(--ink)}
+  .dots{display:flex;gap:6px;flex:none}
+  .dots i{width:12px;height:12px;border-radius:50%;border:2px solid var(--ink);background:var(--paper)}
+  .dots i:nth-child(2){background:var(--yellow)}
+  .dots i:nth-child(3){background:var(--ink)}
+  .pad{padding:10px}
+  .status{display:flex;align-items:center;border-top:3px solid var(--ink);font-size:10px}
+  .status span{padding:6px 10px;border-right:2px solid var(--ink);white-space:nowrap}
+  .status span:last-child{border-right:0;flex:1;overflow:hidden;text-overflow:ellipsis}
+  .status .live{background:var(--yellow)}
+  .status .mini{padding:2px 8px;font-size:10px;box-shadow:2px 2px 0 var(--ink);border-width:2px;border-radius:6px}
+
+  /* LCD (como la pantalla del reproductor) */
+  .lcd{
+    background:var(--pink);border:3px solid var(--ink);border-radius:12px;
+    box-shadow:inset 4px 4px 0 var(--ink);
+    padding:9px 12px;color:var(--paper);min-height:96px;
+    display:flex;flex-direction:column;justify-content:center;gap:2px;
+  }
+  .lcd small{font-family:var(--px);font-size:9px;color:var(--ink)}
+  .lcd .say{font-family:var(--lcd);font-size:27px;line-height:1}
+  .lcd .say b{font-weight:400;color:var(--yellow)}
+
+  /* El teléfono en su base */
+  .phone-row{display:flex;flex-direction:column;gap:12px}
+  .dock{position:relative;height:440px;touch-action:none}
+  .dock .base{position:absolute;left:50%;bottom:6px;width:230px;transform:translateX(-50%)}
+  .dock .base svg{display:block;width:100%;height:auto}
+  .ph{
+    position:absolute;left:50%;bottom:44px;width:160px;margin-left:-80px;z-index:5;
+    touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;
+    transform-origin:50% 85%;
+  }
+  .ph.anim{transition:transform .28s cubic-bezier(.3,1.5,.5,1)}
+  .ph.drag{cursor:grabbing}
+  .ph svg{display:block;width:100%;height:auto;overflow:visible}
+  .ph .k{cursor:pointer}
+  .ph .k.down rect.face{fill:var(--yellow)}
+  .ph .k.down text{fill:var(--ink)}
+  .ph.ring svg{animation:ring .12s linear infinite}
+  @keyframes ring{0%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}100%{transform:rotate(-3deg)}}
+  .actions{display:flex;flex-wrap:wrap;gap:10px}
+  /* El teléfono puede salir de su ventana */
+  .phonewin{overflow:visible;position:relative;z-index:10}
+  .phonewin .bar{border-radius:11px 11px 0 0}
+  .phonewin .status{border-radius:0 0 11px 11px;overflow:hidden}
+
+  /* Cartas (como las del juego de mesa) */
+  .hand{display:grid;grid-template-columns:repeat(3, 1fr);gap:10px;max-width:420px;margin:0 auto}
+  .card{
+    background-color:var(--pink);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cpath d='M11 9c-2-3-7-2-7 2 0 3 4 5 7 8 3-3 7-5 7-8 0-4-5-5-7-2z' fill='none' stroke='%232A0F45' stroke-width='1.6'/%3E%3Ctext x='24' y='38' font-family='monospace' font-size='9' font-weight='bold' fill='%232A0F45'%3E555%3C/text%3E%3C/svg%3E");
+    border:3px solid var(--ink);border-radius:10px;
+    box-shadow:4px 4px 0 var(--ink);
+    padding:6px;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;min-width:0;
+  }
+  .hand .card:nth-child(1){transform:rotate(-2deg)}
+  .hand .card:nth-child(3){transform:rotate(2deg)}
+  .card .name{font-family:var(--logo);font-size:14px;line-height:1;background:var(--yellow);border:2px solid var(--ink);padding:3px 6px 4px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .frame{display:flex;border:2px solid var(--ink);background:var(--paper);width:100%}
+  .frame .strip{width:7px;flex:none;background:var(--ink);background-image:linear-gradient(var(--paper) 45%, transparent 45%);background-size:3px 7px;background-position:2px 2px;background-repeat:repeat-y}
+  .pic{flex:1;aspect-ratio:1;background:var(--yellow);overflow:hidden;display:block}
+  .pic img,.pic svg{display:block;width:100%;height:100%;object-fit:cover;image-rendering:pixelated}
+  .card .tel{font-family:var(--lcd);font-size:22px;line-height:1;color:var(--paper);background:var(--ink);padding:1px 7px 2px;white-space:nowrap}
+  .empty{font-size:10px;color:var(--ink);padding:14px 4px;text-align:center;grid-column:1/-1}
+
+  /* Pistas (como la lista del reproductor) */
+  .list{
+    background:var(--pink);border:3px solid var(--ink);border-radius:10px;
+    box-shadow:inset 4px 4px 0 var(--ink);
+    padding:8px 10px;font-family:var(--lcd);font-size:21px;line-height:1.1;color:var(--paper);
+    max-height:220px;overflow:auto;list-style:none;counter-reset:n;
+  }
+  .list li{counter-increment:n;padding:2px 0}
+  .list li::before{content:counter(n) ". ";color:var(--ink)}
+  .list li.new{background:var(--ink);margin:0 -10px;padding:2px 10px}
+  .list li.new::before{color:var(--yellow)}
+  .list .none{color:var(--ink)}
+  .list .none::before{content:""}
+
+  /* Tablero */
+  .board{display:grid;grid-template-columns:repeat(3, 1fr);gap:12px}
+  .place{border:3px solid var(--ink);border-radius:10px;overflow:hidden;background:var(--paper)}
+  .place:nth-child(3n+1){background:var(--yellow)}
+  .place:nth-child(3n+2){background:var(--pink)}
+  .place h3{
+    font-family:var(--px);font-size:10px;font-weight:700;text-transform:uppercase;
+    background:var(--ink);color:var(--paper);padding:5px 8px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .boys{display:grid;grid-template-columns:repeat(2, 1fr);gap:8px;padding:8px}
+  .boy{
+    position:relative;display:flex;flex-direction:column;gap:3px;text-align:left;
+    background:var(--paper);border:2px solid var(--ink);border-radius:8px;padding:4px;
+    box-shadow:3px 3px 0 var(--ink);min-width:0;
+  }
+  .boy:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+  .boy .pic{flex:none;aspect-ratio:1;border:2px solid var(--ink);border-radius:4px}
+  .boy .n{font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .boy .meta{display:contents}
+  .boy .tr{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .boy .tr span{font-family:var(--lcd);font-size:16px;line-height:.95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .boy .tr i{font-style:normal;font-family:var(--px);font-size:8px;color:var(--pink)}
+  .boy.out::after{
+    content:"";position:absolute;inset:0;border-radius:6px;
+    background:
+      linear-gradient(to top right, transparent calc(50% - 3px), var(--ink) calc(50% - 3px), var(--ink) calc(50% + 3px), transparent calc(50% + 3px)),
+      linear-gradient(to top left, transparent calc(50% - 3px), var(--ink) calc(50% - 3px), var(--ink) calc(50% + 3px), transparent calc(50% + 3px));
+  }
+  .boy.out .pic,.boy.out .tr{visibility:hidden}
+
+  /* Ventana emergente */
+  .modal{
+    position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:16px;
+    background-color:var(--ink);
+    background-image:radial-gradient(var(--pink) 1px, transparent 1.5px);background-size:7px 7px;
+  }
+  .modal .win{width:min(420px, 100%);max-height:calc(100dvh - 32px);overflow:auto}
+  .modal .pad{display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center}
+  .modal ol{text-align:left;font-size:11px;line-height:1.6;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+  .modal .big{width:min(220px, 70%)}
+  .modal .big .name{font-size:22px}
+  .modal .big .tel{font-size:30px}
+  .modal h2{font-family:var(--logo);font-size:28px;line-height:1.05;color:var(--pink);-webkit-text-stroke:2px var(--ink);paint-order:stroke fill}
+  .modal p{font-size:11px;line-height:1.5}
+
+  .board.flat{grid-template-columns:repeat(6, 1fr);gap:10px}
+  @media (max-width:1000px){ .board{grid-template-columns:repeat(2, 1fr)} .board.flat{grid-template-columns:repeat(4, 1fr)} }
+  @media (max-width:760px){
+    body{padding:12px}
+    .layout{grid-template-columns:1fr}
+    .phone-row{display:grid;grid-template-columns:44% 1fr;gap:10px;align-items:start}
+    .dock{height:340px}
+    .ph{width:128px;margin-left:-64px;bottom:34px}
+    .dock .base{width:150px}
+    .side{display:flex;flex-direction:column;gap:10px}
+    .lcd{min-height:120px}
+    .lcd .say{font-size:22px}
+    .actions .btn{flex:1 1 100%}
+  }
+  @media (max-width:560px){
+    .board{grid-template-columns:1fr}
+    .board.flat{grid-template-columns:repeat(2, 1fr)}
+    .boy{flex-direction:row;align-items:flex-start;gap:6px}
+    .boy .pic{width:56px}
+    .boy .meta{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+    .boy .n,.boy .tr span{white-space:normal;overflow-wrap:anywhere}
+  }
+  @media (max-width:420px){
+    .board{gap:8px}
+    .boys{gap:6px;padding:6px}
+    .boy .tr span{font-size:14px}
+    .card .name{font-size:12px}
+    .card .tel{font-size:17px}
+    .status span:nth-child(2){display:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .title-phone .phone{animation:none}
+    .ph.ring svg{animation:none}
+    .ph.anim{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ INICIO ============ -->
+<section id="title">
+  <div class="logo" aria-label="Línea Directa">
+    <span class="w1">Línea</span>
+    <svg class="heart" viewBox="0 0 38 34" aria-hidden="true"><path d="M19 31C8 22 3 17 3 10.5 3 5.5 7 2.5 11 2.5c3.5 0 6 2 8 5 2-3 4.5-5 8-5 4 0 8 3 8 8C35 17 30 22 19 31z" fill="#FF2E9A" stroke="#2A0F45" stroke-width="3.5" stroke-linejoin="round"/></svg>
+    <span class="w2">Directa</span>
+  </div>
+  <div class="title-phone" id="titlePhone" aria-hidden="true"></div>
+  <button class="btn btn-big" id="startBtn">▶ EMPEZAR JUEGO</button>
+  <p class="hint" id="titleHint">Arrastra el teléfono</p>
+</section>
+
+<!-- ============ JUEGO ============ -->
+<section id="game" hidden>
+  <div class="layout">
+    <div class="col">
+      <div class="win phonewin">
+        <div class="bar"><span class="t">✦ LÍNEA DIRECTA ✦ TELÉFONO</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="pad phone-row">
+          <div class="dock" id="dock">
+            <div class="base" id="base"></div>
+            <div class="ph" id="ph" role="application" aria-label="Teléfono. Arrástralo o tócalo para descolgar. Marca con el teclado."></div>
+          </div>
+          <div class="side">
+            <div class="lcd" aria-live="polite"><small id="lcdWho">TELÉFONO</small><div class="say" id="lcdSay"></div></div>
+            <div class="actions">
+              <button class="btn y" id="bGuess"># ADIVINAR</button>
+              <button class="btn" id="bHang">COLGAR</button>
+              <button class="btn" id="bMute">♪ ON</button>
+            </div>
+          </div>
+        </div>
+        <div class="status">
+          <span class="live" id="stState">● COLGADO</span>
+          <span id="stCalls">LLAMADAS 0</span>
+          <span>TECLADO 0–9 · # ADIVINA · ESC CUELGA</span>
+        </div>
+      </div>
+
+      <div class="win">
+        <div class="bar"><span class="t">♥ TUS CARTAS</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="pad"><div class="hand" id="hand"></div></div>
+      </div>
+
+      <div class="win">
+        <div class="bar"><span class="t">♪ PISTAS</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="pad"><ol class="list" id="log"></ol></div>
+      </div>
+    </div>
+
+    <div class="win">
+      <div class="bar"><span class="t">✦ TABLERO ✦ TOCA A UN CHICO PARA TACHARLO</span><span class="dots"><i></i><i></i><i></i></span></div>
+      <div class="pad"><div class="board" id="board"></div></div>
+      <div class="status">
+        <span class="live" id="stLeft">QUEDAN 24</span>
+        <span>¿A QUIÉN LE GUSTAS?</span>
+        <span><button class="btn mini" id="bNew">NUEVA PARTIDA</button></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VENTANA ============ -->
+<div class="modal" id="modal" hidden>
+  <div class="win" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <div class="bar"><span class="t" id="mBar">✦ LÍNEA DIRECTA</span><span class="dots"><i></i><i></i><i></i></span></div>
+    <div class="pad" id="mBody"></div>
+  </div>
+</div>
+
+<script src="chicos.js"></script>
+<script>
+(() => {
+'use strict';
+const C = { pink:'#FF2E9A', yellow:'#FFE14D', ink:'#2A0F45', paper:'#FFF6EC' };
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle = a => { for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const digits = s => String(s).replace(/\D/g,'');
+
+/* ---------------- El teléfono (una sola fuente: SVG) ---------------- */
+const KEYS = ['1','2','3','4','5','6','7','8','9','*','0','#'];
+function phoneSVG(lcdText, interactive){
+  let k = '';
+  KEYS.forEach((d,i)=>{
+    const x = 24 + (i%3)*25, y = 116 + Math.floor(i/3)*24;
+    k += `<g class="k" data-k="${d}">`+
+      (interactive?`<rect x="${x-2}" y="${y-2.5}" width="26" height="24" fill="transparent"/>`:'')+
+      `<rect class="face" x="${x}" y="${y}" width="22" height="19" rx="6" fill="${C.ink}"/>`+
+      `<text x="${x+11}" y="${y+14}" text-anchor="middle" font-family="monospace" font-weight="700" font-size="12.5" fill="${C.paper}">${d}</text></g>`;
+  });
+  let dots = '';
+  for(let r=0;r<3;r++) for(let c=0;c<4;c++) dots += `<circle cx="${45+c*10}" cy="${30+r*9}" r="2.8" fill="${C.ink}"/>`;
+  let grille = '';
+  for(let i=0;i<5;i++) grille += `<line x1="36" x2="84" y1="${238+i*10}" y2="${238+i*10}" stroke="${C.ink}" stroke-width="4.5" stroke-linecap="round"/>`;
+  const body = 'M10 62 Q10 6 60 6 Q110 6 110 62 L110 284 Q110 300 94 300 L26 300 Q10 300 10 284 Z';
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 312">
+  <path d="${body}" transform="translate(9 9)" fill="${C.ink}"/>
+  <path d="${body}" fill="${C.pink}" stroke="${C.ink}" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M22 66 Q22 22 52 16" fill="none" stroke="${C.paper}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="18" y1="84" x2="18" y2="206" stroke="${C.paper}" stroke-width="3.5" stroke-linecap="round"/>
+  ${dots}
+  <rect x="24" y="66" width="72" height="38" rx="7" fill="${C.yellow}" stroke="${C.ink}" stroke-width="4"/>
+  <text class="plcd" x="60" y="91" text-anchor="middle" font-family="monospace" font-weight="700" font-size="14" fill="${C.ink}">${lcdText}</text>
+  ${k}
+  ${grille}
+</svg>`;
+}
+function baseSVG(){
+  return `<svg viewBox="0 0 220 90" xmlns="http://www.w3.org/2000/svg">
+  <path d="M40 30 L180 30 L212 58 L180 84 L40 84 L8 58 Z" transform="translate(6 4)" fill="${C.ink}"/>
+  <path d="M40 30 L180 30 L212 58 L180 84 L40 84 L8 58 Z" fill="${C.pink}" stroke="${C.ink}" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M60 8 L160 8 L184 30 L160 52 L60 52 L36 30 Z" fill="${C.pink}" stroke="${C.ink}" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M74 18 L146 18 L162 30 L146 42 L74 42 L58 30 Z" fill="${C.ink}"/>
+  <line x1="24" y1="60" x2="196" y2="60" stroke="${C.ink}" stroke-width="3"/>
+  </svg>`;
+}
+const SILHOUETTE = `<svg viewBox="0 0 100 125" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <rect width="100" height="125" fill="${C.yellow}"/>
+  <path d="M8 125 Q10 88 50 86 Q90 88 92 125Z" fill="${C.ink}"/>
+  <ellipse cx="50" cy="54" rx="22" ry="27" fill="${C.ink}"/>
+  <path d="M28 46 Q26 20 50 18 Q76 18 74 48 Q70 32 52 32 Q36 32 28 46Z" fill="${C.pink}" stroke="${C.ink}" stroke-width="3"/>
+</svg>`;
+window.__ldSil = SILHOUETTE;
+function pic(b){
+  return b.foto
+    ? `<span class="pic"><img src="${esc(b.foto)}" alt="" loading="lazy" onerror="this.parentNode.innerHTML=window.__ldSil"></span>`
+    : `<span class="pic">${SILHOUETTE}</span>`;
+}
+
+/* ---------------- Sonido (WebAudio, tonos DTMF reales) ---------------- */
+const Sound = (()=>{
+  let ac=null, master=null, muted=false, dial=null;
+  const unlock=()=>{
+    if(!ac){ const A=window.AudioContext||window.webkitAudioContext; if(!A) return;
+      ac=new A(); master=ac.createGain(); master.gain.value=.18; master.connect(ac.destination); }
+    if(ac.state==='suspended') ac.resume();
+  };
+  const now=()=>ac?ac.currentTime:0;
+  const tone=(f,t0,dur,type='sine',vol=1,f2=null)=>{
+    if(!ac||muted) return;
+    const o=ac.createOscillator(), g=ac.createGain();
+    o.type=type; o.frequency.setValueAtTime(f,t0);
+    if(f2) o.frequency.exponentialRampToValueAtTime(f2,t0+dur);
+    g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(vol,t0+.01);
+    g.gain.setValueAtTime(vol,t0+dur*.8); g.gain.linearRampToValueAtTime(0,t0+dur);
+    o.connect(g); g.connect(master); o.start(t0); o.stop(t0+dur+.02);
+  };
+  const DT={1:[697,1209],2:[697,1336],3:[697,1477],4:[770,1209],5:[770,1336],6:[770,1477],7:[852,1209],8:[852,1336],9:[852,1477],'*':[941,1209],0:[941,1336],'#':[941,1477]};
+  return {
+    unlock,
+    toggle(){ muted=!muted; if(muted){ this.dialStop(); this.hush(); } return muted; },
+    dtmf(d){ const p=DT[d]; if(!p) return; const t=now(); tone(p[0],t,.15,'sine',.8); tone(p[1],t,.15,'sine',.8); },
+    dialStart(){ // tono de marcar: 350 + 440 Hz
+      if(!ac||muted||dial) return;
+      const g=ac.createGain(); g.gain.value=.3; g.connect(master);
+      const o=[350,440].map(f=>{ const x=ac.createOscillator(); x.frequency.value=f; x.connect(g); x.start(); return x; });
+      dial={g,o};
+    },
+    dialStop(){ if(!dial) return; dial.o.forEach(x=>x.stop()); dial.g.disconnect(); dial=null; },
+    ringback(){ const t=now(); for(let i=0;i<2;i++){ tone(440,t+i*1.1,.8,'sine',.6); tone(480,t+i*1.1,.8,'sine',.6);} },
+    busy(){ const t=now(); for(let i=0;i<3;i++){ tone(480,t+i*.3,.15,'sine',.8); tone(620,t+i*.3,.15,'sine',.8);} },
+    ring(){ const t=now(); for(let i=0;i<14;i++) tone(i%2?1040:880,t+i*.045,.04,'square',.4); },
+    pick(){ tone(500,now(),.1,'triangle',.7,1000); },
+    hang(){ tone(700,now(),.1,'triangle',.7,250); },
+    blip(f=880){ tone(f,now(),.06,'square',.4); },
+    win(){ const t=now(); [523,659,784,659,784,1046,1318].forEach((f,i)=>tone(f,t+i*.12,.16,'square',.45)); },
+    no(){ const t=now(); [392,330,262].forEach((f,i)=>tone(f,t+i*.16,.2,'square',.45)); },
+    say(text){ // el teléfono de verdad hablaba
+      if(muted||!('speechSynthesis' in window)) return;
+      speechSynthesis.cancel();
+      const u=new SpeechSynthesisUtterance(text.replace(/[«»…]/g,' ')); u.lang='es-ES'; u.rate=1.02;
+      speechSynthesis.speak(u);
+    },
+    hush(){ if('speechSynthesis' in window) speechSynthesis.cancel(); }
+  };
+})();
+
+/* ---------------- Pantalla de inicio ---------------- */
+{
+  const tp=$('titlePhone');
+  tp.innerHTML=`<div class="phone">${phoneSVG('555-♥')}</div>${baseSVG()}`;
+  const ph=tp.querySelector('.phone');
+  let held=false,sx=0,sy=0,ox=0,oy=0,vx=0,vy=0,raf=0;
+  const put=()=>ph.style.transform=`translate(${ox}px,${oy}px) rotate(${ox*.08}deg)`;
+  tp.addEventListener('pointerdown',e=>{ held=true; tp.classList.add('held'); try{tp.setPointerCapture(e.pointerId)}catch(_){} sx=e.clientX-ox; sy=e.clientY-oy; cancelAnimationFrame(raf); Sound.unlock(); Sound.pick(); });
+  tp.addEventListener('pointermove',e=>{ if(!held) return; ox=e.clientX-sx; oy=e.clientY-sy; put(); });
+  const release=()=>{ if(!held) return; held=false; tp.classList.remove('held');
+    const step=()=>{ vx=(vx-ox*.12)*.82; vy=(vy-oy*.12)*.82; ox+=vx; oy+=vy; put();
+      if(Math.abs(ox)+Math.abs(oy)+Math.abs(vx)+Math.abs(vy)>.3) raf=requestAnimationFrame(step); else { ox=oy=vx=vy=0; ph.style.transform=''; } };
+    step(); };
+  tp.addEventListener('pointerup',release); tp.addEventListener('pointercancel',release);
+}
+
+/* ---------------- Datos (chicos.js) ---------------- */
+let DATA=null;
+function loadData(){
+  const raw=window.LD_DATA||{};
+  const places=(raw.lugares||[]).filter(Boolean);
+  const cats=(raw.categorias||[]).filter(c=>c&&c.clave).map(c=>({
+    key:c.clave, label:c.etiqueta||c.clave, show:c.valores||{}, say:c.pistas||{}
+  }));
+  if(!cats.length) return null;
+  const list=(raw.chicos||[]).filter(b=>b&&b.nombre&&b.telefono);
+  const per=Math.ceil(list.length/cats.length);
+  const boys=list.map((b,i)=>{
+    const o={ id:i, nombre:b.nombre, telefono:b.telefono, num:digits(b.telefono), foto:b.foto||'', lugar:b.lugar||'' };
+    cats.forEach(c=>o[c.key]=b[c.key]||'');
+    // Como en la hoja de pistas original: el orden decide de qué habla cada chico.
+    const own=cats.find(c=>c.key===b.pista);
+    o.pista=own?own.key:cats[Math.min(cats.length-1,Math.floor(i/per))].key;
+    return o;
+  });
+  if(boys.length<4) return null;
+  return {places,cats,boys};
+}
+const catOf=key=>DATA.cats.find(c=>c.key===key);
+const showVal=(c,v)=>c.show[v]||v;
+const clueText=(c,v)=>c.say[v]||`${c.label}: no es ${showVal(c,v)}.`;
+
+/* ---------------- Partida (reglas oficiales, modo un jugador) ---------------- */
+let G=null;
+function makeClues(admirer){
+  // Cada chico da una pista de su categoría, siempre sobre algo que el admirador NO es.
+  // Se reparten para que todas las pistas posibles salgan en algún chico; algunos
+  // no sueltan prenda. Las pistas cambian en cada partida.
+  const clues={[admirer.id]:{refuse:true}};
+  for(const c of DATA.cats){
+    const section=shuffle(DATA.boys.filter(b=>b.pista===c.key&&b!==admirer));
+    const vals=shuffle([...new Set(DATA.boys.map(b=>b[c.key]).filter(v=>v&&v!==admirer[c.key]))]);
+    const tellers={};
+    section.forEach((b,i)=>{
+      if(!vals.length){ clues[b.id]={refuse:true}; return; }
+      const v=vals[i%vals.length];
+      clues[b.id]={cat:c.key,value:v};
+      (tellers[v]=tellers[v]||[]).push(b.id);
+    });
+    for(const ids of Object.values(tellers))
+      ids.slice(1).forEach(id=>{ if(Math.random()<.2) clues[id]={refuse:true}; });
+  }
+  return clues;
+}
+function newGame(){
+  hangUp(true);
+  const admirer=pick(DATA.boys);
+  const deck=shuffle(DATA.boys.map(b=>b.id));
+  G={admirer,clues:makeClues(admirer),draw:deck.slice(3),discard:[],hand:deck.slice(0,3),called:new Set(),crossed:new Set(),
+     log:[],calls:0,surpriseAt:3+Math.floor(Math.random()*4),surpriseDone:false,won:false};
+  renderBoard(); renderHand(); renderLog(); updateCounts();
+  lcd('TELÉFONO','Descuelga y llama a un chico de <b>tus cartas</b>.');
+  setStatus('● COLGADO');
+}
+function drawCard(){
+  if(!G.draw.length){ G.draw=shuffle(G.discard); G.discard=[]; }
+  // Si sale un chico al que ya has llamado, va al fondo del mazo y se roba otra.
+  for(let i=0,n=G.draw.length;i<n;i++){
+    const id=G.draw.shift();
+    if(!G.called.has(id)) return id;
+    G.draw.push(id);
+  }
+  return null;
+}
+function discardFromHand(id){
+  const i=G.hand.indexOf(id);
+  if(i>-1){ G.hand.splice(i,1); G.discard.push(id); const n=drawCard(); if(n!=null) G.hand.splice(i,0,n); }
+  else { [G.draw,G.discard].forEach(a=>{ const j=a.indexOf(id); if(j>-1) a.splice(j,1); }); G.discard.push(id); }
+}
+
+/* ---------------- Render ---------------- */
+const byId=id=>DATA.boys[id];
+function cardHTML(b){
+  return `<div class="card"><span class="name">${esc(b.nombre)}</span>`+
+    `<span class="frame"><i class="strip"></i>${pic(b)}<i class="strip"></i></span>`+
+    `<span class="tel">${esc(b.telefono)}</span></div>`;
+}
+function renderHand(){
+  $('hand').innerHTML=G.hand.length?G.hand.map(id=>cardHTML(byId(id))).join(''):'<p class="empty">No quedan cartas. Pulsa # y adivina.</p>';
+}
+function boyTile(b){
+  const tr=DATA.cats.map(c=>`<span><i>${esc(c.label)} </i>${esc(showVal(c,b[c.key]))}</span>`).join('');
+  const aria=DATA.cats.map(c=>showVal(c,b[c.key])).join(', ');
+  return `<button class="boy" data-id="${b.id}" aria-pressed="false" aria-label="${esc(b.nombre)}: ${esc(aria)}">`+
+    `${pic(b)}<span class="meta"><span class="n">${esc(b.nombre)}</span><span class="tr">${tr}</span></span></button>`;
+}
+function renderBoard(){
+  const board=$('board');
+  board.classList.toggle('flat',!DATA.places.length);
+  board.innerHTML=DATA.places.length
+    ? DATA.places.map(pl=>`<section class="place"><h3>${esc(pl)}</h3><div class="boys">`+
+        DATA.boys.filter(b=>b.lugar===pl).map(boyTile).join('')+`</div></section>`).join('')
+    : DATA.boys.map(boyTile).join('');
+}
+function renderLog(){
+  $('log').innerHTML=G.log.length
+    ? G.log.map((l,i)=>`<li class="${i===G.log.length-1?'new':''}">${esc(l)}</li>`).join('')
+    : '<li class="none">Aún no hay pistas.</li>';
+  $('log').scrollTop=1e6;
+}
+function updateCounts(){
+  $('stCalls').textContent=`LLAMADAS ${G.calls}`;
+  $('stLeft').textContent=`QUEDAN ${DATA.boys.length-G.crossed.size}`;
+  document.querySelectorAll('.boy').forEach(el=>{
+    const on=G.crossed.has(+el.dataset.id); el.classList.toggle('out',on); el.setAttribute('aria-pressed',on);
+  });
+}
+$('board').addEventListener('click',e=>{
+  const el=e.target.closest('.boy'); if(!el||!G) return;
+  const id=+el.dataset.id;
+  G.crossed.has(id)?G.crossed.delete(id):G.crossed.add(id);
+  Sound.unlock(); Sound.blip(G.crossed.has(id)?520:780); updateCounts();
+});
+function lcd(who,html){ $('lcdWho').textContent=who; $('lcdSay').innerHTML=html; }
+function setStatus(s){ $('stState').textContent=s; }
+
+/* ---------------- La línea ---------------- */
+// mode: idle (colgado) · tone (descolgado) · ringing · talk · busy · incoming (suena)
+const L={offHook:false,mode:'idle',dial:'',guess:false,timers:[]};
+const ph=$('ph');
+ph.innerHTML=phoneSVG('555-♥',true);
+$('base').innerHTML=baseSVG();
+const screen=t=>{ ph.querySelector('.plcd').textContent=t; };
+function later(fn,ms){ L.timers.push(setTimeout(fn,ms)); }
+function clearTimers(){ L.timers.forEach(clearTimeout); L.timers=[]; }
+const pos={x:0,y:0,r:0};
+function place(anim){
+  ph.classList.toggle('anim',!!anim);
+  ph.style.transform=`translate(${pos.x}px,${pos.y}px) rotate(${pos.r}deg)`;
+}
+function liftPose(){ pos.x=-10; pos.y=-46; pos.r=-6; place(true); }
+
+function liftUp(){
+  if(L.offHook) return;
+  if(L.mode==='incoming') return answerIncoming();
+  L.offHook=true; L.mode='tone'; L.dial=''; L.guess=false;
+  Sound.pick(); Sound.dialStart();
+  screen('_'); setStatus('● DESCOLGADO');
+  lcd('TONO DE MARCAR','Marca el número de un chico. Para adivinar, pulsa <b>#</b> y su número.');
+}
+function hangUp(silent){
+  if(L.mode==='incoming'&&!silent) return; // no se puede colgar una llamada que aún no has cogido
+  clearTimers(); Sound.dialStop(); Sound.hush();
+  const was=L.offHook;
+  L.offHook=false; L.mode='idle'; L.dial=''; L.guess=false;
+  $('bGuess').classList.remove('on'); ph.classList.remove('ring');
+  pos.x=0; pos.y=0; pos.r=0; place(true);
+  screen('555-♥'); setStatus('● COLGADO');
+  if(was&&!silent){ Sound.hang(); if(G&&!G.won) lcd('TELÉFONO','Descuelga y llama a otro chico.'); }
+}
+function readyAgain(){ // la línea vuelve al tono para la siguiente llamada
+  if(!L.offHook) return;
+  L.mode='tone'; L.dial=''; L.guess=false; $('bGuess').classList.remove('on');
+  screen('_'); Sound.dialStart(); setStatus('● DESCOLGADO');
+}
+const formatDial=d=>d.length>3?d.slice(0,3)+'-'+d.slice(3):d;
+function pressKey(k){
+  Sound.unlock();
+  if(!G||G.won) return;
+  if(L.mode==='incoming') return answerIncoming();
+  if(!L.offHook){ liftUp(); liftPose(); }
+  if(L.mode!=='tone') return;
+  flashKey(k); Sound.dialStop(); Sound.dtmf(k);
+  if(k==='#'){
+    if(!L.dial&&!L.guess){ L.guess=true; $('bGuess').classList.add('on'); screen('#'); lcd('ADIVINAR','Marca el número del chico que crees que te quiere.'); }
+    return;
+  }
+  if(k==='*') return;
+  L.dial+=k;
+  screen((L.guess?'#':'')+formatDial(L.dial));
+  if(L.dial.length>=DATA.boys[0].num.length) connect();
+}
+function flashKey(k){
+  const g=ph.querySelector(`.k[data-k="${CSS.escape(k)}"]`); if(!g) return;
+  g.classList.add('down'); setTimeout(()=>g.classList.remove('down'),130);
+}
+function connect(){
+  const boy=DATA.boys.find(b=>b.num===L.dial);
+  if(!boy) return failLine('Ese número no existe.');
+  if(!L.guess&&!G.hand.includes(boy.id)) return failLine(`${boy.nombre} no está en tus cartas.`);
+  L.mode='ringing'; screen('RING…'); setStatus('☎ LLAMANDO');
+  lcd(`LLAMANDO A ${boy.nombre.toUpperCase()}`,'…');
+  Sound.ringback();
+  later(()=>answer(boy),2300);
+}
+function failLine(msg){
+  L.mode='busy'; Sound.busy(); screen('ERROR'); lcd('COMUNICA',esc(msg));
+  later(readyAgain,1500);
+}
+function answer(boy){
+  L.mode='talk'; screen(boy.nombre.slice(0,8).toUpperCase()); setStatus('☎ HABLANDO');
+  if(L.guess) return guessResult(boy);
+  const c=G.clues[boy.id];
+  const text=c.refuse?'Sé quién es… pero no te lo digo.':clueText(catOf(c.cat),c.value);
+  G.called.add(boy.id); G.calls++;
+  G.log.push(`${boy.nombre}: ${text}`);
+  lcd(boy.nombre.toUpperCase(),esc(text));
+  Sound.say(text);
+  discardFromHand(boy.id);
+  renderHand(); renderLog(); updateCounts();
+  later(()=>{ readyAgain(); maybeSurprise(); },2600);
+}
+function guessResult(boy){
+  if(boy.id===G.admirer.id){
+    G.won=true; Sound.win(); Sound.say('¡Sí! Me gustas.');
+    lcd(boy.nombre.toUpperCase(),'¡Sí! <b>Me gustas.</b>'); setStatus('♥ ¡GANASTE!');
+    later(()=>showWin(boy),1600);
+    return;
+  }
+  G.calls++;
+  Sound.no(); Sound.say('No… no soy yo.');
+  lcd(boy.nombre.toUpperCase(),'No… no soy yo.');
+  G.log.push(`${boy.nombre}: No soy yo. (has fallado)`);
+  G.crossed.add(boy.id); G.called.add(boy.id);
+  discardFromHand(boy.id);
+  renderHand(); renderLog(); updateCounts();
+  later(()=>{ readyAgain(); maybeSurprise(); },2400);
+}
+
+// Llamada sorpresa: suena el teléfono y una amiga te da una pista gratis.
+function surprisePool(){ return DATA.boys.filter(b=>b.id!==G.admirer.id&&!G.crossed.has(b.id)); }
+function maybeSurprise(){
+  if(G.surpriseDone||G.won||G.calls<G.surpriseAt||!surprisePool().length) return;
+  G.surpriseDone=true;
+  later(()=>{
+    hangUp(true);
+    L.mode='incoming'; ph.classList.add('ring'); screen('RING!'); setStatus('☎ ¡SUENA!');
+    lcd('LLAMADA SORPRESA','¡Está sonando! <b>Descuelga.</b>');
+    const ringOnce=()=>{ if(L.mode!=='incoming') return; Sound.ring(); later(ringOnce,1300); };
+    ringOnce();
+  },900);
+}
+function answerIncoming(){
+  clearTimers(); ph.classList.remove('ring');
+  L.offHook=true; L.mode='talk'; Sound.pick(); liftPose();
+  const b=pick(surprisePool());
+  const text=`Soy tu amiga. Sé que no es ${b.nombre}.`;
+  G.log.push(`Amiga: no es ${b.nombre}.`);
+  screen('AMIGA'); setStatus('☎ HABLANDO');
+  lcd('LLAMADA SORPRESA',esc(text)); Sound.say(text);
+  renderLog();
+  later(readyAgain,2600);
+}
+
+/* ---------------- Arrastrar el teléfono ---------------- */
+let drag=null;
+ph.addEventListener('pointerdown',e=>{
+  Sound.unlock();
+  const key=e.target.closest('.k');
+  const r=ph.getBoundingClientRect();
+  drag={id:e.pointerId,sx:e.clientX,sy:e.clientY,ox:pos.x,oy:pos.y,moved:false,key:key&&key.dataset.k,
+        home:{l:r.left-pos.x,t:r.top-pos.y,r:r.right-pos.x,b:r.bottom-pos.y}};
+  try{ph.setPointerCapture(e.pointerId)}catch(_){}
+  e.preventDefault();
+});
+ph.addEventListener('pointermove',e=>{
+  if(!drag||e.pointerId!==drag.id) return;
+  const dx=e.clientX-drag.sx, dy=e.clientY-drag.sy;
+  if(!drag.moved&&Math.hypot(dx,dy)<7) return;
+  if(!drag.moved){ drag.moved=true; ph.classList.add('drag'); if(L.mode==='incoming') answerIncoming(); else if(!L.offHook) liftUp(); }
+  // límites: que no se salga de la pantalla
+  const h=drag.home;
+  pos.x=Math.max(4-h.l,Math.min(innerWidth-4-h.r,drag.ox+dx));
+  pos.y=Math.max(4-h.t,Math.min(Math.max(20,innerHeight-4-h.b),drag.oy+dy));
+  pos.r=Math.max(-14,Math.min(14,(e.movementX||0)*.8));
+  place(false);
+});
+function endDrag(e){
+  if(!drag||(e&&e.pointerId!==drag.id)) return;
+  const d=drag; drag=null; ph.classList.remove('drag');
+  if(!d.moved){
+    if(L.mode==='incoming') return answerIncoming();
+    if(d.key&&L.offHook) return pressKey(d.key);
+    if(!L.offHook){ liftUp(); liftPose(); }
+    return;
+  }
+  pos.r=L.offHook?-6:0;
+  if(Math.hypot(pos.x,pos.y)<40) hangUp(); // si lo dejas en la base, cuelgas
+  else place(true);
+}
+ph.addEventListener('pointerup',endDrag);
+ph.addEventListener('pointercancel',endDrag);
+
+/* ---------------- Controles ---------------- */
+$('bGuess').addEventListener('click',()=>{
+  if(!G||G.won) return;
+  if(L.mode==='incoming') return answerIncoming();
+  if(!L.offHook){ liftUp(); liftPose(); }
+  if(L.mode==='tone'&&!L.dial) pressKey('#');
+});
+$('bHang').addEventListener('click',()=>hangUp());
+$('bMute').addEventListener('click',()=>{ const m=Sound.toggle(); $('bMute').textContent=m?'♪ OFF':'♪ ON'; if(!m&&L.mode==='tone'&&!L.dial) Sound.dialStart(); });
+$('bNew').addEventListener('click',()=>{ if(!G||G.won||G.calls===0||confirm('¿Empezar una partida nueva? El admirador secreto cambia.')) newGame(); });
+addEventListener('keydown',e=>{
+  if($('game').hidden||!$('modal').hidden||e.metaKey||e.ctrlKey||e.altKey) return;
+  if(/^[0-9#*]$/.test(e.key)){ e.preventDefault(); pressKey(e.key); }
+  else if(e.key==='Escape') hangUp();
+});
+
+/* ---------------- Ventanas ---------------- */
+function modal(bar,html,onBtn){
+  $('mBar').textContent=bar; $('mBody').innerHTML=html; $('modal').hidden=false;
+  const b=$('mBody').querySelector('button');
+  b.addEventListener('click',()=>{ $('modal').hidden=true; Sound.unlock(); onBtn&&onBtn(); });
+  setTimeout(()=>b.focus(),30);
+}
+function showRules(){
+  modal('✦ CÓMO SE JUEGA',`
+    <h2 id="mTitle">¿A quién le gustas?</h2>
+    <ol>
+      <li>Uno de los ${DATA.boys.length} chicos te quiere en secreto. Cambia en cada partida.</li>
+      <li>Descuelga el teléfono (arrástralo o tócalo) y marca el número de un chico de <b>tus cartas</b>.</li>
+      <li>Te dará una pista sobre lo que su admirador <b>no</b> es: ${esc(DATA.cats.map(c=>c.key).join(', '))}.</li>
+      <li>Busca en el tablero a los chicos que encajan con la pista y tócalos para tacharlos.</li>
+      <li>Cuando lo sepas, pulsa <b>#</b> y marca su número. Si aciertas, ganas.</li>
+    </ol>
+    <button class="btn y">ENTENDIDO ▶</button>`);
+}
+function showWin(boy){
+  modal('♥ ¡TE QUIERE!',`
+    <h2 id="mTitle">¡Le gustas a ${esc(boy.nombre)}!</h2>
+    <div class="big">${cardHTML(boy)}</div>
+    <p>Lo has descubierto en ${G.calls} ${G.calls===1?'llamada':'llamadas'}.</p>
+    <button class="btn y">NUEVA PARTIDA ↺</button>`,()=>newGame());
+}
+
+/* ---------------- Empezar ---------------- */
+$('startBtn').addEventListener('click',()=>{
+  Sound.unlock();
+  DATA=loadData();
+  if(!DATA){
+    $('titleHint').textContent='Faltan los chicos: rellena chicos.js con las categorías y los 24 chicos.';
+    Sound.busy(); return;
+  }
+  $('title').hidden=true; $('game').hidden=false;
+  newGame(); showRules();
+});
+})();
+</script>
+</body>
+</html>
