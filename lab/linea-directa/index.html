@@ -9,12 +9,23 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Titan+One&family=VT323&display=swap" rel="stylesheet">
 <style>
-  /* Cuatro colores. Nada más. */
+  /* El fucsia es solo del teléfono. Todo lo demás, pastel. */
   :root{
-    --pink:#FF2E9A;
-    --yellow:#FFE14D;
-    --ink:#2A0F45;
-    --paper:#FFF6EC;
+    --fuchsia:#FF2E9A;          /* el teléfono */
+    --line:#A9507E;             /* contornos y texto */
+    --text:#7A3A60;
+    --cream:#FFFBF4;
+    --blush:#FFD1E4;
+    --pink:#FFB3D1;
+    --mint:#C3F0DF;
+    --sky:#C9E2FF;
+    --lav:#DCCBFF;
+    --butter:#FFF0B3;
+    --peri:#7B86E6;             /* texto de pantalla */
+    --screen:#F1F0FF;
+    --green:#8ADB93;
+    --red:#FF7FA3;
+    --shadow:#F5A9C9;
     --px:'Silkscreen', ui-monospace, monospace;
     --lcd:'VT323', ui-monospace, monospace;
     --logo:'Titan One', 'Arial Black', sans-serif;
@@ -23,10 +34,14 @@
   html{height:100%}
   body{
     min-height:100%;
-    background-color:var(--ink);
-    background-image:radial-gradient(var(--pink) 1.1px, transparent 1.6px);
-    background-size:9px 9px;
-    color:var(--ink);
+    background-color:var(--blush);
+    background-image:
+      linear-gradient(rgba(255,255,255,.75) 1.5px, transparent 1.5px),
+      linear-gradient(90deg, rgba(255,255,255,.75) 1.5px, transparent 1.5px),
+      linear-gradient(180deg, var(--mint) 0%, var(--blush) 45%, var(--butter) 100%);
+    background-size:28px 28px, 28px 28px, 100% 100%;
+    background-attachment:scroll, scroll, fixed;
+    color:var(--text);
     font-family:var(--px);
     padding:16px;
     -webkit-tap-highlight-color:transparent;
@@ -45,74 +60,78 @@
   .logo span{
     display:inline-block;font-family:var(--logo);
     font-size:clamp(40px, 11vw, 64px);line-height:1;
-    padding:6px 16px 10px;color:var(--pink);background:var(--yellow);
-    border:4px solid var(--ink);
-    box-shadow:6px 6px 0 var(--pink), 6px 6px 0 4px var(--ink);
-    -webkit-text-stroke:3px var(--ink);paint-order:stroke fill;
+    padding:6px 16px 10px;color:var(--fuchsia);background:var(--butter);
+    border:4px solid var(--line);border-radius:16px;
+    box-shadow:6px 6px 0 var(--shadow);
+    -webkit-text-stroke:3px var(--line);paint-order:stroke fill;
   }
   .logo .w1{transform:rotate(-5deg) translateX(-22px)}
-  .logo .w2{transform:rotate(3deg) translateX(18px);background:var(--paper)}
+  .logo .w2{transform:rotate(3deg) translateX(18px);background:var(--sky)}
   .logo .heart{position:relative;z-index:2;margin:-14px 0;width:38px;height:34px}
   .title-phone{position:relative;width:min(220px, 52vw);touch-action:none;cursor:grab}
   .title-phone svg{display:block;width:100%;height:auto}
   .title-phone .phone{position:relative;z-index:2;width:62%;margin:0 auto -18%;transform-origin:50% 90%;animation:wiggle 2.6s ease-in-out infinite}
   .title-phone.held .phone{animation:none}
   @keyframes wiggle{0%,70%,100%{transform:rotate(0)}74%{transform:rotate(-4deg)}78%{transform:rotate(4deg)}82%{transform:rotate(-3deg)}86%{transform:rotate(2deg)}}
-  .hint{font-size:11px;color:var(--paper);max-width:340px;line-height:1.5}
+  .hint{font-size:11px;color:var(--text);max-width:340px;line-height:1.5;background:var(--cream);border:2px solid var(--line);border-radius:8px;padding:5px 10px}
 
   .btn{
-    font-family:var(--px);font-weight:700;
-    background:var(--paper);border:3px solid var(--ink);
-    box-shadow:4px 4px 0 var(--ink);
-    padding:9px 12px;font-size:12px;border-radius:10px;
+    font-family:var(--px);font-weight:700;color:var(--text);
+    background:var(--cream);border:3px solid var(--line);
+    box-shadow:3px 3px 0 var(--line);
+    padding:9px 12px;font-size:12px;border-radius:12px;
     transition:transform .05s;
   }
-  .btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
-  .btn:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
-  .btn.y{background:var(--yellow)}
-  .btn.on{background:var(--pink);color:var(--paper)}
+  .btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--line)}
+  .btn:focus-visible,.heartbtn:focus-visible,.card:focus-visible,.boy:focus-visible{outline:3px solid var(--peri);outline-offset:3px}
+  .btn.y{background:var(--butter)}
+  .btn.on{background:var(--lav)}
   .btn-big{
-    font-size:clamp(16px, 4.6vw, 22px);padding:14px 26px;background:var(--yellow);border-width:4px;
-    box-shadow:6px 6px 0 var(--pink), 6px 6px 0 4px var(--ink);
+    font-size:clamp(16px, 4.6vw, 22px);padding:14px 26px;background:var(--butter);border-width:4px;
+    box-shadow:6px 6px 0 var(--shadow), 6px 6px 0 4px var(--line);border-radius:16px;
   }
-  .btn-big:active{transform:translate(4px,4px);box-shadow:2px 2px 0 var(--pink), 2px 2px 0 4px var(--ink)}
+  .btn-big:active{transform:translate(4px,4px);box-shadow:2px 2px 0 var(--shadow), 2px 2px 0 4px var(--line)}
 
-  /* ---------- Ventanas (piel Winamp) ---------- */
+  /* ---------- Ventanas ---------- */
   #game{max-width:1180px;margin:0 auto}
-  .layout{display:grid;grid-template-columns:minmax(300px, 360px) 1fr;gap:18px;align-items:start}
-  .col{display:flex;flex-direction:column;gap:18px;min-width:0}
+  .layout{display:grid;grid-template-columns:minmax(300px, 380px) 1fr;gap:20px;align-items:start}
+  .col{display:flex;flex-direction:column;gap:20px;min-width:0}
   .win{
-    background:var(--paper);border:3px solid var(--ink);border-radius:14px;
-    box-shadow:7px 7px 0 var(--pink), 7px 7px 0 3px var(--ink);
+    background:var(--cream);border:3px solid var(--line);border-radius:16px;
+    box-shadow:6px 6px 0 var(--shadow);
     overflow:hidden;min-width:0;
   }
   .bar{
     display:flex;align-items:center;justify-content:space-between;gap:8px;
-    background:var(--pink);border-bottom:3px solid var(--ink);
-    padding:5px 10px;font-size:11px;font-weight:700;color:var(--paper);
+    background:var(--pink);border-bottom:3px solid var(--line);
+    padding:6px 12px;font-size:11px;font-weight:700;color:var(--line);
   }
-  .bar .t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:2px 2px 0 var(--ink)}
+  .win.mint .bar{background:var(--mint)}
+  .win.sky .bar{background:var(--sky)}
+  .win.lav .bar{background:var(--lav)}
+  .win.butter .bar{background:var(--butter)}
+  .bar .t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .dots{display:flex;gap:6px;flex:none}
-  .dots i{width:12px;height:12px;border-radius:50%;border:2px solid var(--ink);background:var(--paper)}
-  .dots i:nth-child(2){background:var(--yellow)}
-  .dots i:nth-child(3){background:var(--ink)}
-  .pad{padding:10px}
-  .status{display:flex;align-items:center;border-top:3px solid var(--ink);font-size:10px}
-  .status span{padding:6px 10px;border-right:2px solid var(--ink);white-space:nowrap}
+  .dots i{width:13px;height:13px;border-radius:50%;border:2px solid var(--line);background:#FFE58A}
+  .dots i:nth-child(2){background:var(--green)}
+  .dots i:nth-child(3){background:var(--red)}
+  .pad{padding:12px}
+  .status{display:flex;align-items:center;border-top:3px solid var(--line);font-size:10px;color:var(--line)}
+  .status span{padding:6px 10px;border-right:2px solid var(--line);white-space:nowrap}
   .status span:last-child{border-right:0;flex:1;overflow:hidden;text-overflow:ellipsis}
-  .status .live{background:var(--yellow)}
-  .status .mini{padding:2px 8px;font-size:10px;box-shadow:2px 2px 0 var(--ink);border-width:2px;border-radius:6px}
+  .status .live{background:var(--butter)}
+  .status .mini{padding:2px 8px;font-size:10px;box-shadow:2px 2px 0 var(--line);border-width:2px;border-radius:8px}
 
-  /* LCD (como la pantalla del reproductor) */
+  /* Pantalla (como la del móvil de referencia) */
   .lcd{
-    background:var(--pink);border:3px solid var(--ink);border-radius:12px;
-    box-shadow:inset 4px 4px 0 var(--ink);
-    padding:9px 12px;color:var(--paper);min-height:96px;
-    display:flex;flex-direction:column;justify-content:center;gap:2px;
+    background:var(--screen);border:3px solid var(--line);border-radius:14px;
+    box-shadow:inset 0 0 0 4px var(--lav);
+    padding:10px 13px;color:var(--peri);min-height:100px;
+    display:flex;flex-direction:column;justify-content:center;gap:3px;
   }
-  .lcd small{font-family:var(--px);font-size:9px;color:var(--ink)}
+  .lcd small{font-family:var(--px);font-size:9px;color:var(--line)}
   .lcd .say{font-family:var(--lcd);font-size:27px;line-height:1}
-  .lcd .say b{font-weight:400;color:var(--yellow)}
+  .lcd .say b{font-weight:400;color:var(--line)}
 
   /* El teléfono en su base */
   .phone-row{display:flex;flex-direction:column;gap:12px}
@@ -128,85 +147,101 @@
   .ph.drag{cursor:grabbing}
   .ph svg{display:block;width:100%;height:auto;overflow:visible}
   .ph .k{cursor:pointer}
-  .ph .k.down rect.face{fill:var(--yellow)}
-  .ph .k.down text{fill:var(--ink)}
+  .ph .k.down rect.face{fill:#FFE14D}
+  .ph .k.down text{fill:#2A0F45}
   .ph.ring svg{animation:ring .12s linear infinite}
   @keyframes ring{0%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}100%{transform:rotate(-3deg)}}
-  .actions{display:flex;flex-wrap:wrap;gap:10px}
-  /* El teléfono puede salir de su ventana */
   .phonewin{overflow:visible;position:relative;z-index:10}
-  .phonewin .bar{border-radius:11px 11px 0 0}
-  .phonewin .status{border-radius:0 0 11px 11px;overflow:hidden}
+  .phonewin .bar{border-radius:13px 13px 0 0}
+  .phonewin .status{border-radius:0 0 13px 13px;overflow:hidden}
+  .side{display:flex;flex-direction:column;gap:12px}
+
+  /* Llamar · borrar · colgar (botones corazón) */
+  .callpad{
+    display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;
+    background:var(--blush);border:3px solid var(--line);border-radius:18px;padding:10px 12px;
+  }
+  .heartbtn{
+    display:flex;flex-direction:column;align-items:center;gap:3px;
+    background:none;border:0;font-size:9px;font-weight:700;color:var(--line);
+  }
+  .heartbtn svg{display:block;width:62px;height:auto;filter:drop-shadow(3px 3px 0 var(--line));transition:transform .06s}
+  .heartbtn:active svg{transform:translate(2px,2px);filter:drop-shadow(1px 1px 0 var(--line))}
+  .heartbtn.small svg{width:46px}
+  .heartbtn.glow svg{animation:pulse .7s ease-in-out infinite}
+  @keyframes pulse{50%{transform:scale(1.1)}}
+  .heartbtn[disabled]{opacity:.45;cursor:default}
+  .actions{display:flex;flex-wrap:wrap;gap:10px}
+  .actions .btn{flex:1}
 
   /* Cartas (como las del juego de mesa) */
   .hand{display:grid;grid-template-columns:repeat(3, 1fr);gap:10px;max-width:420px;margin:0 auto}
   .card{
     background-color:var(--pink);
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cpath d='M11 9c-2-3-7-2-7 2 0 3 4 5 7 8 3-3 7-5 7-8 0-4-5-5-7-2z' fill='none' stroke='%232A0F45' stroke-width='1.6'/%3E%3Ctext x='24' y='38' font-family='monospace' font-size='9' font-weight='bold' fill='%232A0F45'%3E555%3C/text%3E%3C/svg%3E");
-    border:3px solid var(--ink);border-radius:10px;
-    box-shadow:4px 4px 0 var(--ink);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cpath d='M11 9c-2-3-7-2-7 2 0 3 4 5 7 8 3-3 7-5 7-8 0-4-5-5-7-2z' fill='%23FFFBF4' stroke='%23A9507E' stroke-width='1.4'/%3E%3Ctext x='24' y='38' font-family='monospace' font-size='9' font-weight='bold' fill='%23A9507E'%3E555%3C/text%3E%3C/svg%3E");
+    border:3px solid var(--line);border-radius:12px;
+    box-shadow:4px 4px 0 var(--line);
     padding:6px;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;min-width:0;
+    font:inherit;color:inherit;
   }
+  button.card{cursor:pointer;transition:transform .08s}
+  button.card:hover{transform:translateY(-3px) rotate(0deg) !important}
   .hand .card:nth-child(1){transform:rotate(-2deg)}
   .hand .card:nth-child(3){transform:rotate(2deg)}
-  .card .name{font-family:var(--logo);font-size:14px;line-height:1;background:var(--yellow);border:2px solid var(--ink);padding:3px 6px 4px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .frame{display:flex;border:2px solid var(--ink);background:var(--paper);width:100%}
-  .frame .strip{width:7px;flex:none;background:var(--ink);background-image:linear-gradient(var(--paper) 45%, transparent 45%);background-size:3px 7px;background-position:2px 2px;background-repeat:repeat-y}
-  .pic{flex:1;aspect-ratio:1;background:var(--yellow);overflow:hidden;display:block}
+  .card .name{font-family:var(--logo);font-size:14px;line-height:1;color:var(--text);background:var(--butter);border:2px solid var(--line);border-radius:6px;padding:3px 6px 4px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .frame{display:flex;border:2px solid var(--line);background:var(--cream);width:100%}
+  .frame .strip{width:7px;flex:none;background:var(--line);background-image:linear-gradient(var(--cream) 45%, transparent 45%);background-size:3px 7px;background-position:2px 2px;background-repeat:repeat-y}
+  .pic{flex:1;aspect-ratio:1;background:var(--butter);overflow:hidden;display:block}
   .pic img,.pic svg{display:block;width:100%;height:100%;object-fit:cover;image-rendering:pixelated}
-  .card .tel{font-family:var(--lcd);font-size:22px;line-height:1;color:var(--paper);background:var(--ink);padding:1px 7px 2px;white-space:nowrap}
-  .empty{font-size:10px;color:var(--ink);padding:14px 4px;text-align:center;grid-column:1/-1}
+  .card .tel{font-family:var(--lcd);font-size:22px;line-height:1;color:var(--peri);background:var(--screen);border:2px solid var(--line);border-radius:6px;padding:1px 7px 2px;white-space:nowrap}
+  .card .tap{font-size:8px;color:var(--line)}
+  .empty{font-size:10px;padding:14px 4px;text-align:center;grid-column:1/-1}
 
   /* Pistas (como la lista del reproductor) */
   .list{
-    background:var(--pink);border:3px solid var(--ink);border-radius:10px;
-    box-shadow:inset 4px 4px 0 var(--ink);
-    padding:8px 10px;font-family:var(--lcd);font-size:21px;line-height:1.1;color:var(--paper);
+    background:var(--screen);border:3px solid var(--line);border-radius:12px;
+    padding:8px 10px;font-family:var(--lcd);font-size:21px;line-height:1.1;color:var(--peri);
     max-height:220px;overflow:auto;list-style:none;counter-reset:n;
   }
   .list li{counter-increment:n;padding:2px 0}
-  .list li::before{content:counter(n) ". ";color:var(--ink)}
-  .list li.new{background:var(--ink);margin:0 -10px;padding:2px 10px}
-  .list li.new::before{color:var(--yellow)}
-  .list .none{color:var(--ink)}
+  .list li::before{content:counter(n) ". ";color:var(--line)}
+  .list li.new{background:var(--lav);color:var(--text);margin:0 -10px;padding:2px 10px}
+  .list .none{color:var(--line)}
   .list .none::before{content:""}
 
   /* Tablero */
   .board{display:grid;grid-template-columns:repeat(3, 1fr);gap:12px}
-  .place{border:3px solid var(--ink);border-radius:10px;overflow:hidden;background:var(--paper)}
-  .place:nth-child(3n+1){background:var(--yellow)}
-  .place:nth-child(3n+2){background:var(--pink)}
-  .place h3{
-    font-family:var(--px);font-size:10px;font-weight:700;text-transform:uppercase;
-    background:var(--ink);color:var(--paper);padding:5px 8px;
-    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  }
+  .board.flat{grid-template-columns:repeat(6, 1fr);gap:10px}
+  .place{border:3px solid var(--line);border-radius:12px;overflow:hidden;background:var(--cream)}
+  .place h3{font-family:var(--px);font-size:10px;font-weight:700;text-transform:uppercase;background:var(--lav);color:var(--line);padding:5px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .boys{display:grid;grid-template-columns:repeat(2, 1fr);gap:8px;padding:8px}
   .boy{
     position:relative;display:flex;flex-direction:column;gap:3px;text-align:left;
-    background:var(--paper);border:2px solid var(--ink);border-radius:8px;padding:4px;
-    box-shadow:3px 3px 0 var(--ink);min-width:0;
+    background:var(--cream);border:2px solid var(--line);border-radius:10px;padding:5px;
+    box-shadow:3px 3px 0 var(--shadow);min-width:0;color:var(--text);
   }
-  .boy:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
-  .boy .pic{flex:none;aspect-ratio:1;border:2px solid var(--ink);border-radius:4px}
-  .boy .n{font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .boy:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--shadow)}
+  .boy .pic{flex:none;border:2px solid var(--line);border-radius:6px}
+  .boy .n{font-size:10px;font-weight:700;color:var(--line);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .boy .meta{display:contents}
   .boy .tr{display:flex;flex-direction:column;gap:2px;min-width:0}
   .boy .tr span{font-family:var(--lcd);font-size:16px;line-height:.95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .boy .tr i{font-style:normal;font-family:var(--px);font-size:8px;color:var(--pink)}
+  .boy .tr i{font-style:normal;font-family:var(--px);font-size:8px;color:var(--peri)}
+  .boy.out{background:var(--blush)}
   .boy.out::after{
-    content:"";position:absolute;inset:0;border-radius:6px;
+    content:"";position:absolute;inset:0;border-radius:8px;
     background:
-      linear-gradient(to top right, transparent calc(50% - 3px), var(--ink) calc(50% - 3px), var(--ink) calc(50% + 3px), transparent calc(50% + 3px)),
-      linear-gradient(to top left, transparent calc(50% - 3px), var(--ink) calc(50% - 3px), var(--ink) calc(50% + 3px), transparent calc(50% + 3px));
+      linear-gradient(to top right, transparent calc(50% - 3px), var(--line) calc(50% - 3px), var(--line) calc(50% + 3px), transparent calc(50% + 3px)),
+      linear-gradient(to top left, transparent calc(50% - 3px), var(--line) calc(50% - 3px), var(--line) calc(50% + 3px), transparent calc(50% + 3px));
   }
   .boy.out .pic,.boy.out .tr{visibility:hidden}
 
   /* Ventana emergente */
   .modal{
     position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:16px;
-    background-color:var(--ink);
-    background-image:radial-gradient(var(--pink) 1px, transparent 1.5px);background-size:7px 7px;
+    background-color:rgba(255,209,228,.92);
+    background-image:linear-gradient(rgba(255,255,255,.8) 1.5px, transparent 1.5px),linear-gradient(90deg, rgba(255,255,255,.8) 1.5px, transparent 1.5px);
+    background-size:28px 28px;
   }
   .modal .win{width:min(420px, 100%);max-height:calc(100dvh - 32px);overflow:auto}
   .modal .pad{display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center}
@@ -214,10 +249,9 @@
   .modal .big{width:min(220px, 70%)}
   .modal .big .name{font-size:22px}
   .modal .big .tel{font-size:30px}
-  .modal h2{font-family:var(--logo);font-size:28px;line-height:1.05;color:var(--pink);-webkit-text-stroke:2px var(--ink);paint-order:stroke fill}
+  .modal h2{font-family:var(--logo);font-size:28px;line-height:1.05;color:var(--fuchsia);-webkit-text-stroke:2px var(--line);paint-order:stroke fill}
   .modal p{font-size:11px;line-height:1.5}
 
-  .board.flat{grid-template-columns:repeat(6, 1fr);gap:10px}
   @media (max-width:1000px){ .board{grid-template-columns:repeat(2, 1fr)} .board.flat{grid-template-columns:repeat(4, 1fr)} }
   @media (max-width:760px){
     body{padding:12px}
@@ -226,10 +260,11 @@
     .dock{height:340px}
     .ph{width:128px;margin-left:-64px;bottom:34px}
     .dock .base{width:150px}
-    .side{display:flex;flex-direction:column;gap:10px}
-    .lcd{min-height:120px}
+    .lcd{min-height:110px}
     .lcd .say{font-size:22px}
-    .actions .btn{flex:1 1 100%}
+    .callpad{padding:8px;gap:6px}
+    .heartbtn svg{width:50px}
+    .heartbtn.small svg{width:36px}
   }
   @media (max-width:560px){
     .board{grid-template-columns:1fr}
@@ -245,11 +280,11 @@
     .boy .tr span{font-size:14px}
     .card .name{font-size:12px}
     .card .tel{font-size:17px}
-    .status span:nth-child(2){display:none}
+    .status span:nth-child(3){display:none}
   }
   @media (prefers-reduced-motion:reduce){
     .title-phone .phone{animation:none}
-    .ph.ring svg{animation:none}
+    .ph.ring svg,.heartbtn.glow svg{animation:none}
     .ph.anim{transition:none}
   }
 </style>
@@ -260,7 +295,7 @@
 <section id="title">
   <div class="logo" aria-label="Línea Directa">
     <span class="w1">Línea</span>
-    <svg class="heart" viewBox="0 0 38 34" aria-hidden="true"><path d="M19 31C8 22 3 17 3 10.5 3 5.5 7 2.5 11 2.5c3.5 0 6 2 8 5 2-3 4.5-5 8-5 4 0 8 3 8 8C35 17 30 22 19 31z" fill="#FF2E9A" stroke="#2A0F45" stroke-width="3.5" stroke-linejoin="round"/></svg>
+    <svg class="heart" viewBox="0 0 38 34" aria-hidden="true"><path d="M19 31C8 22 3 17 3 10.5 3 5.5 7 2.5 11 2.5c3.5 0 6 2 8 5 2-3 4.5-5 8-5 4 0 8 3 8 8C35 17 30 22 19 31z" fill="#FF2E9A" stroke="#A9507E" stroke-width="3.5" stroke-linejoin="round"/></svg>
     <span class="w2">Directa</span>
   </div>
   <div class="title-phone" id="titlePhone" aria-hidden="true"></div>
@@ -272,8 +307,8 @@
 <section id="game" hidden>
   <div class="layout">
     <div class="col">
-      <div class="win phonewin">
-        <div class="bar"><span class="t">✦ LÍNEA DIRECTA ✦ TELÉFONO</span><span class="dots"><i></i><i></i><i></i></span></div>
+      <div class="win phonewin mint">
+        <div class="bar"><span class="t">♥ LÍNEA DIRECTA.EXE</span><span class="dots"><i></i><i></i><i></i></span></div>
         <div class="pad phone-row">
           <div class="dock" id="dock">
             <div class="base" id="base"></div>
@@ -281,9 +316,22 @@
           </div>
           <div class="side">
             <div class="lcd" aria-live="polite"><small id="lcdWho">TELÉFONO</small><div class="say" id="lcdSay"></div></div>
+            <div class="callpad">
+              <button class="heartbtn" id="bCall" aria-label="Llamar">
+                <svg viewBox="0 0 60 54" aria-hidden="true"><path d="M30 50C13 37 4 29 4 18 4 10 10 4 18 4c5 0 9 3 12 7 3-4 7-7 12-7 8 0 14 6 14 14 0 11-9 19-26 32z" fill="#8ADB93" stroke="#A9507E" stroke-width="3.5" stroke-linejoin="round"/><path d="M22 17c-2 1-3 3-2 6 2 6 7 11 13 13 3 1 5 0 6-2l1-2-5-4-3 2c-3-1-6-4-7-7l2-3-4-5z" fill="#FFFBF4" stroke="#A9507E" stroke-width="2" stroke-linejoin="round"/></svg>
+                LLAMAR
+              </button>
+              <button class="heartbtn small" id="bDel" aria-label="Borrar número">
+                <svg viewBox="0 0 60 54" aria-hidden="true"><path d="M30 50C13 37 4 29 4 18 4 10 10 4 18 4c5 0 9 3 12 7 3-4 7-7 12-7 8 0 14 6 14 14 0 11-9 19-26 32z" fill="#DCCBFF" stroke="#A9507E" stroke-width="3.5" stroke-linejoin="round"/><path d="M38 22H22m6-6-6 6 6 6" fill="none" stroke="#A9507E" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                BORRAR
+              </button>
+              <button class="heartbtn" id="bHang" aria-label="Colgar">
+                <svg viewBox="0 0 60 54" aria-hidden="true"><path d="M30 50C13 37 4 29 4 18 4 10 10 4 18 4c5 0 9 3 12 7 3-4 7-7 12-7 8 0 14 6 14 14 0 11-9 19-26 32z" fill="#FF7FA3" stroke="#A9507E" stroke-width="3.5" stroke-linejoin="round"/><path d="M16 25c4-4 9-6 14-6s10 2 14 6l-1 4-6-1v-3c-4-1-10-1-14 0v3l-6 1z" fill="#FFFBF4" stroke="#A9507E" stroke-width="2" stroke-linejoin="round"/></svg>
+                COLGAR
+              </button>
+            </div>
             <div class="actions">
               <button class="btn y" id="bGuess"># ADIVINAR</button>
-              <button class="btn" id="bHang">COLGAR</button>
               <button class="btn" id="bMute">♪ ON</button>
             </div>
           </div>
@@ -291,23 +339,23 @@
         <div class="status">
           <span class="live" id="stState">● COLGADO</span>
           <span id="stCalls">LLAMADAS 0</span>
-          <span>TECLADO 0–9 · # ADIVINA · ESC CUELGA</span>
+          <span>0–9 MARCA · ENTER LLAMA · ← BORRA · ESC CUELGA</span>
         </div>
       </div>
 
-      <div class="win">
-        <div class="bar"><span class="t">♥ TUS CARTAS</span><span class="dots"><i></i><i></i><i></i></span></div>
+      <div class="win butter">
+        <div class="bar"><span class="t">♥ TUS CARTAS · TOCA UNA PARA MARCAR</span><span class="dots"><i></i><i></i><i></i></span></div>
         <div class="pad"><div class="hand" id="hand"></div></div>
       </div>
 
-      <div class="win">
-        <div class="bar"><span class="t">♪ PISTAS</span><span class="dots"><i></i><i></i><i></i></span></div>
+      <div class="win sky">
+        <div class="bar"><span class="t">♪ PISTAS.TXT</span><span class="dots"><i></i><i></i><i></i></span></div>
         <div class="pad"><ol class="list" id="log"></ol></div>
       </div>
     </div>
 
-    <div class="win">
-      <div class="bar"><span class="t">✦ TABLERO ✦ TOCA A UN CHICO PARA TACHARLO</span><span class="dots"><i></i><i></i><i></i></span></div>
+    <div class="win lav">
+      <div class="bar"><span class="t">✿ TABLERO · TOCA A UN CHICO PARA TACHARLO</span><span class="dots"><i></i><i></i><i></i></span></div>
       <div class="pad"><div class="board" id="board"></div></div>
       <div class="status">
         <span class="live" id="stLeft">QUEDAN 24</span>
@@ -414,9 +462,9 @@ const Sound = (()=>{
       if(!ac||muted||dial) return;
       const g=ac.createGain(); g.gain.value=.3; g.connect(master);
       const o=[350,440].map(f=>{ const x=ac.createOscillator(); x.frequency.value=f; x.connect(g); x.start(); return x; });
-      dial={g,o};
+      dial={g,o,t:setTimeout(()=>this.dialStop(),10000)};
     },
-    dialStop(){ if(!dial) return; dial.o.forEach(x=>x.stop()); dial.g.disconnect(); dial=null; },
+    dialStop(){ if(!dial) return; clearTimeout(dial.t); dial.o.forEach(x=>x.stop()); dial.g.disconnect(); dial=null; },
     ringback(){ const t=now(); for(let i=0;i<2;i++){ tone(440,t+i*1.1,.8,'sine',.6); tone(480,t+i*1.1,.8,'sine',.6);} },
     busy(){ const t=now(); for(let i=0;i<3;i++){ tone(480,t+i*.3,.15,'sine',.8); tone(620,t+i*.3,.15,'sine',.8);} },
     ring(){ const t=now(); for(let i=0;i<14;i++) tone(i%2?1040:880,t+i*.045,.04,'square',.4); },
@@ -501,6 +549,7 @@ function makeClues(admirer){
 }
 function newGame(){
   hangUp(true);
+  clearTimeout(surpriseTimer); surpriseTimer=0;
   const admirer=pick(DATA.boys);
   const deck=shuffle(DATA.boys.map(b=>b.id));
   G={admirer,clues:makeClues(admirer),draw:deck.slice(3),discard:[],hand:deck.slice(0,3),called:new Set(),crossed:new Set(),
@@ -527,13 +576,16 @@ function discardFromHand(id){
 
 /* ---------------- Render ---------------- */
 const byId=id=>DATA.boys[id];
-function cardHTML(b){
-  return `<div class="card"><span class="name">${esc(b.nombre)}</span>`+
+function cardHTML(b,inHand){
+  const inner=`<span class="name">${esc(b.nombre)}</span>`+
     `<span class="frame"><i class="strip"></i>${pic(b)}<i class="strip"></i></span>`+
-    `<span class="tel">${esc(b.telefono)}</span></div>`;
+    `<span class="tel">${esc(b.telefono)}</span>`;
+  return inHand
+    ? `<button class="card" data-id="${b.id}" aria-label="Marcar a ${esc(b.nombre)}, ${esc(b.telefono)}">${inner}</button>`
+    : `<div class="card">${inner}</div>`;
 }
 function renderHand(){
-  $('hand').innerHTML=G.hand.length?G.hand.map(id=>cardHTML(byId(id))).join(''):'<p class="empty">No quedan cartas. Pulsa # y adivina.</p>';
+  $('hand').innerHTML=G.hand.length?G.hand.map(id=>cardHTML(byId(id),true)).join(''):'<p class="empty">No quedan cartas. Pulsa # y adivina.</p>';
 }
 function boyTile(b){
   const tr=DATA.cats.map(c=>`<span><i>${esc(c.label)} </i>${esc(showVal(c,b[c.key]))}</span>`).join('');
@@ -572,7 +624,7 @@ function lcd(who,html){ $('lcdWho').textContent=who; $('lcdSay').innerHTML=html;
 function setStatus(s){ $('stState').textContent=s; }
 
 /* ---------------- La línea ---------------- */
-// mode: idle (colgado) · tone (descolgado) · ringing · talk · busy · incoming (suena)
+// mode: idle (colgado) · tone (descolgado, marcando) · ringing (llamando) · talk · busy · incoming (suena)
 const L={offHook:false,mode:'idle',dial:'',guess:false,timers:[]};
 const ph=$('ph');
 ph.innerHTML=phoneSVG('555-♥',true);
@@ -586,63 +638,108 @@ function place(anim){
   ph.style.transform=`translate(${pos.x}px,${pos.y}px) rotate(${pos.r}deg)`;
 }
 function liftPose(){ pos.x=-10; pos.y=-46; pos.r=-6; place(true); }
+const numLen=()=>DATA.boys[0].num.length;
+const formatDial=d=>d.length>3?d.slice(0,3)+'-'+d.slice(3):d;
+function showDial(){
+  screen(L.dial||L.guess?(L.guess?'#':'')+formatDial(L.dial):'_');
+  $('bCall').classList.toggle('glow',L.mode==='tone'&&L.dial.length===numLen());
+}
+function lcdTone(){
+  if(L.guess) lcd('ADIVINAR','Marca su número y pulsa <b>LLAMAR</b>.');
+  else if(L.dial) lcd('MARCANDO',`${formatDial(L.dial)}<br>Pulsa <b>LLAMAR</b> cuando lo tengas.`);
+  else lcd('TONO DE MARCAR','Marca un número de <b>tus cartas</b> y pulsa <b>LLAMAR</b>.');
+}
 
 function liftUp(){
   if(L.offHook) return;
   if(L.mode==='incoming') return answerIncoming();
   L.offHook=true; L.mode='tone'; L.dial=''; L.guess=false;
   Sound.pick(); Sound.dialStart();
-  screen('_'); setStatus('● DESCOLGADO');
-  lcd('TONO DE MARCAR','Marca el número de un chico. Para adivinar, pulsa <b>#</b> y su número.');
+  showDial(); setStatus('● DESCOLGADO'); lcdTone();
 }
 function hangUp(silent){
-  if(L.mode==='incoming'&&!silent) return; // no se puede colgar una llamada que aún no has cogido
+  const was=L.mode;
   clearTimers(); Sound.dialStop(); Sound.hush();
-  const was=L.offHook;
   L.offHook=false; L.mode='idle'; L.dial=''; L.guess=false;
-  $('bGuess').classList.remove('on'); ph.classList.remove('ring');
+  $('bGuess').classList.remove('on'); $('bCall').classList.remove('glow'); ph.classList.remove('ring');
   pos.x=0; pos.y=0; pos.r=0; place(true);
   screen('555-♥'); setStatus('● COLGADO');
-  if(was&&!silent){ Sound.hang(); if(G&&!G.won) lcd('TELÉFONO','Descuelga y llama a otro chico.'); }
+  if(silent) return;
+  Sound.hang();
+  if(!G||G.won) return;
+  if(was==='incoming'){ G.log.push('Amiga: no lo has cogido.'); renderLog(); lcd('LLAMADA PERDIDA','Has colgado a tu amiga.'); }
+  else if(was==='ringing') lcd('COLGADO','Has colgado antes de que contestara.');
+  else lcd('TELÉFONO','Descuelga y llama a otro chico.');
+  maybeSurprise();
 }
 function readyAgain(){ // la línea vuelve al tono para la siguiente llamada
   if(!L.offHook) return;
   L.mode='tone'; L.dial=''; L.guess=false; $('bGuess').classList.remove('on');
-  screen('_'); Sound.dialStart(); setStatus('● DESCOLGADO');
+  showDial(); Sound.dialStart(); setStatus('● DESCOLGADO');
+  maybeSurprise();
 }
-const formatDial=d=>d.length>3?d.slice(0,3)+'-'+d.slice(3):d;
+function ensureLine(){ // descuelga si hace falta; devuelve si se puede marcar
+  if(!G||G.won) return false;
+  if(L.mode==='incoming'){ answerIncoming(); return false; }
+  if(!L.offHook){ liftUp(); liftPose(); }
+  return L.mode==='tone';
+}
 function pressKey(k){
+  Sound.unlock();
+  if(!ensureLine()) return;
+  flashKey(k); Sound.dialStop(); Sound.dtmf(k);
+  if(k==='#'){
+    if(!L.dial&&!L.guess){ L.guess=true; $('bGuess').classList.add('on'); }
+  } else if(k!=='*' && L.dial.length<numLen()){
+    L.dial+=k;
+  }
+  showDial(); lcdTone();
+}
+function delKey(){
+  Sound.unlock();
+  if(L.mode!=='tone') return;
+  if(L.dial) L.dial=L.dial.slice(0,-1);
+  else if(L.guess){ L.guess=false; $('bGuess').classList.remove('on'); }
+  else return;
+  Sound.blip(600); showDial(); lcdTone();
+}
+function callNow(){
   Sound.unlock();
   if(!G||G.won) return;
   if(L.mode==='incoming') return answerIncoming();
-  if(!L.offHook){ liftUp(); liftPose(); }
+  if(!L.offHook){ liftUp(); liftPose(); return; }
   if(L.mode!=='tone') return;
-  flashKey(k); Sound.dialStop(); Sound.dtmf(k);
-  if(k==='#'){
-    if(!L.dial&&!L.guess){ L.guess=true; $('bGuess').classList.add('on'); screen('#'); lcd('ADIVINAR','Marca el número del chico que crees que te quiere.'); }
-    return;
-  }
-  if(k==='*') return;
-  L.dial+=k;
-  screen((L.guess?'#':'')+formatDial(L.dial));
-  if(L.dial.length>=DATA.boys[0].num.length) connect();
+  if(!L.dial) return failLine(L.guess?'Marca el número del chico.':'Primero marca un número.');
+  if(L.dial.length<numLen()) return failLine('Te faltan números.');
+  connect();
 }
 function flashKey(k){
   const g=ph.querySelector(`.k[data-k="${CSS.escape(k)}"]`); if(!g) return;
   g.classList.add('down'); setTimeout(()=>g.classList.remove('down'),130);
 }
+function dialCard(id){ // tocar una carta marca su número tecla a tecla
+  const b=byId(id);
+  if(!b||!ensureLine()) return;
+  L.dial='';
+  const keys=[...b.num];
+  const step=()=>{ if(L.mode!=='tone'||!keys.length) return; pressKey(keys.shift()); if(keys.length) later(step,110); };
+  step();
+}
 function connect(){
+  $('bCall').classList.remove('glow');
   const boy=DATA.boys.find(b=>b.num===L.dial);
   if(!boy) return failLine('Ese número no existe.');
   if(!L.guess&&!G.hand.includes(boy.id)) return failLine(`${boy.nombre} no está en tus cartas.`);
   L.mode='ringing'; screen('RING…'); setStatus('☎ LLAMANDO');
-  lcd(`LLAMANDO A ${boy.nombre.toUpperCase()}`,'…');
+  lcd(`LLAMANDO A ${boy.nombre.toUpperCase()}`,'Tuu… tuu…');
   Sound.ringback();
   later(()=>answer(boy),2300);
 }
 function failLine(msg){
   L.mode='busy'; Sound.busy(); screen('ERROR'); lcd('COMUNICA',esc(msg));
-  later(readyAgain,1500);
+  const keep=L.dial.length<numLen()&&msg!=='Ese número no existe.'?L.dial:'';
+  const guess=L.guess;
+  later(()=>{ readyAgain(); if(L.mode==='tone'){ L.dial=keep; L.guess=guess&&!!keep; $('bGuess').classList.toggle('on',L.guess); showDial(); lcdTone(); } },1500);
 }
 function answer(boy){
   L.mode='talk'; screen(boy.nombre.slice(0,8).toUpperCase()); setStatus('☎ HABLANDO');
@@ -655,7 +752,7 @@ function answer(boy){
   Sound.say(text);
   discardFromHand(boy.id);
   renderHand(); renderLog(); updateCounts();
-  later(()=>{ readyAgain(); maybeSurprise(); },2600);
+  later(readyAgain,2600);
 }
 function guessResult(boy){
   if(boy.id===G.admirer.id){
@@ -671,24 +768,31 @@ function guessResult(boy){
   G.crossed.add(boy.id); G.called.add(boy.id);
   discardFromHand(boy.id);
   renderHand(); renderLog(); updateCounts();
-  later(()=>{ readyAgain(); maybeSurprise(); },2400);
+  later(readyAgain,2400);
 }
 
 // Llamada sorpresa: suena el teléfono y una amiga te da una pista gratis.
+// Solo suena con la línea libre, para no cortarte mientras marcas.
 function surprisePool(){ return DATA.boys.filter(b=>b.id!==G.admirer.id&&!G.crossed.has(b.id)); }
+let surpriseTimer=0;
 function maybeSurprise(){
-  if(G.surpriseDone||G.won||G.calls<G.surpriseAt||!surprisePool().length) return;
-  G.surpriseDone=true;
-  later(()=>{
+  if(!G||G.surpriseDone||G.won||G.calls<G.surpriseAt||!surprisePool().length||surpriseTimer) return;
+  surpriseTimer=setTimeout(function tryRing(){
+    surpriseTimer=0;
+    if(!G||G.surpriseDone||G.won) return;
+    const free=L.mode==='idle'||(L.mode==='tone'&&!L.dial&&!L.guess);
+    if(!free||!$('modal').hidden){ surpriseTimer=setTimeout(tryRing,2500); return; }
+    G.surpriseDone=true;
     hangUp(true);
-    L.mode='incoming'; ph.classList.add('ring'); screen('RING!'); setStatus('☎ ¡SUENA!');
-    lcd('LLAMADA SORPRESA','¡Está sonando! <b>Descuelga.</b>');
+    L.mode='incoming'; ph.classList.add('ring'); $('bCall').classList.add('glow');
+    screen('RING!'); setStatus('☎ ¡SUENA!');
+    lcd('LLAMADA SORPRESA','¡Está sonando! Pulsa <b>LLAMAR</b> o descuelga.');
     const ringOnce=()=>{ if(L.mode!=='incoming') return; Sound.ring(); later(ringOnce,1300); };
     ringOnce();
-  },900);
+  },1200);
 }
 function answerIncoming(){
-  clearTimers(); ph.classList.remove('ring');
+  clearTimers(); ph.classList.remove('ring'); $('bCall').classList.remove('glow');
   L.offHook=true; L.mode='talk'; Sound.pick(); liftPose();
   const b=pick(surprisePool());
   const text=`Soy tu amiga. Sé que no es ${b.nombre}.`;
@@ -739,19 +843,20 @@ ph.addEventListener('pointerup',endDrag);
 ph.addEventListener('pointercancel',endDrag);
 
 /* ---------------- Controles ---------------- */
-$('bGuess').addEventListener('click',()=>{
-  if(!G||G.won) return;
-  if(L.mode==='incoming') return answerIncoming();
-  if(!L.offHook){ liftUp(); liftPose(); }
-  if(L.mode==='tone'&&!L.dial) pressKey('#');
-});
-$('bHang').addEventListener('click',()=>hangUp());
+$('bCall').addEventListener('click',callNow);
+$('bHang').addEventListener('click',()=>{ if(L.offHook||L.mode==='incoming') hangUp(); });
+$('bDel').addEventListener('click',delKey);
+$('bGuess').addEventListener('click',()=>{ if(ensureLine()&&!L.dial&&!L.guess) pressKey('#'); });
 $('bMute').addEventListener('click',()=>{ const m=Sound.toggle(); $('bMute').textContent=m?'♪ OFF':'♪ ON'; if(!m&&L.mode==='tone'&&!L.dial) Sound.dialStart(); });
 $('bNew').addEventListener('click',()=>{ if(!G||G.won||G.calls===0||confirm('¿Empezar una partida nueva? El admirador secreto cambia.')) newGame(); });
+$('hand').addEventListener('click',e=>{ const c=e.target.closest('.card[data-id]'); if(c) dialCard(+c.dataset.id); });
 addEventListener('keydown',e=>{
   if($('game').hidden||!$('modal').hidden||e.metaKey||e.ctrlKey||e.altKey) return;
+  if(e.target.closest&&e.target.closest('button')&&(e.key==='Enter'||e.key===' ')) return; // deja que el botón haga lo suyo
   if(/^[0-9#*]$/.test(e.key)){ e.preventDefault(); pressKey(e.key); }
-  else if(e.key==='Escape') hangUp();
+  else if(e.key==='Enter'){ e.preventDefault(); callNow(); }
+  else if(e.key==='Backspace'){ e.preventDefault(); delKey(); }
+  else if(e.key==='Escape'){ if(L.offHook||L.mode==='incoming') hangUp(); }
 });
 
 /* ---------------- Ventanas ---------------- */
@@ -766,10 +871,11 @@ function showRules(){
     <h2 id="mTitle">¿A quién le gustas?</h2>
     <ol>
       <li>Uno de los ${DATA.boys.length} chicos te quiere en secreto. Cambia en cada partida.</li>
-      <li>Descuelga el teléfono (arrástralo o tócalo) y marca el número de un chico de <b>tus cartas</b>.</li>
+      <li>Descuelga el teléfono (arrástralo o tócalo), marca el número de un chico de <b>tus cartas</b> y pulsa <b>LLAMAR</b>. También puedes tocar su carta para marcarlo.</li>
       <li>Te dará una pista sobre lo que su admirador <b>no</b> es: ${esc(DATA.cats.map(c=>c.key).join(', '))}.</li>
       <li>Busca en el tablero a los chicos que encajan con la pista y tócalos para tacharlos.</li>
-      <li>Cuando lo sepas, pulsa <b>#</b> y marca su número. Si aciertas, ganas.</li>
+      <li>Cuando lo sepas, pulsa <b>#</b>, marca su número y llama. Si aciertas, ganas.</li>
+      <li>Para colgar, pulsa <b>COLGAR</b> o deja el teléfono en su base.</li>
     </ol>
     <button class="btn y">ENTENDIDO ▶</button>`);
 }
