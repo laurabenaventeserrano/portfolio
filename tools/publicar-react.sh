@@ -19,5 +19,13 @@ cp Laura_Benavente_CV_En.pdf _site/
 mkdir -p _site/lab
 cp -R lab/. _site/lab/
 
+# Maux: página suelta, solo accesible por enlace (no está enlazada desde el
+# portfolio y lleva noindex). Se compila en el repo de Maux con
+# `npm run build:portfolio` y se copia aquí en maux/.
+if [ -d maux ]; then
+  mkdir -p _site/maux
+  cp -R maux/. _site/maux/
+fi
+
 echo "_site listo:"
 du -sh _site
