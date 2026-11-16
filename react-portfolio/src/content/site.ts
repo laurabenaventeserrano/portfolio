@@ -52,13 +52,23 @@ export const EXPERIENCE = [
   },
 ];
 
-/* Los cuatro casos de Selected work. El orden es el de la portada. */
-export const WORK = [
+/* Categorías del trabajo. Un caso puede estar en varias.
+   Craft no agrupa casos: es la galería de la portada (src/content/craft.ts). */
+export const CATEGORIES = ['AI & Agents', 'B2B SaaS', 'Mobile & Connected', 'Craft'] as const;
+export type Category = (typeof CATEGORIES)[number];
+
+/* Los casos de Selected work. El orden es el de la portada. */
+export const WORK: {
+  num: string; title: string; company: string; to: string; status: string; text: string;
+  metric: string; metricLabel: string; tags: string[]; categories: Category[];
+  video?: string; img: string; alt: string;
+}[] = [
   {
     num: '01', title: 'CCH iFirm Cloud Migration', company: 'Wolters Kluwer', to: ROUTES.case1, status: 'Shipped',
     text: 'Designing continuity across a fragmented SaaS ecosystem.',
     metric: 'L → S', metricLabel: 'Development effort',
     tags: ['Product design', 'Product strategy', 'Systems', 'Design systems'],
+    categories: ['B2B SaaS'],
     video: '/video/s1-coded-prototype.mp4', img: '/images/story-1-poster.jpg',
     alt: 'The coded prototype running: selecting a client, moving to another product and arriving with the context intact.',
   },
@@ -67,6 +77,7 @@ export const WORK = [
     text: 'Bringing AI inside the product, so professionals never start a client communication from an empty page.',
     metric: '3/3', metricLabel: 'Validated · shipped in Canada',
     tags: ['AI product design', 'Product strategy', 'Human-AI interaction'],
+    categories: ['AI & Agents', 'B2B SaaS'],
     video: '/video/s2-template-ai.mp4', img: '/images/story-2-poster.jpg',
     alt: 'The instruction step inside the product: the professional picks the document type and the client, then writes in plain sentences what the letter should cover.',
   },
@@ -75,6 +86,7 @@ export const WORK = [
     text: 'An AI powered flow to migrate client data from competitor software.',
     metric: 'Day → min', metricLabel: 'Manual review time',
     tags: ['AI product design', 'Design + build', 'Prototyping'],
+    categories: ['AI & Agents', 'B2B SaaS'],
     img: '/images/s4-dashboard.jpg',
     alt: 'The Data Migration dashboard in Adsolut: migrations from Exact and Yuki listed by client, with connected, pending and failed counts.',
   },
@@ -83,6 +95,7 @@ export const WORK = [
     text: 'From preserving context to understanding context: an AI sidebar that knows what the user is working on.',
     metric: '', metricLabel: '',
     tags: ['AI product design', 'Human-AI interaction', 'Product strategy'],
+    categories: ['AI & Agents', 'B2B SaaS'],
     video: '/video/s1-ai-concept.mp4', img: '/images/s1-hd-ask-ai.jpg',
     alt: 'Future concept: from the CCH iFirm dashboard the user opens Ask iFirm AI, and the contextual sidebar answers which returns need attention first.',
   },
@@ -91,6 +104,7 @@ export const WORK = [
     text: 'Three products. Three interaction models. Web, mobile and TV.',
     metric: '−12%', metricLabel: 'Call centre calls',
     tags: ['Multi-device', 'Interaction', 'Mobile', 'TV', 'Voice'],
+    categories: ['Mobile & Connected'],
     img: '/images/story-3-movistar.png',
     alt: 'The Smart WiFi self-diagnosis flow: the app screens laid out as a grid, from the autodiagnostic entry point through the speed test to the help and interference advice.',
   },

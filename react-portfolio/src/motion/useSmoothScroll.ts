@@ -24,6 +24,12 @@ export function scrollToEl(el: HTMLElement, immediate = true) {
   else el.scrollIntoView();
 }
 
+/* Congela el scroll de la página mientras hay algo encima (el visor de Craft) */
+export function lockScroll(lock: boolean) {
+  if (lock) lenis?.stop(); else lenis?.start();
+  document.documentElement.style.overflow = lock ? 'hidden' : '';
+}
+
 export function useSmoothScroll(enabled = true) {
   useEffect(() => {
     if (!enabled || reducedMotion()) return;

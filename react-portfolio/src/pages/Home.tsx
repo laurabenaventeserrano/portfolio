@@ -1,20 +1,37 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ParticleCanvas from '../components/ParticleCanvas';
 import DotLoopPortrait from '../components/DotLoopPortrait';
 import { PORTRAIT, PORTRAIT_SETTINGS } from '../content/portrait';
 import { Kicker, Tags, Video } from '../components/ui';
 import LabSection from '../components/home/LabSection';
-import { ABOUT_ROWS, EXPERIENCE, FACTS, LINKS, STEPS, WORK } from '../content/site';
+import CraftSection from '../components/home/CraftSection';
+import { CRAFT } from '../content/craft';
+import { ABOUT_ROWS, CATEGORIES, EXPERIENCE, FACTS, LINKS, STEPS, WORK, type Category } from '../content/site';
 import { useActiveSection } from '../lib/hooks';
 import { useHomeStory } from '../motion/useHomeStory';
 import type { FieldOptions } from '../lib/particles';
 
 const LAB_FIELD: FieldOptions = { count: 420, theme: 'dark', seed: 61, fade: 0.5 };
 
-const DOTS = [
+const DOTS: [string, string][] = [
   ['hero', 'Hero'], ['how', 'How I work'], ['experience', 'Experience'], ['work', 'Work'],
+  ...(CRAFT.length ? [['craft', 'Craft'] as [string, string]] : []),
   ['about', 'About'], ['lab', 'Playground'], ['contact', 'Contact'],
-] as const;
+];
+
+/* Filtro de Selected work. Craft no filtra casos: lleva a su galería, justo debajo. */
+function WorkFilter({ value, onChange }: { value: Category | null; onChange: (c: Category | null) => void }) {
+  return (
+    <div className="switch work-filter" role="group" aria-label="Filter the work by category">
+      <button type="button" className="switch__opt" aria-pressed={value === null} onClick={() => onChange(null)} data-cursor="Show all">All</button>
+      {CATEGORIES.filter((c) => c !== 'Craft').map((c) => (
+        <button key={c} type="button" className="switch__opt" aria-pressed={value === c} onClick={() => onChange(c)} data-cursor="Filter">{c}</button>
+      ))}
+      {CRAFT.length > 0 && <a href="#craft" className="switch__opt" data-cursor="See the craft">Craft ↓</a>}
+    </div>
+  );
+}
 
 function SectionDots() {
   const active = useActiveSection(DOTS.map((d) => d[0]));
@@ -36,6 +53,8 @@ function SectionDots() {
 
 export default function Home() {
   useHomeStory();
+  const [category, setCategory] = useState<Category | null>(null);
+  const work = category ? WORK.filter((w) => w.categories.includes(category)) : WORK;
 
   return (
     <>
@@ -120,8 +139,11 @@ export default function Home() {
             <p className="mono-s muted">Wolters Kluwer · Adsolut · frog / Telefónica</p>
           </div>
 
+          <WorkFilter value={category} onChange={setCategory} />
+          <p className="sr-only" aria-live="polite">{category ? `${work.length} ${work.length === 1 ? 'case' : 'cases'} in ${category}` : ''}</p>
+
           <div className="tiles">
-            {WORK.map((w) => (
+            {work.map((w) => (
               <Link key={w.num} to={w.to} className="tile" data-cursor="Explore">
                 <div className="tile__media">
                   {w.video ? <Video src={w.video} poster={w.img} label={w.alt} /> : <img src={w.img} alt={w.alt} loading="lazy" />}
@@ -140,6 +162,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* CRAFT: galería de vídeos e imágenes (src/content/craft.ts) */}
+      <CraftSection />
 
       {/* ABOUT */}
       <section id="about" className="section section--accent" aria-labelledby="about-title">

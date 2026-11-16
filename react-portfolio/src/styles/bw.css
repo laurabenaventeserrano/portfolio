@@ -486,3 +486,59 @@ main.is-short ~ .dots, .is-short + .dots { display: none; }
 .lb-rest__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--lb-cream-ink); }
 .lb-rest.is-inv .lb-rest__dot { background: #FFFFFF; }
 @media (prefers-reduced-motion: reduce) { .lb-rest { transition: none; } }
+
+/* =========================================================
+   Selected work: filtro por categoría (el mismo switch de prisma de la cabecera)
+   ========================================================= */
+.work-filter { align-self: flex-start; flex-wrap: wrap; max-width: 100%; }
+.work-filter .switch__opt { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+/* Si el filtro salta de línea, cada fila se estira hasta el borde: el prisma queda solo como línea entre opciones */
+@media (max-width: 700px) { .work-filter { display: flex; width: 100%; } .work-filter .switch__opt { flex: 1 1 auto; } }
+
+/* =========================================================
+   Craft: rejilla editorial de vídeos e imágenes (src/content/craft.ts)
+   12 columnas: full 12 · wide 8 · half 6 · third 4. En móvil, todo a una columna.
+   Reposo: línea gris de 1px. Hover: la línea pasa a prisma y la imagen se acerca un poco.
+   ========================================================= */
+.craft { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 56px 32px; }
+.craft__item--full { grid-column: span 12; }
+.craft__item--wide { grid-column: span 8; }
+.craft__item--half { grid-column: span 6; }
+.craft__item--third { grid-column: span 4; }
+@media (max-width: 760px) { .craft { grid-template-columns: minmax(0, 1fr); gap: 40px; } .craft__item { grid-column: 1 / -1; } }
+
+.craft__open {
+  display: flex; flex-direction: column; gap: 16px; width: 100%; padding: 0; border: 0; background: none;
+  color: inherit; font: inherit; text-align: left; text-decoration: none; cursor: pointer;
+}
+.craft__media {
+  display: block; position: relative; overflow: hidden; border-radius: 2px; border: 1px solid transparent;
+  background: linear-gradient(var(--lb-paper-inset), var(--lb-paper-inset)) padding-box, linear-gradient(var(--line), var(--line)) border-box;
+}
+.craft__media img, .craft__media video {
+  display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top;
+  transition: transform .6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.craft__open:hover .craft__media, .craft__open:focus-visible .craft__media {
+  background: linear-gradient(var(--lb-paper-inset), var(--lb-paper-inset)) padding-box, var(--prism) border-box;
+}
+.craft__open:hover .craft__media img, .craft__open:hover .craft__media video { transform: scale(1.015); }
+.craft__open:focus-visible { outline: 2px solid var(--lb-cream-ink); outline-offset: 6px; }
+@media (prefers-reduced-motion: reduce) {
+  .craft__media img, .craft__media video { transition: none; }
+  .craft__open:hover .craft__media img, .craft__open:hover .craft__media video { transform: none; }
+}
+
+/* Visor: capa fija sobre la página (por debajo del cursor propio) */
+.craft-viewer.is-dark {
+  position: fixed; inset: 0; z-index: 90; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 16px;
+  padding: max(16px, env(safe-area-inset-top)) clamp(16px, 3vw, 40px) max(16px, env(safe-area-inset-bottom));
+  background: var(--lb-ground); color: var(--lb-ink);
+}
+.craft-viewer__bar { display: flex; align-items: center; gap: 16px 24px; }
+.craft-viewer__title { flex: 1; min-width: 0; font-family: var(--serif); font-size: clamp(18px, 1.6vw, 24px); line-height: 1.2; }
+.craft-viewer__title .mono-s, .craft-viewer__count { color: var(--lb-mid); }
+.craft-viewer__stage { margin: 0; min-height: 0; display: flex; align-items: center; justify-content: center; }
+.craft-viewer__stage img, .craft-viewer__stage video { width: 100%; height: 100%; object-fit: contain; border-radius: 2px; }
+.craft-viewer__nav { display: flex; justify-content: center; gap: 12px; }
+@media (max-width: 600px) { .craft-viewer__title .mono-s { display: none; } }

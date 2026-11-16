@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { LINKS, ROUTES } from '../content/site';
+import { CRAFT } from '../content/craft';
 import { useScrollProgress, useSeo } from '../lib/hooks';
 import JellyLogo from './JellyLogo';
 import CursorLabel from './CursorLabel';
@@ -25,6 +26,7 @@ function Logo() {
 const MENU = [
   { label: 'Home', meta: 'Start', hash: '#hero' },
   { label: 'Selected work', meta: '05 cases', hash: '#work' },
+  ...(CRAFT.length ? [{ label: 'Craft', meta: 'Up close', hash: '#craft' }] : []),
   { label: 'Experience', meta: 'Wolters Kluwer · frog', hash: '#experience' },
   { label: 'About', meta: 'Laura', hash: '#about' },
   { label: 'Having fun with AI', meta: 'The lab', hash: '#lab' },

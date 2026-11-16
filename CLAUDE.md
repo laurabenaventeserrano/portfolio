@@ -26,16 +26,20 @@ The static HTML at the repo root (`index.html`, `story1-3-case-study.html`, `sty
 
 ## Information architecture
 
-Nav: **Work · Playground · About · CV · Contact.** Home, Playground and About are sections of the home page; the cases are their own routes.
+Nav: **Work · Craft · Playground · About · CV · Contact.** Home, Craft, Playground and About are sections of the home page; the cases are their own routes.
 
 | Route | File | Content |
 |---|---|---|
-| `/` | `src/pages/Home.tsx` | Hero → ticker → How I work (From strategy to build, five cards) → Experience → Selected work → About → Lab statement → Playground → Contact |
+| `/` | `src/pages/Home.tsx` | Hero → ticker → How I work (From strategy to build, five cards) → Experience → Selected work (with category filter) → Craft → About → Lab statement → Playground → Contact |
 | `/work/cch-ifirm-cloud-migration` | `Case1.tsx` | CCH iFirm Cloud Migration · Wolters Kluwer |
 | `/work/ai-customer-communications` | `Case2.tsx` | AI-Powered Customer Communications · Wolters Kluwer / CCH iFirm |
 | `/work/ai-client-data-migration` | `Case3.tsx` | AI-Powered Client Data Migration · Adsolut Accounting |
 | `/work/ifirm-ai-contextual-assistant` | `Case4.tsx` | AI Contextual Assistant for CCH iFirm · Wolters Kluwer · **Concept** (Proposal 3 of Case 01, told as its own story) |
 | `/work/telefonica-multi-device` | `Case5.tsx` | Multi-device Product Design for Telefónica · frog / Telefónica |
+
+**Categories (16 Nov 2026, Laura's request):** AI & Agents · B2B SaaS · Mobile & Connected · Craft (`CATEGORIES` and each case's `categories` in `site.ts`; a case can have several). Selected work has a filter (All + the three case categories); "Craft ↓" jumps to the Craft gallery, which holds no cases.
+
+**Craft** (`#craft`, `src/components/home/CraftSection.tsx`): a data-driven editorial grid of videos and images, minimal text, click opens a full-screen viewer. Data in `src/content/craft.ts`, media in `public/craft/`. No filters, no case studies, no placeholder cards; if `CRAFT` is empty the section, its dot and its menu entry disappear. First piece: the Figma timelapse (web encode of `~/Desktop/AI documents-design process/portfolio-craft-camara-rapida.mp4`).
 
 Old URLs (`/story1-case-study` etc., with or without `.html`) redirect to the new cases, in `main.tsx` (`LEGACY_ROUTES`) and `public/_redirects`. Shared content (experience, work tiles, about rows, links) lives in `src/content/site.ts`.
 
@@ -45,7 +49,7 @@ Old URLs (`/story1-case-study` etc., with or without `.html`) redirect to the ne
 
 ## Case studies
 
-Every case is an individual proof point, with no grouping into categories. Tags sit under the title. Status (Shipped) is always visible.
+Every case is an individual proof point; the categories only filter the Selected work grid. Tags sit under the title. Status (Shipped) is always visible.
 
 Structure, built from `CaseHero` + `CaseSection` (`src/components/`): title → company / role / status / tags → one-line hook → context → the problem (on black) → the decision → the system / experience → how I work (the real steps of that case) → shipped / outcome → my contribution → confidential footnote → next case.
 
