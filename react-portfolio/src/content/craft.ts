@@ -187,4 +187,13 @@ export const CRAFT: CraftItem[] = [
     alt: 'Sped-up screen recording of a Figma file for an AI document review: design foundations, text styles, component variants and annotated UX flows being built, with the review panel showing six checks passed.',
     size: 'full',
   },
+  {
+    // Grabación del scroll de Blueprint Camera_001, sin texto añadido (26 Nov 2026). `alt` es texto nuevo, pendiente de Laura.
+    id: 'blueprint-camera',
+    title: 'Blueprint Camera',
+    video: '/craft/blueprint-camera-scroll.mp4',
+    image: '/craft/blueprint-camera-scroll.jpg',
+    alt: 'Screen recording of Blueprint Camera_001 scrolled from top to bottom: the sixteen parts of an isometric camera travel into place, then blueprint sheets explain how to take a picture, light, aperture, shutter and ISO.',
+    size: 'full',
+  },
 ];

@@ -30,6 +30,12 @@ const PASSES: Pass[] = [
     video: '/video/lab-arcana.mp4', poster: '/images/lab-arcana.jpg', href: LINKS.arcana, cta: 'Draw a card ↗',
     label: 'Arcana running: a spread of illustrated tarot cards, one drawn and turned over to answer the question.',
   },
+  {
+    // Textos nuevos (26 Nov 2026), pendientes de Laura. Sin enlace: la página aún no está publicada.
+    id: 'pass-3', title: 'Blueprint Camera', sub: 'Scrollytelling experiment', stack: 'HTML · SVG · JavaScript · built with Claude Code',
+    cursor: 'Scroll to build', video: '/craft/blueprint-camera-scroll.mp4', poster: '/images/lab-blueprint-camera.jpg',
+    label: 'Blueprint Camera_001 scrolled from top to bottom: the sixteen parts of an isometric camera travel into place, then blueprint sheets explain how a camera works.',
+  },
 ];
 
 export default function LabSection() {
