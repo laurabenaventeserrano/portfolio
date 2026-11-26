@@ -1,4 +1,5 @@
 /* Contenido compartido. Textos de laurabenavente.com y de la presentación de Laura. */
+import { CRAFT_PROJECTS, craftPath } from './craft';
 
 export const LINKS = {
   email: 'mailto:laurabenavente@me.com',
@@ -53,15 +54,17 @@ export const EXPERIENCE = [
 ];
 
 /* Categorías del trabajo. Un caso puede estar en varias.
-   Craft no agrupa casos: es la galería de la portada (src/content/craft.ts). */
+   Craft: los proyectos de src/content/craft.ts, que también salen en Selected work. */
 export const CATEGORIES = ['AI & Agents', 'B2B SaaS', 'Mobile & Connected', 'Craft'] as const;
 export type Category = (typeof CATEGORIES)[number];
 
 /* Los casos de Selected work. El orden es el de la portada. */
 export const WORK: {
-  num: string; title: string; company: string; to: string; status: string; text: string;
+  num: string; title: string; company?: string; to: string; status?: string; text: string;
   metric: string; metricLabel: string; tags: string[]; categories: Category[];
   video?: string; img: string; alt: string;
+  /** Proyectos de Craft: antetítulo en lugar de «num · company», titular antes del texto, y el texto de la tag del cursor */
+  eyebrow?: string; headline?: string; cursor?: string;
 }[] = [
   {
     num: '01', title: 'CCH iFirm Cloud Migration', company: 'Wolters Kluwer', to: ROUTES.case1, status: 'Shipped',
@@ -108,6 +111,14 @@ export const WORK: {
     img: '/images/story-3-movistar.png',
     alt: 'The Smart WiFi self-diagnosis flow: the app screens laid out as a grid, from the autodiagnostic entry point through the speed test to the help and interference advice.',
   },
+  // Proyectos de Craft con tarjeta de portada: la misma tarjeta que un caso, con sus textos aprobados (craft.ts). Sin estado ni cifras
+  ...CRAFT_PROJECTS.flatMap((p) => (p.card ? [{
+    num: p.card.eyebrow, eyebrow: p.card.eyebrow, title: p.card.title, to: craftPath(p.slug), text: p.card.description,
+    headline: p.card.headline, cursor: p.card.cta,
+    // El flujo va en las tags, como las de los casos
+    metric: '', metricLabel: '', tags: p.card.workflow, categories: ['Craft' as Category],
+    video: p.card.video, img: p.card.poster, alt: '',
+  }] : [])),
 ];
 
 export const FACTS: [string, string][] = [

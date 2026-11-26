@@ -7,7 +7,7 @@ import { Kicker, Tags, Video } from '../components/ui';
 import LabSection from '../components/home/LabSection';
 import CraftSection from '../components/home/CraftSection';
 import { CRAFT } from '../content/craft';
-import { ABOUT_ROWS, CATEGORIES, EXPERIENCE, FACTS, LINKS, STEPS, WORK, type Category } from '../content/site';
+import { ABOUT_ROWS, CATEGORIES, EXPERIENCE, FACTS, LINKS, WORK, type Category } from '../content/site';
 import { useActiveSection } from '../lib/hooks';
 import { useHomeStory } from '../motion/useHomeStory';
 import type { FieldOptions } from '../lib/particles';
@@ -15,20 +15,19 @@ import type { FieldOptions } from '../lib/particles';
 const LAB_FIELD: FieldOptions = { count: 420, theme: 'dark', seed: 61, fade: 0.5 };
 
 const DOTS: [string, string][] = [
-  ['hero', 'Hero'], ['how', 'How I work'], ['experience', 'Experience'], ['work', 'Work'],
+  ['hero', 'Hero'], ['experience', 'Experience'], ['work', 'Work'],
   ...(CRAFT.length ? [['craft', 'Craft'] as [string, string]] : []),
   ['about', 'About'], ['lab', 'Playground'], ['contact', 'Contact'],
 ];
 
-/* Filtro de Selected work. Craft no filtra casos: lleva a su galería, justo debajo. */
+/* Filtro de Selected work: las cuatro categorías, Craft incluida */
 function WorkFilter({ value, onChange }: { value: Category | null; onChange: (c: Category | null) => void }) {
   return (
     <div className="switch work-filter" role="group" aria-label="Filter the work by category">
       <button type="button" className="switch__opt" aria-pressed={value === null} onClick={() => onChange(null)} data-cursor="Show all">All</button>
-      {CATEGORIES.filter((c) => c !== 'Craft').map((c) => (
+      {CATEGORIES.map((c) => (
         <button key={c} type="button" className="switch__opt" aria-pressed={value === c} onClick={() => onChange(c)} data-cursor="Filter">{c}</button>
       ))}
-      {CRAFT.length > 0 && <a href="#craft" className="switch__opt" data-cursor="See the craft">Craft ↓</a>}
     </div>
   );
 }
@@ -54,6 +53,8 @@ function SectionDots() {
 export default function Home() {
   useHomeStory();
   const [category, setCategory] = useState<Category | null>(null);
+  // Un vídeo que no existe o no carga deja la imagen en su lugar
+  const [noVideo, setNoVideo] = useState<Set<string>>(new Set());
   const work = category ? WORK.filter((w) => w.categories.includes(category)) : WORK;
 
   return (
@@ -75,28 +76,6 @@ export default function Home() {
               <a href={LINKS.cv} className="text-link">Download CV ↗</a>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* FROM STRATEGY TO BUILD */}
-      <section id="how" className="section" aria-labelledby="how-title">
-        <div className="container stack gap-56">
-          <div className="sec-head">
-            <div className="sec-head__main">
-              <Kicker>How I work</Kicker>
-              <h2 id="how-title" className="h-xl">From strategy<br />to build.</h2>
-            </div>
-          </div>
-          <ol className="steps" data-motion="custom">
-            {STEPS.map((s) => (
-              <li key={s.num} className="step">
-                <span className="mono-s">{s.num}</span>
-                <div className="media"><img src={s.img} alt={s.alt} loading="lazy" /></div>
-                <h3 className="h-s">{s.name}</h3>
-                <p className="mono-s muted" style={{ fontSize: 10, lineHeight: 1.6 }}>{s.caption}</p>
-              </li>
-            ))}
-          </ol>
         </div>
       </section>
 
@@ -144,17 +123,20 @@ export default function Home() {
 
           <div className="tiles">
             {work.map((w) => (
-              <Link key={w.num} to={w.to} className="tile" data-cursor="Explore">
+              <Link key={w.to} to={w.to} className="tile" data-cursor={w.cursor ?? 'Explore'}>
                 <div className="tile__media">
-                  {w.video ? <Video src={w.video} poster={w.img} label={w.alt} /> : <img src={w.img} alt={w.alt} loading="lazy" />}
-                  <span className="status tile__status">{w.status}</span>
+                  {w.video && !noVideo.has(w.to)
+                    ? <Video src={w.video} poster={w.img} label={w.alt} onError={() => setNoVideo((f) => new Set(f).add(w.to))} />
+                    : <img src={w.img} alt={w.alt} loading="lazy" />}
+                  {w.status && <span className="status tile__status">{w.status}</span>}
                 </div>
                 <div className="tile__body">
                   <div className="stack gap-16">
                     <h3 className="tile__title">{w.title}</h3>
-                    <span className="kicker" style={{ color: 'var(--muted-d)' }}>{w.num} · {w.company}</span>
+                    <span className="kicker" style={{ color: 'var(--muted-d)' }}>{w.eyebrow ?? `${w.num} · ${w.company}`}</span>
+                    {w.headline && <p style={{ color: 'var(--body-d)', fontSize: 17 }}>{w.headline}</p>}
                     <p style={{ color: 'var(--body-d)', fontSize: 17 }}>{w.text}</p>
-                    <div className="is-dark"><Tags items={w.tags} /></div>
+                    {w.tags.length > 0 && <div className="is-dark"><Tags items={w.tags} /></div>}
                   </div>
                 </div>
               </Link>

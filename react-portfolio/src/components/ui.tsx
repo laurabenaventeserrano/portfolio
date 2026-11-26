@@ -20,7 +20,7 @@ export function Figure({ src, alt, caption, className, cover }: { src: string; a
 /* Vídeo en bucle, silenciado. Arranca al entrar en pantalla y se para al salir.
    React no escribe `muted` como atributo y algunos navegadores bloquean entonces el autoplay:
    por eso se silencia y se lanza a mano. Con movimiento reducido no se reproduce solo y muestra controles. */
-export function Video({ src, poster, label, caption }: { src: string; poster?: string; label: string; caption?: string }) {
+export function Video({ src, poster, label, caption, onError }: { src: string; poster?: string; label: string; caption?: string; onError?: () => void }) {
   const reduced = usePrefersReducedMotion();
   const ref = useRef<HTMLVideoElement>(null);
   useEffect(() => {
@@ -46,6 +46,7 @@ export function Video({ src, poster, label, caption }: { src: string; poster?: s
         controls={reduced}
         preload="metadata"
         aria-label={label}
+        onError={onError}
       />
     </div>
   );

@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { Link } from 'react-router-dom';
 import { Kicker } from '../ui';
-import { CRAFT, type CraftItem } from '../../content/craft';
+import { CRAFT, craftPath, type CraftItem } from '../../content/craft';
 import { usePrefersReducedMotion } from '../../lib/hooks';
 import { lockScroll } from '../../motion/useSmoothScroll';
 
@@ -14,7 +15,10 @@ import { lockScroll } from '../../motion/useSmoothScroll';
   · Sin animación de entrada; solo un hover discreto en la imagen.
 */
 
-function Thumb({ item }: { item: CraftItem }) {
+/* Lo mínimo para pintar una pieza: sirve a la galería y a los vídeos de un proyecto */
+export type CraftPiece = Pick<CraftItem, 'id' | 'title' | 'meta' | 'alt' | 'video' | 'image'>;
+
+export function Thumb({ item, onError }: { item: CraftPiece; onError?: () => void }) {
   const reduced = usePrefersReducedMotion();
   const ref = useRef<HTMLVideoElement>(null);
   useEffect(() => {
@@ -29,15 +33,16 @@ function Thumb({ item }: { item: CraftItem }) {
     return () => io.disconnect();
   }, [reduced, item.video]);
 
-  if (!item.video) return <img src={item.image} alt="" loading="lazy" decoding="async" />;
-  return <video ref={ref} src={item.video} poster={item.image} muted loop playsInline preload="none" aria-hidden="true" tabIndex={-1} />;
+  if (!item.video) return <img src={item.image} alt="" loading="lazy" decoding="async" onError={onError} />;
+  // Sin póster, precarga lo justo para enseñar el primer fotograma
+  return <video ref={ref} src={item.video} poster={item.image} muted loop playsInline preload={item.image ? 'none' : 'metadata'} aria-hidden="true" tabIndex={-1} onError={onError} />;
 }
 
-function Viewer({ index, onClose, onStep }: { index: number; onClose: () => void; onStep: (d: number) => void }) {
-  const item = CRAFT[index];
+export function Viewer({ items, index, onClose, onStep }: { items: CraftPiece[]; index: number; onClose: () => void; onStep: (d: number) => void }) {
+  const item = items[index];
   const reduced = usePrefersReducedMotion();
   const closeRef = useRef<HTMLButtonElement>(null);
-  const many = CRAFT.length > 1;
+  const many = items.length > 1;
 
   // Al abrir: el resto de la página queda inerte (foco atrapado aquí) y el scroll, quieto
   useEffect(() => {
@@ -68,7 +73,7 @@ function Viewer({ index, onClose, onStep }: { index: number; onClose: () => void
         <p id="craft-viewer-title" className="craft-viewer__title">
           {item.title}{item.meta && <span className="mono-s"> · {item.meta}</span>}
         </p>
-        {many && <span className="mono-s craft-viewer__count">{String(index + 1).padStart(2, '0')} / {String(CRAFT.length).padStart(2, '0')}</span>}
+        {many && <span className="mono-s craft-viewer__count">{String(index + 1).padStart(2, '0')} / {String(items.length).padStart(2, '0')}</span>}
         <button ref={closeRef} type="button" className="pill pill--line pill--sm" data-cursor="Close" onClick={onClose}>Close ✕</button>
       </div>
       <figure className="craft-viewer__stage" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
@@ -112,16 +117,26 @@ export default function CraftSection() {
 
         <ul className="craft">
           {CRAFT.map((item, i) => {
+            // Un proyecto lleva debajo su antetítulo y su título (textos aprobados, en la propia pieza). Una pieza suelta, sin pie.
             const inner = (
               <>
-                {/* Sin pie: solo la pieza. El título va en el aria-label y en el visor */}
                 <span className="craft__media" style={{ aspectRatio: item.ratio ?? '16 / 9' }}><Thumb item={item} /></span>
+                {item.project && item.eyebrow && (
+                  <span className="craft__foot" aria-hidden="true">
+                    <span className="mono-s craft__cap">{item.eyebrow}</span>
+                    <span className="h-s">{item.title}</span>
+                  </span>
+                )}
               </>
             );
             return (
               <li key={item.id} className={`craft__item craft__item--${item.size ?? 'half'}`}>
-                {/* Con enlace (p. ej. el archivo de Figma): la pieza abre el enlace en otra pestaña. Sin enlace: el visor. */}
-                {item.href ? (
+                {/* Proyecto: abre su página. Enlace externo: otra pestaña. Si no: el visor. */}
+                {item.project ? (
+                  <Link to={craftPath(item.project)} className="craft__open" data-cursor="Take a closer look" aria-label={`${item.title}. ${item.alt}`}>
+                    {inner}
+                  </Link>
+                ) : item.href ? (
                   <a href={item.href} target="_blank" rel="noopener noreferrer" className="craft__open" data-cursor={item.cursor ?? 'Open it'}
                     aria-label={`${item.title}. ${item.alt} ${item.cursor ?? 'Open link'} (opens in a new tab).`}>
                     {inner}
@@ -137,7 +152,7 @@ export default function CraftSection() {
           })}
         </ul>
       </div>
-      {open !== null && <Viewer index={open} onClose={close} onStep={step} />}
+      {open !== null && <Viewer items={CRAFT} index={open} onClose={close} onStep={step} />}
     </section>
   );
 }
