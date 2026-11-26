@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blueprint Camera 001</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Layout idea: a framed drafting sheet. Title block top left, dimension lines around the finished camera,
+     key-dimensions table at the foot. Scroll drives each part from its exploded spot to its seat. */
+  --paper:#0c2a8b;
+  --grid-minor:rgba(150,185,255,.06);
+  --grid-major:rgba(150,185,255,.13);
+  --ink:#d9e6ff;
+  --ink-soft:#8fa9ec;
+  --ink-strong:#ffffff;
+  --hi:#123499;
+  --mid:#0f2e90;
+  --lo:#0a257b;
+  --font:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --ease-out:cubic-bezier(0.23, 1, 0.32, 1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--paper)}
+body{background:var(--paper);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.track{height:900vh;position:relative}
+.stage{
+  position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid-minor) 1px,transparent 1px),linear-gradient(90deg,var(--grid-minor) 1px,transparent 1px),linear-gradient(var(--grid-major) 1px,transparent 1px),linear-gradient(90deg,var(--grid-major) 1px,transparent 1px);
+  background-size:16px 16px,16px 16px,80px 80px,80px 80px;background-position:-1px -1px;
+}
+#scene{position:absolute;inset:0;width:100%;height:100%;display:block}
+#world,.cam3d{--sw:1.25px;--fs:10px;fill:none;stroke:var(--ink);stroke-linejoin:round;stroke-linecap:round}
+:is(#world,.cam3d) path{stroke-width:var(--sw);vector-effect:non-scaling-stroke}
+:is(#world,.cam3d) .th{stroke:var(--ink-soft);stroke-width:calc(var(--sw)*.6)}
+:is(#world,.cam3d) .l{fill:none}
+:is(#world,.cam3d) .f1{fill:var(--hi)}
+:is(#world,.cam3d) .f2{fill:var(--mid)}
+:is(#world,.cam3d) .f3{fill:var(--lo)}
+:is(#world,.cam3d) .ring{fill:var(--mid);fill-rule:evenodd}
+:is(#world,.cam3d) .s{fill:var(--c);stroke:var(--c);stroke-width:calc(var(--sw)*.5)}
+:is(#world,.cam3d) .dot{fill:none;stroke:var(--ink-soft);stroke-width:calc(var(--sw)*1.5)}
+:is(#world,.cam3d) .on path.l,:is(#world,.cam3d) .on path.f1,:is(#world,.cam3d) .on path.f2,:is(#world,.cam3d) .on path.f3,:is(#world,.cam3d) .on path.ring{stroke:var(--ink-strong);stroke-width:calc(var(--sw)*1.4)}
+:is(#world,.cam3d) .on path.th{stroke:var(--ink)}
+.xray :is(#world,.cam3d) .f1,.xray :is(#world,.cam3d) .f2,.xray :is(#world,.cam3d) .f3,.xray :is(#world,.cam3d) .ring{fill-opacity:.06}
+.xray :is(#world,.cam3d) .s{fill-opacity:.06;stroke-opacity:.2}
+:is(#world,.cam3d) :is(.f1,.f2,.f3,.ring,.s){transition:fill-opacity 200ms ease,stroke-opacity 200ms ease}
+:is(#world,.cam3d) .cl{stroke:var(--ink-soft);stroke-width:calc(var(--sw)*.6);stroke-dasharray:32.8 7 4.7 7;opacity:.55} /* dashes in screen px, matched at scale 2.34 on 1440x900 */
+:is(#world,.cam3d) .dim{opacity:0}
+:is(#world,.cam3d) .dim .dm{stroke:var(--ink);stroke-width:calc(var(--sw)*.7);fill:none}
+:is(#world,.cam3d) .dim .dmf{fill:var(--ink);stroke:none}
+:is(#world,.cam3d) .dim text{font:500 var(--fs) var(--font);letter-spacing:.04em;fill:var(--ink);stroke:var(--paper);stroke-width:calc(var(--fs)*.28);paint-order:stroke;stroke-linejoin:round}
+:is(#world,.cam3d) .dim .cap{font-size:calc(var(--fs)*.8);fill:var(--ink-soft);font-weight:400}
+
+#labels text{font:400 9.5px var(--font);letter-spacing:.08em;fill:var(--ink);paint-order:stroke;stroke:var(--paper);stroke-width:3.5px;stroke-linejoin:round}
+#labels .lead{fill:none;stroke:var(--ink-soft);stroke-width:1;stroke-dasharray:3 2.5}
+#labels .tip{fill:var(--ink)}
+#labels g{pointer-events:none}
+
+.frame{position:absolute;inset:8px;border:1px solid var(--ink-soft);pointer-events:none}
+.frame::after{content:"";position:absolute;inset:4px;border:1px solid rgba(143,169,236,.4)}
+.tb{position:absolute;top:22px;left:22px;min-width:150px;border:1px solid var(--ink-soft);background:var(--paper);pointer-events:none}
+.tb>div{padding:6px 10px}
+.tb>div+div{border-top:1px solid var(--ink-soft);display:grid;grid-template-columns:auto auto;justify-content:start;column-gap:14px;row-gap:1px}
+.tb small{display:block;font-size:8.5px;letter-spacing:.16em;color:var(--ink-soft)}
+.tb b{display:block;font-size:17px;font-weight:500;letter-spacing:.06em;margin:2px 0 1px}
+.tb span{font-size:10px;letter-spacing:.12em}
+.fig{position:absolute;top:26px;right:24px;white-space:nowrap;text-align:right;font-size:10px;font-weight:500;letter-spacing:.1em;line-height:1.5;text-transform:uppercase;pointer-events:none}
+
+.sheet{position:absolute;left:22px;right:22px;bottom:22px;display:grid;gap:10px}
+.bar{display:grid;grid-template-columns:repeat(16,1fr);gap:3px;pointer-events:none}
+.bar i{display:block;height:3px;background:rgba(143,169,236,.3);position:relative;overflow:hidden}
+.bar i b{position:absolute;inset:0;background:var(--ink-strong);transform:scaleX(0);transform-origin:left}
+.deck{display:grid;grid-template-columns:minmax(0,1fr) 150px;border:1px solid var(--ink-soft);background:var(--paper)}
+.panels{display:grid;align-items:end;padding:12px;min-height:158px;pointer-events:none}
+.panel{grid-area:1/1;opacity:0;transform:translateY(10px)}
+.panel.show{opacity:1;transform:none}
+h1,h2{font-weight:700;letter-spacing:-.02em;line-height:1;text-transform:uppercase;color:var(--ink-strong)}
+h1{font-size:clamp(24px,7vw,48px)}
+.cue{margin-top:12px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;display:flex;align-items:center;gap:8px;color:var(--ink)}
+.cue svg{width:12px;height:12px;animation:nudge 1.6s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:translateY(-2px)}50%{transform:translateY(3px)}}
+.num{display:flex;align-items:baseline;gap:6px;font-weight:700;font-size:12px;letter-spacing:.1em;color:var(--ink-soft)}
+.num b{font-size:34px;letter-spacing:-.03em;color:var(--ink-strong);font-variant-numeric:tabular-nums}
+h2{font-size:clamp(17px,5vw,28px);margin:6px 0 8px}
+.spec{font-size:11px;line-height:1.5;color:var(--ink-soft);font-weight:400;min-height:3em}
+.done p{margin-top:10px;font-size:11px;line-height:1.5;color:var(--ink-soft)}
+.kd{border-left:1px solid var(--ink-soft);padding:10px 10px 10px;display:flex;flex-direction:column;gap:8px}
+.kd h3{font-size:8.5px;font-weight:500;letter-spacing:.16em;color:var(--ink-soft)}
+.kd dl{display:grid;grid-template-columns:auto 1fr;column-gap:8px;row-gap:5px;font-size:9.5px;letter-spacing:.04em}
+.kd dt{color:var(--ink-soft)}
+.kd dd{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-strong);white-space:nowrap}
+#xrayBtn{margin-top:auto;font:500 10px var(--font);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:transparent;border:1px solid var(--ink-soft);padding:8px 8px;cursor:pointer;display:flex;gap:8px;align-items:center;justify-content:center;width:100%}
+#xrayBtn::before{content:"";width:8px;height:8px;border:1px solid currentColor}
+#xrayBtn[aria-pressed="true"]{background:var(--ink-strong);color:var(--paper);border-color:var(--ink-strong)}
+#xrayBtn:focus-visible{outline:2px solid var(--ink-strong);outline-offset:3px}
+#xrayBtn,.st .foot button{transition:transform 160ms var(--ease-out)}#xrayBtn:active,.st .foot button:active{transform:scale(0.97)}
+@media (min-width:900px){
+  .frame{inset:12px}
+  .tb{top:30px;left:34px}.fig{top:34px;right:38px}
+  .sheet{left:40px;right:40px;bottom:32px}
+  .deck{grid-template-columns:minmax(0,1fr) 190px;max-width:860px}
+  .kd dl{font-size:10.5px}.spec{font-size:12px}
+}
+@media (prefers-reduced-motion:reduce){.cue svg{animation:none}}
+/* ---------- continuation sheets: same blueprint system ---------- */
+#sheets .track{position:relative}
+#sheets .stage{border-top:0}
+.draw{position:absolute;left:22px;right:22px;top:var(--dt,130px);bottom:var(--db,230px)}
+.views{height:100%;display:grid;gap:10px;grid-template-rows:repeat(var(--nv,1),minmax(0,1fr))}
+.view{position:relative;border:1px solid var(--ink-soft);min-height:0;overflow:hidden;background:rgba(6,26,100,.28)}
+.view h4{position:absolute;left:9px;top:7px;font:500 9px var(--font);letter-spacing:.14em;color:var(--ink-soft);z-index:2;text-transform:uppercase}
+.view svg{position:absolute;inset:0;width:100%;height:100%;display:block;fill:none;stroke:var(--ink);stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.view svg .soft{stroke:var(--ink-soft)}
+.view svg .fm{fill:var(--mid)}
+.view svg .fh{fill:var(--hi)}
+.view svg .fl{fill:var(--lo)}
+.view svg .dl{stroke-width:.9}
+.view svg .af{fill:var(--ink);stroke:none}
+.view svg .dash{stroke-dasharray:4 4}
+.view svg .dd{stroke-dasharray:9 3 2 3}
+.view svg .thin{stroke-width:.8}
+.view svg .strong{stroke:var(--ink-strong)}
+.view svg text{font:400 9px var(--font);fill:var(--ink);stroke:none;letter-spacing:.06em}
+.view svg text.s{fill:var(--ink-soft)}
+.view svg text.b{font-size:13px;fill:var(--ink-strong);font-weight:500}
+.view svg text.m{text-anchor:middle}
+.view svg text.e{text-anchor:end}
+.view svg .ic{opacity:.5;transition:opacity .3s}
+.view svg .ic.on{opacity:1}
+.view svg .ic.on *{stroke:var(--ink-strong)}
+.view svg .lane{transition:opacity .4s}
+.view svg .lane.off{opacity:.32}
+.view svg .sel{stroke:var(--ink-strong);stroke-width:1.6;fill:none}
+.cam3d.dim .part:not(.on){opacity:.3;transition:opacity .35s}
+.cam3d .part{transition:opacity .35s}
+.lbl text{font:500 var(--fs) var(--font);fill:var(--ink-strong)}
+.lbl path{stroke:var(--ink-soft);stroke-width:calc(var(--fs)*.1);stroke-dasharray:3 2.5;fill:none}
+.lbl circle{fill:var(--ink-strong);stroke:none}
+@media (min-width:900px){
+  .draw{left:40px;right:40px}
+  .views{grid-template-rows:none;grid-template-columns:repeat(var(--nv,1),minmax(0,1fr))}
+  .view h4{font-size:10px}
+}
+@media (min-width:900px) and (max-height:760px){.draw{bottom:var(--db,210px)}}
+
+/* settings sheet */
+.stage.st{position:relative;height:auto;min-height:100vh;min-height:100svh;padding:150px 22px 70px;overflow:visible}
+.st .grid{max-width:1100px;margin:0 auto;display:grid;gap:12px;grid-template-columns:1fr}
+.st .box{border:1px solid var(--ink-soft);background:rgba(6,26,100,.28);display:grid;grid-template-rows:auto 1fr}
+.st .box h4{font:500 9.5px var(--font);letter-spacing:.14em;color:var(--ink-soft);padding:8px 10px;border-bottom:1px solid var(--ink-soft);text-transform:uppercase}
+.st .box .in{padding:10px}
+.st .scene{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:center}
+.st .scene svg{width:96px;height:64px;fill:none;stroke:var(--ink);stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.st dl{display:grid;grid-template-columns:auto 1fr;column-gap:10px;row-gap:5px;font-size:10px;letter-spacing:.06em}
+.st dt{color:var(--ink-soft)}
+.st dd{text-align:right;color:var(--ink-strong);font-weight:500;font-size:12px}
+.st p.n{font-size:10.5px;line-height:1.55;color:var(--ink-soft);margin-top:10px}
+.st ul{list-style:none;display:grid;gap:8px;font-size:10.5px;line-height:1.55;color:var(--ink)}
+.st li::before{content:"- ";color:var(--ink-soft)}
+.st .foot{max-width:1100px;margin:22px auto 0;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.st .foot button{font:500 10px var(--font);letter-spacing:.14em;text-transform:uppercase;color:var(--paper);background:var(--ink-strong);border:1px solid var(--ink-strong);padding:10px 14px;cursor:pointer}
+.st .foot button:focus-visible{outline:2px solid var(--ink-strong);outline-offset:3px}
+@media (min-width:700px){.st .grid{grid-template-columns:1fr 1fr}}
+@media (min-width:1000px){.st .grid{grid-template-columns:repeat(4,1fr)}.st .wide{grid-column:span 2}.st{padding:170px 40px 80px}.st .scene{grid-template-columns:1fr}.st .scene svg{width:100%;height:70px}}
+
+/* links out of the first sheet, and panel visibility */
+.panel a{pointer-events:auto;color:var(--ink-strong);font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;text-decoration:underline;text-underline-offset:3px}
+.panel:not(.show) a{pointer-events:none}
+.panel{visibility:hidden;transition:opacity 150ms var(--ease-out),transform 0s 150ms,visibility 0s 150ms}
+.panel.show{visibility:visible;transition:opacity 300ms var(--ease-out) 60ms,transform 300ms var(--ease-out) 60ms,visibility 0s 0s}
+@media (prefers-reduced-motion:reduce){
+.panel,.panel.show{transform:none}
+.panel{transition:opacity 200ms ease,visibility 0s 200ms}
+.panel.show{transition:opacity 200ms ease,visibility 0s 0s}
+}
+.panel .go{display:inline-block;margin-top:12px}
+.panel .skip{display:inline-block;margin-top:8px;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+<main class="track" id="track">
+  <section class="stage" id="stage" aria-label="Camera assembly">
+    <svg id="scene" role="img" aria-label="Isometric exploded blueprint of a camera. Its sixteen parts fly into place as you scroll down.">
+      <g id="world"></g>
+      <g id="labels"></g>
+    </svg>
+    <div class="frame" aria-hidden="true"></div>
+    <div class="tb" id="tb" aria-hidden="true">
+      <div><small>SUBJECT:</small><b>CAMERA_001</b><span>ASSEMBLY STUDY</span></div>
+      <div><small>SCALE:</small><small>SHEET</small><span>1:2</span><span>01 / 07</span></div>
+    </div>
+    <div class="fig" id="fig">[ FIG.01 EXPLODED ]</div>
+    <footer class="sheet" id="sheet">
+      <div class="bar" id="bar" aria-hidden="true"></div>
+      <div class="deck">
+        <div class="panels">
+          <div class="panel show" id="pHero">
+            <h1>Blueprint<br>Camera_001</h1>
+            <div class="cue"><span>Scroll to assemble</span>
+              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 1v10M2 7l4 4 4-4"/></svg></div>
+            <a class="skip" href="#howto">Skip to the course</a>
+          </div>
+          <div class="panel" id="pStep">
+            <div class="num"><b id="sNum">01</b><span>/ 16</span></div>
+            <h2 id="sName">Bottom plate</h2>
+            <p class="spec" id="sSpec"></p>
+          </div>
+          <div class="panel done" id="pDone">
+            <h2>Camera_001<br>Assembled</h2>
+            <p>16 parts, one body. Scroll up to take it apart again.</p>
+            <a class="go" href="#howto">Learn to use it &darr;</a>
+          </div>
+        </div>
+        <aside class="kd">
+          <h3>KEY DIMENSIONS</h3>
+          <dl>
+            <dt>PARTS</dt><dd id="kdParts">00 / 16</dd>
+            <dt>MASS</dt><dd id="kdMass">0 g</dd>
+            <dt>LENGTH</dt><dd id="kdL">--</dd>
+            <dt>WIDTH</dt><dd id="kdW">--</dd>
+            <dt>HEIGHT</dt><dd id="kdH">--</dd>
+          </dl>
+          <button id="xrayBtn" type="button" aria-pressed="false">X-ray</button>
+        </aside>
+      </div>
+    </footer>
+  </section>
+</main>
+
+<script>
+(()=>{
+'use strict';
+/* ---------- tiny isometric drafting kit ---------- */
+const C3=Math.cos(Math.PI/6);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const r2=n=>Math.round(n*100)/100;
+let cur=null,layer='a';
+// x = lens axis (toward viewer, down-right), y = width (down-left), z = up
+function pr(x,y,z){
+  const X=(x-y)*C3,Y=(x+y)*.5-z;
+  if(cur){if(X<cur.x0)cur.x0=X;if(X>cur.x1)cur.x1=X;if(Y<cur.y0)cur.y0=Y;if(Y>cur.y1)cur.y1=Y;}
+  return[X,Y];
+}
+const D=(pts,close)=>'M'+pts.map(p=>r2(p[0])+' '+r2(p[1])).join('L')+(close?'Z':'');
+const L3=(a,close)=>D(a.map(p=>pr(p[0],p[1],p[2])),close);
+const E=(t,d,st)=>cur.els.push({t,d,st,layer});
+const shade=u=>{u=clamp(u,0,1);return '--c:'+(u<.5
+  ?`color-mix(in srgb, var(--mid) ${Math.round(u*200)}%, var(--lo))`
+  :`color-mix(in srgb, var(--hi) ${Math.round((u-.5)*200)}%, var(--mid))`);};
+
+function rr(x0,y0,x1,y1,r,n=5){
+  if(r<=0)return[[x0,y0,1],[x1,y0,1],[x1,y1,1],[x0,y1,1]];
+  const pts=[];
+  const arc=(cx,cy,a0)=>{for(let i=0;i<=n;i++){const a=a0+Math.PI/2*i/n;pts.push([cx+r*Math.cos(a),cy+r*Math.sin(a),(i===0||i===n)?1:0]);}};
+  arc(x1-r,y0+r,-Math.PI/2);arc(x1-r,y1-r,0);arc(x0+r,y1-r,Math.PI/2);arc(x0+r,y0+r,Math.PI);
+  return pts;
+}
+const circ=(cx,cy,r,n=24)=>Array.from({length:n},(_,i)=>{const a=2*Math.PI*i/n;return[cx+r*Math.cos(a),cy+r*Math.sin(a),1];});
+
+function prism(out,z0,z1,o={}){
+  const n=out.length,vis=[],nor=[];
+  for(let i=0;i<n;i++){
+    const a=out[i],b=out[(i+1)%n];let nx=b[1]-a[1],ny=-(b[0]-a[0]);
+    const l=Math.hypot(nx,ny)||1;nx/=l;ny/=l;nor.push([nx,ny]);vis.push(nx+ny>1e-6);
+  }
+  for(let i=0;i<n;i++)if(vis[i]){
+    const a=out[i],b=out[(i+1)%n];
+    E('s',L3([[a[0],a[1],z0],[b[0],b[1],z0],[b[0],b[1],z1],[a[0],a[1],z1]],1),shade(.25+.25*(nor[i][0]-nor[i][1])));
+  }
+  E(o.top||'f1',L3(out.map(p=>[p[0],p[1],z1]),1));
+  const s0=vis.indexOf(false);
+  if(s0>=0){
+    let run=null;
+    for(let k=1;k<=n;k++){
+      const i=(s0+k)%n;
+      if(vis[i]){if(!run)run=[out[i]];run.push(out[(i+1)%n]);}
+      else if(run){E('l',L3(run.map(p=>[p[0],p[1],z0])));run=null;}
+    }
+  }
+  for(let i=0;i<n;i++){
+    const p=out[i],pv=vis[(i+n-1)%n];
+    if(vis[i]!==pv)E('l',L3([[p[0],p[1],z0],[p[0],p[1],z1]]));
+    else if(vis[i]&&p[2])E('th',L3([[p[0],p[1],z0],[p[0],p[1],z1]]));
+  }
+}
+const box=(x0,y0,z0,x1,y1,z1)=>prism(rr(x0,y0,x1,y1,0),z0,z1);
+const seg=(a,b,t='th')=>E(t,L3([a,b]));
+const poly=(pts,t='th',close=1)=>E(t,L3(pts,close));
+const rectX=(x,y0,y1,z0,z1,t='th')=>poly([[x,y0,z0],[x,y1,z0],[x,y1,z1],[x,y0,z1]],t);
+const circX=(x,yc,zc,r,t='th',n=28)=>poly(Array.from({length:n},(_,i)=>{const a=2*Math.PI*i/n;return[x,yc+r*Math.cos(a),zc+r*Math.sin(a)];}),t);
+const circZ=(xc,yc,z,r,t='th',n=24)=>poly(circ(xc,yc,r,n).map(p=>[p[0],p[1],z]),t);
+const arcX=(x,yc,zc,r,a0,a1,t='th')=>{
+  const pts=[];for(let a=a0;a<=a1+.01;a+=7.5){const q=a*Math.PI/180;pts.push([x,yc+r*Math.cos(q),zc+r*Math.sin(q)]);}
+  E(t,L3(pts));
+};
+const dots=pts=>E('dot',pts.map(p=>{const q=pr(p[0],p[1],p[2]);return 'M'+r2(q[0])+' '+r2(q[1])+'l0 .01';}).join(''));
+
+function cylX(x0,x1,yc,zc,r,o={}){
+  const n=48,th=i=>2*Math.PI*i/n;
+  const ringPts=(x,q)=>Array.from({length:n},(_,i)=>[x,yc+q*Math.cos(th(i)),zc+q*Math.sin(th(i))]);
+  const vis=[];for(let i=0;i<n;i++){const a=th(i+.5);vis.push(Math.cos(a)+Math.sin(a)>1e-6);}
+  const A=ringPts(x0,r),B=ringPts(x1,r);
+  for(let i=0;i<n;i++)if(vis[i]){
+    const j=(i+1)%n,a=th(i+.5);
+    E('s',L3([A[i],A[j],B[j],B[i]],1),shade(.5+(Math.sin(a)-Math.cos(a))/2.83));
+  }
+  arcX(x0,yc,zc,r,-45,135,'l');
+  for(let i=0;i<n;i++)if(vis[i]!==vis[(i+n-1)%n])E('l',L3([A[i],B[i]]));
+  if(o.knurl)for(let i=0;i<n;i+=o.knurl){if(vis[i]&&vis[(i+n-1)%n])E('th',L3([A[i],B[i]]));}
+  (o.rings||[]).forEach(x=>arcX(x,yc,zc,r,-45,135,'th'));
+  if(o.hole){
+    const H=ringPts(x1,o.hole);
+    E('ring',D(B.map(p=>pr(...p)),1)+D(H.map(p=>pr(...p)),1));
+    E('l',L3(H,1));
+  }else E('f2',L3(B,1));
+}
+
+/* ---------- the camera ---------- */
+const YC=57,ZC=35.5;            // lens axis
+const parts=[];
+function def(id,label,spec,anchor,side,off,fn){
+  const p={id,label,spec,anchor,side,off,els:[],x0:1e9,y0:1e9,x1:-1e9,y1:-1e9};
+  cur=p;layer='a';fn();cur=null;layer='a';parts.push(p);
+}
+const inner=()=>{layer='b';};
+const outer=()=>{layer='a';};
+
+def('plate','Bottom plate','Magnesium alloy base with a 1/4-20 tripod thread.',[68,70,2],'R',[10,-8,-72],()=>{
+  prism(rr(2,12,68,102,10),0,7);
+  poly(rr(8,18,62,96,6).map(p=>[p[0],p[1],7]),'th');
+  for(let i=0;i<7;i++){const x=34+i*4.6;seg([x,30,7],[x,84,7]);}
+  circZ(20,57,7,4.4);circZ(20,57,7,1.9);
+  seg([68,22,3.5],[68,92,3.5]);
+});
+
+def('battery','Battery','Lithium-ion pack, 7.2 V. Slides into the grip.',[62,118,32],'L',[-4,52,-50],()=>{
+  prism(rr(40,106,62,128,3,3),6,54);
+  rectX(62,111,123,22,44);
+  for(let k=0;k<3;k++)seg([62,114+k*4,26],[62,114+k*4,40]);
+  box(46,112,54,50,118,56);box(54,112,54,58,118,56);
+  for(let k=0;k<6;k++)seg([42+k*3.2,128,10],[42+k*3.2,128,50]);
+});
+
+def('pcb','Main PCB','Six-layer imaging and control board.',[11.5,30,54],'L',[-54,-22,0],()=>{
+  prism(rr(8,20,11.5,94,0),12,58);
+  [[28,50,36,50,2.8],[55,66,38,48,2.2],[70,78,42,50,1.6],[26,36,20,30,2],[42,52,18,27,1.5],[58,64,22,29,1.5],[70,88,18,32,2.4],[28,86,53,56,3.2]]
+    .forEach(([a,b,c,d,h])=>box(11.5,a,c,11.5+h,b,d));
+  const t=(...p)=>poly(p.map(q=>[11.5,q[0],q[1]]),'th',0);
+  t([52,44],[54,44],[54,34],[68,34]);t([24,14],[24,60],[28,60]);t([66,44],[70,44]);t([78,46],[82,46],[82,36]);
+  t([36,25],[42,25]);t([52,23],[58,23]);t([64,26],[70,26]);t([12,16],[20,16],[20,50]);
+  [[22,15],[90,15],[22,56],[90,56]].forEach(([y,z])=>circX(11.5,y,z,1.6));
+  for(let k=0;k<7;k++){seg([14,28+k*3.6,12],[14,28+k*3.6,14]);}
+});
+
+def('sensor','Image sensor','Full-frame CMOS, 36 × 24 mm.',[19,52,46],'R',[-32,-10,6],()=>{
+  box(14,42,22,19,70,50);
+  poly([[19,47,27],[19,65,27],[19,65,45],[19,47,45]],'f3');
+  rectX(19,49,63,29,43);
+  for(let k=0;k<5;k++){seg([19,43,25+k*5.5],[19,45.5,25+k*5.5]);seg([19,66.5,25+k*5.5],[19,69,25+k*5.5]);}
+  box(15,52,12,18,60,22);
+  seg([19,50,30],[19,50,42]);
+});
+
+def('shutter','Shutter mechanism','Focal-plane curtains, 1/8000 s to 30 s.',[31,40,54],'R',[-10,-4,10],()=>{
+  box(24,34,16,31,78,56);
+  poly([[31,44,24],[31,68,24],[31,68,48],[31,44,48]],'f3');
+  for(let k=0;k<5;k++)seg([31,44,28+k*4.5],[31,68,28+k*4.5]);
+  box(31,38,50,33,74,54);
+  box(26,78,24,31,84,40);
+  circX(31,39,20,2);circX(31,73,20,2);
+});
+
+def('mirror','Mirror box','Reflex mirror behind a bayonet lens mount.',[72,YC,ZC+26],'R',[20,0,-6],()=>{
+  inner();
+  box(34,30,9,66,84,62);
+  rectX(66,36,78,14,56);
+  seg([34,57,62],[66,57,62]);
+  outer();
+  cylX(66,72,YC,ZC,26,{hole:20});
+  circX(72,YC,ZC,20,'f3',48);
+  circX(72,YC,ZC,16.5,'th',48);
+  arcX(72,YC,ZC,22.8,15,65,'l');arcX(72,YC,ZC,22.8,135,185,'l');arcX(72,YC,ZC,22.8,255,305,'l');
+  poly([[70,46,46],[70,68,46],[64,68,27],[64,46,27]],'f1');
+  seg([70,57,46],[64,57,27]);
+});
+
+def('shell','Top shell','Weather-sealed magnesium shell with LCD and controls.',[34,14,60],'R',[0,0,104],()=>{
+  prism(rr(4,14,66,100,9,6),7,64);
+  poly(rr(9,19,61,95,5,4).map(p=>[p[0],p[1],64]),'th');
+  poly(rr(20,22,50,34,2,2).map(p=>[p[0],p[1],64]),'f3');
+  [26,31,36,41,46].forEach(x=>seg([x,26,64],[x,30,64]));
+  circZ(57,26,64,2.4,'f2');circZ(57,34,64,2.4,'f2');
+  circX(66,91,ZC,3.2,'f3');circX(66,22,52,1.8,'f3');
+  seg([66,16,13],[66,98,13]);
+  rectX(66,87,95,54,58);
+  seg([66,16,58],[66,98,58]);
+});
+
+def('grip','Grip','Rubberised handgrip. Holds the battery.',[50,134,30],'L',[0,52,14],()=>{
+  prism(rr(34,98,68,134,8,5),0,64);
+  poly(rr(38,102,64,130,5,3).map(p=>[p[0],p[1],64]),'th');
+  const pts=[];for(let c=0;c<4;c++)for(let r=0;r<9;r++)pts.push([44.5+c*4.6,134,10+r*5.6]);dots(pts);
+  [111,116,121].forEach(y=>seg([68,y,8],[68,y,56]));
+  prism(circ(52,118,7,24),64,65);
+  prism(circ(52,118,4.8,20),65,68.5);
+});
+
+def('door','Memory card slot','SD UHS-II slot behind a hinged door.',[23,102,26],'L',[6,10,-104],()=>{
+  box(15,100,14,32,102.2,38);
+  poly([[17.5,102.2,16.5],[29.5,102.2,16.5],[29.5,102.2,35.5],[17.5,102.2,35.5]]);
+  poly([[20,102.2,28],[27,102.2,28],[27,102.2,32],[20,102.2,32]]);
+  seg([30.5,102.2,20],[30.5,102.2,28],'l');
+  dots([[16.2,102.2,18],[16.2,102.2,22],[16.2,102.2,26],[16.2,102.2,30],[16.2,102.2,34]]);
+});
+
+def('dials','Dials','Mode dial and exposure compensation.',[20,88,70],'L',[0,10,132],()=>{
+  prism(circ(20,88,7,20),64,70);
+  circZ(20,88,70,4.6);seg([20,88,70],[25,88,70],'l');
+  prism(circ(44,88,5.5,20),64,69);
+  circZ(44,88,69,3.4);seg([44,88,69],[44,92,69],'l');
+});
+
+def('viewfinder','Viewfinder','Pentaprism eyepiece, 0.7× magnification.',[20,38,84],'L',[-14,12,150],()=>{
+  prism(rr(7,38,33,80,6,4),64,86);
+  poly(rr(11,42,29,76,3,2).map(p=>[p[0],p[1],86]),'th');
+  seg([33,44,80],[33,74,80]);
+  circX(33,59,73,3.6,'f3');
+  seg([14,80,80],[26,80,80]);
+});
+
+def('flash','Flash unit','Pop-up flash with a Fresnel lens, guide number 12.',[62,62,76],'R',[8,-26,152],()=>{
+  prism(rr(36,44,62,82,5,4),64,80);
+  poly([[62,49,67],[62,77,67],[62,77,77],[62,49,77]],'f3');
+  for(let y=52;y<=74;y+=3)seg([62,y,67],[62,y,77]);
+  seg([62,48,65.5],[62,78,65.5]);
+});
+
+def('aperture','Aperture blades','Nine blades, f/1.8 to f/16.',[98,YC+15,ZC+10],'R',[8,0,0],()=>{
+  cylX(96,98,YC,ZC,17);
+  for(let k=0;k<9;k++){
+    const P=(r,a)=>{const q=(a+k*40)*Math.PI/180;return[98,YC+r*Math.cos(q),ZC+r*Math.sin(q)];};
+    poly([P(17,0),P(17,34),P(7.5,78),P(9.5,52)],'f1');
+  }
+  circX(98,YC,ZC,7.2,'th',36);
+});
+
+def('elements','Lens elements','Seven elements in six groups.',[123,YC+14,ZC+14],'R',[28,0,0],()=>{
+  [[80,83,19],[89,93,18],[104,108,17],[118,123,20]].forEach(([a,b,r])=>{
+    cylX(a,b,YC,ZC,r);circX(b,YC,ZC,r-3.2,'th',48);
+    arcX(b,YC,ZC,r-6,95,150,'th');
+  });
+});
+
+def('barrel','Lens barrel','50 mm f/1.8 with a 58 mm filter thread.',[116,YC,ZC-23],'R',[66,0,0],()=>{
+  cylX(74,128,YC,ZC,24,{hole:20.5,rings:[78,82,86,125]});
+  circX(128,YC,ZC,22.3,'th',48);
+});
+
+def('focus','Focus ring','Rubber-ribbed manual focus ring.',[104,YC,ZC-25],'R',[106,0,0],()=>{
+  cylX(94,118,YC,ZC,26,{hole:24,knurl:2,rings:[97,115]});
+});
+
+const MASS={plate:42,battery:95,pcb:38,sensor:12,shutter:26,mirror:64,shell:118,grip:70,door:6,dials:14,viewfinder:36,flash:22,aperture:9,elements:120,barrel:70,focus:18};
+/* dimension lines drawn around the finished camera (mm) */
+const dimsPart={els:[],txt:[],x0:1e9,y0:1e9,x1:-1e9,y1:-1e9};
+{
+  cur=dimsPart;layer='a';
+  const A=4.5;
+  const dim=(p,q,exts,v,cap,lx,ly)=>{
+    exts.forEach(([a,b])=>E('dm',L3([a,b])));
+    E('dm',L3([p,q]));
+    const sp=pr(...p),sq=pr(...q),dx=sq[0]-sp[0],dy=sq[1]-sp[1],l=Math.hypot(dx,dy),ux=dx/l,uy=dy/l,nx=-uy,ny=ux;
+    const arrow=(pt,d)=>{const bx=pt[0]+d*ux*A*1.8,by=pt[1]+d*uy*A*1.8;
+      return 'M'+r2(pt[0])+' '+r2(pt[1])+'L'+r2(bx+nx*A*.5)+' '+r2(by+ny*A*.5)+'L'+r2(bx-nx*A*.5)+' '+r2(by-ny*A*.5)+'Z';};
+    E('dmf',arrow(sp,1)+arrow(sq,-1));
+    const m=pr((p[0]+q[0])/2,(p[1]+q[1])/2,(p[2]+q[2])/2);
+    const tx=m[0]+lx,ty=m[1]+ly;
+    dimsPart.txt.push({x:tx,y:ty,v,c:cap});
+    dimsPart.x0=Math.min(dimsPart.x0,tx-22);dimsPart.x1=Math.max(dimsPart.x1,tx+22);
+    dimsPart.y0=Math.min(dimsPart.y0,ty-12);dimsPart.y1=Math.max(dimsPart.y1,ty+22);
+  };
+  dim([2,150,0],[128,150,0],[[[2,134,0],[2,154,0]],[[128,134,0],[128,154,0]]],'126.0','(LENGTH)',6,24);
+  dim([-12,12,0],[-12,134,0],[[[2,12,0],[-14,12,0]],[[34,134,0],[-14,134,0]]],'122.0','(WIDTH)',-30,2);
+  dim([-12,38,0],[-12,38,86],[[[7,38,86],[-14,38,86]]],'86.0','(HEIGHT)',-30,-4);
+  cur=null;
+}
+
+/* paint order, back to front. mirror is split: interior block under the shell, mount ring over it */
+const ORDER=['plate','battery','pcb','sensor','shutter','mirror:b','shell','grip','door','dials','viewfinder','flash','mirror:a','aperture','elements','barrel','focus'];
+const BUILD=['plate','battery','pcb','sensor','shutter','mirror','shell','grip','door','dials','viewfinder','flash','aperture','elements','barrel','focus'];
+const N=BUILD.length;
+const byId=Object.fromEntries(parts.map(p=>[p.id,p]));
+
+/* ---------- DOM ---------- */
+const NS='http://www.w3.org/2000/svg';
+const world=document.getElementById('world'),labelsG=document.getElementById('labels');
+ORDER.forEach(key=>{
+  const [id,lay]=key.split(':');const p=byId[id];
+  const g=document.createElementNS(NS,'g');g.setAttribute('class','part');g.dataset.id=id;
+  (p.groups=p.groups||[]).push(g);
+  p.els.filter(e=>!lay||e.layer===lay).forEach(e=>{
+    const el=document.createElementNS(NS,'path');
+    el.setAttribute('class',e.t);el.setAttribute('d',e.d);if(e.st)el.setAttribute('style',e.st);
+    g.appendChild(el);
+  });
+    world.appendChild(g);
+});
+
+parts.forEach(p=>{
+  const g=document.createElementNS(NS,'g');
+  const lead=document.createElementNS(NS,'path');lead.setAttribute('class','lead');
+  const tip=document.createElementNS(NS,'circle');tip.setAttribute('class','tip');tip.setAttribute('r','2');
+  const tx=document.createElementNS(NS,'text');tx.textContent=p.label.toUpperCase();
+  g.append(lead,tip,tx);labelsG.appendChild(g);
+  p.lab={g,lead,tip,tx,tw:p.label.length*6.4};
+});
+
+const dimG=document.createElementNS(NS,'g');dimG.setAttribute('class','dim');
+dimsPart.els.forEach(e=>{const el=document.createElementNS(NS,'path');el.setAttribute('class',e.t);el.setAttribute('d',e.d);dimG.appendChild(el);});
+dimsPart.txt.forEach(t=>{
+  const tx=document.createElementNS(NS,'text');tx.setAttribute('text-anchor','middle');
+  const a=document.createElementNS(NS,'tspan');a.setAttribute('x',r2(t.x));a.setAttribute('y',r2(t.y));a.textContent=t.v;
+  const b=document.createElementNS(NS,'tspan');b.setAttribute('x',r2(t.x));b.setAttribute('dy','1.3em');b.setAttribute('class','cap');b.textContent=t.c;
+  tx.append(a,b);dimG.appendChild(tx);
+});
+world.appendChild(dimG);
+const cl=document.createElementNS(NS,'path');cl.setAttribute('class','cl');cl.setAttribute('d',L3([[44,YC,ZC],[256,YC,ZC]]));world.appendChild(cl);
+
+const bar=document.getElementById('bar');
+for(let i=0;i<N;i++){const s=document.createElement('i');s.appendChild(document.createElement('b'));bar.appendChild(s);}
+const barFill=[...bar.querySelectorAll('b')];
+
+/* ---------- timeline ---------- */
+const T0=.02,STEP=.056,DUR=.1;
+const start=i=>T0+i*STEP;
+const END=start(N-1)+DUR;
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const smooth=(a,b,x)=>{const t=clamp((x-a)/(b-a),0,1);return t*t*(3-2*t);};
+const order=BUILD.map(id=>byId[id]);
+order.forEach((p,i)=>{p.i=i;p.dx=0;p.dy=0;p.u=0;});
+
+const stage=document.getElementById('stage'),svg=document.getElementById('scene');
+const track=document.getElementById('track');
+const fig=document.getElementById('fig');
+const pHero=document.getElementById('pHero'),pStep=document.getElementById('pStep'),pDone=document.getElementById('pDone');
+const sNum=document.getElementById('sNum'),sName=document.getElementById('sName'),sSpec=document.getElementById('sSpec');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+let padTop=110,padBot=200,W=innerWidth,H=innerHeight,target=0,cp=0,raf=0,lastStep=-2,lastPanel='';
+const view={s:1,tx:0,ty:0};
+
+function onScroll(){
+  const max=track.offsetHeight-innerHeight;
+  target=clamp(-track.getBoundingClientRect().top/Math.max(1,track.offsetHeight-innerHeight),0,1);
+  kick();
+}
+function kick(){if(!raf)raf=requestAnimationFrame(tick);}
+let lt=0;
+function tick(t){
+  raf=0;
+  const dt=Math.min(.05,(t-lt)/1000||.016);lt=t;
+  const k=reduce?1:1-Math.exp(-dt*10);
+  cp+=(target-cp)*k;
+  if(Math.abs(target-cp)<.0004)cp=target;
+  render();
+  if(cp!==target)kick();
+}
+
+function render(){
+  const p=cp;
+  let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  order.forEach(pt=>{
+    const u=clamp((p-start(pt.i))/DUR,0,1),e=reduce?0:1-ease(u);
+    const [dx,dy,dz]=pt.off;
+    pt.dx=(dx-dy)*C3*e;pt.dy=((dx+dy)*.5-dz)*e;pt.u=u;
+    const tr=`translate(${r2(pt.dx)} ${r2(pt.dy)})`;
+    pt.groups.forEach(g=>{g.setAttribute('transform',tr);});
+    const on=u>0&&u<1;
+    pt.groups.forEach(g=>g.classList.toggle('on',on));
+    if(reduce){const o=(.15+.85*ease(u)).toFixed(3);pt.groups.forEach(g=>{g.style.opacity=o;});}
+    x0=Math.min(x0,pt.x0+pt.dx);x1=Math.max(x1,pt.x1+pt.dx);
+    y0=Math.min(y0,pt.y0+pt.dy);y1=Math.max(y1,pt.y1+pt.dy);
+  });
+  const dop=smooth(END-.05,END,p),fr=reduce?1:dop;
+  x0+=(Math.min(x0,dimsPart.x0)-x0)*fr;x1+=(Math.max(x1,dimsPart.x1)-x1)*fr;
+  y0+=(Math.min(y0,dimsPart.y0)-y0)*fr;y1+=(Math.max(y1,dimsPart.y1)-y1)*fr;
+  dimG.style.opacity=dop.toFixed(3);
+  // auto-frame the drawing inside the free area of the sheet
+  const topPad=padTop,botPad=padBot,side=W<600?22:70;
+  const aw=W-side*2,ah=H-topPad-botPad;
+  const s=Math.min(aw/(x1-x0),ah/(y1-y0),7);
+  view.s=s;view.tx=W/2-s*(x0+x1)/2;view.ty=topPad+ah/2-s*(y0+y1)/2;
+  world.setAttribute('transform',`translate(${r2(view.tx)} ${r2(view.ty)}) scale(${s.toFixed(4)})`);
+  if(dop>0)dimG.style.setProperty('--fs',(10.5/s).toFixed(4)+'px');
+  layoutLabels();
+  hud(p);
+}
+
+function layoutLabels(){
+  const placed=[];
+  const items=order.map(pt=>{
+    const a=pr(...pt.anchor); // note: pr tracks bbox only while cur is set
+    return{pt,ax:view.tx+view.s*(a[0]+pt.dx),ay:view.ty+view.s*(a[1]+pt.dy)};
+  }).sort((a,b)=>a.ay-b.ay);
+  items.forEach(({pt,ax,ay})=>{
+    const o=1-smooth(0,.22,pt.u);
+    const L=pt.lab;
+    if(o<.02){L.g.style.display='none';return;}
+    L.g.style.display='';L.g.style.opacity=o.toFixed(3);
+    let dir=pt.side==='R'?1:-1;
+    const gap=10,len=22,tw=L.tw+2;
+    const fits=d=>{const tx=ax+d*(gap+len+5);return d>0?tx+tw<W-6:tx-tw>6;};
+    if(!fits(dir)&&fits(-dir))dir=-dir;
+    let ty=ay;
+    const rect=ty=>{const tx=ax+dir*(gap+len+5);return dir>0?[tx,tx+tw,ty-6,ty+6]:[tx-tw,tx,ty-6,ty+6];};
+    for(let g=0;g<30;g++){
+      const r=rect(ty);
+      if(placed.some(q=>r[0]<q[1]&&r[1]>q[0]&&r[2]<q[3]&&r[3]>q[2]))ty+=13;else break;
+    }
+    placed.push(rect(ty));
+    const ex=ax+dir*gap,fx=ax+dir*(gap+len);
+    L.lead.setAttribute('d',`M${r2(ax)} ${r2(ay)}L${r2(ex)} ${r2(ty)}L${r2(fx)} ${r2(ty)}`);
+    L.tip.setAttribute('cx',r2(ax));L.tip.setAttribute('cy',r2(ay));
+    L.tx.setAttribute('x',r2(fx+dir*5));L.tx.setAttribute('y',r2(ty+3.4));
+    L.tx.setAttribute('text-anchor',dir>0?'start':'end');
+  });
+}
+
+function hud(p){
+  let act=-1;for(let i=0;i<N;i++)if(p>=start(i))act=i;
+  const finished=p>=END-.002;
+  const panel=p<T0?'hero':finished?'done':'step';
+  if(panel!==lastPanel){
+    pHero.classList.toggle('show',panel==='hero');
+    pStep.classList.toggle('show',panel==='step');
+    pDone.classList.toggle('show',panel==='done');
+    lastPanel=panel;
+  }
+  if(panel==='step'&&act!==lastStep){
+    const pt=order[act];
+    sNum.textContent=String(act+1).padStart(2,'0');
+    sName.textContent=pt.label;sSpec.textContent=pt.spec;lastStep=act;
+  }
+  fig.textContent=panel==='hero'?'[ FIG.01 EXPLODED ]':panel==='done'?'[ FIG.02 ASSEMBLED ]':`[ FIG.01 ASSEMBLY ${String(act+1).padStart(2,'0')}/${N} ]`;
+  let ms=0,dn=0;
+  order.forEach(pt=>{ms+=MASS[pt.id]*ease(pt.u);if(pt.u>=1)dn++;});
+  kdParts.textContent=String(dn).padStart(2,'0')+' / '+N;
+  kdMass.textContent=Math.round(ms)+' g';
+  const sd=smooth(END-.05,END,p)>.6;
+  kdL.textContent=sd?'126.0 mm':'--';kdW.textContent=sd?'122.0 mm':'--';kdH.textContent=sd?'86.0 mm':'--';
+  order.forEach((pt,i)=>{barFill[i].style.transform=`scaleX(${pt.u.toFixed(3)})`;});
+}
+
+const kdParts=document.getElementById('kdParts'),kdMass=document.getElementById('kdMass'),kdL=document.getElementById('kdL'),kdW=document.getElementById('kdW'),kdH=document.getElementById('kdH');
+const xb=document.getElementById('xrayBtn');
+xb.addEventListener('click',()=>{const on=!stage.classList.contains('xray');stage.classList.toggle('xray',on);xb.setAttribute('aria-pressed',on);});
+
+function measureLayout(){padTop=document.getElementById('tb').offsetHeight+44;padBot=document.getElementById('sheet').offsetHeight+30;}
+function measure(){measureLayout();order.forEach(pt=>{try{const w=pt.lab.tx.getComputedTextLength();if(w>0)pt.lab.tw=w;}catch(e){}});}
+function resize(){W=innerWidth;H=innerHeight;measureLayout();onScroll();render();}
+addEventListener('scroll',onScroll,{passive:true});
+addEventListener('resize',resize);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{measure();render();});
+/*DEBUG*/
+measure();onScroll();cp=target;render();
+window.CAM={order,world,pr,C3};
+})();
+</script>
+<script>
+(()=>{
+'use strict';
+const $=(s,r=document)=>r.querySelector(s);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),lerp=(a,b,t)=>a+(b-a)*t;
+const sm=(a,b,x)=>{const t=clamp((x-a)/(b-a),0,1);return t*t*(3-2*t);};
+const f1=n=>Math.round(n*100)/100;
+const NS='http://www.w3.org/2000/svg';
+const TOTAL=7;
+const stepPos=(p,n)=>{const k=p*(n-1),i=Math.min(n-2,Math.floor(k)),f=k-i;return i+sm(.3,.7,f);};
+const pad2=n=>String(n).padStart(2,'0');
+
+function irisGeom(R,h,n,rot){
+  const L=Math.sqrt(Math.max(0,R*R-h*h));let seams='',hole='';
+  for(let k=0;k<n;k++){
+    const a=rot+2*Math.PI*k/n,vx=h*Math.cos(a),vy=h*Math.sin(a),dx=-Math.sin(a),dy=Math.cos(a);
+    seams+=`M${f1(vx)} ${f1(vy)}L${f1(vx+dx*L)} ${f1(vy+dy*L)}`;
+    hole+=(k?'L':'M')+f1(vx)+' '+f1(vy);
+  }
+  return{seams,hole:hole+'Z'};
+}
+const holeFor=(R,N)=>R*.66*Math.pow(1.8/N,.6);
+function dim(x1,y1,x2,y2,s=4){
+  const dx=x2-x1,dy=y2-y1,l=Math.hypot(dx,dy)||1,ux=dx/l,uy=dy/l,nx=-uy,ny=ux;
+  const ah=(x,y,d)=>`M${f1(x)} ${f1(y)}L${f1(x+d*ux*s*1.8+nx*s*.5)} ${f1(y+d*uy*s*1.8+ny*s*.5)}L${f1(x+d*ux*s*1.8-nx*s*.5)} ${f1(y+d*uy*s*1.8-ny*s*.5)}Z`;
+  return `<path class="dl" d="M${f1(x1)} ${f1(y1)}L${f1(x2)} ${f1(y2)}"/><path class="af" d="${ah(x1,y1,1)}${ah(x2,y2,-1)}"/>`;
+}
+
+/* shared symbols and filters */
+document.body.insertAdjacentHTML('beforeend',`<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <filter id="grainB" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".95" numOctaves="2" seed="7" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  3 0 0 0 -1.35"/></filter>
+  <filter id="mbA" x="-40%" y="-10%" width="180%" height="120%"><feGaussianBlur stdDeviation="6 0"/></filter>
+  <filter id="mbB" x="-40%" y="-10%" width="180%" height="120%"><feGaussianBlur stdDeviation="3.4 0"/></filter>
+  <filter id="mbC" x="-40%" y="-10%" width="180%" height="120%"><feGaussianBlur stdDeviation="1.2 0"/></filter>
+  <symbol id="gl" viewBox="0 0 100 120"><g stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" style="stroke:var(--ink)">
+    <path d="M14 120 C18 108 30 103 46 103 L64 103 C78 105 90 111 96 120 Z" style="fill:var(--mid)"/>
+    <path d="M60 24 C70 26 72 38 70 46 L77 58 C77 60 75 61 71 61 C73 64 73 66 71 67 C73 69 72 71 70 72 C71 75 70 79 66 82 L64 85 L63 104 L35 104 L37 70 Z" style="fill:var(--hi)"/>
+    <path d="M61 21 C40 5 11 21 15 58 C17 78 11 96 20 111 C27 117 35 113 37 103 C33 91 35 76 43 62 C51 50 62 45 68 41 C71 35 67 27 61 21 Z" style="fill:var(--lo)"/>
+    <path d="M33 38 C25 56 27 78 23 98 M44 30 C34 40 31 54 33 70 M52 26 C44 30 38 36 36 44" fill="none" stroke-width="1" style="stroke:var(--ink-soft)"/>
+    <path d="M63 40 q5 -3 10 -1 M65 46 q3 2 6 0 M68.5 63.5 L73 64 M70 70 L72.5 68" fill="none"/>
+  </g></symbol>
+  <symbol id="carl" viewBox="0 0 120 50"><g stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" style="stroke:var(--ink)">
+    <path d="M5 37 L5 31 C5 27 9 25 15 24 L33 11 C37 7 43 6 51 6 L78 6 C86 6 90 9 94 13 L100 23 C110 24 116 27 116 32 L116 37 Z" style="fill:var(--mid)"/>
+    <path d="M38 13 L50 9 L66 9 L66 23 L31 23 Z M70 9 L79 9 C83 9 85 11 88 15 L91 23 L70 23 Z" style="fill:var(--lo)"/>
+    <path d="M44 14 L40 22 M55 10 L50 22 M75 10 L72 22" fill="none" stroke-width=".8" style="stroke:var(--ink-soft)"/>
+    <circle cx="30" cy="38" r="9" style="fill:var(--paper)"/><circle cx="30" cy="38" r="3.5"/>
+    <circle cx="94" cy="38" r="9" style="fill:var(--paper)"/><circle cx="94" cy="38" r="3.5"/>
+  </g></symbol></defs></svg><div id="sheets"></div>`);
+const SHEETS=$('#sheets');
+
+/* ---------- sheet shell ---------- */
+function sheet(o){
+  const tr=document.createElement('section');tr.className='track';tr.id=o.id;tr.style.height=o.len;
+  tr.innerHTML=`<div class="stage">
+    <div class="frame" aria-hidden="true"></div>
+    <div class="tb" aria-hidden="true"><div><small>SUBJECT:</small><b>${o.subject}</b><span>${o.sub}</span></div><div><small>SCALE:</small><small>SHEET</small><span>${o.scale}</span><span>${pad2(o.no)} / ${pad2(TOTAL)}</span></div></div>
+    <div class="fig"></div>
+    <div class="draw"><div class="views" style="--nv:${o.views.length}">${o.views.map(v=>`<div class="view"><h4>${v}</h4><svg viewBox="${o.vb||'0 0 360 240'}" preserveAspectRatio="xMidYMid meet"></svg></div>`).join('')}</div></div>
+    <footer class="sheet"><div class="bar" style="grid-template-columns:repeat(${o.n},1fr)" aria-hidden="true">${'<i><b></b></i>'.repeat(o.n)}</div>
+      <div class="deck"><div class="panels"><div class="panel show"><div class="num"><b></b><span>/ ${pad2(o.n)}</span></div><h2></h2><p class="spec"></p></div></div>
+      <aside class="kd"><h3>KEY DIMENSIONS</h3><dl>${o.kd.map(k=>`<dt>${k}</dt><dd>--</dd>`).join('')}</dl></aside></div></footer>
+  </div>`;
+  SHEETS.appendChild(tr);
+  const S={o,tr,stage:$('.stage',tr),svgs:[...tr.querySelectorAll('.view svg')],draw:$('.draw',tr),
+    num:$('.num b',tr),h2:$('h2',tr),spec:$('.spec',tr),fig:$('.fig',tr),kd:[...tr.querySelectorAll('.kd dd')],bars:[...tr.querySelectorAll('.bar b')],
+    idx:-1,upd:()=>{}};
+  S.hud=(idx,d)=>{
+    if(idx!==S.idx){S.idx=idx;S.num.textContent=pad2(idx+1);S.h2.textContent=d.title;S.spec.textContent=d.spec;
+      S.fig.textContent=`[ FIG.${pad2(o.no)} STEP ${pad2(idx+1)}/${pad2(o.n)} ]`;S.bars.forEach((b,i)=>{b.style.transform=i<=idx?'scaleX(1)':'scaleX(0)';});}
+    if(d.kd)d.kd.forEach((v,i)=>{if(S.kd[i].textContent!==v)S.kd[i].textContent=v;});
+  };
+  S.layout=()=>{
+    const tb=$('.tb',tr),sh=$('.sheet',tr),m=innerWidth>=900;
+    S.draw.style.setProperty('--dt',(tb.offsetHeight+(m?30:22)+14)+'px');
+    S.draw.style.setProperty('--db',(sh.offsetHeight+(m?32:22)+14)+'px');
+  };
+  return S;
+}
+const list=[];
+const reg=S=>{list.push(S);return S;};
+
+/* ---------- 02 how to take a picture ---------- */
+(()=>{
+  const CAM=window.CAM;
+  const S=reg(sheet({id:'howto',subject:'HOW TO',sub:'TAKE A PICTURE',scale:'1:2',no:2,n:4,len:'520vh',views:['CAMERA_001 (ISOMETRIC VIEW)'],vb:'0 0 360 480',kd:['STEP','CONTROL','WHERE']}));
+  const svg=S.svgs[0];
+  let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  CAM.order.forEach(p=>{x0=Math.min(x0,p.x0);x1=Math.max(x1,p.x1);y0=Math.min(y0,p.y0);y1=Math.max(y1,p.y1);});
+  const vb={x:x0-26,y:y0-56,w:x1-x0+52,h:y1-y0+112};
+  svg.setAttribute('viewBox',`${f1(vb.x)} ${f1(vb.y)} ${f1(vb.w)} ${f1(vb.h)}`);
+  const g=document.createElementNS(NS,'g');g.setAttribute('class','cam3d');
+  CAM.world.querySelectorAll(':scope>g.part').forEach(n=>{const c=n.cloneNode(true);c.removeAttribute('transform');c.style.removeProperty('opacity');c.classList.remove('on');g.appendChild(c);});
+  const lg=document.createElementNS(NS,'g');lg.setAttribute('class','lbl');
+  svg.append(g,lg);
+  const STEPS=[
+    {title:'SET THE MODE',spec:'Turn the mode dial on top to A, aperture priority. You choose the aperture, the camera chooses the shutter speed.',on:['dials'],lab:[['MODE DIAL',[20,88,70],'t']],xray:false,kd:['01 / 04','MODE DIAL','TOP']},
+    {title:'FRAME AND FOCUS',spec:'Look through the viewfinder. Turn the focus ring until your subject is crisp, or half-press the shutter button on the grip.',on:['viewfinder','focus'],lab:[['VIEWFINDER',[20,38,84],'t'],['FOCUS RING',[104,57,10.5],'b']],xray:false,kd:['02 / 04','FOCUS RING','LENS']},
+    {title:'SET THE LIGHT',spec:'Three controls decide how bright the picture is: aperture, shutter and ISO. The next sheets explain each one.',on:['aperture','shutter','sensor'],lab:[['APERTURE BLADES',[98,72,45.5],'b'],['SHUTTER',[31,40,54],'t'],['IMAGE SENSOR',[19,52,46],'t']],xray:true,kd:['03 / 04','3 CONTROLS','INSIDE']},
+    {title:'TAKE THE PICTURE',spec:'Press the shutter button on the grip. The mirror flips up, the shutter opens, the sensor records, and the card saves the file.',on:['grip','mirror','door'],lab:[['SHUTTER BUTTON',[52,118,68],'t'],['MIRROR BOX',[72,57,61.5],'t'],['CARD SLOT',[23,102,26],'b']],xray:false,kd:['04 / 04','SHUTTER BUTTON','GRIP']}
+  ];
+  let ids=-1;
+  const fit=()=>{const r=svg.getBoundingClientRect();if(!r.width)return;const sc=Math.min(r.width/vb.w,r.height/vb.h);
+    lg.style.setProperty('--fs',(9.5/sc).toFixed(3)+'px');};
+  S.fit=fit;
+  S.upd=(p)=>{
+    const pos=stepPos(p,STEPS.length),idx=Math.round(pos),st=STEPS[idx];
+    if(idx!==ids){ids=idx;
+      g.classList.add('dim');
+      g.querySelectorAll('.part').forEach(n=>n.classList.toggle('on',st.on.includes(n.dataset.id)));
+      S.stage.classList.toggle('xray',st.xray);
+      let top=0,bot=0,html='';
+      st.lab.forEach(([t,a,side])=>{
+        const q=CAM.pr(...a);const ty=side==='t'?y0-28-(top++)*14:y1+34+(bot++)*14;
+        const tx=clamp(q[0],vb.x+50,vb.x+vb.w-50);
+        html+=`<path d="M${f1(q[0])} ${f1(q[1])}L${f1(q[0])} ${f1(ty+(side==='t'?4:-10))}L${f1(tx)} ${f1(ty+(side==='t'?4:-10))}"/><circle cx="${f1(q[0])}" cy="${f1(q[1])}" r="${f1(1.8)}"/><text x="${f1(tx)}" y="${f1(ty)}" text-anchor="middle">${t}</text>`;
+      });
+      lg.innerHTML=html;
+    }
+    S.hud(idx,st);
+  };
+  fit();
+})();
+
+/* ---------- 03 path of light ---------- */
+(()=>{
+  const S=reg(sheet({id:'light',subject:'PATH OF LIGHT',sub:'OPTICAL STUDY',scale:'1:1',no:3,n:5,len:'480vh',views:['LIGHT PATH (SIDE VIEW)'],kd:['STAGE','ELEMENT','ROLE']}));
+  const svg=S.svgs[0];
+  const A=[20,120,205,285,370];
+  const STEPS=[
+    {title:'SUBJECT AND SOURCE',spec:'Everything starts with light. Sunlight, a lamp or a flash bounces off your subject and heads toward the camera.',kd:['1 / 5','SUBJECT','SOURCE']},
+    {title:'LENS',spec:'The lens gathers that light and bends it back to a point. Our 50 mm lens does it with seven elements in six groups.',kd:['2 / 5','LENS','FOCUS']},
+    {title:'APERTURE',spec:'The blades open or close to decide how much light gets through. That setting is the f-number.',kd:['3 / 5','APERTURE','AMOUNT']},
+    {title:'SHUTTER',spec:'The curtains open for a set time. A short time freezes motion, a long time lets it blur.',kd:['4 / 5','SHUTTER','TIME']},
+    {title:'SENSOR',spec:'The sensor turns light into data. ISO decides how strongly that signal is amplified.',kd:['5 / 5','SENSOR','RECORD']}
+  ];
+  const NAMES=['SUBJECT','LENS','APERTURE','SHUTTER','SENSOR'];
+  let horiz=true,clip,ics,built=false;
+  function build(){
+    const r=svg.getBoundingClientRect();horiz=r.width>r.height*1.1;
+    svg.setAttribute('viewBox',horiz?'0 0 460 220':'0 0 220 460');
+    const T=(a,c)=>horiz?[a+30,c+110]:[c+110,a+30];
+    const Mv=p=>'M'+T(...p).map(f1).join(' ');
+    const L=(pts,close)=>'M'+pts.map(p=>T(...p).map(f1).join(' ')).join('L')+(close?'Z':'');
+    const Cc=(a,b,c)=>'C'+[a,b,c].map(p=>T(...p).map(f1).join(' ')).join(' ');
+    const c0=T(A[0],0),ci=T(A[2],0);
+    let rays='';for(let k=0;k<8;k++){const a=k*Math.PI/4;rays+=`M${f1(c0[0]+13*Math.cos(a))} ${f1(c0[1]+13*Math.sin(a))}L${f1(c0[0]+20*Math.cos(a))} ${f1(c0[1]+20*Math.sin(a))}`;}
+    const ig=irisGeom(28,12,9,.35);
+    let slats='',pix='';for(let c=-26;c<=26;c+=8)slats+=L([[278,c],[292,c]]);
+    for(let c=-24;c<=24;c+=8)pix+=L([[364,c],[376,c]]);
+    const lab=NAMES.map((n,i)=>{const q=T(A[i],horiz?56:0);return horiz?`<text class="m s" x="${f1(q[0])}" y="${f1(q[1]+8)}">${n}</text>`:`<text class="s" x="${f1(T(A[i],48)[0])}" y="${f1(T(A[i],48)[1]+3)}">${n}</text>`;}).join('');
+    const dq1=T(120,-58),dq2=T(370,-58),dm=T(245,-58);
+    svg.innerHTML=`<defs><clipPath id="lbclip"><path id="lbc" d=""/></clipPath></defs>
+      <g clip-path="url(#lbclip)">
+        <path d="${L([[28,0],[118,30],[370,0],[118,-30]],1)}" style="fill:rgba(217,230,255,.13);stroke:none"/>
+        <path class="soft dash thin" d="${L([[28,0],[118,30],[370,0]])}${L([[28,0],[118,-30],[370,0]])}"/>
+        <path class="soft dd thin" d="${L([[10,0],[392,0]])}"/>
+      </g>
+      <g class="ic" data-i="0"><circle cx="${f1(c0[0])}" cy="${f1(c0[1])}" r="9" class="fm"/><path d="${rays}"/></g>
+      <g class="ic" data-i="1"><path d="${L([[100,-38],[140,-38],[140,38],[100,38]],1)}" class="fm"/><path d="${Mv([120,-30])}${Cc([100,-14],[100,14],[120,30])}${Cc([140,14],[140,-14],[120,-30])}Z" class="fh"/></g>
+      <g class="ic" data-i="2"><g transform="translate(${f1(ci[0])} ${f1(ci[1])})"><circle r="28" class="fm"/><path d="${ig.seams}" class="soft"/><path d="${ig.hole}" class="fl"/></g></g>
+      <g class="ic" data-i="3"><path d="${L([[278,-34],[292,-34],[292,34],[278,34]],1)}" class="fm"/><path d="${slats}" class="soft thin"/></g>
+      <g class="ic" data-i="4"><path d="${L([[364,-30],[376,-30],[376,30],[364,30]],1)}" class="fm"/><path d="${pix}" class="soft thin"/><circle cx="${f1(T(370,0)[0])}" cy="${f1(T(370,0)[1])}" r="2.6" class="af"/></g>
+      <path d="${L([[120,-42],[120,-62]])}${L([[370,-42],[370,-62]])}" class="dl soft"/>
+      ${dim(dq1[0],dq1[1],dq2[0],dq2[1])}
+      <text class="m b" x="${f1(horiz?dm[0]:dm[0]+18)}" y="${f1(horiz?dm[1]-8:dm[1])}" ${horiz?'':'text-anchor="start" style="text-anchor:start"'}>50.0</text>
+      <text class="m s" x="${f1(horiz?dm[0]:dm[0]+18)}" y="${f1(horiz?dm[1]+14:dm[1]+12)}" ${horiz?'':'style="text-anchor:start"'}>(FOCAL LENGTH)</text>
+      ${lab}`;
+    clip=svg.querySelector('#lbc');ics=[...svg.querySelectorAll('.ic')];
+    S.T=T;S.L=L;built=true;S.last=-1;
+  }
+  S.build=build;
+  S.upd=(p)=>{
+    if(!built)build();
+    const pos=stepPos(p,5),idx=Math.round(pos);
+    const i0=Math.min(3,Math.floor(pos)),aR=lerp(A[i0],A[i0+1],pos-i0)+(pos<.01?12:16);
+    clip.setAttribute('d',S.L([[-40,-100],[aR,-100],[aR,100],[-40,100]],1));
+    ics.forEach((g,i)=>g.classList.toggle('on',i===idx));
+    S.hud(idx,STEPS[idx]);
+  };
+  S.resizeHook=()=>{built=false;};
+})();
+
+/* ---------- 04 aperture ---------- */
+(()=>{
+  const FS=[1.8,2.8,4,5.6,8,11,16,22],ST=FS.map(n=>2*Math.log2(n/1.8));
+  const TXT=[
+    'Wide open. The most light, and the background melts away. Focus has to be exact.',
+    'Still shallow. A sharp subject over a creamy background.',
+    'A safe all-rounder for portraits and street photos.',
+    'More of the scene comes into focus. Good for a group.',
+    'The sweet spot for sharpness on most lenses.',
+    'Deep focus from near to far. It needs more light or a slower shutter.',
+    'Very deep focus. Light bends around the blades and softens fine detail.',
+    'Maximum depth, minimum light. Tripod territory.'
+  ];
+  const S=reg(sheet({id:'aperture',subject:'APERTURE',sub:'DIAPHRAGM STUDY',scale:'1:1',no:4,n:8,len:'700vh',views:['APERTURE BLADES (FRONT VIEW)','DEPTH OF FIELD (SCENE)'],kd:['F-NUMBER','OPENING','LIGHT','DEPTH']}));
+  const [a,b]=S.svgs;
+  let lad='';
+  FS.forEach((n,i)=>{const x=40+i*40,g=irisGeom(13,holeFor(13,n),9,.35);
+    lad+=`<g transform="translate(${x} 200)"><circle r="13" class="fm soft"/><path d="${g.seams}" class="soft thin"/><path d="${g.hole}" class="fl thin"/></g><text class="m s" x="${x}" y="226">${n}</text>`;});
+  a.innerHTML=`<g transform="translate(112 98)"><circle r="68" class="fm"/><path id="apS" class="soft"/><path id="apH" class="fl"/><circle r="68"/></g>
+    <g id="apD"></g>
+    <path d="M180 56H350M180 72H350" class="soft thin dash"/>
+    <text class="s" x="184" y="52">F = FOCAL / OPENING</text>
+    <text class="b" x="184" y="92" id="apEq">50.0 / 27.8 = f/1.8</text>
+    <text class="s" x="184" y="118">FOCAL LENGTH 50.0 MM</text>
+    <text class="s" x="184" y="134">9 BLADES</text>
+    <path d="M14 178H346" class="soft thin"/>${lad}
+    <rect id="apSel" class="sel" x="24" y="182" width="32" height="52"/>`;
+  let bk='';(()=>{let s=5;const r=()=>{s=(s*16807)%2147483647;return s/2147483647;};
+    for(let i=0;i<24;i++)bk+=`<circle cx="${f1(r()*360)}" cy="${f1(r()*200)}" r="${f1(8+r()*18)}" opacity="${f1(.35+r()*.5)}" class="fh"/>`;})();
+  b.innerHTML=`<g id="apBk" style="filter:blur(10px)">${bk}</g>
+    <use href="#gl" x="196" y="22" width="150" height="180"/>
+    <rect id="apDk" x="0" y="0" width="360" height="240" style="fill:var(--paper);stroke:none" opacity="0"/>
+    <text class="s" x="14" y="218">DEPTH OF FIELD</text><rect x="14" y="224" width="150" height="6" class="soft thin"/><rect id="apDof" x="14" y="224" height="6" width="30" style="fill:var(--ink-strong);stroke:none"/>
+    <text class="s" x="196" y="218">LIGHT IN</text><rect x="196" y="224" width="150" height="6" class="soft thin"/><rect id="apLt" x="196" y="224" height="6" width="150" style="fill:var(--ink-strong);stroke:none"/>`;
+  const q=s=>S.tr.querySelector(s);
+  const apS=q('#apS'),apH=q('#apH'),apD=q('#apD'),apEq=q('#apEq'),apSel=q('#apSel'),apBk=q('#apBk'),apDk=q('#apDk'),apDof=q('#apDof'),apLt=q('#apLt');
+  S.upd=(p)=>{
+    const n=FS.length,pos=stepPos(p,n),i0=Math.min(n-2,Math.floor(pos)),fr=pos-i0,idx=Math.round(pos);
+    const st=lerp(ST[i0],ST[i0+1],fr),t=st/ST[n-1],N=1.8*Math.pow(2,st/2),h=holeFor(68,N),mm=50/N;
+    const g=irisGeom(68,h,9,.35);apS.setAttribute('d',g.seams);apH.setAttribute('d',g.hole);
+    apD.innerHTML=`<g transform="translate(112 98)">${dim(-h*.92,0,h*.92,0)}</g>`;
+    apEq.textContent=`50.0 / ${mm.toFixed(1)} = f/${FS[idx]}`;
+    apSel.setAttribute('x',f1(24+idx*40));
+    apBk.style.filter=`blur(${f1(10*Math.pow(1-t,1.4)+.3)}px)`;
+    apDk.setAttribute('opacity',f1(t*.5));
+    apDof.setAttribute('width',f1(150*(.1+.9*t)));apLt.setAttribute('width',f1(150*(1-t*.96)));
+    const dw=t<.2?'VERY SHALLOW':t<.45?'SHALLOW':t<.75?'DEEP':'VERY DEEP';
+    S.hud(idx,{title:'f/'+FS[idx],spec:TXT[idx],kd:['f/'+FS[idx],mm.toFixed(1)+' mm',(st<.05?'0.0':'-'+st.toFixed(1))+' EV',dw]});
+  };
+})();
+
+/* ---------- 05 shutter ---------- */
+(()=>{
+  const LN=[
+    {t:'1/10 s',s:.1,tr:150,mb:'mbA',x:150,spec:'A long exposure. Anything that moves smears into streaks. Use a tripod for still scenes, or pan with the car on purpose.',mv:'2.00 m',ev:'+3.3 EV',hh:'TRIPOD'},
+    {t:'1/30 s',s:1/30,tr:105,mb:'mbB',x:168,spec:'Handheld works for a steady subject, but a moving car is a heavy blur.',mv:'0.67 m',ev:'+1.7 EV',hh:'RISKY'},
+    {t:'1/100 s',s:.01,tr:62,mb:'mbC',x:190,spec:'A good everyday speed. Walkers freeze, a fast car keeps a little blur.',mv:'0.20 m',ev:'0.0 EV',hh:'OK'},
+    {t:'1/4000 s',s:1/4000,tr:0,mb:null,x:226,spec:'Frozen. Wheels, droplets and wings stand still. It needs a lot of light or a higher ISO.',mv:'5 mm',ev:'-5.3 EV',hh:'OK'}
+  ];
+  const S=reg(sheet({id:'shutter',subject:'SHUTTER',sub:'EXPOSURE TIME STUDY',scale:'1:1',no:5,n:4,len:'520vh',views:['SHUTTER CURTAINS (SENSOR PLANE)','MOTION OF A CAR AT 20 M/S'],kd:['SPEED','CAR MOVES','LIGHT','HANDHELD']}));
+  const [a,b]=S.svgs;
+  const X=t=>24+(Math.log10(t)+3.6)/2.6*312;
+  let hatch='';for(let i=0;i<9;i++)hatch+=`M${22+i*9} 52L${14+i*9+46} 98`;
+  a.innerHTML=`<g>
+    <rect x="24" y="34" width="90" height="72" class="fm"/><path d="M30 46H108V94H30Z" class="fl"/><path d="${hatch}" class="soft thin" style="clip-path:inset(0)"/>
+    <rect x="135" y="34" width="90" height="72" class="fm"/><circle cx="180" cy="70" r="20" class="fl"/><path d="M180 56V70L190 76" class="strong"/>
+    <rect x="246" y="34" width="90" height="72" class="fm"/><path d="M252 46H330V94H252Z" class="fl"/>
+    <path d="M118 70H131M122 66L131 70L122 74M229 70H242M233 66L242 70L233 74" class="soft thin"/>
+    <text class="m s" x="69" y="124">CLOSED</text><text class="m" x="180" y="124" id="shOp">OPEN 1/10 S</text><text class="m s" x="291" y="124">CLOSED</text>
+    <path d="M24 170H336" class="dl"/><path d="M24 164V176M336 164V176" class="dl"/>
+    <path id="shBar" d="M24 170H336" style="stroke:var(--ink-strong);stroke-width:4"/>
+    <path id="shMk" d="" class="af" style="fill:var(--ink-strong)"/>
+    <text class="m s" x="${f1(X(1/4000))}" y="194">1/4000</text><text class="m s" x="${f1(X(.01))}" y="194">1/100</text><text class="m s" x="${f1(X(1/30))}" y="194">1/30</text><text class="m s" x="${f1(X(.1))}" y="194">1/10</text>
+    <text class="m s" x="180" y="226">EACH STEP DOUBLES OR HALVES THE LIGHT</text></g>`;
+  let lanes='';
+  LN.forEach((L,i)=>{
+    let tr='';if(L.tr)for(let k=0;k<5;k++){const len=L.tr*(.55+.09*k+((k*37)%5)*.02);tr+=`<path d="M${f1(L.x+6-len)} ${f1(70+k*5.6)}H${f1(L.x+6)}" class="soft thin" opacity="${f1(.4+k*.1)}"/>`;}
+    lanes+=`<g class="lane" data-i="${i}" transform="translate(0 ${i*58})"><text class="s" x="12" y="${i?50:50}" style="transform:translateY(-34px)">${L.t.toUpperCase()}</text>
+      <g ${L.mb?`filter="url(#${L.mb})"`:''} transform="translate(0 -30)">${tr}<use href="#carl" x="${L.x}" y="68" width="90" height="37.5"/></g></g>`;
+  });
+  b.innerHTML=lanes;
+  const laneEls=[...b.querySelectorAll('.lane')],shOp=a.querySelector('#shOp'),shBar=a.querySelector('#shBar'),shMk=a.querySelector('#shMk');
+  S.upd=(p)=>{
+    const idx=clamp(Math.floor(p*LN.length*.999),0,LN.length-1),L=LN[idx];
+    laneEls.forEach((e,i)=>e.classList.toggle('off',i!==idx));
+    const x=X(L.s);shBar.setAttribute('d',`M24 170H${f1(x)}`);shMk.setAttribute('d',`M${f1(x)} 160L${f1(x-5)} 150L${f1(x+5)} 150Z`);
+    shOp.textContent='OPEN '+L.t.toUpperCase();
+    S.hud(idx,{title:L.t.toUpperCase(),spec:L.spec,kd:[L.t,L.mv,L.ev,L.hh]});
+  };
+})();
+
+/* ---------- 06 iso ---------- */
+(()=>{
+  const V=[200,400,800,1600,3200],OP=[.32,.5,.7,.9,1],GR=[.05,.12,.22,.36,.55],EV=['0','+1','+2','+3','+4'];
+  const T=[
+    ['LOW ISO, LESS SENSITIVE','Clean, smooth detail, but the dim scene stays dark. Best when you have plenty of light.','LOW','DARK'],
+    ['STILL CLEAN','One stop brighter. Fine for a shaded street or a window-lit room.','LOW','DIM'],
+    ['A GOOD MIDDLE','Bright enough for most indoor scenes. Noise starts to show in flat areas.','MEDIUM','BALANCED'],
+    ['GETTING GRAINY','The scene is bright, but fine grain now crawls across the shadows.','HIGH','BRIGHT'],
+    ['HIGH ISO, MORE SENSITIVE','Brightest, and noisiest. Use it when the alternative is a blurry or missed shot.','VERY HIGH','VERY BRIGHT']
+  ];
+  const S=reg(sheet({id:'iso',subject:'ISO',sub:'SENSITIVITY STUDY',scale:'1:1',no:6,n:5,len:'520vh',views:['SENSITIVITY SCALE','SAME SCENE AT ISO'],kd:['ISO','GAIN','NOISE','IMAGE']}));
+  const [a,b]=S.svgs;
+  let fr='';
+  V.forEach((v,i)=>{const x=12+i*68;
+    fr+=`<g transform="translate(${x} 30)"><rect width="60" height="74" class="fl"/><g id="isoF${i}" style="opacity:${OP[i]}"><circle cx="18" cy="20" r="16" class="fh soft"/><use href="#gl" x="12" y="6" width="48" height="58"/></g><rect width="60" height="74" filter="url(#grainB)" style="fill:#fff;stroke:none" opacity="${GR[i]}"/><rect width="60" height="74"/></g><text class="m s" x="${x+30}" y="122">ISO ${v}</text>`;});
+  a.innerHTML=`${fr}<rect id="isoSel" class="sel" x="8" y="26" width="68" height="82"/>
+    <path d="M60 170H300" class="soft"/>
+    <circle cx="34" cy="170" r="7" class="fm"/><path d="M34 156V160M34 180V184M20 170H24M44 170H48M24 160L27 163M41 177L44 180M44 160L41 163M27 177L24 180" class="thin"/>
+    <path d="M326 164A8 8 0 1 1 318 162A6.5 6.5 0 0 0 326 170Z" class="fm"/>
+    <text class="s" x="14" y="200">LESS SENSITIVE</text><text class="s e" x="346" y="200">MORE SENSITIVE</text>
+    <text class="m s" x="180" y="226">EACH DOUBLING IS ONE STOP</text>`;
+  b.innerHTML=`<rect width="360" height="240" class="fl" style="stroke:none"/>
+    <g id="isoB"><circle cx="90" cy="86" r="56" class="fh soft"/><circle cx="48" cy="190" r="34" class="fh soft"/><use href="#gl" x="190" y="26" width="150" height="180"/></g>
+    <rect id="isoG" width="360" height="240" filter="url(#grainB)" style="fill:#fff;stroke:none" opacity=".05"/>
+    <text class="b" x="14" y="38" id="isoT" style="font-size:20px">ISO 200</text><text class="s" x="14" y="56" id="isoU">GAIN 0 EV</text>`;
+  const q=s=>S.tr.querySelector(s);
+  const sel=q('#isoSel'),B=q('#isoB'),G=q('#isoG'),T1=q('#isoT'),U=q('#isoU');
+  S.upd=(p)=>{
+    const n=V.length,pos=stepPos(p,n),i0=Math.min(n-2,Math.floor(pos)),fr=pos-i0,idx=Math.round(pos);
+    B.style.opacity=f1(lerp(OP[i0],OP[i0+1],fr));G.setAttribute('opacity',f1(lerp(GR[i0],GR[i0+1],fr)));
+    sel.setAttribute('x',f1(8+idx*68));T1.textContent='ISO '+V[idx];U.textContent='GAIN '+EV[idx]+' EV';
+    S.hud(idx,{title:T[idx][0],spec:T[idx][1],kd:[String(V[idx]),EV[idx]+' EV',T[idx][2],T[idx][3]]});
+  };
+})();
+
+/* ---------- 07 settings (static sheet) ---------- */
+(()=>{
+  const tr=document.createElement('section');tr.id='settings';
+  const icon={
+    sun:'<circle cx="48" cy="32" r="12" class="fm"/><path d="M48 8V16M48 48V56M24 32H32M64 32H72M31 15L37 21M59 43L65 49M65 15L59 21M37 43L31 49"/>',
+    car:'<use href="#carl" x="6" y="12" width="84" height="35"/>',
+    face:'<use href="#gl" x="28" y="2" width="42" height="52"/>',
+    moon:'<path d="M66 40A22 22 0 1 1 44 8A17 17 0 0 0 66 40Z" class="fm"/><path d="M70 14L72 18L76 20L72 22L70 26L68 22L64 20L68 18Z" class="af"/>'
+  };
+  const C=[
+    ['BRIGHT LANDSCAPE','sun','f/11','1/800','200','Deep focus from the flowers to the hills. Full daylight, so a fast speed keeps ISO low.'],
+    ['FAST CARS','car','f/5.6','1/3200','200','Frozen wheels and sharp edges. Needs plenty of sun.'],
+    ['CAFE PORTRAIT','face','f/1.8','1/60','800','Wide open for a melted background. Dim room, so ISO climbs.'],
+    ['NIGHT STREET','moon','f/1.8','1/30','3200','Everything wide open and sensitive. Rest your elbows on something steady.']
+  ];
+  tr.innerHTML=`<div class="stage st">
+    <div class="frame" aria-hidden="true"></div>
+    <div class="tb" aria-hidden="true"><div><small>SUBJECT:</small><b>FIRST SHOT</b><span>SETTINGS STUDY</span></div><div><small>SCALE:</small><small>SHEET</small><span>1:1</span><span>07 / 07</span></div></div>
+    <div class="fig">[ FIG.07 STARTING POINTS ]</div>
+    <div class="grid">
+      ${C.map(c=>`<div class="box"><h4>${c[0]} (SETTINGS)</h4><div class="in"><div class="scene"><svg viewBox="0 0 96 64" aria-hidden="true">${icon[c[1]]}</svg>
+        <dl><dt>APERTURE</dt><dd>${c[2]}</dd><dt>SHUTTER</dt><dd>${c[3]}</dd><dt>ISO</dt><dd>${c[4]}</dd></dl></div><p class="n">${c[5]}</p></div></div>`).join('')}
+      <div class="box wide"><h4>NOTES</h4><div class="in"><ul>
+        <li>Aperture sets how much light and how deep the focus runs.</li>
+        <li>Shutter sets how long the sensor is exposed and how motion looks.</li>
+        <li>ISO sets how strongly the signal is amplified, and how much grain you get.</li>
+        <li>Change one and the others must compensate. One stop is a doubling or a halving of light.</li>
+        <li>Settings are starting points for a correctly exposed frame. Adjust to taste.</li></ul></div></div>
+      <div class="box wide"><h4>KEY DIMENSIONS (EXPOSURE STEPS)</h4><div class="in"><dl>
+        <dt>APERTURE STOPS</dt><dd>1.8 / 2.8 / 4 / 5.6 / 8 / 11 / 16 / 22</dd>
+        <dt>SHUTTER STOPS</dt><dd>1/4000 / 1/1000 / 1/250 / 1/60 / 1/15</dd>
+        <dt>ISO STOPS</dt><dd>200 / 400 / 800 / 1600 / 3200</dd>
+        <dt>HANDHELD LIMIT (50 MM)</dt><dd>1/50 s</dd></dl></div></div>
+    </div>
+    <div class="foot"><span>CAMERA_001 is a fictional camera, drawn for a scrollytelling experiment.</span><button type="button" id="toTop">Replay the build</button></div>
+  </div>`;
+  SHEETS.appendChild(tr);
+  $('#toTop').addEventListener('click',()=>scrollTo({top:0,behavior:'auto'}));
+})();
+
+/* ---------- driver ---------- */
+const prog=t=>{const r=t.getBoundingClientRect();return clamp(-r.top/Math.max(1,r.height-innerHeight),0,1);};
+const vis=t=>{const r=t.getBoundingClientRect();return r.bottom>-50&&r.top<innerHeight+50;};
+let busy=0;
+function frame(){busy=0;list.forEach(S=>{if(vis(S.tr))S.upd(prog(S.tr));});}
+const kick=()=>{if(!busy)busy=requestAnimationFrame(frame);};
+function layout(){list.forEach(S=>{S.layout();if(S.fit)S.fit();if(S.resizeHook)S.resizeHook();});kick();}
+addEventListener('scroll',kick,{passive:true});addEventListener('resize',layout);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(layout);
+layout();list.forEach(S=>S.upd(0));
+})();
+
+</script>
+</body>
+</html>

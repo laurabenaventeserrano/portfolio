@@ -11,6 +11,7 @@ export const LINKS = {
   // Los prototipos del lab son apps independientes que ya viven en el dominio.
   postcard: 'https://laurabenavente.com/lab/postal/',
   arcana: 'https://laurabenavente.com/lab/arcana/',
+  camera: 'https://laurabenavente.com/lab/camera/',
   golosina: 'https://laurabenaventeserrano.github.io/Golosina/',
 };
 
@@ -55,7 +56,7 @@ export const EXPERIENCE = [
 
 /* Categorías del trabajo. Un caso puede estar en varias.
    Craft: los proyectos de src/content/craft.ts, que también salen en Selected work. */
-export const CATEGORIES = ['AI & Agents', 'B2B SaaS', 'Mobile & Connected', 'Craft'] as const;
+export const CATEGORIES = ['AI & Agents', 'B2B SaaS', 'Mobile & Connected', 'Design System & Craft'] as const;
 export type Category = (typeof CATEGORIES)[number];
 
 /* Los casos de Selected work. El orden es el de la portada. */
@@ -116,7 +117,7 @@ export const WORK: {
     num: p.card.eyebrow, eyebrow: p.card.eyebrow, title: p.card.title, to: craftPath(p.slug), text: p.card.description,
     headline: p.card.headline, cursor: p.card.cta,
     // El flujo va en las tags, como las de los casos
-    metric: '', metricLabel: '', tags: p.card.workflow, categories: ['Craft' as Category],
+    metric: '', metricLabel: '', tags: p.card.workflow, categories: ['Design System & Craft' as Category],
     video: p.card.video, img: p.card.poster, alt: '',
   }] : [])),
 ];
