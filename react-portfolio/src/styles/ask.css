@@ -33,7 +33,7 @@
 
 .ask__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 18px 20px; border-bottom: 1px solid var(--line); }
 .ask__title { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
-.ask__sub { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); line-height: 1.5; }
+.ask__sub { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); line-height: 1.5; }
 .ask__actions { display: flex; align-items: center; gap: 4px; }
 .ask__icon { min-width: 40px; min-height: 40px; padding: 0 10px; border: 0; border-radius: 999px; background: transparent; cursor: pointer; font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
 .ask__icon:hover { background: var(--soft); }

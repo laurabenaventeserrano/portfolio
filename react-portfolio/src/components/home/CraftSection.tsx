@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
-import { Kicker } from '../ui';
 import { CRAFT, craftPath, type CraftItem } from '../../content/craft';
 import { usePrefersReducedMotion } from '../../lib/hooks';
 import { lockScroll } from '../../motion/useSmoothScroll';
+import '../../styles/craft-grid.css';
 
 /*
-  CRAFT: rejilla editorial de vídeos e imágenes, casi sin texto. Los datos viven en src/content/craft.ts.
+  CRAFT: rejilla de dos columnas de vídeos e imágenes, sin texto. Los datos viven en src/content/craft.ts.
   · Vídeos: en bucle, sin sonido, solo mientras están en pantalla. Con movimiento reducido no arrancan solos:
     se ve el póster y el vídeo se reproduce en el visor, con controles.
   · Clic en una pieza: visor a pantalla completa (Esc o fuera para cerrar, ← → para pasar).
@@ -109,28 +109,21 @@ export default function CraftSection() {
       <div className="container stack gap-48">
         <div className="sec-head">
           <div className="sec-head__main">
-            <Kicker>Up close</Kicker>
             <h2 id="craft-title" className="h-xl">Craft</h2>
           </div>
-          <p className="mono-s muted">UI · Design systems · Interaction · Design engineering</p>
         </div>
 
-        <ul className="craft">
+        {/* Rejilla de dos columnas: cada pieza nueva de CRAFT ocupa el siguiente hueco (Laura, 26 Nov 2026) */}
+        <ul className="craft-grid">
           {CRAFT.map((item, i) => {
-            // Un proyecto lleva debajo su antetítulo y su título (textos aprobados, en la propia pieza). Una pieza suelta, sin pie.
+            // Solo la pieza: sin pies ni etiquetas (Laura, 26 Nov 2026). El nombre va en el aria-label.
             const inner = (
               <>
                 <span className="craft__media" style={{ aspectRatio: item.ratio ?? '16 / 9' }}><Thumb item={item} /></span>
-                {item.project && item.eyebrow && (
-                  <span className="craft__foot" aria-hidden="true">
-                    <span className="mono-s craft__cap">{item.eyebrow}</span>
-                    <span className="h-s">{item.title}</span>
-                  </span>
-                )}
               </>
             );
             return (
-              <li key={item.id} className={`craft__item craft__item--${item.size ?? 'half'}`}>
+              <li key={item.id} className="craft-grid__item">
                 {/* Proyecto: abre su página. Enlace externo: otra pestaña. Si no: el visor. */}
                 {item.project ? (
                   <Link to={craftPath(item.project)} className="craft__open" data-cursor="Take a closer look" aria-label={`${item.title}. ${item.alt}`}>

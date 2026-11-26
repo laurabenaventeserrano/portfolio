@@ -1,0 +1,9 @@
+/* CRAFT en la portada: rejilla compacta (CraftSection.tsx). Las piezas nuevas ocupan el siguiente hueco.
+   Todas las miniaturas a la misma proporción para que las filas queden alineadas.
+   3 columnas en escritorio, 2 en tableta y móvil grande, 1 en móvil pequeño. */
+.craft-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 1.6vw, 24px); }
+.craft-grid__item { min-width: 0; display: flex; flex-direction: column; }
+.craft-grid .craft__media { aspect-ratio: 16 / 9 !important; }
+.craft-grid .craft__media video, .craft-grid .craft__media img { width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 1100px) { .craft-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .craft-grid { grid-template-columns: minmax(0, 1fr); } }

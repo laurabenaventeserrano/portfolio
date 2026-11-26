@@ -79,6 +79,8 @@ export default function CursorLabel() {
       // o una capa decorativa encima no tapan la card ni el texto
       const stack = document.elementsFromPoint(e.clientX, e.clientY);
       let hit: HTMLElement | null = null, textEl: HTMLElement | null = null;
+      // Sobre la rueda de Having fun manda la mano del sistema (lab-wheel.css): el cursor propio se esconde
+      if (stack[0]?.closest('.lab-wheel__stage')) { if (cur !== null || ck) { cur = null; ck = ''; setLabel(null); setCaret(null); } setVis(false); return; }
       const onDark = !!stack[0]?.closest('.is-dark');
       if (onDark !== dark) { dark = onDark; rest.classList.toggle('is-inv', dark); }
       for (const n of stack) {

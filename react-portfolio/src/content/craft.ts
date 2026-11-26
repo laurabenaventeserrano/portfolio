@@ -58,6 +58,9 @@ export type CraftMedia = {
   ratio?: string;
   /** Pieza principal de la etapa: a todo el ancho */
   feature?: boolean;
+  /** `label` de uno de los `links` del proyecto: la pieza abre ese enlace (Figma, el producto) y su tag de cursor
+      dice el `cursor` del enlace. Si el enlace aún no tiene URL, la pieza abre el visor */
+  opens?: string;
 };
 
 /** Una etapa del proceso: número, título, herramientas, descripción, explicaciones opcionales y sus piezas, en orden */
@@ -96,7 +99,7 @@ export type CraftProject = {
   /** Vídeo del proceso completo, bajo la cabecera y antes de las etapas. Se pinta solo si existe en public/ */
   overview?: CraftMedia;
   steps: CraftStep[];
-  links: { label: string; href?: string }[];
+  links: { label: string; href?: string; /** Tag del cursor en las piezas que abren este enlace (por defecto, `label`) */ cursor?: string }[];
 };
 
 export const craftPath = (slug: string) => `/craft/${slug}`;
@@ -141,7 +144,7 @@ export const CRAFT_PROJECTS: CraftProject[] = [
         num: '01', title: 'AI prototyping', tools: 'Claude Code · React · shadcn/ui',
         description: 'I started by building a functional prototype with Claude Code, exploring the core interactions and user flows directly in React.',
         media: [
-          { src: '/video/ai-document-review-01-prototype.mp4', alt: '', feature: true },
+          { src: '/video/ai-document-review-01-prototype.mp4', opens: 'View live prototype', alt: '', feature: true },
         ],
       },
       {
@@ -149,29 +152,29 @@ export const CRAFT_PROJECTS: CraftProject[] = [
         description: 'I brought the prototype into Figma to refine the visual hierarchy, typography, spacing and interaction states. AI helped me move faster, but the final design decisions were mine.',
         media: [
           // El timelapse de Figma de Craft: se enlaza desde aquí, el archivo no se mueve
-          { src: '/craft/figma-timelapse.mp4', poster: '/craft/figma-timelapse.jpg', alt: 'Sped-up screen recording of a Figma file for an AI document review: design foundations, text styles, component variants and annotated UX flows being built, with the review panel showing six checks passed.', feature: true },
-          { src: '/video/ai-document-review-02-figma-refinement.mp4', alt: '', feature: true },
+          { src: '/craft/figma-timelapse.mp4', opens: 'Explore in Figma', poster: '/craft/figma-timelapse.jpg', alt: 'Sped-up screen recording of a Figma file for an AI document review: design foundations, text styles, component variants and annotated UX flows being built, with the review panel showing six checks passed.', feature: true },
+          { src: '/video/ai-document-review-02-figma-refinement.mp4', opens: 'Explore in Figma', ratio: '1280 / 698', alt: '', feature: true },
         ],
       },
       {
         num: '03', title: 'Design system & tokens', tools: 'Figma Variables · Design Tokens · Components',
         description: 'I created and organized Figma variables, design tokens and reusable components to establish a consistent visual language across the interface.',
         media: [
-          { src: '/video/ai-document-review-03-tokens.mp4', alt: '', feature: true },
+          { src: '/video/ai-document-review-03-tokens.mp4', opens: 'Explore in Figma', ratio: '1280 / 734', alt: '', feature: true },
         ],
       },
       {
         num: '04', title: 'Back to code', tools: 'VS Code · Claude Code · React',
         description: 'I brought the refined Figma designs back into VS Code, using Claude Code to update the React components and align the implementation with the final design.',
         media: [
-          { src: '/video/ai-document-review-04-back-to-code.mp4', alt: '', feature: true },
+          { src: '/video/ai-document-review-04-back-to-code.mp4', opens: 'View live prototype', ratio: '1280 / 628', alt: '', feature: true },
         ],
       },
     ],
     links: [
       { label: 'Explore in Figma', href: 'https://www.figma.com/design/0o6fZYZgcKvpZlkbjAJFNr/craft--AI-Document-Review-%E2%80%94-Design-System--Copy-?node-id=0-1&t=CHgiHTJI9L2IakrI-1' },
       // Falta la URL del prototipo en vivo: mientras esté vacía, el enlace no aparece
-      { label: 'View live prototype', href: '' },
+      { label: 'View live prototype', href: '', cursor: 'Open the product' },
     ],
   },
 ];
@@ -181,7 +184,9 @@ export const CRAFT: CraftItem[] = [
     id: 'ai-document-review',
     eyebrow: 'CRAFT / 001',
     title: 'AI Document Review',
-    project: 'ai-document-review',
+    // Abre el archivo de Figma (Laura, 26 Nov 2026). La página del proyecto sigue enlazada desde Selected work.
+    href: 'https://www.figma.com/design/0o6fZYZgcKvpZlkbjAJFNr/craft--AI-Document-Review-%E2%80%94-Design-System--Copy-?node-id=0-1&t=CHgiHTJI9L2IakrI-1',
+    cursor: 'Open in Figma',
     video: '/craft/figma-timelapse.mp4',
     image: '/craft/figma-timelapse.jpg',
     alt: 'Sped-up screen recording of a Figma file for an AI document review: design foundations, text styles, component variants and annotated UX flows being built, with the review panel showing six checks passed.',
@@ -191,9 +196,21 @@ export const CRAFT: CraftItem[] = [
     // Grabación del scroll de Blueprint Camera_001, sin texto añadido (26 Nov 2026). `alt` es texto nuevo, pendiente de Laura.
     id: 'blueprint-camera',
     title: 'Blueprint Camera',
+    href: 'https://laurabenavente.com/lab/camera/',
+    cursor: 'Play with prototype',
     video: '/craft/blueprint-camera-scroll.mp4',
     image: '/craft/blueprint-camera-scroll.jpg',
     alt: 'Screen recording of Blueprint Camera_001 scrolled from top to bottom: the sixteen parts of an isometric camera travel into place, then blueprint sheets explain how to take a picture, light, aperture, shutter and ISO.',
+    size: 'full',
+  },
+  {
+    // Timelapse de Figma de Tocadiscos (The Listening Room), desde el 00:12 y a 10x (26 Nov 2026). `alt` es texto nuevo, pendiente de Laura.
+    id: 'tocadiscos',
+    title: 'The Listening Room',
+    video: '/craft/tocadiscos-timelapse.mp4',
+    image: '/craft/tocadiscos-timelapse.jpg',
+    ratio: '1280 / 698',
+    alt: 'Sped-up screen recording of a Figma file for The Listening Room: a turntable drawn in plan, a shelf of record sleeves, and the play, stop and remove controls refined with Figma\'s AI agent.',
     size: 'full',
   },
 ];

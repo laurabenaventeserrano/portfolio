@@ -121,10 +121,17 @@ export function useHomeStory() {
       const statement = $('.statement');
       const text = $('.statement__text');
       if (statement && text) {
+        // El fondo pasa de blanco a negro. El texto no se anima: es negro mientras el fondo es claro y cambia
+        // a blanco de golpe en el punto en que el fondo cruza el gris medio (#777). Así nunca baja de 4,5:1
+        // (auditoría de accesibilidad, 26 Nov 2026). Antes el texto era blanco desde el principio: invisible al entrar.
+        const FLIP = (255 - 0x77) / (255 - 0x0e);
+        text.classList.add('is-ink');
         gsap.fromTo(statement, { backgroundColor: '#ffffff' }, {
           backgroundColor: '#0e0e0c', ease: 'none',
           scrollTrigger: { trigger: statement, start: 'top 90%', end: 'top 30%', scrub: true },
+          onUpdate(this: gsap.core.Tween) { text.classList.toggle('is-ink', this.progress() < FLIP); },
         });
+        cleanups.push(() => text.classList.remove('is-ink'));
         gsap.from(statement.querySelector('.statement__field'), {
           autoAlpha: 0, ease: 'none',
           scrollTrigger: { trigger: statement, start: 'top 50%', end: 'top 10%', scrub: true },

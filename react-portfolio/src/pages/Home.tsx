@@ -80,7 +80,7 @@ export default function Home() {
       </section>
 
       {/* EXPERIENCE */}
-      <section id="experience" className="section" aria-labelledby="experience-title">
+      <section id="experience" className="section section--dark is-dark" aria-labelledby="experience-title">
         <div className="container stack gap-48">
           <div className="sec-head">
             <div className="sec-head__main">
@@ -130,14 +130,17 @@ export default function Home() {
                     : <img src={w.img} alt={w.alt} loading="lazy" />}
                   {w.status && <span className="status tile__status">{w.status}</span>}
                 </div>
+                {/* Título y antetítulo arriba; texto debajo; las tags, siempre pegadas abajo a la misma distancia */}
                 <div className="tile__body">
-                  <div className="stack gap-16">
+                  <div className="tile__head">
                     <h3 className="tile__title">{w.title}</h3>
                     <span className="kicker" style={{ color: 'var(--muted-d)' }}>{w.eyebrow ?? `${w.num} · ${w.company}`}</span>
+                  </div>
+                  <div className="tile__text">
                     {w.headline && <p style={{ color: 'var(--body-d)', fontSize: 17 }}>{w.headline}</p>}
                     <p style={{ color: 'var(--body-d)', fontSize: 17 }}>{w.text}</p>
-                    {w.tags.length > 0 && <div className="is-dark"><Tags items={w.tags} /></div>}
                   </div>
+                  {w.tags.length > 0 && <div className="is-dark tile__tags"><Tags items={w.tags} /></div>}
                 </div>
               </Link>
             ))}

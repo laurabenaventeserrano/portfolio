@@ -1,6 +1,7 @@
 import type { MouseEvent } from 'react';
 import { Video } from '../ui';
 import { LINKS } from '../../content/site';
+import LabWheel from './LabWheel';
 
 /* Toda la tarjeta abre el prototipo (el cursor dice "Make a postcard", "Ask the cards"…).
    El enlace oculto sigue siendo el real, para teclado y lectores de pantalla. */
@@ -10,7 +11,7 @@ function openPass(e: MouseEvent<HTMLElement>) {
 }
 
 /* Los proyectos del lab. Para añadir uno, añade una entrada: la rejilla se ajusta sola
-   (todas las tarjetas tienen el mismo tamaño, tres por fila). */
+   (todas las tarjetas tienen el mismo tamaño; van en la rueda de LabWheel.tsx). */
 type Pass = { id: string; title: string; sub: string; stack?: string; video: string; poster: string; href?: string; cta?: string; cursor?: string; label: string };
 
 const PASSES: Pass[] = [
@@ -48,23 +49,27 @@ export default function LabSection() {
           <p className="lead">Small experiments. Working prototypes.</p>
           <a href={LINKS.instagram} className="text-link">@havingfunwithai_ ↗</a>
         </div>
-        <div className="lab-grid">
-          {PASSES.map((p) => (
-            <article key={p.id} className="pass" aria-labelledby={p.id} data-cursor={p.cursor ?? 'Play prototype'} onClick={p.href ? openPass : undefined}>
-              <Video src={p.video} poster={p.poster} label={p.label} />
-              <div className="pass__body">
-                <h3 id={p.id} className="pass__title">{p.title}</h3>
-                <span className="pass__sub">{p.sub}</span>
-                {p.stack && (
-                  <dl className="pass__rows">
-                    <div className="pass__row"><dt>Stack</dt><dd>{p.stack}</dd></div>
-                  </dl>
-                )}
-              </div>
-              {p.href && <a href={p.href} className="pass__link sr-only">{p.cta}</a>}
-            </article>
-          ))}
-        </div>
+        <LabWheel count={PASSES.length} label="Having fun with AI experiments">
+          {(i, wasDrag, copy) => {
+            const p = PASSES[i];
+            return (
+              <article className="pass" aria-labelledby={copy ? undefined : p.id} data-cursor={p.cursor ?? 'Play prototype'}
+                onClick={p.href ? (e) => { if (!wasDrag()) openPass(e); } : undefined}>
+                <Video src={p.video} poster={p.poster} label={p.label} />
+                <div className="pass__body">
+                  <h3 id={copy ? undefined : p.id} className="pass__title">{p.title}</h3>
+                  <span className="pass__sub">{p.sub}</span>
+                  {p.stack && (
+                    <dl className="pass__rows">
+                      <div className="pass__row"><dt>Stack</dt><dd>{p.stack}</dd></div>
+                    </dl>
+                  )}
+                </div>
+                {p.href && <a href={p.href} className="pass__link sr-only">{p.cta}</a>}
+              </article>
+            );
+          }}
+        </LabWheel>
       </div>
     </section>
   );

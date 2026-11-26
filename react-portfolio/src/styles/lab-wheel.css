@@ -1,0 +1,25 @@
+/* Having fun with AI: ruleta de tarjetas que gira sola y se arrastra (LabWheel.tsx). Ocupa todo el ancho de la ventana
+   para que las tarjetas de los lados entren y salgan por los bordes. */
+.lab-wheel { width: 100vw; margin-left: calc(50% - 50vw); }
+.lab-wheel__stage {
+  position: relative; overflow: hidden;
+  cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+  outline: none;
+}
+.lab-wheel__stage:active { cursor: grabbing; }
+/* Mano: gana al cursor propio del sitio (que quita el del sistema con !important) */
+.has-cursor-label .lab-wheel__stage, .has-cursor-label .lab-wheel__stage * { cursor: grab !important; }
+.has-cursor-label .lab-wheel__stage:active, .has-cursor-label .lab-wheel__stage:active * { cursor: grabbing !important; }
+/* Ruleta: cilindro visto de frente y sin perspectiva, para que todas las tarjetas tengan la misma altura
+   y queden alineadas arriba y abajo; al girar solo se estrechan */
+.lab-wheel__card { backface-visibility: hidden; }
+.lab-wheel__stage:focus-visible { outline: 2px solid var(--lb-cream-ink); outline-offset: -6px; }
+.lab-wheel__card { position: absolute; top: 32px; left: 50%; will-change: transform, opacity; }
+.lab-wheel__card .pass { width: 100%; height: 100%; max-width: none; padding: 16px; gap: 0; box-sizing: border-box; }
+.lab-wheel__card .pass .media { aspect-ratio: 1280 / 740; border: 1px solid var(--line); background: var(--lb-paper-inset); }
+.lab-wheel__card .pass .media video { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.lab-wheel__card .pass__rows { margin-top: 18px; }
+.lab-wheel__card .pass__row dt { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--lb-cream-meta); }
+.lab-wheel__card .pass__row dd { font-family: var(--display); font-size: 15px; font-weight: 500; line-height: 1.5; color: var(--lb-cream-ink); }
+.lab-wheel__card .pass__row:last-child { background-image: var(--prism); background-size: 100% 1px; background-position: top left; }
+.lab-wheel__card img { -webkit-user-drag: none; }
