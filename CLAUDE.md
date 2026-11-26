@@ -30,21 +30,22 @@ Nav: **Work · Craft · Playground · About · CV · Contact.** Home, Craft, Pla
 
 | Route | File | Content |
 |---|---|---|
-| `/` | `src/pages/Home.tsx` | Hero → ticker → How I work (From strategy to build, five cards) → Experience → Selected work (with category filter) → Craft → About → Lab statement → Playground → Contact |
+| `/` | `src/pages/Home.tsx` | Hero → ticker → Experience → Selected work (with category filter) → Craft → About → Lab statement → Playground → Contact |
 | `/work/cch-ifirm-cloud-migration` | `Case1.tsx` | CCH iFirm Cloud Migration · Wolters Kluwer |
 | `/work/ai-customer-communications` | `Case2.tsx` | AI-Powered Customer Communications · Wolters Kluwer / CCH iFirm |
 | `/work/ai-client-data-migration` | `Case3.tsx` | AI-Powered Client Data Migration · Adsolut Accounting |
 | `/work/ifirm-ai-contextual-assistant` | `Case4.tsx` | AI Contextual Assistant for CCH iFirm · Wolters Kluwer · **Concept** (Proposal 3 of Case 01, told as its own story) |
 | `/work/telefonica-multi-device` | `Case5.tsx` | Multi-device Product Design for Telefónica · frog / Telefónica |
+| `/craft/<slug>` | `CraftProject.tsx` | Craft project pages, from `CRAFT_PROJECTS` in `craft.ts`. First: `ai-document-review` (DESIGN ENGINEERING / 001): hero + four process steps (`steps`, each with its own `media` list) + links. Approved copy only. A media file renders only if it exists in `public/` (Vite plugin `publicMedia`); missing media and empty links don't render |
 
-**Categories (16 Nov 2026, Laura's request):** AI & Agents · B2B SaaS · Mobile & Connected · Craft (`CATEGORIES` and each case's `categories` in `site.ts`; a case can have several). Selected work has a filter (All + the three case categories); "Craft ↓" jumps to the Craft gallery, which holds no cases.
+**Categories (16 Nov 2026, Laura's request):** AI & Agents · B2B SaaS · Mobile & Connected · Craft (`CATEGORIES` and each case's `categories` in `site.ts`; a case can have several). Selected work has a filter (All + the four categories). A Craft project with a `card` (`CRAFT_PROJECTS` in `craft.ts`) appears in Selected work as an ordinary tile, identical to the case tiles (same markup, no button, no special size): eyebrow in place of "num · company", headline and description, the workflow steps as tags, no status. Its hover cursor tag reads "Explore the process". Its video is a dedicated homepage file (`public/video/ai-document-review-home-process.mp4`, not yet made); until it exists the tile shows the real Figma poster frame. The Figma timelapse video stays only in the Craft gallery.
 
 **Craft** (`#craft`, `src/components/home/CraftSection.tsx`): a data-driven editorial grid of videos and images, minimal text, click opens a full-screen viewer. Data in `src/content/craft.ts`, media in `public/craft/`. No filters, no case studies, no placeholder cards; if `CRAFT` is empty the section, its dot and its menu entry disappear. First piece: the Figma timelapse (web encode of `~/Desktop/AI documents-design process/portfolio-craft-camara-rapida.mp4`).
 
 Old URLs (`/story1-case-study` etc., with or without `.html`) redirect to the new cases, in `main.tsx` (`LEGACY_ROUTES`) and `public/_redirects`. Shared content (experience, work tiles, about rows, links) lives in `src/content/site.ts`.
 
 - **Not now:** a Notes section (planned later), a standalone Design Systems section (design systems stay transversal, shown through tags and case content).
-- **Home hero and "From strategy to build":** Laura restored both to their earlier form on 2 Oct 2026, after Portfolio 3.0 had replaced the hero and removed the section. Don't change them again without asking.
+- **Home hero:** Laura restored it to its earlier form on 2 Oct 2026. Don't change it again without asking. The "How I work / From strategy to build" section was removed from the home on 21 Nov 2026 at her request; its data (`STEPS` in `site.ts`) and images stay in the repo.
 - **Playground:** leave the current content as it is. Laura adds projects herself. A graphic archive may be built as a hidden component, shown only once there are 3–4 strong pieces. No placeholder artwork.
 
 ## Case studies
