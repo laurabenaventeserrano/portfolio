@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import files from 'virtual:public-media';
-import { CaseSection, Kicker } from '../components/ui';
+import { CaseSection } from '../components/ui';
 import { Thumb, Viewer, type CraftPiece } from '../components/home/CraftSection';
 import { CRAFT_PROJECTS, type CraftMedia, type CraftStep } from '../content/craft';
 import { useTitle } from '../lib/hooks';
@@ -15,8 +15,8 @@ import NotFound from './NotFound';
   y sus piezas. Las piezas son lo principal:
   · Solo se pinta una pieza si su archivo existe en public/ (lista del plugin publicMedia, vite.config.ts)
     y carga. Una etapa sin piezas enseña solo su texto: nunca un reproductor vacío.
-  · Ancho: el de `size` si lo tiene. Si no, la pieza `feature` va a todo el ancho en la etapa con más piezas
-    (la que más pesa) y a 2/3 en las demás, alternando lado. El resto se reparte según cuántas van juntas.
+  · Ancho: el de `size` si lo tiene. Si no, la pieza `feature` va a todo el ancho, como las figuras de los casos.
+    El resto se reparte según cuántas van juntas. El vídeo del proceso va en la cabecera, como la pieza de un caso.
   · En desarrollo (npm run dev), una pieza que falta deja su hueco con el nombre del archivo, para preparar los vídeos.
     En la web publicada no aparece: solo se pinta lo que existe.
   · Clic: visor a pantalla completa con controles (pausa, pantalla completa), ← → entre todas las piezas.
@@ -69,8 +69,6 @@ function Project({ slug }: { slug: string }) {
     ...(ov && ready(ov) && ovPiece ? [ovPiece] : []),
     ...steps.flatMap(({ step, media }) => media.filter(ready).map((m) => piece(m, step))),
   ];
-  // La etapa con más piezas lleva su pieza principal a todo el ancho
-  const lead = steps.reduce((best, s) => (s.media.length > best.media.length ? s : best), steps[0]);
   const links = project.links.filter((l) => isUrl(l.href));
 
   const close = useCallback(() => setOpen((i) => {
@@ -79,93 +77,90 @@ function Project({ slug }: { slug: string }) {
   }), [all]);
   const step = useCallback((d: number) => setOpen((i) => (i === null ? i : (i + d + all.length) % all.length)), [all.length]);
 
-  let side = 0;
   return (
     <article className="craft-project">
       <header className="case-hero" aria-labelledby="craft-project-title">
-        <div className="container stack gap-24">
-          <Kicker>{project.eyebrow}</Kicker>
+        <div className="container">
+          <p className="sig"><span>{project.eyebrow}</span><i className="sig__rule" aria-hidden="true" />{project.workflow && <span className="sig__status">{project.workflow}</span>}</p>
           <h1 id="craft-project-title" className="case-hero__title balance">{project.title}</h1>
           {project.subtitle && <p className="case-hero__hook">{project.subtitle}</p>}
           {project.intro && <p className="lead craft-project__intro">{project.intro}</p>}
-          {project.workflow && <p className="mono-s muted">{project.workflow}</p>}
+          {ov && ovPiece && (
+            <div className="case-hero__media">
+              {ready(ov) ? (
+                <button ref={(el) => { triggers.current.set(ov.src, el); }} type="button" className="craft__open" data-cursor="Take a closer look"
+                  onClick={() => setOpen(all.findIndex((a) => a.id === ov.src))}
+                  aria-label={`${ov.alt} Open larger view.`}>
+                  <span className="craft__media" style={{ aspectRatio: ov.ratio ?? '16 / 9' }}>
+                    <Thumb item={ovPiece} onError={() => setFailed((f) => new Set(f).add(ov.src))} />
+                  </span>
+                </button>
+              ) : (
+                <span className="craft__slot mono-s" style={{ aspectRatio: ov.ratio ?? '16 / 9' }}>public{ov.src}</span>
+              )}
+            </div>
+          )}
         </div>
       </header>
 
-      {ov && ovPiece && (
-        <section className="case-sec" aria-label={`${project.title}: the whole process`}>
-          <div className="container">
-            <ul className="craft">
-              <li className="craft__item craft__item--full">
-                {ready(ov) ? (
-                  <button ref={(el) => { triggers.current.set(ov.src, el); }} type="button" className="craft__open" data-cursor="Take a closer look"
-                    onClick={() => setOpen(all.findIndex((a) => a.id === ov.src))}
-                    aria-label={`${ov.alt} Open larger view.`}>
-                    <span className="craft__media" style={{ aspectRatio: ov.ratio ?? '16 / 9' }}>
-                      <Thumb item={ovPiece} onError={() => setFailed((f) => new Set(f).add(ov.src))} />
-                    </span>
-                  </button>
-                ) : (
-                  <span className="craft__slot mono-s" style={{ aspectRatio: ov.ratio ?? '16 / 9' }}>public{ov.src}</span>
-                )}
-              </li>
-            </ul>
-          </div>
-        </section>
-      )}
-
-      {steps.map(({ step: s, media }) => {
-        const isLead = media.length > 0 && lead === steps.find((x) => x.step === s);
-        const offset = !isLead && media.length > 0 && side++ % 2 === 1;
+      {steps.map(({ step: s, media }, i) => {
+        const last = i === steps.length - 1;
         return (
           <CaseSection key={s.num} num={s.num} label={s.title} meta={s.tools}>
-            <div className="stack gap-48">
               <div className="stack gap-16 craft-project__text">
                 <p className="lead">{s.description}</p>
                 {s.notes?.map((n) => <p key={n} className="body">{n}</p>)}
               </div>
               {media.length > 0 && (
-                <ul className={`craft${offset ? ' craft--offset' : ''}`}>
-                  {layout(media, isLead ? 'full' : 'wide').map(([m, size]) => {
+                <ul className="craft">
+                  {layout(media, 'full').map(([m, size]) => {
                     const p = piece(m, s);
                     if (!ready(m)) return (
                       <li key={m.src} className={`craft__item craft__item--${size}`}>
                         <span className="craft__slot mono-s" style={{ aspectRatio: m.ratio ?? '16 / 9' }}>public{m.src}</span>
                       </li>
                     );
+                    const inner = (
+                      <>
+                        <span className="craft__media" style={{ aspectRatio: m.ratio ?? '16 / 9' }}>
+                          <Thumb item={p} onError={() => setFailed((f) => new Set(f).add(m.src))} />
+                        </span>
+                        {m.caption && <span className="craft__cap mono-s" aria-hidden="true">{m.caption}</span>}
+                      </>
+                    );
+                    // Pieza con destino (Figma, el producto): abre el enlace en otra pestaña. Sin URL todavía, el visor.
+                    const target = m.opens && links.find((l) => l.label === m.opens);
                     return (
                       <li key={m.src} className={`craft__item craft__item--${size}`}>
-                        <button ref={(el) => { triggers.current.set(m.src, el); }} type="button" className="craft__open" data-cursor="Take a closer look"
-                          onClick={() => setOpen(all.findIndex((a) => a.id === m.src))}
-                          aria-label={`${m.alt || s.title} Open larger view.`}>
-                          <span className="craft__media" style={{ aspectRatio: m.ratio ?? '16 / 9' }}>
-                            <Thumb item={p} onError={() => setFailed((f) => new Set(f).add(m.src))} />
-                          </span>
-                          {m.caption && <span className="craft__cap mono-s" aria-hidden="true">{m.caption}</span>}
-                        </button>
+                        {target ? (
+                          <a href={target.href} target="_blank" rel="noopener noreferrer" className="craft__open" data-cursor={target.cursor ?? target.label}
+                            aria-label={`${m.alt || s.title} ${target.label} (opens in a new tab).`}>
+                            {inner}
+                          </a>
+                        ) : (
+                          <button ref={(el) => { triggers.current.set(m.src, el); }} type="button" className="craft__open" data-cursor="Take a closer look"
+                            onClick={() => setOpen(all.findIndex((a) => a.id === m.src))}
+                            aria-label={`${m.alt || s.title} Open larger view.`}>
+                            {inner}
+                          </button>
+                        )}
                       </li>
                     );
                   })}
                 </ul>
               )}
-            </div>
+              {last && links.length > 0 && (
+                <ul className="craft-links">
+                  {links.map((l) => (
+                    <li key={l.label}>
+                      <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-link" data-cursor={l.label}>{l.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              )}
           </CaseSection>
         );
       })}
-
-      {links.length > 0 && (
-        <section className="case-sec" aria-label={project.title}>
-          <div className="container">
-            <ul className="craft-links">
-              {links.map((l) => (
-                <li key={l.label}>
-                  <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-link" data-cursor={l.label}>{l.label}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      )}
 
       {open !== null && all[open] && <Viewer items={all} index={open} onClose={close} onStep={step} />}
     </article>
