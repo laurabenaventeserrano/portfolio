@@ -144,7 +144,7 @@ export const CRAFT_PROJECTS: CraftProject[] = [
         num: '01', title: 'AI prototyping', tools: 'Claude Code · React · shadcn/ui',
         description: 'I started by building a functional prototype with Claude Code, exploring the core interactions and user flows directly in React.',
         media: [
-          { src: '/video/ai-document-review-01-prototype.mp4', opens: 'View live prototype', alt: '', feature: true },
+          { src: '/video/ai-document-review-01-prototype.mp4', poster: '/video/ai-document-review-01-prototype.jpg', opens: 'View live prototype', alt: '', feature: true },
         ],
       },
       {
@@ -153,21 +153,21 @@ export const CRAFT_PROJECTS: CraftProject[] = [
         media: [
           // El timelapse de Figma de Craft: se enlaza desde aquí, el archivo no se mueve
           { src: '/craft/figma-timelapse.mp4', opens: 'Explore in Figma', poster: '/craft/figma-timelapse.jpg', alt: 'Sped-up screen recording of a Figma file for an AI document review: design foundations, text styles, component variants and annotated UX flows being built, with the review panel showing six checks passed.', feature: true },
-          { src: '/video/ai-document-review-02-figma-refinement.mp4', opens: 'Explore in Figma', ratio: '1280 / 698', alt: '', feature: true },
+          { src: '/video/ai-document-review-02-figma-refinement.mp4', poster: '/video/ai-document-review-02-figma-refinement.jpg', opens: 'Explore in Figma', ratio: '1280 / 698', alt: '', feature: true },
         ],
       },
       {
         num: '03', title: 'Design system & tokens', tools: 'Figma Variables · Design Tokens · Components',
         description: 'I created and organized Figma variables, design tokens and reusable components to establish a consistent visual language across the interface.',
         media: [
-          { src: '/video/ai-document-review-03-tokens.mp4', opens: 'Explore in Figma', ratio: '1280 / 734', alt: '', feature: true },
+          { src: '/video/ai-document-review-03-tokens.mp4', poster: '/video/ai-document-review-03-tokens.jpg', opens: 'Explore in Figma', ratio: '1280 / 734', alt: '', feature: true },
         ],
       },
       {
         num: '04', title: 'Back to code', tools: 'VS Code · Claude Code · React',
         description: 'I brought the refined Figma designs back into VS Code, using Claude Code to update the React components and align the implementation with the final design.',
         media: [
-          { src: '/video/ai-document-review-04-back-to-code.mp4', opens: 'View live prototype', ratio: '1280 / 628', alt: '', feature: true },
+          { src: '/video/ai-document-review-04-back-to-code.mp4', poster: '/video/ai-document-review-04-back-to-code.jpg', opens: 'View live prototype', ratio: '1280 / 628', alt: '', feature: true },
         ],
       },
     ],

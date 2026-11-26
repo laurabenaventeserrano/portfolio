@@ -19,13 +19,15 @@ export function Figure({ src, alt, caption, className, cover }: { src: string; a
 
 /* Vídeo en bucle, silenciado. Arranca al entrar en pantalla y se para al salir.
    React no escribe `muted` como atributo y algunos navegadores bloquean entonces el autoplay:
-   por eso se silencia y se lanza a mano. Con movimiento reducido no se reproduce solo y muestra controles. */
-export function Video({ src, poster, label, caption, onError }: { src: string; poster?: string; label: string; caption?: string; onError?: () => void }) {
+   por eso se silencia y se lanza a mano. Con movimiento reducido no se reproduce solo y muestra controles.
+   `active={false}` lo deja quieto en su póster aunque esté en pantalla (las tarjetas de los lados de la ruleta). */
+export function Video({ src, poster, label, caption, onError, active = true }: { src: string; poster?: string; label: string; caption?: string; onError?: () => void; active?: boolean }) {
   const reduced = usePrefersReducedMotion();
   const ref = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     const el = ref.current;
     if (!el || reduced) return;
+    if (!active) { el.pause(); return; }
     el.muted = true;
     const io = new IntersectionObserver(([e]) => {
       if (e.isIntersecting) el.play().catch(() => {});
@@ -33,7 +35,7 @@ export function Video({ src, poster, label, caption, onError }: { src: string; p
     }, { threshold: 0.15 });
     io.observe(el);
     return () => io.disconnect();
-  }, [reduced, src]);
+  }, [reduced, src, active]);
   const video = (
     <div className="media">
       <video
@@ -44,7 +46,7 @@ export function Video({ src, poster, label, caption, onError }: { src: string; p
         loop
         playsInline
         controls={reduced}
-        preload="metadata"
+        preload={active ? 'metadata' : 'none'}
         aria-label={label}
         onError={onError}
       />

@@ -7,3 +7,15 @@
 .craft-grid .craft__media video, .craft-grid .craft__media img { width: 100%; height: 100%; object-fit: cover; }
 @media (max-width: 1100px) { .craft-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 480px) { .craft-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* La primera pieza pesa más (Laura, 26 Nov 2026): ocupa 2 columnas y 2 filas; las demás se colocan en los huecos
+   de al lado y después siguen en filas de tres. Su miniatura llena toda la celda. */
+.craft-grid__item:first-child { grid-column: span 2; grid-row: span 2; }
+.craft-grid__item:first-child .craft__open { flex: 1; display: flex; flex-direction: column; }
+.craft-grid__item:first-child .craft__media { aspect-ratio: auto !important; flex: 1; min-height: 0; }
+@media (max-width: 1100px) {
+  /* Tableta: la primera a todo el ancho, en 16:9; las demás, de dos en dos */
+  .craft-grid__item:first-child { grid-row: auto; }
+  .craft-grid__item:first-child .craft__media { aspect-ratio: 16 / 9 !important; }
+}
+@media (max-width: 480px) { .craft-grid__item:first-child { grid-column: auto; } }

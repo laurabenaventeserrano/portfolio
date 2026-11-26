@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ParticleCanvas from '../components/ParticleCanvas';
-import DotLoopPortrait from '../components/DotLoopPortrait';
-import { PORTRAIT, PORTRAIT_SETTINGS } from '../content/portrait';
 import { Kicker, Tags, Video } from '../components/ui';
 import LabSection from '../components/home/LabSection';
+import QuietHero from '../components/home/QuietHero';
 import CraftSection from '../components/home/CraftSection';
 import { CRAFT } from '../content/craft';
-import { ABOUT_ROWS, CATEGORIES, EXPERIENCE, FACTS, LINKS, WORK, type Category } from '../content/site';
+import { ABOUT_ROWS, CATEGORIES, EXPERIENCE, FACTS, WORK, type Category } from '../content/site';
 import { useActiveSection } from '../lib/hooks';
 import { useHomeStory } from '../motion/useHomeStory';
 import type { FieldOptions } from '../lib/particles';
@@ -61,23 +60,8 @@ export default function Home() {
     <>
       <SectionDots />
 
-      {/* HERO: tu retrato en puntos. El ratón lo dispersa, la quietud lo recompone */}
-      <section id="hero" className="hero" data-motion="custom" aria-labelledby="hero-title">
-        <DotLoopPortrait className="hero__portrait" src={PORTRAIT.src} poster={PORTRAIT.poster} label={PORTRAIT.label} settings={PORTRAIT_SETTINGS} scrollOut />
-        <div className="container hero__inner">
-          <Kicker>Senior Product Designer · Design engineer · B2B SaaS · AI</Kicker>
-          <div className="hero__content">
-            <h1 id="hero-title" className="h-hero">
-              Hello! I’m Laura.<br />A product designer<br />who engineers<span className="accent">.</span>
-            </h1>
-            <p className="lead" style={{ maxWidth: 560 }}>8+ years designing complex digital products across B2B SaaS, financial software and consumer technology.</p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
-              <a href="#work" className="pill pill--dark pill--lg">See the work ↓</a>
-              <a href={LINKS.cv} className="text-link">Download CV ↗</a>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* HERO: una frase en serif; tres palabras abren una vista previa (QuietHero.tsx). El retrato en puntos ya no va aquí */}
+      <QuietHero />
 
       {/* EXPERIENCE */}
       <section id="experience" className="section section--dark is-dark" aria-labelledby="experience-title">

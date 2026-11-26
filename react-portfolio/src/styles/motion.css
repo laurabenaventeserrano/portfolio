@@ -14,3 +14,58 @@
 
 /* ---------- Titulares partidos en líneas: la máscara no debe cortar descendentes ---------- */
 .h-xl [class*="-mask"], .h-l [class*="-mask"], .h-hero [class*="-mask"] { padding-bottom: 0.06em; margin-bottom: -0.06em; }
+
+/* =========================================================
+   Gestos de los elementos (Laura, 26 Nov 2026), con el vocabulario de joonas.wtf:
+   una sola curva (salida suave), tiempos cortos, elevación de 3 px al pasar el ratón,
+   pulsación al 97,5 %, flechas que se asoman y entradas lentas de opacidad.
+   Los textos no se animan por sí solos: se mueven las tarjetas, las imágenes y las líneas.
+   El estado oculto solo existe con JavaScript y sin "reducir movimiento" (html.motion-ok),
+   así que sin JS o con movimiento reducido todo está en su sitio desde el principio.
+   ========================================================= */
+:root {
+  --m-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --m-pop: cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  --m-open: cubic-bezier(0.18, 0.9, 0.25, 1);
+}
+
+/* ---------- Entradas al llegar con el scroll (las marca useHomeStory con data-reveal) ---------- */
+/* Tarjetas de Selected work y piezas de Craft: suben 28 px y aparecen */
+.motion-ok .tile[data-reveal], .motion-ok .craft-grid__item[data-reveal] {
+  transition: opacity 900ms var(--m-ease), translate 800ms var(--m-ease);
+}
+.motion-ok .tile[data-reveal='wait'], .motion-ok .craft-grid__item[data-reveal='wait'] { opacity: 0; translate: 0 28px; }
+
+/* Líneas prisma de Experience: se dibujan de izquierda a derecha */
+.motion-ok .job[data-reveal] { transition: background-size 1100ms var(--m-ease); }
+.motion-ok .job[data-reveal='wait'] { background-size: 0% 1px; }
+.motion-ok .job:last-child[data-reveal='wait'] { background-size: 0% 1px, 0% 1px; }
+
+/* ---------- Tarjetas de Selected work: se elevan y la imagen se acerca un poco ---------- */
+.tiles .tile { transition: transform 260ms var(--m-ease), box-shadow 380ms var(--m-ease), opacity 900ms var(--m-ease), translate 800ms var(--m-ease); }
+.tiles .tile:hover, .tiles .tile:focus-visible { transform: translateY(-3px); box-shadow: 0 22px 44px -26px rgba(17, 17, 17, 0.28), 0 2px 6px rgba(17, 17, 17, 0.04); }
+.tiles .tile__media video, .tiles .tile__media img { transition: transform 600ms var(--m-ease); }
+.tiles .tile:hover .tile__media video, .tiles .tile:hover .tile__media img { transform: scale(1.02); }
+
+/* ---------- Craft: la miniatura se eleva igual ---------- */
+.craft__open .craft__media { transition: transform 260ms var(--m-ease), box-shadow 380ms var(--m-ease); }
+.craft__open:hover .craft__media { transform: translateY(-3px); box-shadow: 0 22px 44px -26px rgba(17, 17, 17, 0.28); }
+
+/* ---------- Botones: pulsación y flecha que se asoma ---------- */
+.pill { transition: background .18s, color .18s, border-color .18s, padding .18s, border-width .18s, transform 160ms var(--m-ease); }
+.pill:active { transform: scale(0.975); }
+.pill__arrow { display: inline-block; margin-left: 0.4em; transition: transform 220ms var(--m-ease); }
+.pill:hover .pill__arrow--down, .pill:focus-visible .pill__arrow--down { transform: translateY(2px); }
+.pill:hover .pill__arrow--out, .pill:focus-visible .pill__arrow--out { transform: translate(2px, -2px); }
+
+/* ---------- Visores a pantalla completa (Craft y retrato): se abren en 280 ms ---------- */
+@keyframes m-sheet-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes m-stage-in { from { opacity: 0; transform: translateY(10px) scale(0.985); } to { opacity: 1; transform: none; } }
+.craft-viewer, .portrait-player { animation: m-sheet-in 280ms var(--m-open) both; }
+.craft-viewer__stage, .portrait-player__stage { animation: m-stage-in 380ms var(--m-open) 40ms both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tiles .tile:hover, .tiles .tile:focus-visible, .craft__open:hover .craft__media { transform: none; }
+  .tiles .tile:hover .tile__media video, .tiles .tile:hover .tile__media img { transform: none; }
+  .pill:active, .pill:hover .pill__arrow { transform: none; }
+}

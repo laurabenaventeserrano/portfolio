@@ -73,7 +73,7 @@ export const WORK: {
     metric: 'L → S', metricLabel: 'Development effort',
     tags: ['Product design', 'Product strategy', 'Systems', 'Design systems'],
     categories: ['B2B SaaS'],
-    video: '/video/s1-coded-prototype.mp4', img: '/images/story-1-poster.jpg',
+    video: '/video/s1-coded-prototype-home.mp4', img: '/images/story-1-poster.jpg',
     alt: 'The coded prototype running: selecting a client, moving to another product and arriving with the context intact.',
   },
   {
@@ -82,7 +82,7 @@ export const WORK: {
     metric: '3/3', metricLabel: 'Validated · shipped in Canada',
     tags: ['AI product design', 'Product strategy', 'Human-AI interaction'],
     categories: ['AI & Agents', 'B2B SaaS'],
-    video: '/video/s2-template-ai.mp4', img: '/images/story-2-poster.jpg',
+    video: '/video/s2-template-ai-home.mp4', img: '/images/story-2-poster.jpg',
     alt: 'The instruction step inside the product: the professional picks the document type and the client, then writes in plain sentences what the letter should cover.',
   },
   {
@@ -100,7 +100,7 @@ export const WORK: {
     metric: '', metricLabel: '',
     tags: ['AI product design', 'Human-AI interaction', 'Product strategy'],
     categories: ['AI & Agents', 'B2B SaaS'],
-    video: '/video/s1-ai-concept.mp4', img: '/images/s1-hd-ask-ai.jpg',
+    video: '/video/s1-ai-concept-home.mp4', img: '/images/s1-hd-ask-ai.jpg',
     alt: 'Future concept: from the CCH iFirm dashboard the user opens Ask iFirm AI, and the contextual sidebar answers which returns need attention first.',
   },
   {

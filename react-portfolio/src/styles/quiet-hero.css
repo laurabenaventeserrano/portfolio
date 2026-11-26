@@ -1,0 +1,61 @@
+/* HERO de la portada (QuietHero.tsx): una frase en Libertinus, mucho aire y vistas previas al pasar por tres palabras */
+:root {
+  --q-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --q-fast: 240ms;
+  --q-mid: 380ms;
+  --q-gray: rgba(17, 17, 17, 0.56);
+}
+
+.hero-q {
+  min-height: min(calc(100svh - var(--header-h)), 860px);
+  display: grid; place-items: center;
+  padding: clamp(96px, 16vh, 168px) 16px clamp(72px, 10vh, 120px);
+}
+.hero-q__inner { max-width: 960px; text-align: center; display: grid; gap: 28px; justify-items: center; }
+.hero-q__title {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(36px, 4.6vw, 64px); line-height: 1.12; letter-spacing: -0.02em;
+  color: var(--ink); text-wrap: balance; margin: 0;
+}
+.hero-q__lead {
+  font-family: var(--serif); font-size: clamp(19px, 1.6vw, 22px); line-height: 1.4;
+  /* Dos líneas en escritorio (Laura, 26 Nov 2026); en pantallas estrechas se parte en más */
+  color: var(--q-gray); max-width: 56ch; text-wrap: balance; margin: 0;
+}
+.hero-q__links { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin: 12px 0 0; }
+.hero-q__small { font-family: var(--display); font-size: 14px; color: var(--q-gray); text-decoration: none; transition: color var(--q-fast) var(--q-ease); }
+.hero-q__small:hover, .hero-q__small:focus-visible { color: var(--ink); }
+
+/* Palabras enlazadas: subrayado con el prisma, en línea fina (Laura, 26 Nov 2026) */
+.hero-q__link {
+  color: inherit; text-decoration: none;
+  background-image: var(--prism); background-repeat: no-repeat;
+  background-size: 100% 1px; background-position: 0 92%;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  transition: background-size var(--q-fast) var(--q-ease);
+}
+.hero-q__link:hover, .hero-q__link:focus-visible { background-size: 100% 2px; }
+
+/* Botones ghost: sin relleno (blanco) y con el gris del sistema al pasar por encima */
+.hero-q .pill--line { background: linear-gradient(var(--lb-cream), var(--lb-cream)) padding-box, var(--prism) border-box; }
+.hero-q .pill--line:hover, .hero-q .pill--line:focus-visible { background: linear-gradient(var(--lb-paper-inset), var(--lb-paper-inset)) padding-box, var(--prism) border-box; }
+
+/* Vista previa flotante: aparece encima del cursor */
+.hero-q__preview { position: fixed; left: 0; top: 0; z-index: 40; pointer-events: none; width: clamp(220px, 20vw, 300px); }
+.hero-q__frame {
+  position: relative; aspect-ratio: 4 / 3; border-radius: 22px; overflow: hidden;
+  background: var(--soft);
+  box-shadow: inset 0 0 0 1px rgba(17, 17, 17, 0.06), 0 30px 60px -22px rgba(0, 0, 0, 0.3), 0 3px 10px rgba(0, 0, 0, 0.05);
+  translate: -50% calc(-100% - 28px);
+  opacity: 0; scale: 0.92;
+  /* Entra con un pequeño rebote (la curva de las tarjetas de joonas.wtf) */
+  transition: opacity var(--q-fast) var(--q-ease), scale 320ms cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+.hero-q__preview.is-on .hero-q__frame { opacity: 1; scale: 1; }
+.hero-q__frame video, .hero-q__frame img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transition: opacity var(--q-fast) var(--q-ease);
+}
+.hero-q__frame .is-on { opacity: 1; }
+@media (hover: none) { .hero-q__preview { display: none; } }
+@media (prefers-reduced-motion: reduce) { .hero-q__frame, .hero-q__frame video, .hero-q__frame img { transition: none; } }

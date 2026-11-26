@@ -10,6 +10,9 @@
 /* Mano: gana al cursor propio del sitio (que quita el del sistema con !important) */
 .has-cursor-label .lab-wheel__stage, .has-cursor-label .lab-wheel__stage * { cursor: grab !important; }
 .has-cursor-label .lab-wheel__stage:active, .has-cursor-label .lab-wheel__stage:active * { cursor: grabbing !important; }
+/* Encima del vídeo de una tarjeta vuelve el cursor propio con su tag (CursorLabel.tsx) */
+.has-cursor-label .lab-wheel__stage .lab-wheel__card .media, .has-cursor-label .lab-wheel__stage .lab-wheel__card .media *,
+.has-cursor-label .lab-wheel__stage:active .lab-wheel__card .media, .has-cursor-label .lab-wheel__stage:active .lab-wheel__card .media * { cursor: none !important; }
 /* Ruleta: cilindro visto de frente y sin perspectiva, para que todas las tarjetas tengan la misma altura
    y queden alineadas arriba y abajo; al girar solo se estrechan */
 .lab-wheel__card { backface-visibility: hidden; }

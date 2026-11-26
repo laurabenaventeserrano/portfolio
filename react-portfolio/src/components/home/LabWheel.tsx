@@ -19,7 +19,7 @@ const HOLD = 4200;    // ms que se queda quieta cada tarjeta antes de girar sola
 
 export default function LabWheel({ count, children, label }: {
   count: number; label: string;
-  children: (i: number, wasDrag: () => boolean, copy: boolean) => ReactNode;
+  children: (i: number, wasDrag: () => boolean, copy: boolean, near: boolean) => ReactNode;
 }) {
   const reduced = usePrefersReducedMotion();
   const stage = useRef<HTMLDivElement>(null);
@@ -173,7 +173,8 @@ export default function LabWheel({ count, children, label }: {
                 visibility: fade === 0 ? 'hidden' : undefined,
                 pointerEvents: far > 0.5 ? 'none' : undefined,
               }}>
-              {children(j % count, () => drag.current.moved > 6, copy)}
+              {/* Solo se reproducen los vídeos de las tarjetas que se ven (la de delante y sus vecinas) */}
+              {children(j % count, () => drag.current.moved > 6, copy, far < 1.6)}
             </div>
           );
         })}

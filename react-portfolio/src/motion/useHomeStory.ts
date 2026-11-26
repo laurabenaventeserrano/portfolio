@@ -9,7 +9,8 @@ import { gsap, ScrollTrigger, MQ } from './gsap';
   Cinta       Se acelera con el scroll y cambia de sentido si subes. La banda lila ondula como
               gelatina, salta con el scroll y rebota hasta calmarse.            (altshift + guillaumezhu)
   Pasos       Las tarjetas se van colocando en la fila una detrás de otra al hacer scroll.
-  Experience, Work  Estáticas, sin animación.
+  Experience  Las líneas prisma se dibujan de izquierda a derecha al llegar.
+  Work, Craft Las tarjetas suben 28 px y aparecen, escalonadas (motion.css).
   About       La foto se destapa de abajo arriba y se desplaza más lenta que la página.
   Statement   El fondo pasa de blanco a negro. La frase está quieta.
 
@@ -102,6 +103,34 @@ export function useHomeStory() {
           window.removeEventListener('resize', measure); svg.remove(); ticker.classList.remove('ticker--js');
         });
       }
+
+      /* ---------- Entradas de elementos (joonas.wtf): tarjetas, piezas de Craft y líneas de Experience ----------
+         Se marcan aquí, con JS, para que sin JS todo se vea. Cada elemento entra una sola vez.
+         Los que llegan a la vez entran escalonados (90 ms). Las tarjetas que React pinta después
+         (por ejemplo al filtrar Selected work) no llevan marca y se ven directamente. */
+      const root = document.documentElement;
+      root.classList.add('motion-ok');
+      const revealed = $$('.tiles .tile, .craft-grid__item, .experience .job');
+      revealed.forEach((el) => {
+        // Lo que ya está en pantalla al cargar no se esconde
+        if (el.getBoundingClientRect().top < window.innerHeight * 0.92) return;
+        el.dataset.reveal = 'wait';
+      });
+      const io = new IntersectionObserver((entries) => {
+        entries.filter((e) => e.isIntersecting).forEach((e, i) => {
+          const el = e.target as HTMLElement;
+          el.style.transitionDelay = `${i * 90}ms`;
+          el.dataset.reveal = 'in';
+          io.unobserve(el);
+          // Quita el retraso al acabar, para que el hover responda al instante
+          window.setTimeout(() => { el.style.transitionDelay = ''; }, 1200 + i * 90);
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+      revealed.forEach((el) => { if (el.dataset.reveal === 'wait') io.observe(el); });
+      cleanups.push(() => {
+        io.disconnect(); root.classList.remove('motion-ok');
+        revealed.forEach((el) => { el.removeAttribute('data-reveal'); el.style.transitionDelay = ''; });
+      });
 
       /* ---------- About: foto ---------- */
       const photo = $('.about__photo');
